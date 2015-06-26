@@ -1,4 +1,137 @@
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+" Vundle plugins
+Plugin 'gmarik/Vundle.vim'
+
+call vundle#end()
+filetype plugin indent on
+
+" Enable syntax highlighting
 syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Show line numbers
+set number
+
+" Search on keyup
+set incsearch
+" Case insensitive search
+set ignorecase
+" Be smart about case when searching
+set smartcase
+" Highlight all occurrences
+set hlsearch
+
+" This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
+
+" Use w! by default
+nmap <leader>w :w!<cr>
+
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=7
+
+" Show ruler
+set ruler
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" Use dark background
+set background=dark
+
+" Set default encoding
+set encoding=utf8
+
+" Use Unix as standard filetype
+set ffs=unix,dos,mac
+
+" Disable swap and backup measures
+set noswapfile
+set nowb
+set nobackup
+
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart with tabs
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+" Set auto indent
+set ai 
+" Set smart indent
+set si
+" Wrap lines
+set wrap
+
+" Treat long lines as break lines
+map j gj
+map k gk
+
+" Remap search to space
+map <space> /
+   map <c-space> ?
+
+" Remap leader to ,
+let mapleader = ","
+" Use leader as a modifier
+let g:mapleader = ","
+
+" Always show status line
+set laststatus=2
+" Format status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+
+" --- Helper functions
+
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction 
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack \"" . l:pattern . "\" " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
