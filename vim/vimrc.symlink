@@ -7,6 +7,12 @@ call vundle#begin()
 
 " Vundle plugins
 Plugin 'gmarik/Vundle.vim'
+Plugin 'vim-scripts/peaksea'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'bronson/vim-trailing-whitespace'
+Plugin 'pangloss/vim-javascript'
 
 call vundle#end()
 filetype plugin indent on
@@ -25,6 +31,12 @@ set ignorecase
 set smartcase
 " Highlight all occurrences
 set hlsearch
+
+" Easier navigation in splits
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -51,6 +63,7 @@ set tm=500
 
 " Use dark background
 set background=dark
+colorscheme peaksea
 
 " Set default encoding
 set encoding=utf8
@@ -74,7 +87,7 @@ set shiftwidth=4
 set tabstop=4
 
 " Set auto indent
-set ai 
+set ai
 " Set smart indent
 set si
 " Wrap lines
@@ -104,7 +117,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
