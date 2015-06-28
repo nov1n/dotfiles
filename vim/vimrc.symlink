@@ -1,3 +1,5 @@
+set nocompatible
+
 filetype off
 
 " set the runtime path to include Vundle and initialize
@@ -5,9 +7,12 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
+" Colorschemes
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'vim-scripts/peaksea'
+
 " Vundle plugins
 Plugin 'gmarik/Vundle.vim'
-Plugin 'vim-scripts/peaksea'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'airblade/vim-gitgutter'
@@ -70,7 +75,8 @@ set background=dark
 colorscheme peaksea
 
 " Set default encoding
-set encoding=utf8
+set encoding=utf-8
+set fileencoding=utf-8
 
 " Use Unix as standard filetype
 set ffs=unix,dos,mac
