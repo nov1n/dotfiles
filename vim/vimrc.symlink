@@ -1,4 +1,5 @@
 set nocompatible
+set t_Co=256
 
 filetype off
 
@@ -51,6 +52,12 @@ vnoremap <S-Tab> <<
 " Open new splits below and right
 set splitbelow
 set splitright
+
+" Correct common spelling mistakes
+cnoreabbrev Wq wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
 
 " This unsets the last search pattern register by hitting return
 nnoremap <CR> :noh<CR><CR>
