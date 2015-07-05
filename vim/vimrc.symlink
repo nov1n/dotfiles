@@ -46,8 +46,8 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Indent with tab in visual mode
-vnoremap <Tab> >>
-vnoremap <S-Tab> <<
+vnoremap <Tab> >
+vnoremap <S-Tab> <
 
 " Open new splits below and right
 set splitbelow
