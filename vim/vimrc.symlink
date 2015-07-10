@@ -21,7 +21,7 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'pangloss/vim-javascript'
 Plugin 'bling/vim-airline'
 Plugin 'raimondi/delimitmate'
-Plugin 'tomtom/tcomment_vim'
+Plugin 'scrooloose/nerdcommenter'
 
 
 call vundle#end()
