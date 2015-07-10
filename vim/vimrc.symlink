@@ -21,7 +21,7 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'pangloss/vim-javascript'
 Plugin 'bling/vim-airline'
 Plugin 'raimondi/delimitmate'
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'tomtom/tcomment_vim'
 
 
 call vundle#end()
@@ -42,6 +42,9 @@ set smartcase
 " Highlight all occurrences
 set hlsearch
 
+" Backspace behaves normally
+set backspace=indent,eol,start
+
 " Easier navigation in splits
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -51,6 +54,11 @@ nnoremap <C-H> <C-W><C-H>
 " Indent with tab in visual mode
 vnoremap <Tab> >
 vnoremap <S-Tab> <
+
+"Toggle comments
+noremap <leader>cc :TComment<CR>
+"Toggle comments as a block
+noremap <leader>cb :TCommentBlock<CR>
 
 " Open new splits below and right
 set splitbelow
