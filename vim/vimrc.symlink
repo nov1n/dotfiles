@@ -20,6 +20,9 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'pangloss/vim-javascript'
 Plugin 'bling/vim-airline'
+Plugin 'raimondi/delimitmate'
+Plugin 'tomtom/tcomment_vim'
+
 
 call vundle#end()
 filetype plugin indent on
