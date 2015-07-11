@@ -1,7 +1,8 @@
-set nocompatible
-set t_Co=256
+set nocompatible "Don't compile if vim is not available
+set t_Co=256 "Support 256bit terminal colors
+set gfn=Consolas:h13:cANSI "Set GUI font
 
-filetype off
+filetype off "Prepare for vundle
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -23,27 +24,19 @@ Plugin 'bling/vim-airline'
 Plugin 'raimondi/delimitmate'
 Plugin 'tomtom/tcomment_vim'
 
-
 call vundle#end()
-filetype plugin indent on
+filetype plugin indent on "Expose filetype for plugins and indenting
 
-" Enable syntax highlighting
-syntax on
+syntax on " Enable syntax highlighting
 
-" Show line numbers
-set number
+set number " Show line numbers
 
-" Search on keyup
-set incsearch
-" Case insensitive search
-set ignorecase
-" Be smart about case when searching
-set smartcase
-" Highlight all occurrences
-set hlsearch
+set incsearch " Search on keyup
+set ignorecase " Case insensitive search
+set smartcase " Be smart about case when searching
+set hlsearch " Highlight all occurrences
 
-" Backspace behaves normally
-set backspace=indent,eol,start
+set backspace=indent,eol,start " Backspace behaves normally
 
 " Easier navigation in splits
 nnoremap <C-J> <C-W><C-J>
