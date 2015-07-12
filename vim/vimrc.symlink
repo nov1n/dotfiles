@@ -1,20 +1,15 @@
-set nocompatible "Don't compile if vim is not available
-set t_Co=256 "Support 256bit terminal colors
-set gfn=Consolas:h13:cANSI "Set GUI font
+set nocompatible                            " Only compile as vim
+set t_Co=256                                " Support 256bit terminal colors
 
-filetype off "Prepare for vundle
+filetype off                                " Prepare for vundle
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim           " Set vundle runtime path
 
 call vundle#begin()
-
-" Colorschemes
+Plugin 'vim-scripts/peaksea'                " Colorschemes
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-scripts/peaksea'
 
-" Vundle plugins
-Plugin 'gmarik/Vundle.vim'
+Plugin 'gmarik/Vundle.vim'                  " Vundle plugins
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'airblade/vim-gitgutter'
@@ -23,114 +18,89 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'bling/vim-airline'
 Plugin 'raimondi/delimitmate'
 Plugin 'tomtom/tcomment_vim'
-
 call vundle#end()
-filetype plugin indent on "Expose filetype for plugins and indenting
 
-syntax on " Enable syntax highlighting
+filetype plugin indent on                   " Expose filetype
 
-set number " Show line numbers
+syntax on                                   " Enable syntax highlighting
 
-set incsearch " Search on keyup
-set ignorecase " Case insensitive search
-set smartcase " Be smart about case when searching
-set hlsearch " Highlight all occurrences
+set number                                  " Show line numbers
 
-set backspace=indent,eol,start " Backspace behaves normally
+set incsearch                               " Search on keyup
+set ignorecase                              " Case insensitive search
+set smartcase                               " Be smart about case when searching
+set hlsearch                                " Highlight all occurrences
 
-" Easier navigation in splits
-nnoremap <C-J> <C-W><C-J>
+set backspace=indent,eol,start              " Backspace behaves normally
+
+nnoremap <C-J> <C-W><C-J>|                  " Easier navigation in splits
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Indent with tab in visual mode
-vnoremap <Tab> >
+vnoremap <Tab> >|                           " Indent with tab in visual mode
 vnoremap <S-Tab> <
 
-"Toggle comments
-noremap <leader>cc :TComment<CR>
-"Toggle comments as a block
-noremap <leader>cb :TCommentBlock<CR>
+noremap <leader>cc :TComment<CR>|           "Toggle comments
+noremap <leader>cb :TCommentBlock<CR>|      "Toggle comments as a block
 
-" Open new splits below and right
-set splitbelow
+set splitbelow                              " Open new splits below and right
 set splitright
 
-" Correct common spelling mistakes
-cnoreabbrev Wq wq
+cnoreabbrev Wq wq|                          " Correct common spelling mistakes
 cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 
-" This unsets the last search pattern register by hitting return
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> :noh<CR><CR>|                 " Remove highlighting
 
-" Use w! by default
-nmap <leader>w :w!<cr>
+nmap <leader>w :w!<cr>|                     " Use w! by default
 
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+set so=7                                    " Set 7 lines to the cursor
 
-" Show ruler
-set ruler
+set ruler                                   " Show ruler
 
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
+set showmatch                               " Show matching brackets
+set mat=2                                   " Blink time
 
-" No annoying sound on errors
-set noerrorbells
+set noerrorbells                            " No annoying sound on errors
 set novisualbell
 set t_vb=
 set tm=500
 
-" Use dark background
-set background=dark
+set background=dark                         " Use dark background
 colorscheme solarized
 
-" Set default encoding
-set encoding=utf-8
+set encoding=utf-8                          " Set default encoding
 set fileencoding=utf-8
 
-" Use Unix as standard filetype
-set ffs=unix,dos,mac
+set ffs=unix,dos,mac                        " Use Unix as standard filetype
 
-" Disable swap and backup measures
-set noswapfile
+set noswapfile                              " Disable swap and backup measures
 set nowb
 set nobackup
 
-" Use spaces instead of tabs
-set expandtab
+set expandtab                               " Use spaces instead of tabs
 
-" Be smart with tabs
-set smarttab
+set smarttab                                " Be smart with tabs
 
-" 1 tab == 4 spaces
-set shiftwidth=4
+set shiftwidth=4                            " 1 tab == 4 spaces
 set tabstop=4
 
-" Set auto indent
-set ai
-" Set smart indent
-set si
-" Wrap lines
-set wrap
+set ai                                      " Set auto indent
+set si                                      " Set smart indent
+set wrap                                    " Wrap lines
 
-" Treat long lines as break lines
-map j gj
+map j gj|                                   " Treat long lines as break lines
 map k gk
 
-" Remap search to space
-map <space> /
-   map <c-space> ?
+let mapleader = ","|                        " Remap leader to ,
+let g:mapleader = ","|                      " Use leader as a modifier
 
-" Remap leader to ,
-let mapleader = ","
-" Use leader as a modifier
-let g:mapleader = ","
+set laststatus=2                            " Always show status line
 
-" Always show status line
-set laststatus=2
+set gfn=Consolas:h13:cANSI                  " Set GUI font
+set guioptions-=m                           " Remove menu bar
+set guioptions-=T                           " Remove toolbar
+set guioptions-=r                           " Remove right-hand scroll bar
+set guioptions-=L                           " Remove left-hand scroll bar
