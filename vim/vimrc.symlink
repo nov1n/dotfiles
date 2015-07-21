@@ -10,15 +10,17 @@ Plugin 'vim-scripts/peaksea'                " Colorschemes
 Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'gmarik/Vundle.vim'                  " Vundle plugins
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'pangloss/vim-javascript'
-Plugin 'bling/vim-airline'
-Plugin 'raimondi/delimitmate'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'mattn/emmet-vim'
+Plugin 'kien/ctrlp.vim'                     " Fuzzy file searcher
+Plugin 'scrooloose/syntastic'               " Run 3rd party linters in gutter
+Plugin 'airblade/vim-gitgutter'             " Shows git edits in gutter
+Plugin 'bronson/vim-trailing-whitespace'    " Highlights trailing ws
+Plugin 'pangloss/vim-javascript'            " Improved syntax highlighting
+Plugin 'bling/vim-airline'                  " Improved status bar
+Plugin 'raimondi/delimitmate'               " Auto close brackets etc
+Plugin 'tomtom/tcomment_vim'                " Add comment shortcuts
+Plugin 'mattn/emmet-vim'                    " Easy HTML
+Plugin 'wavded/vim-stylus'                  " Stylus highlighting
+Plugin 'tpope/vim-fugitive'                 " Git wrapper
 call vundle#end()
 
 filetype plugin indent on                   " Expose filetype
@@ -77,26 +79,19 @@ set fileencoding=utf-8
 
 set ffs=unix,dos,mac                        " Use Unix as standard filetype
 
-set noswapfile                              " Disable swap and backup measures
-set nowb
+set noswapfile                              " Disable swap and backup measures set nowb
 set nobackup
 
 set expandtab                               " Use spaces instead of tabs
-
 set smarttab                                " Be smart with tabs
-
 set shiftwidth=4                            " 1 tab == 4 spaces
 set tabstop=4
-
-set ai                                      " Set auto indent
-set si                                      " Set smart indent
+set autoindent                              " Set auto indent
+set smartindent                             " Set smart indent
 set wrap                                    " Wrap lines
 
 map j gj|                                   " Treat long lines as break lines
 map k gk
-
-let mapleader = ","|                        " Remap leader to ,
-let g:mapleader = ","|                      " Use leader as a modifier
 
 set laststatus=2                            " Always show status line
 
@@ -105,3 +100,8 @@ set guioptions-=m                           " Remove menu bar
 set guioptions-=T                           " Remove toolbar
 set guioptions-=r                           " Remove right-hand scroll bar
 set guioptions-=L                           " Remove left-hand scroll bar
+
+let mapleader = "," |                       " Remap leader to ,
+let g:mapleader = "," |                     " Use leader as a modifier
+let delimitMate_expand_cr = 1 |             " Auto indent after bracket
+let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
