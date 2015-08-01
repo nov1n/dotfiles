@@ -21,6 +21,8 @@ Plugin 'tomtom/tcomment_vim'                " Add comment shortcuts
 Plugin 'mattn/emmet-vim'                    " Easy HTML
 Plugin 'wavded/vim-stylus'                  " Stylus highlighting
 Plugin 'tpope/vim-fugitive'                 " Git wrapper
+Plugin 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
+Plugin 'tpope/vim-surround'                 " Surround with
 call vundle#end()
 
 filetype plugin indent on                   " Expose filetype
@@ -55,7 +57,7 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 
-nnoremap <CR> :noh<CR><CR>|                 " Remove highlighting
+nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>| " Remove highlighting
 
 nmap <leader>w :w!<cr>|                     " Use w! by default
 
@@ -101,7 +103,5 @@ set guioptions-=T                           " Remove toolbar
 set guioptions-=r                           " Remove right-hand scroll bar
 set guioptions-=L                           " Remove left-hand scroll bar
 
-let mapleader = "," |                       " Remap leader to ,
-let g:mapleader = "," |                     " Use leader as a modifier
 let delimitMate_expand_cr = 1 |             " Auto indent after bracket
 let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
