@@ -20,9 +20,11 @@ Plugin 'raimondi/delimitmate'               " Auto close brackets etc
 Plugin 'tomtom/tcomment_vim'                " Add comment shortcuts
 Plugin 'mattn/emmet-vim'                    " Easy HTML
 Plugin 'wavded/vim-stylus'                  " Stylus highlighting
-Plugin 'tpope/vim-fugitive'                 " Git wrapper
 Plugin 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
+Plugin 'marijnh/tern_for_vim'               " Code analysis engine
+Plugin 'tpope/vim-fugitive'                 " Git wrapper
 Plugin 'tpope/vim-surround'                 " Surround with
+Plugin 'tpope/vim-unimpaired'               " Bracket mappings
 call vundle#end()
 
 filetype plugin indent on                   " Expose filetype
@@ -103,5 +105,9 @@ set guioptions-=T                           " Remove toolbar
 set guioptions-=r                           " Remove right-hand scroll bar
 set guioptions-=L                           " Remove left-hand scroll bar
 
+inoremap <C-Space> <C-x><C-o>|              " Omnicomplete
+inoremap <C-@> <C-Space>
+
 let delimitMate_expand_cr = 1 |             " Auto indent after bracket
 let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
+
