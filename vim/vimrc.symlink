@@ -111,3 +111,4 @@ inoremap <C-@> <C-Space>
 let delimitMate_expand_cr = 1 |             " Auto indent after bracket
 let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
 
+inoremap jk <Esc>|                          " Experimental
