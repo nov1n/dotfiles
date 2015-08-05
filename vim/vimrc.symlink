@@ -112,3 +112,15 @@ let delimitMate_expand_cr = 1 |             " Auto indent after bracket
 let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
 
 inoremap jk <Esc>|                          " Experimental
+
+                                            " Make powerline work on windows
+set guifont=Consolas\ for\ Powerline\ FixedD:h12
+let g:Powerline_symbols="fancy"
+let g:airline_symbols = {}
+let g:airline_left_sep = "\u2b80" "use double quotes here
+let g:airline_left_alt_sep = "\u2b81"
+let g:airline_right_sep = "\u2b82"
+let g:airline_right_alt_sep = "\u2b83"
+let g:airline_symbols.branch = "\u2b60"
+let g:airline_symbols.readonly = "\u2b64"
+let g:airline_symbols.linenr = "\u2b61"
