@@ -3,7 +3,7 @@ export ZSH=/home/roberto/.oh-my-zsh/
 
 plugins=(git)
 
-source $OHMYZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 # shortcut to this dotfiles path is $ZSH
 export DOTZSH=$HOME/.dotfiles
 
