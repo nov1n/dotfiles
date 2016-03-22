@@ -1,2 +1,5 @@
 alias reload!='. ~/.zshrc'
-alias ezsh='vim ~/.vimrc'
+alias evim='vim ~/.vimrc'
+alias ezsh='vim ~/.zshrc'
+alias ealias='vim ~/.dotfiles/zsh/aliases.zsh'
+
