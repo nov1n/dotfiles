@@ -25,6 +25,8 @@ Plugin 'marijnh/tern_for_vim'               " Code analysis engine
 Plugin 'tpope/vim-fugitive'                 " Git wrapper
 Plugin 'tpope/vim-surround'                 " Surround with
 Plugin 'tpope/vim-unimpaired'               " Bracket mappings
+Plugin 'vim-airline/vim-airline-themes'
+
 call vundle#end()
 
 filetype plugin indent on                   " Expose filetype
@@ -77,7 +79,6 @@ set t_vb=
 set tm=500
 
 set background=dark                         " Use dark background
-colorscheme solarized
 
 set encoding=utf-8                          " Set default encoding
 set fileencoding=utf-8
@@ -116,12 +117,5 @@ inoremap jk <Esc>|                          " Experimental
 
                                             " Make powerline work on windows
 set guifont=Consolas\ for\ Powerline\ FixedD:h12
-let g:Powerline_symbols="fancy"
-let g:airline_symbols = {}
-let g:airline_left_sep = "\u2b80" "use double quotes here
-let g:airline_left_alt_sep = "\u2b81"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b83"
-let g:airline_symbols.branch = "\u2b60"
-let g:airline_symbols.readonly = "\u2b64"
-let g:airline_symbols.linenr = "\u2b61"
+let g:airline_powerline_fonts = 1
+let g:airline_theme='molokai'
