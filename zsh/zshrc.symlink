@@ -1,5 +1,9 @@
 # Path to your oh-my-zsh installation.
+<<<<<<< HEAD
 export ZSH=/home/roberto/.oh-my-zsh/
+=======
+export OHMYZSH=/home/roberto/.oh-my-zsh/
+>>>>>>> 60f82673e221e1d17f542c4f5355fdc088d6d657
 
 plugins=(git)
 
