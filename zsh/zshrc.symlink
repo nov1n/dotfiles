@@ -1,3 +1,9 @@
+# Path to your oh-my-zsh installation.
+export OHMYZSH=/home/roberto/.oh-my-zsh/
+
+plugins=(git)
+
+source $OHMYZSH/oh-my-zsh.sh
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
