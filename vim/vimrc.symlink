@@ -1,5 +1,6 @@
 set nocompatible                            " Only compile as vim
 set t_Co=256                                " Support 256bit terminal colors
+set hidden                                  " Allow buffer switch w/o saving
 
 filetype off                                " Prepare for vundle
 
@@ -10,7 +11,7 @@ Plugin 'vim-scripts/peaksea'                " Colorschemes
 Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'gmarik/Vundle.vim'                  " Vundle plugins
-Plugin 'kien/ctrlp.vim'                     " Fuzzy file searcher
+Plugin 'ctrlpvim/ctrlp.vim'                 " Fuzzy file searcher
 Plugin 'scrooloose/syntastic'               " Run 3rd party linters in gutter
 Plugin 'airblade/vim-gitgutter'             " Shows git edits in gutter
 Plugin 'bronson/vim-trailing-whitespace'    " Highlights trailing ws
@@ -27,6 +28,9 @@ Plugin 'tpope/vim-surround'                 " Surround with
 Plugin 'tpope/vim-unimpaired'               " Bracket mappings
 Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
 Plugin 'fatih/vim-go'                       " Go support
+Plugin 'scrooloose/nerdtree'                " File explorer
+"Plugin 'fholgado/minibufexpl.vim'           " Show open buffers at the top
+Plugin 'moll/vim-bbye'                      " Sane buffer closing
 
 call vundle#end()
 
@@ -63,10 +67,8 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 
-nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>| " Remove highlighting
-
-nmap <leader>w :w!<cr>|                     " Use w! by default
-
+nnoremap <silent><C-e> :<C-u>nohlsearch<CR><C-l>| " Remove highlighting
+nmap <leader>w :w!<cr>|                     " Use w! by default 
 set so=7                                    " Set 7 lines to the cursor
 
 set ruler                                   " Show ruler
@@ -108,13 +110,18 @@ set guioptions-=T                           " Remove toolbar
 set guioptions-=r                           " Remove right-hand scroll bar
 set guioptions-=L                           " Remove left-hand scroll bar
 
-inoremap <C-Space> <C-x><C-o>|              " Omnicomplete
-inoremap <C-@> <C-Space>
-
 let delimitMate_expand_cr = 1 |             " Auto indent after bracket
 let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
 
 inoremap jk <Esc>|                          " Experimental
+
+                                            " Omnicomplete
+inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+            \ "\<lt>C-n>" :
+            \ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+            \ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+            \ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+imap <C-@> <C-Space>
 
                                             " Make powerline work on windows
 set guifont=Consolas\ for\ Powerline\ FixedD:h12
@@ -123,6 +130,47 @@ let g:airline_theme='molokai'
 
 " Automatically insert import paths
 let g:go_fmt_command = "goimports"
+
+" Exclude vendor directory from ctrlp
+set wildignore+=*vendor/*
+
+" Fix go save hangup
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_loc_list_height = 3
+
+" Open nerdtree on open
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+map <C-n> :NERDTreeToggle<CR>
+
+" Close nerdtree when it's the only window left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Show open buffers at the top
+let g:miniBufExplBRSplit = 0
+
+" Folding
+set foldmethod=syntax
+set foldnestmax=1
+set foldlevel=20
+
+" Toggle pastemode
+set pastetoggle=<F12>
+
+" Close buffers with \q
+:nnoremap <Leader>q :Bdelete<CR>
+
+" Switch buffers with space
+nnoremap <Space> :ls<CR>:b<Space>
 
 " Go keybindings
 au FileType go nmap <leader>r <Plug>(go-run)

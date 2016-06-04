@@ -1,0 +1,188 @@
+pci id for fd 14: 80ee:beef, driver (null)
+OpenGL Warning: glFlushVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glCombinerInputNV not found in mesa table
+OpenGL Warning: glCombinerOutputNV not found in mesa table
+OpenGL Warning: glCombinerParameterfNV not found in mesa table
+OpenGL Warning: glCombinerParameterfvNV not found in mesa table
+OpenGL Warning: glCombinerParameteriNV not found in mesa table
+OpenGL Warning: glCombinerParameterivNV not found in mesa table
+OpenGL Warning: glFinalCombinerInputNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterivNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glDeleteFencesNV not found in mesa table
+OpenGL Warning: glFinishFenceNV not found in mesa table
+OpenGL Warning: glGenFencesNV not found in mesa table
+OpenGL Warning: glGetFenceivNV not found in mesa table
+OpenGL Warning: glIsFenceNV not found in mesa table
+OpenGL Warning: glSetFenceNV not found in mesa table
+OpenGL Warning: glTestFenceNV not found in mesa table
+libGL error: core dri or dri2 extension not found
+libGL error: failed to load driver: vboxvideo
+App load time: 1968ms
+[31267:0526/210018:ERROR:gles2_cmd_decoder.cc(2124)] [GroupMarkerNotSet(crbug.com/242999)!:D02E9C2C5B100000]GL ERROR :GL_INVALID_ENUM : BackFramebuffer::Create: <- error from previous GL command
+[31267:0526/210018:ERROR:buffer_manager.cc(357)] [.Compositor-0x3c7e20bc7b00]GL ERROR :GL_INVALID_ENUM : glBufferData: <- error from previous GL command
+[31267:0526/210026:ERROR:texture_manager.cc(2124)] [.Compositor-0x3c7e20bc7b00]GL ERROR :GL_INVALID_ENUM : glTexImage2D: <- error from previous GL command
+pci id for fd 14: 80ee:beef, driver (null)
+OpenGL Warning: glFlushVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glCombinerInputNV not found in mesa table
+OpenGL Warning: glCombinerOutputNV not found in mesa table
+OpenGL Warning: glCombinerParameterfNV not found in mesa table
+OpenGL Warning: glCombinerParameterfvNV not found in mesa table
+OpenGL Warning: glCombinerParameteriNV not found in mesa table
+OpenGL Warning: glCombinerParameterivNV not found in mesa table
+OpenGL Warning: glFinalCombinerInputNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterivNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glDeleteFencesNV not found in mesa table
+OpenGL Warning: glFinishFenceNV not found in mesa table
+OpenGL Warning: glGenFencesNV not found in mesa table
+OpenGL Warning: glGetFenceivNV not found in mesa table
+OpenGL Warning: glIsFenceNV not found in mesa table
+OpenGL Warning: glSetFenceNV not found in mesa table
+OpenGL Warning: glTestFenceNV not found in mesa table
+libGL error: core dri or dri2 extension not found
+libGL error: failed to load driver: vboxvideo
+[31552:0526/210032:ERROR:gles2_cmd_decoder.cc(2124)] [GroupMarkerNotSet(crbug.com/242999)!:D03EEB891F1D0000]GL ERROR :GL_INVALID_ENUM : BackFramebuffer::Create: <- error from previous GL command
+[31552:0526/210032:ERROR:gles2_cmd_decoder.cc(2124)] [GroupMarkerNotSet(crbug.com/242999)!:D044EB891F1D0000]GL ERROR :GL_INVALID_ENUM : BackFramebuffer::Create: <- error from previous GL command
+[31552:0526/210032:ERROR:texture_manager.cc(2124)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_ENUM : glTexImage2D: <- error from previous GL command
+[31552:0526/210032:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e22258420]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31552:0526/210033:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e22258420]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+pci id for fd 14: 80ee:beef, driver (null)
+OpenGL Warning: glFlushVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glCombinerInputNV not found in mesa table
+OpenGL Warning: glCombinerOutputNV not found in mesa table
+OpenGL Warning: glCombinerParameterfNV not found in mesa table
+OpenGL Warning: glCombinerParameterfvNV not found in mesa table
+OpenGL Warning: glCombinerParameteriNV not found in mesa table
+OpenGL Warning: glCombinerParameterivNV not found in mesa table
+OpenGL Warning: glFinalCombinerInputNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterivNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glDeleteFencesNV not found in mesa table
+OpenGL Warning: glFinishFenceNV not found in mesa table
+OpenGL Warning: glGenFencesNV not found in mesa table
+OpenGL Warning: glGetFenceivNV not found in mesa table
+OpenGL Warning: glIsFenceNV not found in mesa table
+OpenGL Warning: glSetFenceNV not found in mesa table
+OpenGL Warning: glTestFenceNV not found in mesa table
+libGL error: core dri or dri2 extension not found
+libGL error: failed to load driver: vboxvideo
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(2124)] [GroupMarkerNotSet(crbug.com/242999)!:D0EE4712200D0000]GL ERROR :GL_INVALID_ENUM : BackFramebuffer::Create: <- error from previous GL command
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(2124)] [GroupMarkerNotSet(crbug.com/242999)!:D0F44712200D0000]GL ERROR :GL_INVALID_ENUM : BackFramebuffer::Create: <- error from previous GL command
+[31621:0526/210037:ERROR:buffer_manager.cc(357)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_ENUM : glBufferData: <- error from previous GL command
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210037:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(14033)] [.Compositor-0x3c7e20bc72c0]GL ERROR :GL_INVALID_OPERATION : glCreateAndConsumeTextureCHROMIUM: invalid mailbox name
+[31621:0526/210038:ERROR:gles2_cmd_decoder.cc(7430)] [.Compositor-0x3c7e20bc72c0]RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have incompatible texture filtering.
+pci id for fd 14: 80ee:beef, driver (null)
+OpenGL Warning: glFlushVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glVertexArrayRangeNV not found in mesa table
+OpenGL Warning: glCombinerInputNV not found in mesa table
+OpenGL Warning: glCombinerOutputNV not found in mesa table
+OpenGL Warning: glCombinerParameterfNV not found in mesa table
+OpenGL Warning: glCombinerParameterfvNV not found in mesa table
+OpenGL Warning: glCombinerParameteriNV not found in mesa table
+OpenGL Warning: glCombinerParameterivNV not found in mesa table
+OpenGL Warning: glFinalCombinerInputNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterfvNV not found in mesa table
+OpenGL Warning: glGetCombinerOutputParameterivNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterfvNV not found in mesa table
+OpenGL Warning: glGetFinalCombinerInputParameterivNV not found in mesa table
+OpenGL Warning: glDeleteFencesNV not found in mesa table
+OpenGL Warning: glFinishFenceNV not found in mesa table
+OpenGL Warning: glGenFencesNV not found in mesa table
+OpenGL Warning: glGetFenceivNV not found in mesa table
+OpenGL Warning: glIsFenceNV not found in mesa table
+OpenGL Warning: glSetFenceNV not found in mesa table
+OpenGL Warning: glTestFenceNV not found in mesa table
+libGL error: core dri or dri2 extension not found
+libGL error: failed to load driver: vboxvideo
