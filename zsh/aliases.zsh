@@ -7,6 +7,7 @@ alias etmux='vim ~/.tmux.conf'
 alias ff='find . -name '
 alias nov1n='cd /home/roberto/Code/go/src/github.com/nov1n'
 alias exp='nautilus $(pwd)'
+alias fh='history | grep '
 
 # Kubernetes
 alias kubeup='cd ~/Code/go/src/github.com/kubernetes/kubernetes; hack/local-up-cluster.sh'
