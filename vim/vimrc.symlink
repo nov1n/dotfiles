@@ -170,7 +170,7 @@ set pastetoggle=<F12>
 :nnoremap <Leader>q :Bdelete<CR>
 
 " Switch buffers with space
-nnoremap <Space> :ls<CR>:b<Space>
+" nnoremap <Space> :ls<CR>:b<Space>
 
 " Go keybindings
 au FileType go nmap <leader>r <Plug>(go-run)
@@ -189,3 +189,6 @@ au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <Leader>i <Plug>(go-info)
 
 au FileType go nmap <Leader>e <Plug>(go-rename)
+
+" Snippets
+au FileType go imap <C-e> if err != nil {<CR>
