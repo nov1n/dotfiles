@@ -15,7 +15,7 @@ export PROJECTS=~/Code
 # you'll have access to them in your scripts.
 if [[ -a ~/.localrc ]]
 then
-  source ~/.localrc
+    source ~/.localrc
 fi
 
 # all of our zsh files
@@ -25,13 +25,13 @@ config_files=($DOTZSH/**/*.zsh)
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
 do
-  source $file
+    source $file
 done
 
 # load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
 do
-  source $file
+    source $file
 done
 
 # initialize autocomplete here, otherwise functions won't be loaded
@@ -41,13 +41,19 @@ compinit
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
 do
-  source $file
+    source $file
 done
 
 unset config_files
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/home/roberto/google-cloud-sdk/path.zsh.inc'
+# source '/home/roberto/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/home/roberto/google-cloud-sdk/completion.zsh.inc'
+# source '/home/roberto/google-cloud-sdk/completion.zsh.inc'
+
+# Makes this vim color scheme pretty in the terminal
+source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
+
+# Some tmuxp config var
+export DISABLE_AUTO_TITLE='true'

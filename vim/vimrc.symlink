@@ -7,9 +7,8 @@ filetype off                                " Prepare for vundle
 set rtp+=~/.vim/bundle/Vundle.vim           " Set vundle runtime path
 
 call vundle#begin()
-Plugin 'vim-scripts/peaksea'                " Colorschemes
-Plugin 'altercation/vim-colors-solarized'
 
+Plugin 'morhetz/gruvbox'
 Plugin 'gmarik/Vundle.vim'                  " Vundle plugins
 Plugin 'ctrlpvim/ctrlp.vim'                 " Fuzzy file searcher
 Plugin 'scrooloose/syntastic'               " Run 3rd party linters in gutter
@@ -23,20 +22,23 @@ Plugin 'mattn/emmet-vim'                    " Easy HTML
 Plugin 'wavded/vim-stylus'                  " Stylus highlighting
 Plugin 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
 Plugin 'marijnh/tern_for_vim'               " Code analysis engine
-Plugin 'tpope/vim-fugitive'                 " Git wrapper
 Plugin 'tpope/vim-surround'                 " Surround with
 Plugin 'tpope/vim-unimpaired'               " Bracket mappings
+Plugin 'tpope/vim-fugitive'                 " Git wrapper
 Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
 Plugin 'fatih/vim-go'                       " Go support
 Plugin 'scrooloose/nerdtree'                " File explorer
-"Plugin 'fholgado/minibufexpl.vim'           " Show open buffers at the top
 Plugin 'moll/vim-bbye'                      " Sane buffer closing
+Plugin 'ConradIrwin/vim-bracketed-paste'    " Handle paste mode before pasting with ctl-shift-v
+Plugin 'klen/python-mode'                   " Do all python things
+Plugin 'ervandew/supertab'                  " Autocomplete with tab
 
 call vundle#end()
 
 filetype plugin indent on                   " Expose filetype
 
 syntax on                                   " Enable syntax highlighting
+colorscheme gruvbox
 
 set number                                  " Show line numbers
 set relativenumber                          " Show relative numbers
@@ -45,6 +47,8 @@ set incsearch                               " Search on keyup
 set ignorecase                              " Case insensitive search
 set smartcase                               " Be smart about case when searching
 set hlsearch                                " Highlight all occurrences
+set list                                    " Show tabs as |
+set listchars=tab:\|\ 
 
 set backspace=indent,eol,start              " Backspace behaves normally
 
@@ -68,7 +72,7 @@ cnoreabbrev W w
 cnoreabbrev Q q
 
 nnoremap <silent><C-e> :<C-u>nohlsearch<CR><C-l>| " Remove highlighting
-nmap <leader>w :w!<cr>|                     " Use w! by default 
+nmap <leader>w :w!<cr>|                     " Use w! by default
 set so=7                                    " Set 7 lines to the cursor
 
 set ruler                                   " Show ruler
@@ -102,6 +106,8 @@ set wrap                                    " Wrap lines
 map j gj|                                   " Treat long lines as break lines
 map k gk
 
+set clipboard=unnamedplus                   " Alias the unnamed register to the + register (clipboard)
+
 set laststatus=2                            " Always show status line
 
 set gfn=Consolas:h13:cANSI                  " Set GUI font
@@ -126,7 +132,8 @@ imap <C-@> <C-Space>
                                             " Make powerline work on windows
 set guifont=Consolas\ for\ Powerline\ FixedD:h12
 let g:airline_powerline_fonts = 1
-let g:airline_theme='molokai'
+let g:airline_theme='gruvbox'
+let g:airline#extensions#tabline#enabled = 1
 
 " Automatically insert import paths
 let g:go_fmt_command = "goimports"
@@ -134,43 +141,35 @@ let g:go_fmt_command = "goimports"
 " Exclude vendor directory from ctrlp
 set wildignore+=*vendor/*
 
-" Fix go save hangup
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+" Fix go save hangup, remove 'go' if slow
+let g:syntastic_go_checkers = ['go', 'golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_loc_list_height = 3
 
 " Open nerdtree on open
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 
 " Close nerdtree when it's the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Show open buffers at the top
-let g:miniBufExplBRSplit = 0
 
 " Folding
 set foldmethod=syntax
 set foldnestmax=1
 set foldlevel=20
 
-" Toggle pastemode
-set pastetoggle=<F12>
-
 " Close buffers with \q
 :nnoremap <Leader>q :Bdelete<CR>
-
-" Switch buffers with space
-" nnoremap <Space> :ls<CR>:b<Space>
 
 " Go keybindings
 au FileType go nmap <leader>r <Plug>(go-run)
@@ -192,3 +191,15 @@ au FileType go nmap <Leader>e <Plug>(go-rename)
 
 " Snippets
 au FileType go imap <C-e> if err != nil {<CR>
+
+let g:SuperTabDefaultCompletionType = "context"
+
+" Python PEP8
+" au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
