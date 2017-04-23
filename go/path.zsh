@@ -1,2 +1,3 @@
 export GOPATH=$PROJECTS/go
-export PATH="$GOPATH/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+export PATH=$PATH:/usr/local/go/bin

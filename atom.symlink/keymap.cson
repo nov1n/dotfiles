@@ -1,0 +1,14 @@
+# Vim rebind esc to jk
+'atom-text-editor.vim-mode-plus:not(.normal-mode)':
+  'j k': 'vim-mode-plus:activate-normal-mode'
+
+'atom-text-editor[mini]':
+  'j k': 'core:cancel'
+
+'atom-text-editor:not(mini).autocomplete-active':
+  'ctrl-p': 'core:move-up'
+  'ctrl-n': 'core:move-down'
+
+'.vim-mode.command-mode:not(.mini)':
+  'ctrl-f': 'core:page-down'
+  '/': 'find-and-replace:show'

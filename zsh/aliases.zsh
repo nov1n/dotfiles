@@ -1,9 +1,10 @@
+alias ll="ls -l"
 alias reload!='. ~/.zshrc'
-alias evim='vim ~/.vimrc'
-alias ezsh='vim ~/.zshrc'
-alias ealias='vim ~/.dotfiles/zsh/aliases.zsh'
-alias epath='vim ~/.dotfiles/custom/path.zsh'
-alias etmux='vim ~/.tmux.conf'
+alias evim='e ~/.vimrc'
+alias ezsh='e ~/.zshrc'
+alias ealias='e ~/.dotfiles/zsh/aliases.zsh'
+alias epath='e ~/.dotfiles/custom/path.zsh'
+alias etmux='e ~/.tmux.conf'
 alias ff='find . -name '
 alias nov1n='cd /home/roberto/Code/go/src/github.com/nov1n'
 alias exp='nautilus $(pwd)'
@@ -12,6 +13,7 @@ alias pubip='wget -qO- http://ipecho.net/plain ; echo'
 alias vim='vi'
 alias dopen='xdg-open'
 alias work='cd ~/Code/go/src/github.com/nerdalize/terraform-etcd'
+alias stack='sudo mount ~/stack'
 
 # Kubernetes
 alias kubeup='cd ~/Code/go/src/github.com/kubernetes; sudo hack/local-up-cluster.sh'
@@ -21,3 +23,13 @@ alias terracfg='export TF_LOG_PATH=./crash.log && export TF_LOG=TRACE'
 
 # Fuck https://github.com/nvbn/thefuck
 eval "$(thefuck --alias fuck)"
+
+# Training disabled commands
+alias rm='printf "This is not the command you are looking for.\n
+trash-put           trash files and directories.\n
+trash-empty         empty the trashcan(s).\n
+trash-list          list trashed files.\n
+trash-restore       restore a trashed file.\n
+trash-rm            remove individual files from the trashcan.\n
+"; false'
+alias vim='echo "Use atom instead!"'

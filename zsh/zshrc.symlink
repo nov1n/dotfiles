@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/roberto/.oh-my-zsh/
+export ZSH=/home/robert/.oh-my-zsh
 
-plugins=(git)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 # shortcut to this dotfiles path is $ZSH
@@ -47,13 +47,16 @@ done
 unset config_files
 
 # The next line updates PATH for the Google Cloud SDK.
-# source '/home/roberto/google-cloud-sdk/path.zsh.inc'
+# source '/home/robert/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-# source '/home/roberto/google-cloud-sdk/completion.zsh.inc'
+# source '/home/robert/google-cloud-sdk/completion.zsh.inc'
 
 # Makes this vim color scheme pretty in the terminal
-source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
+# source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
 
 # Some tmuxp config var
 export DISABLE_AUTO_TITLE='true'
+
+# Run autojump
+. /usr/share/autojump/autojump.sh
