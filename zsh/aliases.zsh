@@ -6,14 +6,16 @@ alias ealias='e ~/.dotfiles/zsh/aliases.zsh'
 alias epath='e ~/.dotfiles/custom/path.zsh'
 alias etmux='e ~/.tmux.conf'
 alias ff='find . -name '
-alias nov1n='cd /home/roberto/Code/go/src/github.com/nov1n'
 alias exp='nautilus $(pwd)'
-alias fh='history | grep '
 alias pubip='wget -qO- http://ipecho.net/plain ; echo'
-alias vim='vi'
 alias dopen='xdg-open'
-alias work='cd ~/Code/go/src/github.com/nerdalize/terraform-etcd'
 alias stack='sudo mount ~/stack'
+alias fixdep='sudo apt-get -f install'
+alias scratch='cd $(mktemp -d)'
+alias nettop='nethogs'
+alias grepmail='grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b"'
+alias reprep='!!:gs/'
+alias defgw='ip route | grep default | awk '"'"'{print $3}'"'"' | cb'
 
 # Kubernetes
 alias kubeup='cd ~/Code/go/src/github.com/kubernetes; sudo hack/local-up-cluster.sh'
@@ -32,4 +34,3 @@ trash-list          list trashed files.\n
 trash-restore       restore a trashed file.\n
 trash-rm            remove individual files from the trashcan.\n
 "; false'
-alias vim='echo "Use atom instead!"'

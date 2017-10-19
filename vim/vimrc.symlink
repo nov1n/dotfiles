@@ -48,7 +48,7 @@ set ignorecase                              " Case insensitive search
 set smartcase                               " Be smart about case when searching
 set hlsearch                                " Highlight all occurrences
 set list                                    " Show tabs as |
-set listchars=tab:\|\ 
+set listchars=tab:\|\
 
 set backspace=indent,eol,start              " Backspace behaves normally
 
@@ -170,6 +170,9 @@ set foldlevel=20
 
 " Close buffers with \q
 :nnoremap <Leader>q :Bdelete<CR>
+
+" Make the tee hack easier
+cmap w!! w !sudo tee > /dev/null %
 
 " Go keybindings
 au FileType go nmap <leader>r <Plug>(go-run)

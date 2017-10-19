@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$1" = "" ]; then
+    vim /home/robert/Documents/writeup
+else
+    echo $1 >> /home/robert/Documents/writeup
+fi
+

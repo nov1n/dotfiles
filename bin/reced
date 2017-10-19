@@ -1,0 +1,5 @@
+#!/bin/sh
+# Find all files that have been edited in the past 8 hours, not containing .git or .cache, and sort them in reverse order based on edited time
+
+find . -mmin $((-60*8)) -type f -printf '%A@ %Ac %p\n' | grep -P '^((?!git|cache).)*$' | sort -k1 | awk '{print "", $6, $8}'
+

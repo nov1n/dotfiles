@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Quick search in a directory for a string ($1).
+#
+xdg-open "https://www.evernote.com/Home.action#ses=1&sh=5&sds=5&x=$1&" &

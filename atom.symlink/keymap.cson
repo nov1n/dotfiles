@@ -12,3 +12,16 @@
 '.vim-mode.command-mode:not(.mini)':
   'ctrl-f': 'core:page-down'
   '/': 'find-and-replace:show'
+
+'atom-text-editor.vim-mode-plus':
+  'ctrl-c': 'core:copy'
+
+'atom-text-editor[data-grammar="source go"]:not(.mini)':
+  "alt-j": "golang:godef"
+  "alt-shift-j": "golang:godef-return"
+
+'atom-workspace':
+  'ctrl-i':     'cursor-history:next'
+  'ctrl-o':     'cursor-history:prev'
+  'ctrl-cmd-i': 'cursor-history:next-within-editor'
+  'ctrl-cmd-o': 'cursor-history:prev-within-editor'

@@ -1,7 +1,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/robert/.oh-my-zsh
 
-plugins=(git zsh-autosuggestions)
+#plugins=(git zsh-autosuggestions)
+
+#export ZSH_THEME="random"
 
 source $ZSH/oh-my-zsh.sh
 # shortcut to this dotfiles path is $ZSH
@@ -9,18 +11,6 @@ export DOTZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
-
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]
-then
-    source ~/.localrc
-fi
-
-# all of our zsh files
-typeset -U config_files
-config_files=($DOTZSH/**/*.zsh)
 
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
@@ -60,3 +50,6 @@ export DISABLE_AUTO_TITLE='true'
 
 # Run autojump
 . /usr/share/autojump/autojump.sh
+
+# Fuzzy file search
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
