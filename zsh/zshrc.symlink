@@ -1,16 +1,25 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/robert/.oh-my-zsh
+export ZSH_THEME="robert"
+plugins=(git zsh-autosuggestions)
 
-#plugins=(git zsh-autosuggestions)
-
-#export ZSH_THEME="random"
-
-source $ZSH/oh-my-zsh.sh
 # shortcut to this dotfiles path is $ZSH
 export DOTZSH=$HOME/.dotfiles
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Code
+
+# Stash your environment variables in ~/.localrc. This means they'll stay out
+# of your main dotfiles repository (which may be public, like this one), but
+# you'll have access to them in your scripts.
+if [[ -a ~/.localrc ]]
+then
+    source ~/.localrc
+fi
+
+# all of our zsh files
+typeset -U config_files
+config_files=($DOTZSH/**/*.zsh)
 
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
@@ -23,6 +32,8 @@ for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
 do
     source $file
 done
+
+source $ZSH/oh-my-zsh.sh
 
 # initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
@@ -45,11 +56,26 @@ unset config_files
 # Makes this vim color scheme pretty in the terminal
 # source "$HOME/.vim/bundle/gruvbox/gruvbox_256palette.sh"
 
-# Some tmuxp config var
-export DISABLE_AUTO_TITLE='true'
+# Don't rename tmux windows
+export DISABLE_AUTO_TITLE="true"
 
 # Run autojump
 . /usr/share/autojump/autojump.sh
 
-# Fuzzy file search
+# Fuzzy file finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ -e ~/.fzf ]; then
+  PATH=$PATH:~/.fzf/bin
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
+fi
+
+# fzf + ag configuration
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='
+--color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
+--color info:108,prompt:109,spinner:108,pointer:168,marker:168
+'

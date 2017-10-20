@@ -1,48 +1,44 @@
 set nocompatible                            " Only compile as vim
 set t_Co=256                                " Support 256bit terminal colors
 set hidden                                  " Allow buffer switch w/o saving
+so ~/.fzf/plugin/fzf.vim
 
-filetype off                                " Prepare for vundle
+" Load vim-plug if not installed
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-set rtp+=~/.vim/bundle/Vundle.vim           " Set vundle runtime path
-
-call vundle#begin()
-
-Plugin 'morhetz/gruvbox'
-Plugin 'gmarik/Vundle.vim'                  " Vundle plugins
-Plugin 'ctrlpvim/ctrlp.vim'                 " Fuzzy file searcher
-Plugin 'scrooloose/syntastic'               " Run 3rd party linters in gutter
-Plugin 'airblade/vim-gitgutter'             " Shows git edits in gutter
-Plugin 'bronson/vim-trailing-whitespace'    " Highlights trailing ws
-Plugin 'pangloss/vim-javascript'            " Improved syntax highlighting
-Plugin 'bling/vim-airline'                  " Improved status bar
-Plugin 'raimondi/delimitmate'               " Auto close brackets etc
-Plugin 'tomtom/tcomment_vim'                " Add comment shortcuts
-Plugin 'mattn/emmet-vim'                    " Easy HTML
-Plugin 'wavded/vim-stylus'                  " Stylus highlighting
-Plugin 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
-Plugin 'marijnh/tern_for_vim'               " Code analysis engine
-Plugin 'tpope/vim-surround'                 " Surround with
-Plugin 'tpope/vim-unimpaired'               " Bracket mappings
-Plugin 'tpope/vim-fugitive'                 " Git wrapper
-Plugin 'vim-airline/vim-airline-themes'     " Themes for airline
-Plugin 'fatih/vim-go'                       " Go support
-Plugin 'scrooloose/nerdtree'                " File explorer
-Plugin 'moll/vim-bbye'                      " Sane buffer closing
-Plugin 'ConradIrwin/vim-bracketed-paste'    " Handle paste mode before pasting with ctl-shift-v
-Plugin 'klen/python-mode'                   " Do all python things
-Plugin 'ervandew/supertab'                  " Autocomplete with tab
-
-call vundle#end()
-
-filetype plugin indent on                   " Expose filetype
+call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'             " Shows git edits in gutter
+Plug 'bling/vim-airline'                  " Improved status bar
+Plug 'bronson/vim-trailing-whitespace'    " Highlights trailing ws
+Plug 'ConradIrwin/vim-bracketed-paste'    " Handle paste mode before pasting with ctl-shift-v
+Plug 'ervandew/supertab'                  " Autocomplete with tab
+Plug 'fatih/vim-go'                       " Go support
+Plug 'junegunn/fzf.vim'                   " Fuzzy file finding
+Plug 'junegunn/goyo.vim'                  " Distraction free writing
+Plug 'klen/python-mode'                   " Do all python things
+Plug 'mileszs/ack.vim'                    " Searching
+Plug 'moll/vim-bbye'                      " Sane buffer closing
+Plug 'morhetz/gruvbox'                    " Theme
+Plug 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
+Plug 'raimondi/delimitmate'               " Auto close brackets etc
+Plug 'scrooloose/nerdtree'                " File explorer
+Plug 'sheerun/vim-polyglot'               " Language pack
+Plug 'tomtom/tcomment_vim'                " Add comment shortcuts
+Plug 'tpope/vim-fugitive'                 " Git wrapper
+Plug 'tpope/vim-rhubarb'                  " Github browsing with :Gbrowse
+Plug 'tpope/vim-surround'                 " Surround with
+Plug 'tpope/vim-unimpaired'               " Bracket mappings
+Plug 'vim-airline/vim-airline-themes'     " Themes for airline
+Plug 'w0rp/ale'                           " Async linters
+call plug#end()
 
 syntax on                                   " Enable syntax highlighting
 colorscheme gruvbox
 
 set number                                  " Show line numbers
 set relativenumber                          " Show relative numbers
-
 set incsearch                               " Search on keyup
 set ignorecase                              " Case insensitive search
 set smartcase                               " Be smart about case when searching
@@ -117,7 +113,6 @@ set guioptions-=r                           " Remove right-hand scroll bar
 set guioptions-=L                           " Remove left-hand scroll bar
 
 let delimitMate_expand_cr = 1 |             " Auto indent after bracket
-let g:syntastic_javascript_checkers = ['jshint']|   " Syntastic
 
 inoremap jk <Esc>|                          " Experimental
 
@@ -134,26 +129,19 @@ set guifont=Consolas\ for\ Powerline\ FixedD:h12
 let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
 " Automatically insert import paths
 let g:go_fmt_command = "goimports"
 
-" Exclude vendor directory from ctrlp
+" Exclude vendor directory from searc
 set wildignore+=*vendor/*
 
 " Fix go save hangup, remove 'go' if slow
 let g:syntastic_go_checkers = ['go', 'golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_loc_list_height = 3
 
 " Open nerdtree on open
 "autocmd StdinReadPre * let s:std_in=1
@@ -175,22 +163,18 @@ set foldlevel=20
 cmap w!! w !sudo tee > /dev/null %
 
 " Go keybindings
-au FileType go nmap <leader>r <Plug>(go-run)
+"au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+au FileType go nmap <leader>gk <Plug>(go-doc-browser)
+au FileType go nmap <leader>gi <Plug>(go-info)
+au FileType go nmap <leader>gr <Plug>(go-rename)
+au FileType go nmap <leader>gm :GoImport
 
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-
-au FileType go nmap <Leader>i <Plug>(go-info)
-
-au FileType go nmap <Leader>e <Plug>(go-rename)
+" Use gometalinter (combines different linters)
+let g:ale_linters = {'go': ['gometalinter']}
 
 " Snippets
 au FileType go imap <C-e> if err != nil {<CR>
@@ -198,11 +182,44 @@ au FileType go imap <C-e> if err != nil {<CR>
 let g:SuperTabDefaultCompletionType = "context"
 
 " Python PEP8
-" au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
     \ set fileformat=unix
+
+" Plugins are sourced after this file which overrides mappings, the following
+" commands are loaded after plugin rc files.
+"
+" These bindings are special and loaded after plugin to overwrite mappings
+" defined by plugins
+" https://vi.stackexchange.com/questions/756/how-can-i-redefine-plugin-key-mappings
+au VimEnter * inoremap <S-Tab> <Esc>la
+au VimEnter * nnoremap <buffer> <silent> <C-t> :Files<CR>
+au FileType go nnoremap <buffer> <silent> <C-t> :Files<CR>
+
+" Rerun last command in top right tmux pane
+"                                  session:window.pane
+nmap <leader>r :!tmux send-keys -t main:dev.1 C-p C-j<CR><CR>
+
+" fzf keybindings
+nmap , :Buffers<CR>
+nmap <C-g> :Tags<CR>
+
+" Prose mode
+function! ProseMode()
+  call goyo#execute(0, [])
+  set spell noci nosi noai nolist noshowmode noshowcmd
+  set complete+=s
+  set bg=light
+  if !has('gui_running')
+    let g:solarized_termcolors=256
+  endif
+  colors solarized
+endfunction
+
+command! ProseMode call ProseMode()
+nmap \p :ProseMode<CR>
