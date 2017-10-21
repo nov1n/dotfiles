@@ -2,6 +2,7 @@ set nocompatible                            " Only compile as vim
 set t_Co=256                                " Support 256bit terminal colors
 set hidden                                  " Allow buffer switch w/o saving
 so ~/.fzf/plugin/fzf.vim
+let $FZF_DEFAULT_COMMAND= 'ag --ignore vendor --ignore .git -g ""'
 
 " Load vim-plug if not installed
 if empty(glob("~/.vim/autoload/plug.vim"))
@@ -11,20 +12,23 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'             " Shows git edits in gutter
 Plug 'bling/vim-airline'                  " Improved status bar
-Plug 'bronson/vim-trailing-whitespace'    " Highlights trailing ws
 Plug 'ConradIrwin/vim-bracketed-paste'    " Handle paste mode before pasting with ctl-shift-v
 Plug 'ervandew/supertab'                  " Autocomplete with tab
 Plug 'fatih/vim-go'                       " Go support
 Plug 'junegunn/fzf.vim'                   " Fuzzy file finding
 Plug 'junegunn/goyo.vim'                  " Distraction free writing
 Plug 'klen/python-mode'                   " Do all python things
+Plug 'maralla/completor.vim'              " Async autocompletion
 Plug 'mileszs/ack.vim'                    " Searching
 Plug 'moll/vim-bbye'                      " Sane buffer closing
 Plug 'morhetz/gruvbox'                    " Theme
+Plug 'honza/vim-snippets'                 " Snippet library
 Plug 'nelstrom/vim-visual-star-search'    " Use * to search visual selection
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'raimondi/delimitmate'               " Auto close brackets etc
 Plug 'scrooloose/nerdtree'                " File explorer
 Plug 'sheerun/vim-polyglot'               " Language pack
+Plug 'SirVer/ultisnips'                   " Snippet support
 Plug 'tomtom/tcomment_vim'                " Add comment shortcuts
 Plug 'tpope/vim-fugitive'                 " Git wrapper
 Plug 'tpope/vim-rhubarb'                  " Github browsing with :Gbrowse
@@ -34,6 +38,7 @@ Plug 'vim-airline/vim-airline-themes'     " Themes for airline
 Plug 'w0rp/ale'                           " Async linters
 call plug#end()
 
+filetype plugin indent on                   " Expose filetype
 syntax on                                   " Enable syntax highlighting
 colorscheme gruvbox
 
@@ -44,7 +49,7 @@ set ignorecase                              " Case insensitive search
 set smartcase                               " Be smart about case when searching
 set hlsearch                                " Highlight all occurrences
 set list                                    " Show tabs as |
-set listchars=tab:\|\
+set listchars=tab:\ \ ,trail:·,eol:¬,nbsp:_
 
 set backspace=indent,eol,start              " Backspace behaves normally
 
@@ -174,10 +179,15 @@ au FileType go nmap <leader>gr <Plug>(go-rename)
 au FileType go nmap <leader>gm :GoImport
 
 " Use gometalinter (combines different linters)
-let g:ale_linters = {'go': ['gometalinter']}
+" let g:ale_linters = {'go': ['gometalinter']}
+
+" Autocompletion with gocode
+let g:completor_gocode_binary = '/home/robert/Code/go/bin/gocode'
 
 " Snippets
 au FileType go imap <C-e> if err != nil {<CR>
+let g:UltiSnipsJumpForwardTrigger="<c-f>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 let g:SuperTabDefaultCompletionType = "context"
 
@@ -215,10 +225,6 @@ function! ProseMode()
   set spell noci nosi noai nolist noshowmode noshowcmd
   set complete+=s
   set bg=light
-  if !has('gui_running')
-    let g:solarized_termcolors=256
-  endif
-  colors solarized
 endfunction
 
 command! ProseMode call ProseMode()
