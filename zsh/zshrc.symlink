@@ -1,7 +1,10 @@
+#Profiling, also uncomment bottom line
+#zmodload zsh/zprof
+
 # Path to your oh-my-zsh installation.
 export ZSH=/home/robert/.oh-my-zsh
 export ZSH_THEME="robert"
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions kubectl completion zsh)
 
 # shortcut to this dotfiles path is $ZSH
 export DOTZSH=$HOME/.dotfiles
@@ -34,6 +37,9 @@ do
 done
 
 source $ZSH/oh-my-zsh.sh
+
+# Will load this twice, but we need to do it last to make our aliases override
+source $DOTZSH/zsh/aliases.zsh
 
 # initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
@@ -79,3 +85,14 @@ export FZF_DEFAULT_OPTS='
 --color fg:242,bg:236,hl:65,fg+:15,bg+:239,hl+:108
 --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 '
+
+# ISTIO envvar
+export ISTIO=$GOPATH/src/istio.io
+export GITHUB_USER=nov1n
+
+# Jave environment manager
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+#zprof
+
+[ -s "/home/robert/.jabba/jabba.sh" ] && source "/home/robert/.jabba/jabba.sh"

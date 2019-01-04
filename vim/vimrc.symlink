@@ -73,6 +73,7 @@ cnoreabbrev W w
 cnoreabbrev Q q
 
 nnoremap <silent><C-e> :<C-u>nohlsearch<CR><C-l>| " Remove highlighting
+nnoremap <C-e> :nohl<CR>
 nmap <leader>w :w!<cr>|                     " Use w! by default
 set so=7                                    " Set 7 lines to the cursor
 

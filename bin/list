@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" = "" ]; then
+    echo "Which list do you want to append to?"
+fi
+
+if [ "$2" = "" ]; then
+    vim /home/robert/Documents/lists/$1
+else
+    echo $2 >> /home/robert/Documents/lists/$1
+fi
+
