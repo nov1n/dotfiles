@@ -1,0 +1,4 @@
+#!/bin/sh
+
+jrnl < ~/.dotfiles/templates/journal
+jrnl -1 --edit
