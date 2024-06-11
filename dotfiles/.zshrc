@@ -31,6 +31,7 @@ bindkey '^y' autosuggest-accept
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 bindkey jk vi-cmd-mode
+bindkey '^G' fzf-cd-widget
 
 
 # fzf-tab config
