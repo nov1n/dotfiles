@@ -1,3 +1,5 @@
+require "nvchad.autocmds"
+
 vim.api.nvim_create_autocmd("QuitPre", {
   desc = "Close vim if nvim-tree is the last window",
   callback = function()
