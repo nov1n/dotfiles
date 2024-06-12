@@ -1,4 +1,5 @@
 require "nvchad.mappings"
+
 local telescope = require "telescope.builtin"
 
 local map = vim.keymap.set
