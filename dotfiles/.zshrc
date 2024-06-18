@@ -27,12 +27,17 @@ TRAPALRM() {
 }
 
 bindkey '^[[Z' reverse-menu-complete
-bindkey '^y' autosuggest-accept
-bindkey "^P" up-line-or-search
-bindkey "^N" down-line-or-search
-bindkey jk vi-cmd-mode
-bindkey '^G' fzf-cd-widget
+bindkey '^Y' autosuggest-accept
+bindkey '^P' up-line-or-search
+bindkey '^N' down-line-or-search
+bindkey 'jk' vi-cmd-mode
+bindkey '^F' fzf-cd-widget
 
+# Make backspace behave normal in zsh's vi mode
+bindkey "^H" backward-delete-char
+bindkey "^?" backward-delete-char
+
+bindkey -r '^E'
 
 # fzf-tab config
 # disable sort when completing `git checkout`
@@ -47,6 +52,9 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 # interactively navigate autocompletions
 zstyle ':completion:*' menu yes select
+
+# Load 'fuck' alias
+eval $(thefuck --alias) 
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

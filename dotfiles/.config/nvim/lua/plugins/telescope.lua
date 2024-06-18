@@ -5,6 +5,7 @@ return {
       vimgrep_arguments = {
         "rg",
         "--color=never",
+        "--smart-case",
         "--no-heading",
         "--with-filename",
         "--line-number",
