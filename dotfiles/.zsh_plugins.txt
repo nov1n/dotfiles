@@ -1,5 +1,6 @@
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
-agkozak/zsh-z
 unixorn/fzf-zsh-plugin
 zsh-users/zsh-completions
+jeffreytse/zsh-vi-mode
+

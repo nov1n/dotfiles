@@ -8,6 +8,7 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
+alias dot='cd ~/.dotfiles/dotfiles'
 alias vim=nvim
 alias edot='cd ~/.dotfiles/dotfiles && vim . -c ":lua require(\"telescope.builtin\").find_files()" && cd -'
 
