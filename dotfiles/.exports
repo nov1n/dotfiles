@@ -2,8 +2,8 @@
 
 export PROJECTS=$HOME/Projects/
 
-# Make vim the default editor.
-export EDITOR='vim';
+# Make nvim the default editor.
+export EDITOR="nvim -c 'normal! A' -c 'startinsert'";
 
 # Make go binaries available
 export GOPATH=$HOME/go

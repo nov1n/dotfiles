@@ -1,0 +1,19 @@
+#!/bin/sh
+
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "$BRANCH" == */* ]]; then
+  TICKET=$(echo "$BRANCH" | sed 's/.*\///')
+else
+  echo "Current branch is not a Picnic branch."
+  exit
+fi
+
+# Path to the temporary file that contains the commit message
+COMMIT_MSG_FILE=$1
+
+# Check if the commit is a merge commit, in which case it should not be modified
+if [ -z "$2" ] || [ "$2" != "merge" ]; then
+    # Add the branch name to the top of the commit message
+    echo "$TICKET \n$(cat "$COMMIT_MSG_FILE")" > "$COMMIT_MSG_FILE"
+fi
