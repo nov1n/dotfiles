@@ -1,6 +1,5 @@
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-autosuggestions
-unixorn/fzf-zsh-plugin
-zsh-users/zsh-completions
-jeffreytse/zsh-vi-mode
+unixorn/fzf-zsh-plugin@main
+Aloxaf/fzf-tab
 

@@ -15,7 +15,7 @@ alias edot='cd ~/.dotfiles/dotfiles && vim . -c ":lua require(\"telescope.builti
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias c="cd ~/Projects"
+alias c="clear"
 alias g="git"
 
 # Detect which `ls` flavor is in use
@@ -76,9 +76,6 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 
 # macOS has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
-
-# Trim new lines and copy to clipboard
-alias c="tr -d '\n' | pbcopy"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"

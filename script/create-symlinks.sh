@@ -8,5 +8,6 @@ for file in $(find ../dotfiles -type f -mindepth 1 -maxdepth 1); do
 done
 
 ln -fs $(readlink -f ../dotfiles/.config/nvim) $HOME/.config
+ln -fs $(readlink -f ../dotfiles/.git_hooks) $HOME
 
 ln -fs $HOME/.dotfiles/dotfiles/.vimrc $HOME/.ideavimrc

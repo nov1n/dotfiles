@@ -20,14 +20,6 @@ unset file;
 autoload -Uz promptinit; promptinit
 prompt pure
 
-# Add timestamp to prompt
-RPROMPT='%*' # hh:mm:ss
-TRAPALRM() {
-    zle reset-prompt
-}
-
-bindkey '^[[Z' reverse-menu-complete
-bindkey '^Y' autosuggest-accept
 bindkey '^P' up-line-or-search
 bindkey '^N' down-line-or-search
 bindkey 'jk' vi-cmd-mode
@@ -37,8 +29,6 @@ bindkey '^F' fzf-cd-widget
 bindkey "^H" backward-delete-char
 bindkey "^?" backward-delete-char
 
-bindkey -r '^E'
-
 # fzf-tab config
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -47,11 +37,16 @@ zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 # interactively navigate autocompletions
 zstyle ':completion:*' menu yes select
+# tmux popup integration
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# Use C-<space> to trigger completion
+zstyle ':fzf-tab:*' fzf-flags --bind "tab:ignore,btab:ignore,ctrl-space:toggle"
+
 
 # Load 'fuck' alias
 eval $(thefuck --alias) 
