@@ -22,5 +22,5 @@ retry() {
 
 connected_to_home_network() {
   echo 'Checking if connected to home network...'
-  curl -s http://raspberrypi.local > /dev/null
+  curl -s http://portainer.carosi.nl > /dev/null
 }

@@ -3,7 +3,7 @@
 export PROJECTS=$HOME/Projects/
 
 # Make nvim the default editor.
-export EDITOR="nvim -c 'normal! A' -c 'startinsert'";
+export EDITOR="nvim";
 
 # Make go binaries available
 export GOPATH=$HOME/go
@@ -29,13 +29,10 @@ export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
-# Make sure delta always uses a pager
-export DELTA_PAGER="less -+F -RX"
 
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --exact-depth=2 . $PROJECTS"
 
 # Vi mode
 export ZVM_VI_ESCAPE_BINDKEY='jk'

@@ -10,8 +10,8 @@
 	<array>
 		<string>/opt/homebrew/Cellar/sleepwatcher/2.2.1/sbin/sleepwatcher</string>
 		<string>-V</string>
-		<string>-s zsh -ci /Users/carosi/.dotfiles/sleepwatcher/sleep.sh</string>
-		<string>-w zsh -ci /Users/carosi/.dotfiles/sleepwatcher/wakeup.sh</string>
+    <string>-s zsh -ci /Users/carosi/Projects/personal/dotfiles/sleepwatcher/sleep.sh</string>
+    <string>-w zsh -ci /Users/carosi/Projects/personal/dotfiles/sleepwatcher/wakeup.sh</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
