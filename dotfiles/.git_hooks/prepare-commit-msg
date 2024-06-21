@@ -1,7 +1,9 @@
 #!/bin/sh
 
-
+# Get the current branch name
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the branch follows the Picnic branch naming convention
 if [[ "$BRANCH" == */* ]]; then
   TICKET=$(echo "$BRANCH" | sed 's/.*\///')
 else
@@ -12,8 +14,19 @@ fi
 # Path to the temporary file that contains the commit message
 COMMIT_MSG_FILE=$1
 
-# Check if the commit is a merge commit, in which case it should not be modified
+# Check if the commit is a merge commit or an amend commit
 if [ -z "$2" ] || [ "$2" != "merge" ]; then
-    # Add the branch name to the top of the commit message
-    echo "$TICKET \n$(cat "$COMMIT_MSG_FILE")" > "$COMMIT_MSG_FILE"
+    # Check if the commit is being amended
+    if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
+        # Initial commit does not have a HEAD
+        AMENDING=false
+    else
+        # Check for --amend in the last command
+        AMENDING=$(ps -ocommand= -p $PPID | grep -q -- '--amend' && echo true || echo false)
+    fi
+
+    if [ "$AMENDING" != "true" ]; then
+        # Add the branch name to the top of the commit message if not amending
+        echo "$TICKET \n$(cat "$COMMIT_MSG_FILE")" > "$COMMIT_MSG_FILE"
+    fi
 fi

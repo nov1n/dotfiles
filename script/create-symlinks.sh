@@ -9,5 +9,7 @@ done
 
 ln -fs $(readlink -f ../dotfiles/.config/nvim) $HOME/.config
 ln -fs $(readlink -f ../dotfiles/.git_hooks) $HOME
+mkdir -p ~/.local
+ln -fs $(readlink -f ../dotfiles/.local/bin) $HOME/.local/
 
 ln -fs $HOME/.dotfiles/dotfiles/.vimrc $HOME/.ideavimrc
