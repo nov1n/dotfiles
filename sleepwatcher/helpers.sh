@@ -8,7 +8,6 @@ retry() {
     exit=$?
     wait=2
     count=$(($count + 1))
-
     if [ $count -lt $retries ]; then
       echo "Retry $count/$retries exited $exit, retrying in $wait seconds..." >&2
       sleep $wait
@@ -20,7 +19,16 @@ retry() {
   return 0
 }
 
-connected_to_home_network() {
-  echo 'Checking if connected to home network...'
-  curl -s http://portainer.carosi.nl > /dev/null
+if [ "$external_displays" -eq 0 ] || ! connected_to_home_network; then
+  echo "No external display connected or not connected to home network. Exiting."
+  exit 1
+fi
+
+exit_if_not_at_desk() {
+  external_displays=$(system_profiler SPDisplaysDataType | grep -A 10 "Display Type" | grep "External" | wc -l)
+
+  if [ "$external_displays" -eq 0 ] || ! connected_to_home_network; then
+    echo "No external display connected or not connected to home network. Exiting."
+    exit 1
+  fi
 }
