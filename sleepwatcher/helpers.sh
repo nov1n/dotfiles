@@ -19,10 +19,10 @@ retry() {
   return 0
 }
 
-if [ "$external_displays" -eq 0 ] || ! connected_to_home_network; then
-  echo "No external display connected or not connected to home network. Exiting."
-  exit 1
-fi
+connected_to_home_network() {
+  echo 'Checking if connected to home network...'
+  curl -s http://portainer.carosi.nl > /dev/null
+}
 
 exit_if_not_at_desk() {
   external_displays=$(system_profiler SPDisplaysDataType | grep -A 10 "Display Type" | grep "External" | wc -l)
