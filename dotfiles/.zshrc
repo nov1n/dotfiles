@@ -18,7 +18,6 @@ unset file;
 
 # set the theme
 autoload -Uz promptinit; promptinit
-prompt pure
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
@@ -30,14 +29,15 @@ bindkey '^ ' fzf-cd-widget
 # zsh-autosuggestions
 bindkey '^Y' autosuggest-accept
 bindkey 'jk' vi-cmd-mode
-bindkey -s ^f "tmux-sessionizer\n"
 
 # Make backspace behave normal in zsh's vi mode
 bindkey "^H" backward-delete-char
 bindkey "^?" backward-delete-char
 
-# Load 'fuck' alias
+# Load tools
 eval $(thefuck --alias) 
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

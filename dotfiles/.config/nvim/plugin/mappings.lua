@@ -7,7 +7,6 @@ local abbrev = vim.cmd.cnoreabbrev
 
 map("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 map("n", "<C-b>", ":nohl<CR>", { desc = "Clear search highlights with Ctl-B", silent = true })
-map({ "n", "i", "v" }, "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- Telescope
 map("n", "<C-p>", telescope.find_files, { desc = "Find files alias" })
