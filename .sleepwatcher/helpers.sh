@@ -25,9 +25,14 @@ connected_to_home_network() {
 }
 
 exit_if_not_at_desk() {
-  external_displays=$(system_profiler SPDisplaysDataType | grep -A 10 "Display Type" | grep "External" | wc -l)
+  # Get the display information
+  display_info=$(system_profiler SPDisplaysDataType)
 
-  if [ "$external_displays" -eq 0 ] || ! connected_to_home_network; then
+  # Check if there's any display with a name other than "Built-In Retina Display"
+  external_display_connected=$(echo "$display_info" | grep "Resolution:" | grep -q -v "Built-in Liquid Retina XDR Display"; echo $?)
+
+  # Exit if no external display connected or not on home network --> we are not at our desk.
+  if [ "$external_display_connected" -eq 0 ] || ! connected_to_home_network; then
     echo "No external display connected or not connected to home network. Exiting."
     exit 1
   fi

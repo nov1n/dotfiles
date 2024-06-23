@@ -1,19 +1,11 @@
 alias vim=nvim
-alias dot='cd ~/Projects/personal/dotfiles/'
-alias edot='cd ~/Projects/personal/dotfiles/ && vim . -c ":lua require(\"telescope.builtin\").find_files()" && cd -'
 
-# Shortcuts
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
 alias c="clear"
 alias g="git"
 alias cdtemp="cd $(mktemp -d)"
 
-# List all files colorized in long format
-alias ll="ls -lF ${colorflag}"
-
-# List all files colorized in long format, excluding . and ..
-alias la="ls -lAF ${colorflag}"
+alias ll="lsd -lr"
+alias la="lsd -lAtr"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '

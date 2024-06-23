@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+export ZSH_COMPDUMP=$HOME/.zsh/cache/.zcompdump-$HOST
+
 export PROJECTS=$HOME/Projects/
 export DOTFILES_HOME=$HOME/Projects/personal/dotfiles/dotfiles
 
@@ -29,7 +31,7 @@ export LC_ALL='en_US.UTF-8';
 export LESS_TERMCAP_md="${yellow}";
 
 # Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
+export MANPAGER='bat';
 
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
