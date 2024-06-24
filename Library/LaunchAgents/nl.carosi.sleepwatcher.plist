@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Disabled</key>
+	<false/>
 	<key>KeepAlive</key>
 	<true/>
 	<key>Label</key>
@@ -10,8 +12,8 @@
 	<array>
 		<string>/opt/homebrew/Cellar/sleepwatcher/2.2.1/sbin/sleepwatcher</string>
 		<string>-V</string>
-    <string>-s zsh -ci /Users/carosi/.sleepwatcher/sleep.sh</string>
-    <string>-w zsh -ci /Users/carosi/.sleepwatcher/wakeup.sh</string>
+		<string>-s /Users/carosi/.sleepwatcher/sleep.sh</string>
+		<string>-w /Users/carosi/.sleepwatcher/wakeup.sh</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>

@@ -1,9 +1,8 @@
-#!/bin/zsh
-# https://www.kodiakskorner.com/log/258
-# Use absolute paths to scripts.
+#!/bin/bash
+
 . "$(dirname "$0")/helpers.sh"
 
-echo "\n\n$(date): -- WAKE --\n"
+echo "[$(date)] -- WAKE --"
 
 exit_if_not_at_desk
 

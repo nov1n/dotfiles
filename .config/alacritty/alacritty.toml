@@ -7,7 +7,7 @@ import = [
 [window]
 decorations = "None"
 dynamic_padding = false
-startup_mode = "SimpleFullscreen"
+startup_mode = "Maximized"
 option_as_alt = "OnlyLeft"
 
 [window.padding]
@@ -35,3 +35,8 @@ style = "Medium Italic"
 [font.normal]
 family = "FiraCode Nerd Font"
 style = "Light"
+
+[[keyboard.bindings]]
+action = "ToggleMaximized"
+key = "Enter"
+mods = "Command"
