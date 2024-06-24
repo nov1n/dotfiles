@@ -10,7 +10,7 @@ map("n", "<C-b>", ":nohl<CR>", { desc = "Clear search highlights with Ctl-B", si
 
 -- Telescope
 map("n", "<C-p>", telescope.find_files, { desc = "Find files alias" })
-map("n", "<C-_>", telescope.live_grep, { desc = "Live grep in project files" })
+map("n", "<C-f>", telescope.live_grep, { desc = "Live grep in project files" })
 map("n", "<leader>fc", telescope.command_history, { desc = "Find command history" })
 map("n", "<leader>fk", telescope.keymaps, { desc = "telescope find keymaps" })
 
