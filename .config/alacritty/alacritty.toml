@@ -5,14 +5,14 @@ import = [
 ]
 
 [window]
-decorations = "None"
-dynamic_padding = false
+decorations = "Buttonless"
+dynamic_padding = true
 startup_mode = "Maximized"
 option_as_alt = "OnlyLeft"
 
 [window.padding]
-x = 25
-y = 20
+x = 20
+y = 40
 
 [env]
 TERM = "xterm-256color"
@@ -21,22 +21,33 @@ TERM = "xterm-256color"
 size = 16.0
 
 [font.bold]
-family = "FiraCode Nerd Font"
-style = "Heavy"
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
 
 [font.bold_italic]
-family = "FiraCode Nerd Font"
-style = "Heavy Italic"
-
-[font.italic]
-family = "FiraCode Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Medium Italic"
 
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Thin Italic"
+
 [font.normal]
-family = "FiraCode Nerd Font"
-style = "Light"
+family = "JetBrainsMono Nerd Font"
+style = "Thin"
 
 [[keyboard.bindings]]
-action = "ToggleMaximized"
-key = "Enter"
+key = "T"
 mods = "Command"
+action = "None"
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Command"
+action = "None"
+
+[[keyboard.bindings]]
+key = "K"
+mods = "Command"
+chars = "\uE000"
+
