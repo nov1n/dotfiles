@@ -5,6 +5,7 @@ local map = vim.keymap.set
 
 map("i", "kj", "<ESC>", { desc = "Exit insert mode with kj" })
 map("n", "<C-b>", ":nohl<CR>", { desc = "Clear search highlights with Ctl-B", silent = true })
+map("n", "<C-f>", "<cmd>lua require('telescope.builtin').live_grep()<CR>", { desc = "Live grep in project files" })
 map(
   "n",
   "<C-p>",
