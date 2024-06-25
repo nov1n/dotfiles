@@ -5,7 +5,7 @@ local telescope = require "telescope.builtin"
 local map = vim.keymap.set
 local abbrev = vim.cmd.cnoreabbrev
 
-map("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+map("i", "kj", "<ESC>", { desc = "Exit insert mode with kj" })
 map("n", "<C-b>", ":nohl<CR>", { desc = "Clear search highlights with Ctl-B", silent = true })
 
 -- Telescope
