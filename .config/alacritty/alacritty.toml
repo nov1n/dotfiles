@@ -1,18 +1,18 @@
 # https://alacritty.org/config-alacritty.html
 
 import = [
-  "~/.config/alacritty/catppuccin-mocha.toml"
+  "~/.config/alacritty/themes/tokyo-night.toml"
 ]
 
 [window]
-decorations = "Buttonless"
+decorations = "None"
 dynamic_padding = true
-startup_mode = "Maximized"
+startup_mode = "SimpleFullscreen"
 option_as_alt = "OnlyLeft"
 
 [window.padding]
-x = 20
-y = 40
+x = 0
+y = 0
 
 [env]
 TERM = "xterm-256color"
@@ -21,20 +21,20 @@ TERM = "xterm-256color"
 size = 16.0
 
 [font.bold]
-family = "JetBrainsMono Nerd Font"
-style = "Medium"
+family = "MonaspiceNe Nerd Font Mono"
+style = "Regular"
 
 [font.bold_italic]
-family = "JetBrainsMono Nerd Font"
-style = "Medium Italic"
+family = "MonaspiceNe Nerd Font Mono"
+style = "Regular Italic"
 
 [font.italic]
-family = "JetBrainsMono Nerd Font"
-style = "Thin Italic"
+family = "MonaspiceNe Nerd Font Mono"
+style = "Light Italic"
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
-style = "Thin"
+family = "MonaspiceNe Nerd Font Mono"
+style = "Light"
 
 [[keyboard.bindings]]
 key = "T"
