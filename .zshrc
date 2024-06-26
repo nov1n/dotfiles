@@ -28,7 +28,7 @@ bindkey '^ ' fzf-cd-widget
 
 # zsh-autosuggestions
 bindkey '^Y' autosuggest-accept
-bindkey 'jk' vi-cmd-mode
+bindkey 'kj' vi-cmd-mode
 
 # Make backspace behave normal in zsh's vi mode
 bindkey "^H" backward-delete-char
