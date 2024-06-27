@@ -5,8 +5,14 @@ local map = vim.keymap.set
 
 map("i", "kj", "<ESC>", { desc = "Exit insert mode with kj" })
 map("n", "<C-b>", "<cmd>nohl<CR>", { desc = "Clear search highlights with Ctl-B", silent = true })
-map("n", "<C-f>", "<cmd>lua require('telescope.builtin').live_grep()<CR>", { desc = "Live grep in project files" })
-map("n", "<Leader>uz", "<cmd>ZenMode<CR>", { desc = "Enter ZenMode" })
+map(
+  "n",
+  "<C-f>",
+  "<cmd>lua require('telescope.builtin').live_grep()<CR>",
+  { desc = "Live grep in project files", silent = true }
+)
+map("n", "<Leader>uz", "<cmd>ZenMode<CR>", { desc = "Enter ZenMode", silent = true })
+map("n", "<leader>bn", ":enew<CR>", { desc = "Create new buffer", noremap = true, silent = true })
 map(
   "n",
   "<C-p>",
