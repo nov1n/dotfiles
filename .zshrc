@@ -10,7 +10,6 @@ antidote load
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-source ~/.iterm2_shell_integration.zsh
 for file in ~/.{exports,aliases,functions,localrc}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
