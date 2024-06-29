@@ -10,3 +10,4 @@ cd ~/dotfiles/
 stow -v .
 
 chsh -s $(which zsh)
+zsh
