@@ -8,10 +8,6 @@ export DOTFILES_HOME=$HOME/Projects/personal/dotfiles/dotfiles
 # Make nvim the default editor.
 export EDITOR="nvim";
 
-# Make go binaries available
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
 # Increase history size. Allow 32³ entries; the default is 500.
 HISTFILE=~/.history
 HISTSIZE=500000
@@ -46,9 +42,6 @@ export FZF_DEFAULT_OPTS="\
 --no-separator \
 --pointer='👉' \
 --reverse"
-
-# Vi mode
-export ZVM_VI_ESCAPE_BINDKEY='jk'
 
 # SDKMAN
 export SDKMAN_DIR="$HOME/.sdkman"
