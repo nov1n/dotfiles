@@ -1,3 +1,2 @@
---dir=~/Projects/personal/dotfiles
---target=~
+--dir=~/dotfiles
 --ignore=script
