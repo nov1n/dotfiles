@@ -1,41 +1,40 @@
-export PATH="${HOME}/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
-
-autoload -U compinit
-compinit
-
-if [ ! -d "${HOME}/.antidote" ]; then
+# Install plugins
+if [ ! -d "$HOME/.antidote" ]; then
   git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
 fi
-
 source ~/.antidote/antidote.zsh
 antidote load
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{exports,aliases,functions,localrc}; do
+# Load autosuggestions
+autoload -U compinit
+compinit
+
+# Set the theme
+autoload -Uz promptinit; promptinit
+
+# Load the shell dotfiles
+for file in ~/.{path,exports,aliases,functions,localrc}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
-# set the theme
-autoload -Uz promptinit; promptinit
-
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
+# Configure autocomplete
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+# Set keybindings
+bindkey '-M' viins '^W' backward-kill-word
 bindkey '^P' up-line-or-search
 bindkey '^N' down-line-or-search
 bindkey '^ ' fzf-cd-widget
-
-# zsh-autosuggestions
 bindkey '^Y' autosuggest-accept
 bindkey 'kj' vi-cmd-mode
-
-# Make backspace behave normal in zsh's vi mode
-bindkey "^H" backward-delete-char
-bindkey "^?" backward-delete-char
 
 # Load tools
 eval $(thefuck --alias) 
