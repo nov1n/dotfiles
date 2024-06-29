@@ -1,8 +1,12 @@
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="${HOME}/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 
 autoload -U compinit
 compinit
+
+if [ ! -d "${HOME}/.antidote" ]; then
+  git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
+fi
 
 source ~/.antidote/antidote.zsh
 antidote load
