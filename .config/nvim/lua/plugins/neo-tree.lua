@@ -4,9 +4,8 @@ return {
     close_if_last_window = true,
     filesystem = {
       filtered_items = {
-        visible = true,
-        show_hidden_count = true,
-        hide_dotfiles = false,
+        visible = true, -- Don't show hidden files in a lighter color
+        hide_dotfiles = false, -- Show dotfiles
       },
     },
   },
