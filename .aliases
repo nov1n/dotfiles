@@ -4,6 +4,7 @@ alias c="clear"
 alias g="git"
 alias cdtemp="cd $(mktemp -d)"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor"
+alias updot="git -C ~/dotfiles pull"
 
 alias ll="lsd -lr"
 alias la="lsd -lAtr"
