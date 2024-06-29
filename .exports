@@ -8,13 +8,18 @@ export DOTFILES_HOME=$HOME/Projects/personal/dotfiles/dotfiles
 # Make nvim the default editor.
 export EDITOR="nvim";
 
-# Increase history size. Allow 32³ entries; the default is 500.
-HISTFILE=~/.history
+# Configure shell history
 HISTSIZE=500000
-SAVEHIST=500000
+SAVEHIST=$HISTSIZE
+HISTFILE=~/.zsh_history
+HISTDUP=erase
 setopt appendhistory
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
 
 # The characters which ^-W should stop at
 WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
@@ -33,14 +38,12 @@ export MANPAGER='less -X';
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_TMUX_OPTS="-p 55%,60%"
 export FZF_DEFAULT_OPTS="\
 --ansi \
 --color='16,bg+:-1,gutter:-1,prompt:5,pointer:5,marker:6,border:4,label:4,header:italic' \
 --marker=' ' \
 --no-info \
 --no-separator \
---pointer='👉' \
 --reverse"
 
 # SDKMAN
