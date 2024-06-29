@@ -4,6 +4,6 @@ apt update
 apt install -y git stow zsh
 git clone https://github.com/nov1n/dotfiles.git ~/dotfiles
 cd ~/dotfiles/
-stow
+stow -v .
 
 # Set default shell
