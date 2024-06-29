@@ -4,7 +4,7 @@ export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 autoload -U compinit
 compinit
 
-source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
+source ~/.antidote/antidote.zsh
 antidote load
 
 # Load the shell dotfiles, and then some:
