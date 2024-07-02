@@ -1,0 +1,1 @@
+{"title":"Disable command (shift) tab in League of Legends","rules":[{"description":"","manipulators":[{"type":"basic","from":{"modifiers":{"mandatory":["left_gui"],"optional":["left_shift"]},"key_code":"tab"},"conditions":[{"type":"frontmost_application_if","description":".*League.*"}],"to":[{"repeat":false}]}]}]}
