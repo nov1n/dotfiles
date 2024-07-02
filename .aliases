@@ -6,8 +6,9 @@ alias cdtemp="cd $(mktemp -d)"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor"
 alias updot="git -C ~/dotfiles pull"
 
-alias ls="lsd"
+alias ls="lsd -l"
 alias cat="bat"
+alias cd="z"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
