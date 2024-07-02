@@ -1,13 +1,6 @@
 local file_ignore_patterns = {
   -- Files
-  "%.a",
   "%.class",
-  "%.mkv",
-  "%.mp4",
-  "%.o",
-  "%.out",
-  "%.pdf",
-  "%.zip",
   "%.lock",
   "%.lock.json",
   -- Directories
@@ -20,6 +13,12 @@ local file_ignore_patterns = {
 return {
   "nvim-telescope/telescope.nvim",
   opts = {
+    defaults = {
+      sorting_strategy = "ascending", -- display results top->bottom
+      layout_config = {
+        prompt_position = "top", -- search bar at the top
+      },
+    },
     pickers = {
       live_grep = {
         file_ignore_patterns = file_ignore_patterns,
