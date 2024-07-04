@@ -95,10 +95,10 @@ function obj:_nextStep(dim, offs, cb)
   end
 end
 
-function obj:_nextFullScreenStep()
+function obj:_centerWithPadding(padding)
   local win = hs.window.focusedWindow()
   if win then
-    local paddingPercentage = obj.padding -- 10% of the screen dimensions
+    local paddingPercentage = padding -- 10% of the screen dimensions
 
     -- Get the screen dimensions
     local screen = hs.screen.mainScreen()
@@ -118,6 +118,46 @@ function obj:_nextFullScreenStep()
 
     -- Move and resize the window
     win:setFrame(hs.geometry.rect(newLeft, newTop, newWidth, newHeight))
+  end
+end
+
+function obj:_nextFullScreenStep()
+  if hs.window.focusedWindow() then
+    local win = hs.window.frontmostWindow()
+    local id = win:id()
+    local screen = win:screen()
+
+    cell = hs.grid.get(win, screen)
+
+    local nextSize = self.fullScreenSizes[1]
+    for i = 1, #self.fullScreenSizes do
+      if
+        cell.w == self.GRID.w / self.fullScreenSizes[i]
+        and cell.h == self.GRID.h / self.fullScreenSizes[i]
+        and cell.x == (self.GRID.w - self.GRID.w / self.fullScreenSizes[i]) / 2
+        and cell.y == (self.GRID.h - self.GRID.h / self.fullScreenSizes[i]) / 2
+      then
+        nextSize = self.fullScreenSizes[(i % #self.fullScreenSizes) + 1]
+        break
+      end
+    end
+
+    cell.w = self.GRID.w / nextSize
+    cell.h = self.GRID.h / nextSize
+    cell.x = (self.GRID.w - self.GRID.w / nextSize) / 2
+    cell.y = (self.GRID.h - self.GRID.h / nextSize) / 2
+
+    hs.grid.set(win, cell, screen)
+  end
+end
+
+function obj:_moveNextScreenStep()
+  if hs.window.focusedWindow() then
+    local win = hs.window.frontmostWindow()
+    local id = win:id()
+    local screen = win:screen()
+
+    win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
   end
 end
 
@@ -149,6 +189,7 @@ end
 ---   * down: for the down action (usually {hyper, "down"})
 ---   * left: for the left action (usually {hyper, "left"})
 ---   * fullscreen: for the full-screen action (e.g. {hyper, "f"})
+---   * nextscreen: for the multi monitor next screen action (e.g. {hyper, "n"})
 ---
 --- A configuration example can be:
 --- ```
@@ -159,6 +200,7 @@ end
 ---   down = {hyper, "down"},
 ---   left = {hyper, "left"},
 ---   fullscreen = {hyper, "f"}
+---   nextscreen = {hyper, "n"}
 --- })
 --- ```
 function obj:bindHotkeys(mapping)
@@ -214,6 +256,10 @@ function obj:bindHotkeys(mapping)
   end, function() self._pressed.up = false end)
 
   hs.hotkey.bind(mapping.fullscreen[1], mapping.fullscreen[2], function() self:_nextFullScreenStep() end)
+
+  hs.hotkey.bind(mapping.center[1], mapping.center[2], function() self:_centerWithPadding(self.padding)() end)
+
+  hs.hotkey.bind(mapping.nextscreen[1], mapping.nextscreen[2], function() self:_moveNextScreenStep() end)
 end
 
 function obj:init()

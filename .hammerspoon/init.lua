@@ -17,6 +17,7 @@ spoon.MiroWindowsManager:bindHotkeys({
   right = { hyper, "right" },
   down = { hyper, "down" },
   left = { hyper, "left" },
+  center = { hyper, "\\" },
   fullscreen = { hyper, "return" },
   nextscreen = { hyper, "n" },
 })
