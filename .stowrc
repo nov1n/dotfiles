@@ -1,2 +1,2 @@
 --dir=~/dotfiles
---ignore=script
+--ignore=.DS_Store|^script$
