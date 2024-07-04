@@ -1,31 +1,52 @@
-require("amphetamine")
-
-local am = require("app-management")
-
+-- External Spoons
 hs.loadSpoon("MiroWindowsManager")
+hs.loadSpoon("AppLauncher")
+hs.loadSpoon("Caffeine")
 
+-- Aliases
 local bind = hs.hotkey.bind
 local hyper = { "cmd", "ctrl", "alt", "shift" }
+local winman = spoon.MiroWindowsManager
+local appman = spoon.AppLauncher
+local caff = spoon.Caffeine
 
+-- Global settings
+hs.window.animationDuration = 0
+
+-- Reload Hammerspoon config
 bind(hyper, "`", hs.reload)
 
+-- Enable caffeine
+caff:start()
+caff:setState(true)
+
 -- Window Management
-hs.window.animationDuration = 0
-spoon.MiroWindowsManager.padding = 0.07
-spoon.MiroWindowsManager:bindHotkeys({
-  up = { hyper, "up" },
-  right = { hyper, "right" },
-  down = { hyper, "down" },
-  left = { hyper, "left" },
-  center = { hyper, "\\" },
-  fullscreen = { hyper, "return" },
-  nextscreen = { hyper, "n" },
+winman.padding = 0.07
+winman.modifiers = hyper
+winman:bindHotkeys({
+  up = "h",
+  right = "l",
+  down = "j",
+  left = "h",
+  center = "\\",
+  fullscreen = "return",
+  nextscreen = "n",
 })
 
 -- Application Management
-bind(hyper, "p", function() am.switchToAndFromApp("Spotify") end)
-bind(hyper, "[", function() hs.spotify.displayCurrentTrack() end)
-bind(hyper, "c", function() am.switchToAndFromApp("com.jetbrains.intellij") end)
-bind(hyper, "/", function() am.switchToAndFromApp("com.apple.iCal") end)
-bind(hyper, ".", function() am.switchToAndFromApp("com.apple.finder") end)
-bind(hyper, "d", function() hs.execute('open "devutils://auto?clipboard"') end)
+appman.modifiers = hyper
+appman:bindHotkeys({
+  a = "Finder",
+  c = "Calendar",
+  d = function() hs.execute('open "devutils://auto?clipboard"') end,
+  f = "Firefox",
+  g = "Google Chrome",
+  m = "Proton Mail",
+  o = "Obsidian",
+  r = "Reminders",
+  s = "Slack",
+  t = "Alacritty",
+  u = "ChatGPT",
+  w = "WhatsApp",
+  y = "Freetube",
+})

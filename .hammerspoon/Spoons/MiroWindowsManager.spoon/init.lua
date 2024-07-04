@@ -46,9 +46,10 @@ obj.sizes = { 2, 3, 3 / 2 }
 --- The sizes that the window can have in full-screen.
 --- The sizes are expressed as dividend of the entire screen's size.
 --- For example `{1, 4/3, 2}` means that it can be 1/1 (hence full screen), 3/4 and 1/2 of the total screen's size
-obj.fullScreenSizes = { 1, 4 / 3, 2 }
+obj.fullScreenSizes = { 1 }
 
 obj.padding = 0.1
+obj.modifiers = { "ctrl", "alt" }
 
 --- MiroWindowsManager.GRID
 --- Variable
@@ -207,7 +208,7 @@ function obj:bindHotkeys(mapping)
   hs.inspect(mapping)
   print("Bind Hotkeys for Miro's Windows Manager")
 
-  hs.hotkey.bind(mapping.down[1], mapping.down[2], function()
+  hs.hotkey.bind(self.modifiers, mapping.down, function()
     self._pressed.down = true
     if self._pressed.up then
       self:_fullDimension("h")
@@ -219,7 +220,7 @@ function obj:bindHotkeys(mapping)
     end
   end, function() self._pressed.down = false end)
 
-  hs.hotkey.bind(mapping.right[1], mapping.right[2], function()
+  hs.hotkey.bind(self.modifiers, mapping.right, function()
     self._pressed.right = true
     if self._pressed.left then
       self:_fullDimension("w")
@@ -231,7 +232,7 @@ function obj:bindHotkeys(mapping)
     end
   end, function() self._pressed.right = false end)
 
-  hs.hotkey.bind(mapping.left[1], mapping.left[2], function()
+  hs.hotkey.bind(self.modifiers, mapping.left, function()
     self._pressed.left = true
     if self._pressed.right then
       self:_fullDimension("w")
@@ -243,7 +244,7 @@ function obj:bindHotkeys(mapping)
     end
   end, function() self._pressed.left = false end)
 
-  hs.hotkey.bind(mapping.up[1], mapping.up[2], function()
+  hs.hotkey.bind(self.modifiers, mapping.up, function()
     self._pressed.up = true
     if self._pressed.down then
       self:_fullDimension("h")
@@ -255,11 +256,11 @@ function obj:bindHotkeys(mapping)
     end
   end, function() self._pressed.up = false end)
 
-  hs.hotkey.bind(mapping.fullscreen[1], mapping.fullscreen[2], function() self:_nextFullScreenStep() end)
+  hs.hotkey.bind(self.modifiers, mapping.fullscreen, function() self:_nextFullScreenStep() end)
 
-  hs.hotkey.bind(mapping.center[1], mapping.center[2], function() self:_centerWithPadding(self.padding)() end)
+  hs.hotkey.bind(self.modifiers, mapping.center, function() self:_centerWithPadding(self.padding)() end)
 
-  hs.hotkey.bind(mapping.nextscreen[1], mapping.nextscreen[2], function() self:_moveNextScreenStep() end)
+  hs.hotkey.bind(self.modifiers, mapping.nextscreen, function() self:_moveNextScreenStep() end)
 end
 
 function obj:init()
