@@ -1,38 +1,30 @@
-hs.hotkey.bind({ "cmd" }, "D", function()
-	hs.execute('open "devutils://auto?clipboard"')
-end)
+require("amphetamine")
 
-hs.hotkey.bind({ "cmd" }, "P", function()
-	hs.application.launchOrFocus("Spotify")
-	hs.eventtap.keyStroke({ "cmd" }, "k")
-end)
+local am = require("app-management")
 
-hs.hotkey.bind({ "ctrl", "alt" }, "M", function()
-	-- Define the padding percentage
-	local paddingPercentage = 0.1 -- 10% of the screen dimensions
+hs.loadSpoon("MiroWindowsManager")
 
-	-- Get the screen dimensions
-	local screen = hs.screen.mainScreen()
-	local screenFrame = screen:frame()
-	local screenWidth = screenFrame.w
-	local screenHeight = screenFrame.h
+local bind = hs.hotkey.bind
+local hyper = { "cmd", "ctrl", "alt", "shift" }
 
-	-- Calculate the padding based on the screen dimensions
-	local paddingX = screenWidth * paddingPercentage
-	local paddingY = screenHeight * paddingPercentage
+bind(hyper, "`", hs.reload)
 
-	-- Get the focused window
-	local win = hs.window.focusedWindow()
-	if not win then
-		return
-	end
+-- Window Management
+hs.window.animationDuration = 0
+spoon.MiroWindowsManager.padding = 0.07
+spoon.MiroWindowsManager:bindHotkeys({
+  up = { hyper, "up" },
+  right = { hyper, "right" },
+  down = { hyper, "down" },
+  left = { hyper, "left" },
+  fullscreen = { hyper, "return" },
+  nextscreen = { hyper, "n" },
+})
 
-	-- Calculate the new size and position
-	local newWidth = screenWidth - (2 * paddingX)
-	local newHeight = screenHeight - (2 * paddingY)
-	local newLeft = paddingX
-	local newTop = paddingY
-
-	-- Move and resize the window
-	win:setFrame(hs.geometry.rect(newLeft, newTop, newWidth, newHeight))
-end)
+-- Application Management
+bind(hyper, "p", function() am.switchToAndFromApp("Spotify") end)
+bind(hyper, "[", function() hs.spotify.displayCurrentTrack() end)
+bind(hyper, "c", function() am.switchToAndFromApp("com.jetbrains.intellij") end)
+bind(hyper, "/", function() am.switchToAndFromApp("com.apple.iCal") end)
+bind(hyper, ".", function() am.switchToAndFromApp("com.apple.finder") end)
+bind(hyper, "d", function() hs.execute('open "devutils://auto?clipboard"') end)
