@@ -242,7 +242,7 @@ plugins {
         welcome_screen true
     }
     filepicker location="zellij:strider" {
-        cwd "/Users/carosi/Projects"
+        cwd "/Users/carosi/"
     }
 }
 
