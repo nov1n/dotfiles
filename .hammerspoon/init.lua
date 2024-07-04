@@ -24,7 +24,7 @@ caff:setState(true)
 winman.padding = 0.07
 winman.modifiers = hyper
 winman:bindHotkeys({
-  up = "h",
+  up = "k",
   right = "l",
   down = "j",
   left = "h",
