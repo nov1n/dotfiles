@@ -5,10 +5,16 @@ alias g="git"
 alias cdtemp="cd $(mktemp -d)"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor"
 alias updot="git -C ~/dotfiles pull"
+alias rel="exec zsh"
 
 alias ls="lsd -l"
 alias cat="bat"
 alias cd="z"
+
+# Nudges
+alias nslookup="echo Use doggo!"
+alias host="echo Use doggo!"
+alias dig="echo Use doggo!"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
