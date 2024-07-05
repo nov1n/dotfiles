@@ -96,10 +96,9 @@ function obj:_nextStep(dim, offs, cb)
   end
 end
 
-function obj:_centerWithPadding(padding)
-  local win = hs.window.focusedWindow()
+function obj:_center(win)
   if win then
-    local paddingPercentage = padding -- 10% of the screen dimensions
+    local paddingPercentage = self.padding -- 10% of the screen dimensions
 
     -- Get the screen dimensions
     local screen = hs.screen.mainScreen()
@@ -122,50 +121,51 @@ function obj:_centerWithPadding(padding)
   end
 end
 
-function obj:_nextFullScreenStep()
-  if hs.window.focusedWindow() then
-    local win = hs.window.frontmostWindow()
-    local id = win:id()
-    local screen = win:screen()
+function obj:_nextFullScreenStep(win)
+  local screen = win:screen()
 
-    cell = hs.grid.get(win, screen)
+  cell = hs.grid.get(win, screen)
 
-    local nextSize = self.fullScreenSizes[1]
-    for i = 1, #self.fullScreenSizes do
-      if
-        cell.w == self.GRID.w / self.fullScreenSizes[i]
-        and cell.h == self.GRID.h / self.fullScreenSizes[i]
-        and cell.x == (self.GRID.w - self.GRID.w / self.fullScreenSizes[i]) / 2
-        and cell.y == (self.GRID.h - self.GRID.h / self.fullScreenSizes[i]) / 2
-      then
-        nextSize = self.fullScreenSizes[(i % #self.fullScreenSizes) + 1]
-        break
-      end
+  local nextSize = self.fullScreenSizes[1]
+  for i = 1, #self.fullScreenSizes do
+    if
+      cell.w == self.GRID.w / self.fullScreenSizes[i]
+      and cell.h == self.GRID.h / self.fullScreenSizes[i]
+      and cell.x == (self.GRID.w - self.GRID.w / self.fullScreenSizes[i]) / 2
+      and cell.y == (self.GRID.h - self.GRID.h / self.fullScreenSizes[i]) / 2
+    then
+      nextSize = self.fullScreenSizes[(i % #self.fullScreenSizes) + 1]
+      break
     end
-
-    cell.w = self.GRID.w / nextSize
-    cell.h = self.GRID.h / nextSize
-    cell.x = (self.GRID.w - self.GRID.w / nextSize) / 2
-    cell.y = (self.GRID.h - self.GRID.h / nextSize) / 2
-
-    hs.grid.set(win, cell, screen)
   end
+
+  cell.w = self.GRID.w / nextSize
+  cell.h = self.GRID.h / nextSize
+  cell.x = (self.GRID.w - self.GRID.w / nextSize) / 2
+  cell.y = (self.GRID.h - self.GRID.h / nextSize) / 2
+
+  hs.grid.set(win, cell, screen)
 end
 
 function obj:_moveNextScreenStep()
   if hs.window.focusedWindow() then
     local win = hs.window.frontmostWindow()
-    local id = win:id()
     local screen = win:screen()
 
     win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
   end
 end
 
+function obj:_applyToAllWindows(fun)
+  local winList = hs.window.allWindows()
+  for _, win in ipairs(winList) do
+    fun(win)
+  end
+end
+
 function obj:_fullDimension(dim)
   if hs.window.focusedWindow() then
     local win = hs.window.frontmostWindow()
-    local id = win:id()
     local screen = win:screen()
     cell = hs.grid.get(win, screen)
 
@@ -178,6 +178,56 @@ function obj:_fullDimension(dim)
 
     hs.grid.set(win, cell, screen)
   end
+end
+
+function obj:_splitVertically(app1Name, app2Name)
+  local app1 = hs.appfinder.appFromName(app1Name)
+  local app2 = hs.appfinder.appFromName(app2Name)
+
+  if not app1 or not app2 then
+    hs.notify
+      .new({
+        title = "Hammerspoon",
+        informativeText = "Make sure both " .. app1Name .. " and " .. app2Name .. " are running.",
+      })
+      :send()
+    return
+  end
+
+  -- Function to move and resize windows
+  local function moveWindows()
+    local app1Window = app1:mainWindow()
+    local app2Window = app2:mainWindow()
+
+    if not app1Window or not app2Window then
+      hs.notify
+        .new({
+          title = "Hammerspoon",
+          informativeText = "Could not find main windows for " .. app1Name .. " and " .. app2Name .. ".",
+        })
+        :send()
+      return
+    end
+
+    -- Get screen dimensions
+    local screen = hs.screen.mainScreen()
+    local screenFrame = screen:frame()
+
+    local leftFrame = hs.geometry.rect(screenFrame.x, screenFrame.y, screenFrame.w / 2, screenFrame.h)
+    local rightFrame =
+      hs.geometry.rect(screenFrame.x + screenFrame.w / 2, screenFrame.y, screenFrame.w / 2, screenFrame.h)
+
+    -- Move and resize app1 window to the left half of the screen
+    app1Window:setFrame(leftFrame)
+    app1Window:raise()
+
+    -- Move and resize app2 window to the right half of the screen
+    app2Window:setFrame(rightFrame)
+    app2Window:raise()
+  end
+
+  -- Set window frames and positions directly
+  moveWindows()
 end
 
 --- MiroWindowsManager:bindHotkeys()
@@ -256,11 +306,25 @@ function obj:bindHotkeys(mapping)
     end
   end, function() self._pressed.up = false end)
 
-  hs.hotkey.bind(self.modifiers, mapping.fullscreen, function() self:_nextFullScreenStep() end)
+  hs.hotkey.bind(
+    self.modifiers,
+    mapping.fullscreen,
+    function() self:_nextFullScreenStep(hs.window.frontmostWindow()) end
+  )
 
-  hs.hotkey.bind(self.modifiers, mapping.center, function() self:_centerWithPadding(self.padding)() end)
+  hs.hotkey.bind(self.modifiers, mapping.center, function() self:_center(hs.window.focusedWindow()) end)
 
   hs.hotkey.bind(self.modifiers, mapping.nextscreen, function() self:_moveNextScreenStep() end)
+
+  hs.hotkey.bind(self.modifiers, mapping.allmax, function()
+    self:_applyToAllWindows(function(win) self:_center(win) end)
+  end)
+
+  hs.hotkey.bind(self.modifiers, mapping.allcenter, function()
+    self:_applyToAllWindows(function(win) self:_nextFullScreenStep(win) end)
+  end)
+
+  hs.hotkey.bind(self.modifiers, mapping.split2, function() self:_splitVertically("Alacritty", "Firefox") end)
 end
 
 function obj:init()
