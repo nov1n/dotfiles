@@ -14,7 +14,6 @@ alias cd="z"
 # Nudges
 alias nslookup="echo Use doggo!"
 alias host="echo Use doggo!"
-alias dig="echo Use doggo!"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
@@ -23,7 +22,6 @@ alias sudo='sudo '
 alias week='date +%V'
 
 # Networking
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
