@@ -3,11 +3,6 @@
 -- Add any additional keymaps here
 local map = vim.keymap.set
 
--- Overwrite LazyVim's <Esc>:nohl behavior.
-map({ "i", "v", "n", "c" }, "<Esc>", "<Esc>", { noremap = true, silent = true })
-
-map("i", "kj", "<Esc>", { desc = "Exit insert mode with kj" })
-map("n", "<C-b>", "<cmd>nohl<CR>", { desc = "Clear search highlights with Ctl-B", silent = true })
 map("n", "<Leader>uz", "<cmd>ZenMode<CR>", { desc = "Enter ZenMode", silent = true })
 map("n", "<leader>bn", ":enew<CR>", { desc = "Create new buffer", noremap = true, silent = true })
 map("n", "<C-f>", "<cmd>Telescope live_grep<CR>", { noremap = true, silent = true, desc = "Grep in project files" })
