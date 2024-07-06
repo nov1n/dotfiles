@@ -34,7 +34,6 @@ bindkey '^P' up-line-or-search
 bindkey '^N' down-line-or-search
 bindkey '^ ' fzf-cd-widget
 bindkey '^Y' autosuggest-accept
-bindkey 'kj' vi-cmd-mode
 
 # Load tools
 eval $(thefuck --alias) 
