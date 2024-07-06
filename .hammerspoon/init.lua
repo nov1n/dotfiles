@@ -2,7 +2,6 @@
 hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("AppLauncher")
 hs.loadSpoon("Caffeine")
-hs.loadSpoon("HSKeybindings")
 
 -- Aliases
 local bind = hs.hotkey.bind
@@ -10,7 +9,6 @@ local hyper = { "cmd", "ctrl", "alt", "shift" }
 local winman = spoon.MiroWindowsManager
 local appman = spoon.AppLauncher
 local caff = spoon.Caffeine
-local kb = spoon.HSKeybindings
 
 -- Global settings
 hs.window.animationDuration = 0
@@ -36,6 +34,7 @@ winman:bindHotkeys({
   allcenter = "]",
   allmax = "[",
   split2 = "'",
+  switch = "z",
 })
 
 -- Application Management
@@ -48,6 +47,7 @@ appman:bindHotkeys({
   g = "Google Chrome",
   m = "Proton Mail",
   o = "Obsidian",
+  p = "Spotify",
   r = "Reminders",
   s = "Slack",
   t = "Alacritty",
@@ -56,15 +56,6 @@ appman:bindHotkeys({
   y = "Freetube",
 })
 
--- Show active hotkeys
-local state = true
-local function toggleKeyboard()
-  if state then
-    kb:show()
-  else
-    kb:hide()
-  end
-  state = not state
-end
-
-hs.hotkey.bind(hyper, "x", toggleKeyboard)
+-- Display a message to indicate the configuration has been loaded
+hs.alert.defaultStyle.atScreenEdge = 1 -- bottom edge
+hs.alert.show("Hammerspoon config reloaded!")

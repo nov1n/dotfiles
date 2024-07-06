@@ -325,6 +325,24 @@ function obj:bindHotkeys(mapping)
   end)
 
   hs.hotkey.bind(self.modifiers, mapping.split2, function() self:_splitVertically("Alacritty", "Firefox") end)
+
+  -- Track the last two focused windows
+  local lastWindow = nil
+  local currentWindow = nil
+
+  -- Function to switch to the last focused window
+  local function switchToLastWindow()
+    if lastWindow and lastWindow:isVisible() then lastWindow:focus() end
+  end
+
+  -- Watch for window focus changes
+  hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function(window)
+    lastWindow = currentWindow
+    currentWindow = window
+  end)
+
+  -- Bind a hotkey to switch to the last window
+  hs.hotkey.bind(self.modifiers, mapping.switch, switchToLastWindow)
 end
 
 function obj:init()
