@@ -2,7 +2,6 @@ alias vim=nvim
 
 alias c="clear"
 alias g="git"
-alias cdtemp="cd $(mktemp -d)"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
@@ -25,7 +24,7 @@ alias week='date +%V'
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+alias flush="dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
