@@ -126,5 +126,7 @@ sudo chsh -s "$(which zsh)" "$USER" || {
   exit 1
 }
 
+# Set a trap to start zsh in the parent shell
+trap 'exec zsh' EXIT
+
 echo "Script completed successfully. Starting zsh..."
-exec zsh
