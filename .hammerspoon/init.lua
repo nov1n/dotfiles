@@ -15,6 +15,7 @@ hs.window.animationDuration = 0
 
 -- Reload Hammerspoon config
 bind(hyper, "`", hs.reload)
+bind({}, "f13", hs.caffeinate.systemSleep)
 
 -- Enable caffeine
 caff:start()
