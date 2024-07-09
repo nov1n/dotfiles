@@ -34,6 +34,9 @@ bindkey '^P' up-line-or-search
 bindkey '^N' down-line-or-search
 bindkey '^ ' fzf-cd-widget
 bindkey '^Y' autosuggest-accept
+# Make vi-mode's backspace behave as expected
+bindkey "^?" backward-delete-char
+bindkey "^H" backward-delete-char
 
 # Load tools
 eval $(thefuck --alias) 
