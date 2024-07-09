@@ -3,5 +3,5 @@
 -- Add any additional options here
 
 -- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
-vim.o.timeoutlen = 0
+-- vim.o.timeoutlen = 0
 vim.o.ttimeoutlen = 0
