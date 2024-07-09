@@ -13,6 +13,7 @@ return {
       "query",
       "regex",
       "yaml",
+      "hcl",
     },
   },
 }
