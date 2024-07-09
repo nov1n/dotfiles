@@ -1,59 +1,31 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds clear-defaults=true {
-    tmux {
-        bind "[" { SwitchToMode "Scroll"; }
-        bind "Ctrl a" { SwitchToMode "Locked"; }
-        bind "_" { NewPane "Down"; SwitchToMode "Locked"; }
-        bind "|" { NewPane "Right"; SwitchToMode "Locked"; }
-        bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
-        bind "c" { NewTab; SwitchToMode "Locked"; }
-        bind "," { SwitchToMode "RenameTab"; }
-        bind "p" { GoToPreviousTab; SwitchToMode "Locked"; }
-        bind "n" { GoToNextTab; SwitchToMode "Locked"; }
-        bind "h" { MoveFocus "Left"; SwitchToMode "Locked"; }
-        bind "l" { MoveFocus "Right"; SwitchToMode "Locked"; }
-        bind "j" { MoveFocus "Down"; SwitchToMode "Locked"; }
-        bind "k" { MoveFocus "Up"; SwitchToMode "Locked"; }
-        bind "o" { MovePane; SwitchToMode "Locked"; }
-        bind "d" { Detach; }
-        bind "Space" { NextSwapLayout; SwitchToMode "Locked";}
-        bind "x" { CloseFocus; SwitchToMode "Locked"; }
-        bind "=" { Resize "Increase"; SwitchToMode "Locked"; }
-        bind "-" { Resize "Decrease"; SwitchToMode "Locked"; }
-        bind "t" { ToggleFloatingPanes; SwitchToMode "Locked"; }
-        bind "w" {
+    locked {
+        bind "Alt e" { EditScrollback; SwitchToMode "Locked"; }
+        bind "Alt ," { NewPane "Down"; }
+        bind "Alt ." { NewPane "Right"; }
+        bind "Alt z" { ToggleFocusFullscreen; }
+        bind "Alt c" { NewTab; }
+        bind "Alt p" { GoToPreviousTab; }
+        bind "Alt n" { GoToNextTab; }
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt o" { MovePane; }
+        bind "Alt d" { Detach; }
+        bind "Alt y" { NextSwapLayout; }
+        bind "Alt x" { CloseFocus; }
+        bind "Alt =" { Resize "Increase"; }
+        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt m" { ToggleMouseMode; }
+        bind "Alt t" { ToggleFloatingPanes; }
+        bind "Alt w" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
                 move_to_focused_tab true
             };
-            SwitchToMode "Locked"
         }
-    }
-    scroll {
-        bind "Ctrl d" { HalfPageScrollDown; }
-        bind "Ctrl u" { HalfPageScrollUp; }
-        bind "e" { EditScrollback; SwitchToMode "Locked"; }
-        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
-        bind "Enter" { SwitchToMode "Locked"; }
-    }
-    search {
-        bind "Ctrl d" { HalfPageScrollDown; }
-        bind "Ctrl u" { HalfPageScrollUp; }
-        bind "n" { Search "down"; }
-        bind "N" { Search "up"; }
-        bind "c" { SearchToggleOption "CaseSensitivity"; }
-        bind "w" { SearchToggleOption "Wrap"; }
-        bind "o" { SearchToggleOption "WholeWord"; }
-        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
-    }
-    entersearch {
-        bind "Enter" { SwitchToMode "Search"; }
-    }
-    shared_except "tmux" {
-        bind "Ctrl a" { SwitchToMode "Tmux"; }
-    }
-    shared_except "locked" {
-        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Locked"; }
     }
 }
 
@@ -198,7 +170,7 @@ default_mode "locked"
 //   - true (default)
 //   - false
 //
-mouse_mode true
+// mouse_mode true
 
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back
