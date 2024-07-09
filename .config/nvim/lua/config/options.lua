@@ -2,5 +2,6 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
--- Set ttimeoutlen (similar to timeoutlen, specifically for key sequences starting with special keys)
+-- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
+vim.o.timeoutlen = 0
 vim.o.ttimeoutlen = 0
