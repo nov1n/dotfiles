@@ -5,6 +5,7 @@ local watcher = hs.caffeinate.watcher
 local M = {}
 
 local function executeAndLog(scriptPath)
+  -- True here runs the script in a login shell
   local output, _, _, _ = hs.execute(scriptPath, true)
   log.i("\n" .. output)
 end

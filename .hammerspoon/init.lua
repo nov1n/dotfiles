@@ -17,8 +17,10 @@ bind(hyper, "`", hs.reload)
 
 -- Sleep configs
 caff:start(true)
-bind({}, "f13", hs.execute("pmset sleepnow"))
 sleepWatcher:start()
+-- Mac immideately wakes after going to sleep when set here.
+-- I set this keybinding in Raycast instead.
+-- bind({}, "f13", hs.caffeinate.systemSleep)
 
 -- Window Management
 hs.window.animationDuration = 0
