@@ -2,26 +2,26 @@
 hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("AppLauncher")
 hs.loadSpoon("Caffeine")
+hs.loadSpoon("SleepWatcher")
 
 -- Aliases
-local bind = hs.hotkey.bind
 local hyper = { "cmd", "ctrl", "alt", "shift" }
+local bind = hs.hotkey.bind
 local winman = spoon.MiroWindowsManager
 local appman = spoon.AppLauncher
 local caff = spoon.Caffeine
-
--- Global settings
-hs.window.animationDuration = 0
+local sleepWatcher = spoon.SleepWatcher
 
 -- Reload Hammerspoon config
 bind(hyper, "`", hs.reload)
-bind({}, "f13", hs.caffeinate.systemSleep)
 
--- Enable caffeine
-caff:start()
-caff:setState(true)
+-- Sleep configs
+caff:start(true)
+bind({}, "f13", hs.caffeinate.systemSleep)
+sleepWatcher:start()
 
 -- Window Management
+hs.window.animationDuration = 0
 winman.padding = 0.07
 winman.modifiers = hyper
 winman:bindHotkeys({
@@ -29,12 +29,12 @@ winman:bindHotkeys({
   right = "l",
   down = "j",
   left = "h",
-  center = "\\",
-  fullscreen = "return",
   nextscreen = "n",
+  fullscreen = "return",
+  allmax = "'",
+  center = "\\",
   allcenter = "]",
-  allmax = "[",
-  split2 = "'",
+  split2 = ";",
   switch = "z",
 })
 
@@ -45,7 +45,7 @@ appman:bindHotkeys({
   c = "Calendar",
   d = function() hs.execute('open "devutils://auto?clipboard"') end,
   f = "Firefox",
-  g = "Google Chrome",
+  g = "Firefox Developer Edition",
   m = "Proton Mail",
   o = "Obsidian",
   p = "Spotify",
@@ -57,6 +57,5 @@ appman:bindHotkeys({
   y = "Freetube",
 })
 
--- Display a message to indicate the configuration has been loaded
-hs.alert.defaultStyle.atScreenEdge = 1 -- bottom edge
-hs.alert.show("Hammerspoon config reloaded!")
+-- Config reload notification
+hs.notify.new({ title = "Hammerspoon", informativeText = "Config reloaded" }):send()

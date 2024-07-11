@@ -180,54 +180,32 @@ function obj:_fullDimension(dim)
   end
 end
 
-function obj:_splitVertically(app1Name, app2Name)
-  local app1 = hs.appfinder.appFromName(app1Name)
-  local app2 = hs.appfinder.appFromName(app2Name)
-
-  if not app1 or not app2 then
+function obj:_splitVertically(window1, window2)
+  if not window1 or not window2 then
     hs.notify
       .new({
         title = "Hammerspoon",
-        informativeText = "Make sure both " .. app1Name .. " and " .. app2Name .. " are running.",
+        informativeText = "Could not find main windows for " .. window1 .. " and " .. window2 .. ".",
       })
       :send()
     return
   end
 
-  -- Function to move and resize windows
-  local function moveWindows()
-    local app1Window = app1:mainWindow()
-    local app2Window = app2:mainWindow()
+  -- Get screen dimensions
+  local screen = hs.screen.mainScreen()
+  local screenFrame = screen:frame()
 
-    if not app1Window or not app2Window then
-      hs.notify
-        .new({
-          title = "Hammerspoon",
-          informativeText = "Could not find main windows for " .. app1Name .. " and " .. app2Name .. ".",
-        })
-        :send()
-      return
-    end
+  local leftFrame = hs.geometry.rect(screenFrame.x, screenFrame.y, screenFrame.w / 2, screenFrame.h)
+  local rightFrame =
+    hs.geometry.rect(screenFrame.x + screenFrame.w / 2, screenFrame.y, screenFrame.w / 2, screenFrame.h)
 
-    -- Get screen dimensions
-    local screen = hs.screen.mainScreen()
-    local screenFrame = screen:frame()
+  -- Move and resize app1 window to the left half of the screen
+  window1:setFrame(leftFrame)
+  window1:raise()
 
-    local leftFrame = hs.geometry.rect(screenFrame.x, screenFrame.y, screenFrame.w / 2, screenFrame.h)
-    local rightFrame =
-      hs.geometry.rect(screenFrame.x + screenFrame.w / 2, screenFrame.y, screenFrame.w / 2, screenFrame.h)
-
-    -- Move and resize app1 window to the left half of the screen
-    app1Window:setFrame(leftFrame)
-    app1Window:raise()
-
-    -- Move and resize app2 window to the right half of the screen
-    app2Window:setFrame(rightFrame)
-    app2Window:raise()
-  end
-
-  -- Set window frames and positions directly
-  moveWindows()
+  -- Move and resize app2 window to the right half of the screen
+  window2:setFrame(rightFrame)
+  window2:raise()
 end
 
 --- MiroWindowsManager:bindHotkeys()
@@ -316,15 +294,13 @@ function obj:bindHotkeys(mapping)
 
   hs.hotkey.bind(self.modifiers, mapping.nextscreen, function() self:_moveNextScreenStep() end)
 
-  hs.hotkey.bind(self.modifiers, mapping.allmax, function()
+  hs.hotkey.bind(self.modifiers, mapping.allcenter, function()
     self:_applyToAllWindows(function(win) self:_center(win) end)
   end)
 
-  hs.hotkey.bind(self.modifiers, mapping.allcenter, function()
+  hs.hotkey.bind(self.modifiers, mapping.allmax, function()
     self:_applyToAllWindows(function(win) self:_nextFullScreenStep(win) end)
   end)
-
-  hs.hotkey.bind(self.modifiers, mapping.split2, function() self:_splitVertically("Alacritty", "Firefox") end)
 
   -- Track the last two focused windows
   local lastWindow = nil
@@ -340,6 +316,9 @@ function obj:bindHotkeys(mapping)
     lastWindow = currentWindow
     currentWindow = window
   end)
+
+  -- Bind key to split the last 2 windows
+  hs.hotkey.bind(self.modifiers, mapping.split2, function() self:_splitVertically(lastWindow, currentWindow) end)
 
   -- Bind a hotkey to switch to the last window
   hs.hotkey.bind(self.modifiers, mapping.switch, switchToLastWindow)
