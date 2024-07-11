@@ -17,7 +17,7 @@ bind(hyper, "`", hs.reload)
 
 -- Sleep configs
 caff:start(true)
-bind({}, "f13", hs.caffeinate.systemSleep)
+bind({}, "f13", hs.execute("pmset sleepnow"))
 sleepWatcher:start()
 
 -- Window Management
