@@ -1,6 +1,8 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds clear-defaults=true {
     locked {
+        bind "Alt d" { HalfPageScrollDown; }
+        bind "Alt u" { HalfPageScrollUp; }
         bind "Alt e" { EditScrollback; SwitchToMode "Locked"; }
         bind "Alt ," { NewPane "Down"; }
         bind "Alt ." { NewPane "Right"; }
@@ -13,7 +15,7 @@ keybinds clear-defaults=true {
         bind "Alt j" { MoveFocus "Down"; }
         bind "Alt k" { MoveFocus "Up"; }
         bind "Alt o" { MovePane; }
-        bind "Alt d" { Detach; }
+        bind "Alt q" { Detach; }
         bind "Alt y" { NextSwapLayout; }
         bind "Alt x" { CloseFocus; }
         bind "Alt =" { Resize "Increase"; }
