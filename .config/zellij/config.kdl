@@ -35,9 +35,6 @@ plugins {
     strider location="zellij:strider"
     compact-bar location="zellij:compact-bar"
     session-manager location="zellij:session-manager"
-    welcome-screen location="zellij:session-manager" {
-        welcome_screen true
-    }
     filepicker location="zellij:strider" {
         cwd "/Users/carosi/"
     }
@@ -235,4 +232,3 @@ scroll_buffer_size 50000
 // Default: false
 //
 // disable_session_metadata true
-
