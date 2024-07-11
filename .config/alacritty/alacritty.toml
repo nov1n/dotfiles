@@ -5,7 +5,7 @@ import = ["~/.config/alacritty/themes/tokyo-night.toml"]
 [window]
 decorations = "None"
 dynamic_padding = true
-startup_mode = "Maximized"
+#startup_mode = "Maximized"
 option_as_alt = "OnlyLeft"
 
 [window.padding]
