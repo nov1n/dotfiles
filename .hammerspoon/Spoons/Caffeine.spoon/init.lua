@@ -87,12 +87,13 @@ end
 ---
 --- Returns:
 ---  * The Caffeine object
-function obj:start()
+function obj:start(state)
   if self.menuBarItem then self:stop() end
   self.menuBarItem = hs.menubar.new()
   self.menuBarItem:setClickCallback(self.clicked)
   if self.hotkeyToggle then self.hotkeyToggle:enable() end
   self.setDisplay(hs.caffeinate.get("displayIdle"))
+  self.setState(state)
 
   return self
 end

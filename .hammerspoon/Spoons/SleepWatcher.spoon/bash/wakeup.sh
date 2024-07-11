@@ -2,7 +2,7 @@
 
 . "$(dirname "$0")/helpers.sh"
 
-echo "[$(date)] -- WAKE --"
+echo "-- WAKE --"
 
 exit_if_not_at_desk
 
