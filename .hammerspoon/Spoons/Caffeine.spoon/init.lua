@@ -92,8 +92,8 @@ function obj:start(state)
   self.menuBarItem = hs.menubar.new()
   self.menuBarItem:setClickCallback(self.clicked)
   if self.hotkeyToggle then self.hotkeyToggle:enable() end
+  self:setState(state)
   self.setDisplay(hs.caffeinate.get("displayIdle"))
-  self.setState(state)
 
   return self
 end
