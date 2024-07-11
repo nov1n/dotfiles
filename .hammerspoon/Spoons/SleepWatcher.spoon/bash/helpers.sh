@@ -1,7 +1,3 @@
-export HOME="/Users/carosi"
-export PATH="/usr/sbin:/opt/homebrew/bin:/opt/homebrew/bin:${HOME}/.local/bin:$PATH"
-source "$HOME/.localrc"
-
 retry() {
   local red='\033[0;31m'
   local clear='\033[0m'
@@ -23,23 +19,21 @@ retry() {
   return 0
 }
 
-connected_to_home_network() {
-  echo 'Checking if connected to home network...'
+is_on_home_network() {
   curl -s http://portainer.carosi.nl >/dev/null
 }
 
 exit_if_not_at_desk() {
-  # Get the display information
   display_info=$(system_profiler SPDisplaysDataType)
-
-  # Check if there's any external display connected
   internal_display_count=$(echo "$display_info" | grep -c "Built-in Liquid Retina XDR Display")
   total_display_count=$(echo "$display_info" | grep -c "Resolution:")
-  echo "Total displays: ${total_display_count}, Built-in displays: ${internal_display_count}"
-
-  # Check if internal display is the only display and if connected to home network
-  if [ "$total_display_count" -eq 1 ] && [ "$internal_display_count" -eq 1 ] || ! connected_to_home_network; then
-    echo "Only internal display connected or not connected to home network. Exiting."
+  if [[ "$total_display_count" -eq 1 && "$internal_display_count" -eq 1 ]]; then
+    echo "Only internal display connected"
     exit 1
+  elif ! is_on_home_network; then
+    echo "Not on home network"
+    exit 1
+  else
+    echo "At my desk"
   fi
 }
