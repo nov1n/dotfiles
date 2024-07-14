@@ -1,27 +1,83 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
 keybinds clear-defaults=true {
     locked {
-        bind "Alt d" { HalfPageScrollDown; }
-        bind "Alt u" { HalfPageScrollUp; }
-        bind "Alt e" { EditScrollback; SwitchToMode "Locked"; }
-        bind "Alt ," { NewPane "Down"; }
-        bind "Alt ." { NewPane "Right"; }
-        bind "Alt z" { ToggleFocusFullscreen; }
+        // Tabs
         bind "Alt c" { NewTab; }
-        bind "Alt p" { GoToPreviousTab; }
-        bind "Alt n" { GoToNextTab; }
-        bind "Alt h" { MoveFocus "Left"; }
-        bind "Alt l" { MoveFocus "Right"; }
-        bind "Alt j" { MoveFocus "Down"; }
-        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt h" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus_or_tab";
+                payload "left";
+                move_mod "alt";
+            };
+        }
+        bind "Alt H" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "resize";
+                payload "left";
+                resize_mod "ctrl";
+            };
+        }
+
+        bind "Alt j" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus_or_tab";
+                payload "down";
+                move_mod "alt";
+            };
+        }
+        bind "Alt J" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "resize";
+                payload "down";
+                resize_mod "ctrl";
+            };
+        }
+
+        bind "Alt k" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus_or_tab";
+                payload "up";
+                move_mod "alt";
+            };
+        }
+        bind "Alt K" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "resize";
+                payload "up";
+                resize_mod "ctrl";
+            };
+        }
+
+        bind "Alt l" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "move_focus_or_tab";
+                payload "right";
+                move_mod "alt";
+            };
+        }
+        bind "Alt L" {
+            MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
+                name "resize";
+                payload "right";
+                resize_mod "ctrl";
+            };
+        }
+
+
         bind "Alt o" { MovePane; }
-        bind "Alt q" { Detach; }
         bind "Alt y" { NextSwapLayout; }
         bind "Alt x" { CloseFocus; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
-        bind "Alt m" { ToggleMouseMode; }
         bind "Alt t" { ToggleFloatingPanes; }
+        bind "Alt -" { NewPane "Down"; }
+        bind "Alt |" { NewPane "Right"; }
+        bind "Alt z" { ToggleFocusFullscreen; }
+        // Scroll
+        bind "Alt d" { HalfPageScrollDown; }
+        bind "Alt u" { HalfPageScrollUp; }
+        bind "Alt e" { EditScrollback; }
+        // Session
+        bind "Alt q" { Detach; }
+        bind "Alt m" { ToggleMouseMode; }
         bind "Alt w" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
@@ -104,20 +160,6 @@ scrollback_lines_to_serialize 10000
 // Once these themes are defined, one of them should to be selected in the "theme" section of this file
 //
 themes {
-    dracula {
-        fg 248 248 242
-        bg 40 42 54
-        red 255 85 85
-        green 80 250 123
-        yellow 241 250 140
-        blue 98 114 164
-        magenta 255 121 198
-        orange 255 184 108
-        cyan 139 233 253
-        black 0 0 0
-        white 255 255 255
-    }
-
     tokyo-night {
         fg 169 177 214
         bg 26 27 38
@@ -131,7 +173,6 @@ themes {
         white 192 202 245
         orange 255 158 100
     }
-
     tokyo-night-dark {
         fg 169 177 214
         bg 26 27 38
