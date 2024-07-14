@@ -9,6 +9,7 @@ return {
       "lua",
       "markdown",
       "markdown_inline",
+      "terraform",
       "python",
       "query",
       "regex",
