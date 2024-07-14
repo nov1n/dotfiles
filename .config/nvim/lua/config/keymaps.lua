@@ -7,6 +7,15 @@ map("n", "<Leader>uz", "<cmd>ZenMode<CR>", { desc = "Enter ZenMode", silent = tr
 map("n", "<leader>bn", ":enew<CR>", { desc = "Create new buffer", noremap = true, silent = true })
 map("n", "<leader>.", "<cmd>Telescope find_files<CR>", { noremap = true, silent = true, desc = "Find project files" })
 map("n", "<leader>/", "<cmd>Telescope live_grep<CR>", { noremap = true, silent = true, desc = "Grep in project files" })
+map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
--- Temporary
-map("n", "<leader>k", "<cmd>g/I AM NOT DONE/d | w | nohl<CR>", { noremap = true, silent = true })
+-- These are triggered by hiasr/vim-zellij-navigator
+map("n", "<A-h>", "<CMD>NavigatorLeft<CR>")
+map("n", "<A-j>", "<CMD>NavigatorDown<CR>")
+map("n", "<A-k>", "<CMD>NavigatorUp<CR>")
+map("n", "<A-l>", "<CMD>NavigatorRight<CR>")
+map("n", "<C-h>", "<CMD>vertical resize +2<CR>")
+map("n", "<C-j>", "<CMD>resize +2<CR>")
+map("n", "<C-k>", "<CMD>resize -2<CR>")
+map("n", "<C-l>", "<CMD>vertical resize -2<CR>")
