@@ -7,8 +7,9 @@ alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 
 alias ll="lsd -l"
-alias tree="ls -l --tree --depth=3"
+alias tree="lsd -l --tree --depth=3"
 alias cat="bat"
+alias grep="rg"
 alias cd="z"
 
 # Nudges
