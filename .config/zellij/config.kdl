@@ -5,7 +5,7 @@ keybinds clear-defaults=true {
         bind "Alt c" { NewTab; }
         bind "Alt h" {
             MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "left";
                 move_mod "alt";
             };
@@ -20,7 +20,7 @@ keybinds clear-defaults=true {
 
         bind "Alt j" {
             MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "down";
                 move_mod "alt";
             };
@@ -35,7 +35,7 @@ keybinds clear-defaults=true {
 
         bind "Alt k" {
             MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "up";
                 move_mod "alt";
             };
@@ -50,7 +50,7 @@ keybinds clear-defaults=true {
 
         bind "Alt l" {
             MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.2.1/vim-zellij-navigator.wasm" {
-                name "move_focus_or_tab";
+                name "move_focus";
                 payload "right";
                 move_mod "alt";
             };
@@ -64,6 +64,8 @@ keybinds clear-defaults=true {
         }
 
 
+        bind "Alt n" { GoToNextTab; }
+        bind "Alt p" { GoToPreviousTab; }
         bind "Alt o" { MovePane; }
         bind "Alt y" { NextSwapLayout; }
         bind "Alt x" { CloseFocus; }
