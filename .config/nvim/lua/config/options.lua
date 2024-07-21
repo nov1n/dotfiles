@@ -5,3 +5,9 @@
 -- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
 -- vim.o.timeoutlen = 0
 vim.o.ttimeoutlen = 0
+
+-- Enable line wrapping
+vim.opt.wrap = true
+
+-- Break lines at word boundaries
+vim.opt.linebreak = true
