@@ -11,10 +11,6 @@ map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
 -- These are triggered by hiasr/vim-zellij-navigator
-map("n", "<A-h>", "<CMD>NavigatorLeft<CR>")
-map("n", "<A-j>", "<CMD>NavigatorDown<CR>")
-map("n", "<A-k>", "<CMD>NavigatorUp<CR>")
-map("n", "<A-l>", "<CMD>NavigatorRight<CR>")
 map("n", "<C-h>", "<CMD>vertical resize +2<CR>")
 map("n", "<C-j>", "<CMD>resize +2<CR>")
 map("n", "<C-k>", "<CMD>resize -2<CR>")
