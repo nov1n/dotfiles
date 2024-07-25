@@ -3,6 +3,7 @@ local file_ignore_patterns = {
   "%.class",
   "%.lock",
   "%.lock.json",
+  "%.wasm",
   -- Directories
   ".cache",
   ".git/",
