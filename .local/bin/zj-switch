@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+select_project() {
+  personal="$(find "$PROJECTS/personal" -mindepth 2 -maxdepth 2 -type d)"
+  work="$(find "$PROJECTS/work" -mindepth 1 -maxdepth 1 -type d)"
+  projects=$(printf "%s\n%s\n%s" "$DOTFILES_HOME" "$personal" "$work")
+  project_dir=$({
+    zellij list-sessions -s | awk '{ print "\033[34m\033[39m "$1 }'
+    echo "$projects" | awk '{ print "\033[36m\033[39m "$1 }'
+  } | fzf --prompt '   ❯ ')
+  if [ -z "$project_dir" ]; then
+    exit
+  fi
+  echo "$project_dir"
+}
+
+to_session_name() {
+  project_dir=$1
+  directory=$(basename "$project_dir")
+  session_name=$(echo "$directory" | tr ' .:' '-')
+  echo "$session_name"
+}
+
+entry=$(select_project)
+
+if [ -z "$entry" ]; then
+  echo "No entry selected" >&2
+  exit 1
+fi
+
+cwd=$(echo "$entry" | awk '{print $2}')
+session_name=$(to_session_name "$cwd")
+
+if [[ -n "$ZELLIJ" ]]; then
+  # We're inside of zellij
+  if [[ "$ZELLIJ_SESSION_NAME" == "$session_name" ]]; then
+    echo "Already in session '$session_name'!"
+    exit 0
+  fi
+  zellij pipe --plugin file:~/.config/zellij/plugins/zellij-switch.wasm -- "$session_name::$cwd"
+else
+  if zellij list-sessions | grep "$session_name"; then
+    # Session exists
+    zellij attach "$session_name" -f -c
+  else
+    # Session does not exist, so create it
+    zellij attach "$session_name" -c options --default-cwd "$cwd"
+  fi
+fi

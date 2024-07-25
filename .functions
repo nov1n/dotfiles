@@ -107,11 +107,6 @@ function extract() {
   fi
 }
 
-# Zellij fuzzy project-switcher
-zel() {
-  zellij attach "$(zellij list-sessions | awk '{print $1}' | fzf)"
-}
-
 cdtemp() {
   cd "$(mktemp -d)" || exit
 }
