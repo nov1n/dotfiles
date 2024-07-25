@@ -37,6 +37,13 @@ bindkey '^Y' autosuggest-accept
 # Make vi-mode's backspace behave as expected
 bindkey "^?" backward-delete-char
 bindkey "^H" backward-delete-char
+# Yank to system clipboard
+function vi-yank-xclip {
+  zle vi-yank
+  echo "$CUTBUFFER" | pbcopy -i
+}
+zle -N vi-yank-xclip
+bindkey -M vicmd 'y' vi-yank-xclip
 
 # Load tools
 eval $(thefuck --alias) 
