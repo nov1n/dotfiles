@@ -12,6 +12,10 @@ option_as_alt = "OnlyLeft"
 #x = 20
 #y = 20
 
+[shell]
+program = "zsh"
+args = ["-ci", "zj-switch"]
+
 [env]
 TERM = "xterm-256color"
 
@@ -41,5 +45,10 @@ action = "None"
 
 [[keyboard.bindings]]
 key = "W"
+mods = "Command"
+action = "None"
+
+[[keyboard.bindings]]
+key = "N"
 mods = "Command"
 action = "None"
