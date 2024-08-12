@@ -1,0 +1,17 @@
+customCommands:
+  - key: "c"
+    context: "files"
+    prompts:
+      - type: "input"
+        title: "Add Commit Message"
+        key: "Message"
+
+    command: |
+      branch=$(git rev-parse --abbrev-ref HEAD)
+      prefix=""
+      if [[ "$branch" == */* ]]; then
+        prefix="$(echo "$branch" | sed 's/.*\///') "
+      fi
+      git commit -m "${prefix}{{.Form.Message}}"
+    subprocess: true
+    description: "Commit message with optional ticket number"
