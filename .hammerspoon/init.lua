@@ -53,7 +53,7 @@ appman:bindHotkeys({
   p = "Spotify",
   r = "Reminders",
   s = "Slack",
-  t = "Alacritty",
+  t = "WezTerm",
   u = "ChatGPT",
   w = "WhatsApp",
   y = "Freetube",
