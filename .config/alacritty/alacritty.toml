@@ -20,7 +20,7 @@ args = ["-ci", "zj-switch"]
 TERM = "xterm-256color"
 
 [font]
-size = 18.0
+size = 17.0
 
 [font.bold]
 family = "MonaspiceNe Nerd Font Mono"
