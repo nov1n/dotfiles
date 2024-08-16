@@ -4,7 +4,7 @@ retry() {
   local retries=5
   local count=0
 
-  until timeout 5 $@; do
+  until timeout 5 "$@"; do
     exit=$?
     wait=2
     count=$(($count + 1))
