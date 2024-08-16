@@ -1,17 +1,39 @@
 #!/usr/bin/env bash
 
-select_project() {
-  personal="$(find "$PROJECTS/personal" -mindepth 2 -maxdepth 2 -type d)"
-  work="$(find "$PROJECTS/work" -mindepth 1 -maxdepth 1 -type d)"
-  projects=$(printf "%s\n%s\n%s" "$DOTFILES_HOME" "$personal" "$work")
-  project_dir=$({
-    zellij list-sessions -s | awk '{ print "\033[34m\033[39m "$1 }'
-    echo "$projects" | awk '{ print "\033[36m\033[39m "$1 }'
-  } | fzf --prompt '   ❯ ')
-  if [ -z "$project_dir" ]; then
-    exit
+show_prompt() {
+  mapfile -t personal < <(find "$PROJECTS/personal" -mindepth 2 -maxdepth 2 -type d)
+  mapfile -t work < <(find "$PROJECTS/work" -mindepth 1 -maxdepth 1 -type d)
+  mapfile -t sessions < <(zellij list-sessions -s)
+
+  declare -A session_set
+  for session in "${sessions[@]}"; do
+    session_set["$session"]=1
+  done
+
+  entries=()
+  for session in "${sessions[@]}"; do
+    entries+=($'\033[34m\033[39m '"$session")
+  done
+  for dir in "$NOTES_HOME" "$DOTFILES_HOME" "${personal[@]}" "${work[@]}"; do
+    dir_name=$(basename "$dir")
+    # Filter out dirs for which a session already exists
+    if [[ -z ${session_set["$dir_name"]} ]]; then
+      entries+=($'\033[36m\033[39m '"$dir")
+    fi
+  done
+
+  entries_str=$(printf "%s\n" "${entries[@]}")
+  if [ -n "$ZELLIJ" ]; then
+    entry=$(echo "$entries_str" | fzf --prompt "  ❯ ")
+  else
+    entry=$(echo "$entries_str" | fzf --prompt "  ❯ " --border=sharp --margin=20,75)
   fi
-  echo "$project_dir"
+
+  if [ -z "$entry" ]; then
+    exit 1
+  fi
+
+  echo "$entry"
 }
 
 to_session_name() {
@@ -21,13 +43,7 @@ to_session_name() {
   echo "$session_name"
 }
 
-entry=$(select_project)
-
-if [ -z "$entry" ]; then
-  echo "No entry selected" >&2
-  exit 1
-fi
-
+entry=$(show_prompt)
 cwd=$(echo "$entry" | awk '{print $2}')
 session_name=$(to_session_name "$cwd")
 
