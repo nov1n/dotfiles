@@ -9,8 +9,8 @@ themes {
         black 56 62 90
         red 249 51 87
         // green 158 206 106
-        // Remap green to white for nice window borders
-        green 192 202 245
+        // Remap green to blue for nice window borders
+        green 122 162 247
         yellow 224 175 104
         blue 122 162 247
         magenta 187 154 247
