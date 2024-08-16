@@ -1,1 +1,0 @@
-{"title":"Change Right CMD to Left CMD + Left Option + Left Control","rules":[{"description":"Change Right CMD to Left CMD + Left Option + Left Control","manipulators":[{"type":"basic","from":{"key_code":"right_command","modifiers":{"optional":["any"]}},"to":[{"key_code":"left_command","modifiers":["left_option","left_control"]}]}]}]}
