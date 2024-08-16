@@ -6,9 +6,7 @@ echo "-- WAKE --"
 
 exit_if_not_at_desk
 
-echo "Turning on DAC and lights..."
+echo "Turning on DAC, speakers, and lights..."
 retry hass-cli service call light.turn_on --arguments entity_id=light.desk_switch
 retry hass-cli service call light.turn_on --arguments entity_id=light.monitor_led_strip
-
-echo "Turning on KEF LSX..."
-retry kefctl --input optical
+retry hass-cli service call switch.turn_on --arguments entity_id=switch.desk_speakers
