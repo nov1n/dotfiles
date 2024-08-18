@@ -10,8 +10,13 @@ map("n", "<leader>/", "<cmd>Telescope live_grep<CR>", { noremap = true, silent =
 map("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 map("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
--- These are triggered by hiasr/vim-zellij-navigator
-map("n", "<C-h>", "<CMD>vertical resize +2<CR>")
-map("n", "<C-j>", "<CMD>resize +2<CR>")
-map("n", "<C-k>", "<CMD>resize -2<CR>")
-map("n", "<C-l>", "<CMD>vertical resize -2<CR>")
+vim.keymap.set("n", "<A-H>", require("smart-splits").resize_left)
+vim.keymap.set("n", "<A-J>", require("smart-splits").resize_down)
+vim.keymap.set("n", "<A-K>", require("smart-splits").resize_up)
+vim.keymap.set("n", "<A-L>", require("smart-splits").resize_right)
+
+vim.keymap.set("n", "<A-h>", require("smart-splits").move_cursor_left)
+vim.keymap.set("n", "<A-j>", require("smart-splits").move_cursor_down)
+vim.keymap.set("n", "<A-k>", require("smart-splits").move_cursor_up)
+vim.keymap.set("n", "<A-l>", require("smart-splits").move_cursor_right)
+vim.keymap.set("n", "<A-\\>", require("smart-splits").move_cursor_previous)
