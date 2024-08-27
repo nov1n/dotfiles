@@ -3,17 +3,21 @@ local wezterm = require("wezterm")
 local M = {}
 
 local project_roots = {
-	wezterm.home_dir .. "/Projects/personal",
-	wezterm.home_dir .. "/Projects/picnic",
+	personal = wezterm.home_dir .. "/Projects/personal",
+	picnic = wezterm.home_dir .. "/Projects/picnic",
 }
 
 local function project_dirs()
 	local projects = { wezterm.home_dir .. "/dotfiles" }
 
-	for _, project_root in ipairs(project_roots) do
-		for _, dir in ipairs(wezterm.glob(project_root .. "/*")) do
-			table.insert(projects, dir)
-		end
+	for _, dir in ipairs(wezterm.glob(project_roots.personal .. "/*/*")) do
+		table.insert(projects, dir)
+	end
+
+	table.insert(projects, "")
+
+	for _, dir in ipairs(wezterm.glob(project_roots.picnic .. "/*")) do
+		table.insert(projects, dir)
 	end
 
 	return projects
