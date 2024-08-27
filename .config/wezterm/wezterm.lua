@@ -10,6 +10,7 @@ local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smar
 
 -- Config
 local config = wezterm.config_builder()
+config.disable_default_key_bindings = true
 
 -- System
 smart_splits.apply_to_config(config, {})
@@ -17,6 +18,12 @@ config.automatically_reload_config = true
 config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
+config.unix_domains = {
+	{
+		name = "unix",
+	},
+}
+config.default_gui_startup_args = { "connect", "unix" }
 
 -- Appearance
 --config.enable_tab_bar = false
@@ -35,16 +42,39 @@ config.window_padding = {
 }
 
 -- Keymap
-local leader = "OPT"
+local leader = "ALT"
 config.keys = {
-	{ key = "v", mods = leader, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "s", mods = leader, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "c", mods = leader, action = act.SpawnTab("CurrentPaneDomain") },
-	{ key = "x", mods = leader, action = act.CloseCurrentPane({ confirm = false }) },
-	{ key = "n", mods = leader, action = act.ActivateTabRelative(-1) },
-	{ key = "p", mods = leader, action = act.ActivateTabRelative(1) },
-	{ key = "w", mods = leader, action = projects.choose_project() },
-	{ key = "f", mods = leader, action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	-- System
+	{ key = "d", mods = leader, action = wezterm.action.ShowDebugOverlay },
+
+	-- Tabs
+	{ key = "t", mods = leader, action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "1", mods = leader, action = act.ActivateTab(0) },
+	{ key = "2", mods = leader, action = act.ActivateTab(1) },
+	{ key = "3", mods = leader, action = act.ActivateTab(2) },
+	{ key = "4", mods = leader, action = act.ActivateTab(3) },
+	{ key = "5", mods = leader, action = act.ActivateTab(4) },
+	{ key = "[", mods = leader, action = act.ActivateTabRelative(-1) },
+	{ key = "]", mods = leader, action = act.ActivateTabRelative(1) },
+
+	-- Panes
+	{ key = "w", mods = leader, action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "n", mods = leader, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "m", mods = leader, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "z", mods = leader, action = act.TogglePaneZoomState },
+
+	-- Copy, paste, search
+	{ key = "c", mods = leader, action = act.CopyTo("Clipboard") },
+	{ key = "v", mods = leader, action = act.PasteFrom("Clipboard") },
+	{ key = "f", mods = leader, action = act.Search({ CaseSensitiveString = "" }) },
+
+	-- Font size
+	{ key = "-", mods = leader, action = act.DecreaseFontSize },
+	{ key = "=", mods = leader, action = act.IncreaseFontSize },
+	{ key = "0", mods = leader, action = act.ResetFontSize },
+
+	-- Project Switcher
+	{ key = "p", mods = leader, action = projects.choose_project() },
 }
 smart_splits.apply_to_config(config, {
 	direction_keys = { "h", "j", "k", "l" },
