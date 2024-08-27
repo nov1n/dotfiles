@@ -50,10 +50,6 @@ eval $(thefuck --alias)
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
-# Set zellij tab name to pwd
-zellij_tab_name_update
-chpwd_functions+=(zellij_tab_name_update)
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
