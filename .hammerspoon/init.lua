@@ -45,7 +45,7 @@ appman.modifiers = hyper
 appman:bindHotkeys({
   a = "Finder",
   c = "Calendar",
-  d = function() hs.execute('open "devutils://auto?clipboard"') end,
+  x = function() hs.execute('open "devutils://auto?clipboard"') end,
   f = "Firefox",
   g = "Firefox Developer Edition",
   m = "Proton Mail",
@@ -54,7 +54,7 @@ appman:bindHotkeys({
   r = "Reminders",
   s = "Slack",
   t = "WezTerm",
-  u = "ChatGPT",
+  u = "Jan",
   w = "WhatsApp",
   y = "Freetube",
 })
