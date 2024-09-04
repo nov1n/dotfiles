@@ -55,7 +55,6 @@ appman:bindHotkeys({
   s = "Slack",
   t = "WezTerm",
   u = "Jan",
-  w = "WhatsApp",
   y = "Freetube",
 })
 
