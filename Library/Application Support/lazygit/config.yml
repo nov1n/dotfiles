@@ -12,3 +12,8 @@ customCommands:
       git commit -m "${prefix}{{.Form.Message}}"
     subprocess: true
     description: "Commit message with optional ticket number"
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
