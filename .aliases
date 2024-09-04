@@ -5,6 +5,7 @@ alias g="git"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=$DOTFILES_HOME/script/Brewfile"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
+alias journal="vim $PROJECTS/personal/markdown/notes/journal/$(date -u +'%Y-%m-%d').md"
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
