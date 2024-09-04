@@ -10,6 +10,7 @@ wezterm.on("update-right-status", function(window, pane)
 	local cwd_uri = pane:get_current_working_dir()
 	if cwd_uri then
 		local cwd = cwd_uri.file_path
+		local workspace = window:active_workspace()
 		local hostname = cwd_uri.host or wezterm.hostname()
 
 		-- Remove the domain name portion of the hostname
@@ -22,7 +23,7 @@ wezterm.on("update-right-status", function(window, pane)
 		end
 
 		table.insert(cells, cwd)
-		table.insert(cells, hostname)
+		table.insert(cells, workspace)
 	end
 
 	-- I like my date/time in this style: "Wed Mar 3 08:14"
