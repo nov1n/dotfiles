@@ -5,7 +5,7 @@ local file_ignore_patterns = {
   "%.lock.json",
   "%.wasm",
   -- Directories
-  ".cache",
+  ".cache/",
   ".git/",
   ".github/",
   ".node_modules/",
