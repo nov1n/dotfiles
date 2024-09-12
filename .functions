@@ -110,3 +110,13 @@ function extract() {
 cdtemp() {
   cd "$(mktemp -d)" || exit
 }
+
+journal_function() {
+  local filename="$PROJECTS/personal/markdown/notes/journal/$(date +"%Y-%m-%d").md"
+
+  if [[ ! -f "$filename" ]]; then
+    echo -e "# $(date +"%A, %B %d, %Y")" >"$filename"
+  fi
+
+  nvim "$filename" +'ZenMode' +'normal! 2o' +'startinsert'
+}
