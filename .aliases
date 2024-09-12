@@ -5,7 +5,7 @@ alias g="git"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=$DOTFILES_HOME/script/Brewfile"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
-alias journal="vim $PROJECTS/personal/markdown/notes/journal/$(date -u +'%Y-%m-%d').md"
+alias journal=journal_function
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
@@ -40,7 +40,7 @@ alias path='echo -e ${PATH//:/\\n}'
 # Docker
 alias dip="docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'"
 alias dips="docker ps -q | xargs -n 1 docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} {{ .Name }}' | sed 's/ \// /'"
-alias dc='docker-compose'
+alias dc='docker compose'
 
 # Java
 alias fast="mvn -T0.8C -Dstyle.color=always clean install -DskipTests -Dverification.skip"
