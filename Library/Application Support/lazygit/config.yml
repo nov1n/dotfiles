@@ -12,6 +12,11 @@ customCommands:
       git commit -m "${prefix}{{.Form.Message}}"
     subprocess: true
     description: "Commit message with optional ticket number"
+  - key: "b"
+    command: "git browse"
+    context: "files"
+    loadingText: "Opening repository in browser..."
+    description: "Open repository in browser"
 
 git:
   paging:
