@@ -44,10 +44,10 @@ winman:bindHotkeys({
 appman.modifiers = hyper
 appman:bindHotkeys({
   a = "Finder",
-  l = "Calendar",
+  q = "Calendar",
   x = function() hs.execute('open "devutils://auto?clipboard"') end,
   f = "Firefox",
-  g = "Firefox Developer Edition",
+  v = "Firefox Developer Edition",
   m = "Proton Mail",
   o = "Obsidian",
   p = "Spotify",
