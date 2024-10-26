@@ -66,6 +66,7 @@ config.keys = {
 	-- Copy, paste, search
 	{ key = "c", mods = leader, action = act.CopyTo("Clipboard") },
 	{ key = "v", mods = leader, action = act.PasteFrom("Clipboard") },
+	{ key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") }, -- For raycast clipboard compatibility
 	{ key = "f", mods = leader, action = act.Search({ CaseSensitiveString = "" }) },
 
 	-- Font size
