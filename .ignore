@@ -1,0 +1,11 @@
+# Files
+*.class
+*.lock
+*lock.json
+*.wasm
+
+# Directories
+.cache/
+.git/
+.github/
+node_modules/
