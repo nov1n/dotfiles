@@ -45,7 +45,7 @@ alias dc='docker compose'
 # Java
 alias fast="mvn -T0.8C -Dstyle.color=always clean install -DskipTests -Dverification.skip"
 alias verify="mvn -T0.8C -Dstyle.color=always clean install -DskipTests"
-alias slow="mvn -T0.8C clean install -Dmongodb.local=true -Drabbitmq.local=true"
+alias slow="mvn -T0.8C clean install"
 alias integration="mvn -T0.8C clean install -Pintegration-tests -Dmongodb.local=true -Drabbitmq.local=true"
 alias mvn="mvn -Dstyle.color=always"
 alias depgraph='mvn com.github.ferstl:depgraph-maven-plugin:aggregate -DcreateImage=true -Dincludes="tech.picnic.finance" && open target/dependency-graph.png'
