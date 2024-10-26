@@ -7,5 +7,12 @@ return {
         prompt_position = "top", -- search bar at the top
       },
     },
+    pickers = {
+      live_grep = {
+        additional_args = function(_)
+          return { "--hidden" }
+        end,
+      },
+    },
   },
 }
