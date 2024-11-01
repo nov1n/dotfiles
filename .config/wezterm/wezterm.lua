@@ -3,7 +3,8 @@ local act = wezterm.action
 
 -- Modules
 local projects = require("projects")
-local statusbar = require("statusbar")
+require("statusbar")
+require("handlers")
 
 -- Plugins
 local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
@@ -28,7 +29,7 @@ config.default_gui_startup_args = { "connect", "unix" }
 -- Appearance
 --config.enable_tab_bar = false
 config.use_fancy_tab_bar = false
-config.window_close_confirmation = "NeverPrompt"
+-- config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night"
 -- config.window_background_opacity = 0.1
@@ -54,6 +55,10 @@ config.keys = {
 	{ key = "3", mods = leader, action = act.ActivateTab(2) },
 	{ key = "4", mods = leader, action = act.ActivateTab(3) },
 	{ key = "5", mods = leader, action = act.ActivateTab(4) },
+	{ key = "6", mods = leader, action = act.ActivateTab(5) },
+	{ key = "7", mods = leader, action = act.ActivateTab(6) },
+	{ key = "8", mods = leader, action = act.ActivateTab(7) },
+	{ key = "9", mods = leader, action = act.ActivateTab(8) },
 	{ key = "[", mods = leader, action = act.ActivateTabRelative(-1) },
 	{ key = "]", mods = leader, action = act.ActivateTabRelative(1) },
 
