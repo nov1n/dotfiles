@@ -1,3 +1,4 @@
+# This file is globally respected by `fd` and `rg`.
 # Files
 *.class
 *.lock
