@@ -19,12 +19,12 @@ config.automatically_reload_config = true
 config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
-config.unix_domains = {
-	{
-		name = "unix",
-	},
-}
-config.default_gui_startup_args = { "connect", "unix" }
+-- config.unix_domains = {
+-- 	{
+-- 		name = "unix",
+-- 	},
+-- }
+-- config.default_gui_startup_args = { "connect", "unix" }
 
 -- Appearance
 --config.enable_tab_bar = false
