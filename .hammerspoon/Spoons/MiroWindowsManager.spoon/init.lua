@@ -70,10 +70,9 @@ function obj:_nextStep(dim, offs, cb)
     local oppDim = dim == "w" and "h" or "w"
     local oppAxis = dim == "w" and "y" or "x"
     local win = hs.window.frontmostWindow()
-    local id = win:id()
     local screen = win:screen()
 
-    cell = hs.grid.get(win, screen)
+    local cell = hs.grid.get(win, screen)
 
     local nextSize = self.sizes[1]
     for i = 1, #self.sizes do
@@ -124,7 +123,7 @@ end
 function obj:_nextFullScreenStep(win)
   local screen = win:screen()
 
-  cell = hs.grid.get(win, screen)
+  local cell = hs.grid.get(win, screen)
 
   local nextSize = self.fullScreenSizes[1]
   for i = 1, #self.fullScreenSizes do
@@ -167,7 +166,7 @@ function obj:_fullDimension(dim)
   if hs.window.focusedWindow() then
     local win = hs.window.frontmostWindow()
     local screen = win:screen()
-    cell = hs.grid.get(win, screen)
+    local cell = hs.grid.get(win, screen)
 
     if dim == "x" then
       cell = "0,0 " .. self.GRID.w .. "x" .. self.GRID.h

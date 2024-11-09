@@ -18,13 +18,10 @@ bind(hyper, "`", hs.reload)
 -- Sleep configs
 caff:start(true)
 sleepWatcher:start()
--- Mac immideately wakes after going to sleep when set here.
--- I set this keybinding in Raycast instead.
--- bind({}, "f13", hs.caffeinate.systemSleep)
 
 -- Window Management
 hs.window.animationDuration = 0
-winman.padding = 0.07
+winman.padding = 0.05
 winman.modifiers = hyper
 winman:bindHotkeys({
   up = "k",
@@ -54,9 +51,14 @@ appman:bindHotkeys({
   r = "Reminders",
   s = "Slack",
   t = "WezTerm",
-  u = "Claude",
+  u = "Jan",
   y = "Freetube",
 })
+
+-- StreamDeck
+local streamdeck = require("streamdeck.setup")
+local buttons = require("streamdeck.buttons")
+streamdeck.start(buttons)
 
 -- Config reload notification
 hs.notify.new({ title = "Hammerspoon", informativeText = "Config reloaded" }):send()
