@@ -51,7 +51,6 @@ appman:bindHotkeys({
   r = "Reminders",
   s = "Slack",
   t = "WezTerm",
-  u = "Jan",
   y = "Freetube",
 })
 
