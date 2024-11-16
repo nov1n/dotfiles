@@ -52,4 +52,8 @@ function M.materialIcon(name)
   end
 end
 
+function M.unknown() return M.fromText("❔") end
+
+function M.none() return M.fromText(" ") end
+
 return M

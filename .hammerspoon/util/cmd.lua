@@ -2,8 +2,6 @@ M = {}
 
 local log = hs.logger.new("CommandExecutor", "debug")
 
-M.LUNAR = "/usr/local/bin/lunar"
-
 function M.run(binary, args)
   local baseCmd = string.format("zsh -c 'source ~/.localrc && %s %s'", binary, args)
   local fullCmd = baseCmd .. " " .. args
@@ -20,6 +18,7 @@ function M.run(binary, args)
     return nil, "Command failed: " .. result
   end
 
+  log.d("Result: " .. result)
   return result
 end
 
