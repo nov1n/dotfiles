@@ -20,3 +20,11 @@ vim.api.nvim_create_autocmd("FocusLost", {
   pattern = "*",
   callback = close_on_shutdown,
 })
+
+-- Disable autoformat for kotlin files, because Picnic's style deviates from the default style.
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "kotlin" },
+  callback = function()
+    vim.b.autoformat = false
+  end,
+})
