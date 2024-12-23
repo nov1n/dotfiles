@@ -43,7 +43,7 @@ config.window_padding = {
 }
 
 -- Keymap
-local leader = "ALT"
+local leader = "CMD"
 config.keys = {
 	-- System
 	{ key = "d", mods = leader, action = wezterm.action.ShowDebugOverlay },
@@ -71,7 +71,6 @@ config.keys = {
 	-- Copy, paste, search
 	{ key = "c", mods = leader, action = act.CopyTo("Clipboard") },
 	{ key = "v", mods = leader, action = act.PasteFrom("Clipboard") },
-	{ key = "v", mods = "CMD", action = act.PasteFrom("Clipboard") }, -- For raycast clipboard compatibility
 	{ key = "f", mods = leader, action = act.Search({ CaseSensitiveString = "" }) },
 
 	-- Font size
@@ -79,14 +78,16 @@ config.keys = {
 	{ key = "=", mods = leader, action = act.IncreaseFontSize },
 	{ key = "0", mods = leader, action = act.ResetFontSize },
 
-	-- Project Switcher
-	{ key = "p", mods = leader, action = projects.choose_project() },
+	-- Map control backspace to Control-w
+	{ key = "Backspace", mods = "CTRL", action = act.SendKey({ key = "w", mods = "CTRL" }) },
+	{ key = "w", mods = "CTRL", action = act.Nop },
 }
+
 smart_splits.apply_to_config(config, {
 	direction_keys = { "h", "j", "k", "l" },
 	modifiers = {
-		move = leader,
-		resize = leader .. "|SHIFT",
+		move = "ALT",
+		resize = "ALT|SHIFT",
 	},
 })
 
