@@ -28,22 +28,12 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Set keybindings
-bindkey '-M' viins '^W' backward-kill-word
-bindkey '^P' up-line-or-search
-bindkey '^N' down-line-or-search
-bindkey '^ ' fzf-cd-widget
-bindkey '^Y' autosuggest-accept
-# Make vi-mode's backspace behave as expected
-bindkey "^?" backward-delete-char
-bindkey "^H" backward-delete-char
-# Yank to system clipboard
-function vi-yank-xclip {
-  zle vi-yank
-  echo "$CUTBUFFER" | pbcopy -i
+# Custom keybindings
+function zvm_after_init() {
+  zvm_bindkey viins "^R" fzf-history-widget
+  zvm_bindkey viins '^ ' fzf-cd-widget
+  zvm_bindkey viins '^Y' autosuggest-accept
 }
-zle -N vi-yank-xclip
-bindkey -M vicmd 'y' vi-yank-xclip
 
 # Load tools
 eval $(thefuck --alias) 
