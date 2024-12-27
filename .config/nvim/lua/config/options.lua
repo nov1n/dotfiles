@@ -11,3 +11,6 @@ vim.opt.wrap = true
 
 -- Break lines at word boundaries
 vim.opt.linebreak = true
+
+-- Disable all animations from snacks.nvim
+vim.g.snacks_animate = false
