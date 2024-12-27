@@ -7,7 +7,9 @@ alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 alias journal=journal_function
 alias edot="cd dotfiles; vim"
-alias notes="cd ~/Projects/personal/md/notes; vim"
+alias notes="cd ~/Projects/personal/markdown/notes; vim"
+alias youtube-dl="yt-dlp"
+alias wakewin="wakeonlan 74:56:3C:45:75:87"
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
@@ -24,6 +26,8 @@ alias sudo='sudo '
 
 # Get week number
 alias week='date +%V'
+
+alias stretch="vlc --play-and-exit -f ~/Documents/yt-dlp/15-min-standing-yoga.mkv"
 
 # Networking
 alias localip="ipconfig getifaddr en0"
