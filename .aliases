@@ -16,6 +16,7 @@ alias tree="lsd -l --tree --depth=3"
 alias cat="bat"
 alias grep="rg"
 alias cd="z"
+alias lg="lazygit"
 
 # Nudges
 alias nslookup="echo Use doggo!"
