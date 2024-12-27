@@ -2,6 +2,7 @@ local inputs = require("neo-tree.ui.inputs")
 local sources = require("neo-tree.sources.manager")
 
 return {
+  enabled = false,
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
     close_if_last_window = true,
