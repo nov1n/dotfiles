@@ -1,4 +1,5 @@
-alias vim=nvim
+alias v=nvim
+alias vim='echo Use \"v\" instead!'
 
 alias c="clear"
 alias g="git"
@@ -6,7 +7,7 @@ alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 alias journal=journal_function
-alias edot="cd dotfiles; vim"
+alias edot="cd dotfiles; nvim"
 alias notes="cd ~/Projects/personal/markdown/notes; vim"
 alias youtube-dl="yt-dlp"
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
