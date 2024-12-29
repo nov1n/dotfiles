@@ -35,16 +35,14 @@ return {
       ["<Left>"] = { "snippet_backward" },
     },
     enabled = function()
-      local disabled = false
       local current_buffer = vim.api.nvim_get_current_buf()
       local current_buffer_path = vim.api.nvim_buf_get_name(current_buffer)
-      disabled = disabled or string.match(current_buffer_path, "/notes/journal/")
-      return not disabled
+      return not string.match(current_buffer_path, "/Journal/")
     end,
     appearance = {
       -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
       kind_icons = {
-        Copilot = "",
+        Copilot = "",
         Text = "󰉿",
         Method = "󰊕",
         Function = "󰊕",
