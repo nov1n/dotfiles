@@ -9,37 +9,38 @@ local map = function(modes, lhs, rhs, desc)
   return vim.keymap.set(modes, lhs, rhs, { desc = desc })
 end
 
-map("a", "<left>", "<nop>")
-map("a", "<right>", "<nop>")
-map("a", "<up>", "<nop>")
-map("a", "<down>", "<nop>")
-map("n", "<leader>uz", "<cmd>ZenMode<cr>", "Enter ZenMode")
-map("n", "<leader>bn", ":enew<cr>", "Create new buffer")
-map("n", "<leader>gb", "<cmd>BlameToggle<cr>", " Git blame")
-map("n", "<c-p>", "<Plug>(YankyPreviousEntry)", "Cycle back in Yanky ring")
-map("n", "<c-n>", "<Plug>(YankyNextEntry)", "Cycle forward in Yanky ring")
-map("n", "-", "<cmd>Oil<cr>", "Open parent directory in oil")
-map("n", "<leader>r", "<cmd>source<cr>", "Source current file")
-map("n", "<A-H>", require("smart-splits").resize_left, "Resize left")
-map("n", "<A-J>", require("smart-splits").resize_down, "Resize down")
-map("n", "<A-K>", require("smart-splits").resize_up, "Resize up")
-map("n", "<A-L>", require("smart-splits").resize_right, "Resize right")
-map("n", "<A-h>", require("smart-splits").move_cursor_left, "Move left")
-map("n", "<A-j>", require("smart-splits").move_cursor_down, "Move down")
-map("n", "<A-k>", require("smart-splits").move_cursor_up, "Move up")
-map("n", "<A-l>", require("smart-splits").move_cursor_right, "Move right")
-map("n", "<A-\\>", require("smart-splits").move_cursor_previous, "Move previous")
-map("v", "<leader>/", function()
+local function search_visual_selection()
   require("fzf-lua").live_grep({
     rg_glob = true,
     no_esc = false,
     rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=512 --multiline",
     search = vim.trim(U.get_visual_selection()),
-  }, "Grep visual selection")
-end)
+  })
+end
 
--- Abbreviations
-map("ia", "tst", "Test snippet")
-
--- Abbreviations (Command mode)
-map("ca", "tst", "Test command mode snippet")
+-- stylua: ignore start
+map("a",          "<down>",     "<nop>",                                      "Disable down arrow")
+map("a",          "<left>",     "<nop>",                                      "Disable left arrow")
+map("a",          "<right>",    "<nop>",                                      "Disable right arrow")
+map("a",          "<up>",       "<nop>",                                      "Disable up arrow")
+map("ca",         "__from",     "__to",                                       "Example snippet (command mode)")
+map("ia",         "__from",     "__to",                                       "Example snippet (insert mode")
+map("n",          "-",          "<cmd>Oil<cr>",                               "Open parent directory in oil")
+map("n",          "<A-H>",      require("smart-splits").resize_left,          "Resize left")
+map("n",          "<A-J>",      require("smart-splits").resize_down,          "Resize down")
+map("n",          "<A-K>",      require("smart-splits").resize_up,            "Resize up")
+map("n",          "<A-L>",      require("smart-splits").resize_right,         "Resize right")
+map("n",          "<A-\\>",     require("smart-splits").move_cursor_previous, "Move previous")
+map("n",          "<A-h>",      require("smart-splits").move_cursor_left,     "Move left")
+map("n",          "<A-j>",      require("smart-splits").move_cursor_down,     "Move down")
+map("n",          "<A-k>",      require("smart-splits").move_cursor_up,       "Move up")
+map("n",          "<A-l>",      require("smart-splits").move_cursor_right,    "Move right")
+map("n",          "<c-n>",      "<Plug>(YankyNextEntry)",                     "Cycle forward in Yanky ring")
+map("n",          "<c-p>",      "<Plug>(YankyPreviousEntry)",                 "Cycle back in Yanky ring")
+map("n",          "<leader>bn", ":enew<cr>",                                  "Create new buffer")
+map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       " Git blame")
+map("n",          "<leader>r",  "<cmd>source<cr>",                            "Source current file")
+map("n",          "<leader>uz", "<cmd>ZenMode<cr>",                           "Enter ZenMode")
+map("v",          "<leader>/",  search_visual_selection,                      "Grep visual selection")
+map({ "n", "v" }, "<leader>xr", "<cmd>SnipRun<cr>",                           "Run snippet")
+-- stylua: ignore end
