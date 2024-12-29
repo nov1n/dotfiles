@@ -1,11 +1,7 @@
 return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
-  lazy = true,
-  event = {
-    "BufReadPre " .. vim.fn.expand("~") .. "/Projects/personal/markdown/notes/*.md",
-    "BufNewFile " .. vim.fn.expand("~") .. "/Projects/personal/markdown/notes/*.md",
-  },
+  lazy = false,
   -- stylua: ignore
   keys = {
     { "<leader>oo",  "<cmd>ObsidianOpen<CR>",           { desc = "Open Obsidian" } },
@@ -36,26 +32,14 @@ return {
   },
   opts = {
     daily_notes = {
-      folder = "journal",
+      folder = "Journal",
       default_tags = { "journal" },
     },
     workspaces = {
       {
         name = "personal",
-        path = "~/Projects/personal/markdown/notes",
+        path = VARS.notes_dir,
       },
-    },
-    callbacks = {
-      enter_note = function(client, note)
-        if vim.tbl_contains(note.tags, "journal") then
-          require("zen-mode").open()
-        end
-      end,
-      leave_note = function(client, note)
-        if vim.tbl_contains(note.tags, "journal") then
-          require("zen-mode").close()
-        end
-      end,
     },
     picker = {
       name = "fzf-lua",
