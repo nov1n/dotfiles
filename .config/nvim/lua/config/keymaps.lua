@@ -34,7 +34,7 @@ map("v", "<leader>/", function()
     rg_glob = true,
     no_esc = false,
     rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=512 --multiline",
-    search = vim.trim(require("fzf-lua").utils.get_visual_selection()),
+    search = vim.trim(U.get_visual_selection()),
   }, "Grep visual selection")
 end)
 
