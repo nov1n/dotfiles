@@ -8,5 +8,4 @@
 # Directories
 .cache/
 .git/
-.github/
 node_modules/
