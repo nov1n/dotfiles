@@ -6,7 +6,6 @@ alias g="git"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=$DOTFILES_HOME/script/Brewfile"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
-alias journal=journal_function
 alias edot="cd dotfiles; nvim"
 alias notes="cd ~/Projects/personal/markdown/notes; vim"
 alias youtube-dl="yt-dlp"
