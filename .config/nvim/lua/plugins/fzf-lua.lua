@@ -2,6 +2,7 @@ return {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
   opts = {
+    defaults = { formatter = "path.filename_first" },
     grep = {
       -- Default rg opts with added  --hidden flag
       rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
