@@ -38,9 +38,11 @@ map("n",          "<A-l>",      require("smart-splits").move_cursor_right,    "M
 map("n",          "<c-n>",      "<Plug>(YankyNextEntry)",                     "Cycle forward in Yanky ring")
 map("n",          "<c-p>",      "<Plug>(YankyPreviousEntry)",                 "Cycle back in Yanky ring")
 map("n",          "<leader>bn", ":enew<cr>",                                  "Create new buffer")
-map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       " Git blame")
+map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       "Git blame")
 map("n",          "<leader>r",  "<cmd>source<cr>",                            "Source current file")
 map("n",          "<leader>uz", "<cmd>ZenMode<cr>",                           "Enter ZenMode")
 map("v",          "<leader>/",  search_visual_selection,                      "Grep visual selection")
 map({ "n", "v" }, "<leader>xr", "<cmd>SnipRun<cr>",                           "Run snippet")
+-- HACK: For some reason this mapping works only with vimscript
+vim.cmd("nmap <bs> ;")
 -- stylua: ignore end
