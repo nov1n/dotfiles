@@ -7,7 +7,8 @@ return {
   },
   opts = {
     sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
+      default = { "lsp", "path", "snippets", "buffer" },
+      -- TODO: Configure copilot with hotkey
       providers = {
         copilot = {
           name = "copilot",
