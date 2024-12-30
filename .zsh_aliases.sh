@@ -10,6 +10,7 @@ alias edot="cd dotfiles; nvim"
 alias notes="cd ~/Notes; vim"
 alias youtube-dl="yt-dlp"
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
+alias adot=dotfiles_adder.sh
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
