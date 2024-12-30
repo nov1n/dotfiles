@@ -13,7 +13,7 @@ compinit
 autoload -Uz promptinit; promptinit
 
 # Load the shell dotfiles
-for file in ~/.{path,exports,aliases,functions,localrc}; do
+for file in ~/.zsh_{path,exports,aliases,functions,localrc}.sh; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;

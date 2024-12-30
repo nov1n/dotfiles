@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 export ZSH_COMPDUMP=$HOME/.zsh/cache/.zcompdump-$HOST
 # See https://www.johnhawthorn.com/2012/09/vi-escape-delays/
 export KEYTIMEOUT=1
