@@ -3,7 +3,7 @@ M = {}
 local log = hs.logger.new("CommandExecutor", "debug")
 
 function M.run(binary, args)
-  local baseCmd = string.format("zsh -c 'source ~/.localrc && %s %s'", binary, args)
+  local baseCmd = string.format("zsh -c 'source ~/.zsh_local.sh && %s %s'", binary, args)
   local fullCmd = baseCmd .. " " .. args
 
   log.d("Executing command: " .. fullCmd)

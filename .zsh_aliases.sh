@@ -3,7 +3,7 @@ alias vim='echo Use \"v\" instead!'
 
 alias c="clear"
 alias g="git"
-alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=$DOTFILES_HOME/script/Brewfile"
+alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=\$DOTFILES_HOME/script/Brewfile"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 alias edot="cd dotfiles; nvim"
