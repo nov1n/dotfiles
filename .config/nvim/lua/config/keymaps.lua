@@ -37,6 +37,7 @@ map("n",          "<A-k>",      require("smart-splits").move_cursor_up,       "M
 map("n",          "<A-l>",      require("smart-splits").move_cursor_right,    "Move right")
 map("n",          "<c-n>",      "<Plug>(YankyNextEntry)",                     "Cycle forward in Yanky ring")
 map("n",          "<c-p>",      "<Plug>(YankyPreviousEntry)",                 "Cycle back in Yanky ring")
+map("i",          "<S-Enter>",  "<Esc>A;<CR>",                                "Shift enter adds semicolon to end of line")
 map("n",          "<leader>bn", ":enew<cr>",                                  "Create new buffer")
 map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       "Git blame")
 map("n",          "<leader>r",  "<cmd>source<cr>",                            "Source current file")
