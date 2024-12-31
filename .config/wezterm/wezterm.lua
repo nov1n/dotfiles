@@ -63,7 +63,7 @@ config.keys = {
 	{ key = "]", mods = leader, action = act.ActivateTabRelative(1) },
 
 	-- Panes
-	{ key = "w", mods = leader, action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "w", mods = leader, action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = "n", mods = leader, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	{ key = "m", mods = leader, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = "z", mods = leader, action = act.TogglePaneZoomState },

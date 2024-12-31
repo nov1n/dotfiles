@@ -11,7 +11,9 @@ local function executeAndLog(scriptPath)
 end
 
 local scriptPath = debug.getinfo(1, "S").source:sub(2)
-local scriptDir = scriptPath:match("(.*/)") .. "bash/"
+print("scriptPath", scriptPath)
+local scriptDir = scriptPath:match("(.*/)") .. "../bash/"
+print("scriptDir", scriptDir)
 M.sleepScript = scriptDir .. "sleep.sh"
 M.wakeScript = scriptDir .. "wakeup.sh"
 

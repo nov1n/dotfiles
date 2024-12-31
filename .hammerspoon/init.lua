@@ -1,25 +1,27 @@
+-- Hammerspoon modules
 require("hs.ipc")
 
+-- Local modules
+local sleepWatcher = require("util.sleepwatcher")
+
 -- External Spoons
-hs.loadSpoon("Caffeine")
-hs.loadSpoon("SleepWatcher")
+local caff = hs.loadSpoon("Caffeine")
 local habitDeck = hs.loadSpoon("HabitDeck")
 
--- Aliases
-local hyper = { "cmd", "ctrl", "alt" }
-local bind = hs.hotkey.bind
-local caff = spoon.Caffeine
-local sleepWatcher = spoon.SleepWatcher
+-- Config
+local meh = { "cmd", "ctrl", "alt" }
+local hyper = { "cmd", "ctrl", "alt", "shift" }
 
--- Reload Hammerspoon config
-bind(hyper, "`", hs.reload)
+-- Console hotkeys
+hs.hotkey.bind(meh, "`", hs.reload)
+hs.hotkey.bind(hyper, "`", function() hs.application.open("Hammerspoon") end) -- Open console
 
 -- Sleep configs
 caff:start(true)
+caff:setState(true)
 sleepWatcher:start()
 
 -- HabitDeck
--- Load credentials from ~/.beaverhabits
 local credentials_file = io.open(os.getenv("HOME") .. "/.beaverhabits", "r")
 if credentials_file then
   local username = credentials_file:read("*line")
