@@ -20,13 +20,10 @@ sleepWatcher:start()
 
 -- HabitDeck
 -- Load credentials from ~/.beaverhabits
-local home = os.getenv("HOME")
-local credentials_file = io.open(home .. "/.beaverhabits", "r")
-local username, password
-
+local credentials_file = io.open(os.getenv("HOME") .. "/.beaverhabits", "r")
 if credentials_file then
-  username = credentials_file:read("*line")
-  password = credentials_file:read("*line")
+  local username = credentials_file:read("*line")
+  local password = credentials_file:read("*line")
   credentials_file:close()
 
   habitDeck:start({
@@ -34,9 +31,8 @@ if credentials_file then
     username = username,
     password = password,
     habits = { "Move", "Meditate", "Journal" },
+    sync_interval = 60,
   })
 else
   hs.alert.show("Warning: ~/.beaverhabits file not found")
-  username = ""
-  password = ""
 end

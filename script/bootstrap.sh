@@ -17,5 +17,5 @@ cp ../sleepwatcher/nl.carosi.sleepwatcher.plist ~/Library/LaunchAgents/nl.carosi
 cp ../timeout/* ~/Library/Application\ Scripts/com.dejal.timeout
 
 echo "Manually set homebrew's zsh as login shell"
-echo "Manually copy ~/.localrc, ~/.m2/settings.xml, ~/.npmrc"
+echo "Manually copy ~/.zsh_local.sh, ~/.m2/settings.xml, ~/.npmrc"
 echo "Manually run macos-defaults.sh to apply MacOS defaults."
