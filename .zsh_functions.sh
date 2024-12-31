@@ -86,6 +86,22 @@ video2gif() {
   rm "${1}.png"
 }
 
+function journal() {
+  nvim +'ObsidianToday' '+ZenMode' -c 'sleep 100m' -c 'normal! G' -c 'normal! 2o' -c 'startinsert'
+
+  # TODO: Replace with Rust client
+  if
+    printf "\n"
+    curl -s --location 'http://portainer.carosi.nl:7440/api/v1/habits/35da0e/completions' \
+      --header "Authorization: Bearer $BEAVER_TOKEN" \
+      --header "Content-Type: application/json" \
+      --output /dev/null \
+      --data "{\"date_fmt\": \"%d-%m-%Y\", \"date\": \"$(date +'%d-%m-%Y')\", \"done\": true}"
+  then
+    echo "Habit completion logged successfully."
+  fi
+}
+
 # BEGIN zsh-vi-mode patch: https://github.com/jeffreytse/zsh-vi-mode/issues/19#issuecomment-1915625381
 my_zvm_vi_yank() {
   zvm_vi_yank
