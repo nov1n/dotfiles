@@ -1,0 +1,6 @@
+[submodule ".hammerspoon/spoon-submodules/HabitDeck"]
+	path = .hammerspoon/spoon-submodules/HabitDeck
+	url = git@github.com:nov1n/HabitDeck.git
+[submodule ".hammerspoon/spoon-submodules/OfficialSpoons"]
+	path = .hammerspoon/spoon-submodules/OfficialSpoons
+	url = git@github.com:Hammerspoon/Spoons.git
