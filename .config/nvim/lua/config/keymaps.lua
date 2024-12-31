@@ -44,6 +44,7 @@ map("n",          "<leader>r",  "<cmd>source<cr>",                            "S
 map("n",          "<leader>uz", "<cmd>ZenMode<cr>",                           "Enter ZenMode")
 map("v",          "<leader>/",  search_visual_selection,                      "Grep visual selection")
 map({ "n", "v" }, "<leader>xr", "<cmd>SnipRun<cr>",                           "Run snippet")
+map({"n", "t"},   "<C-/>",      "<nop",                                       "Disable terminal keymap")
 -- HACK: For some reason this mapping works only with vimscript
 vim.cmd("nmap <bs> ;")
 -- stylua: ignore end
