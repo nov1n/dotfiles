@@ -9,4 +9,7 @@
 .cache/
 .git/
 node_modules/
+
+# Dotfiles
 OfficialSpoons/
+automatic_backups/
