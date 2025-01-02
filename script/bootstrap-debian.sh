@@ -110,6 +110,15 @@ install_lazygit() {
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit /usr/local/bin
+  rm lazygit.tar.gz
+  rm lazygit
+}
+
+install_delta() {
+  DELTA_VERSION=$(curl -s "https://api.github.com/repos/dandavison/delta/releases/latest" | grep -Po '"tag_name": "\K[^"]*')
+  curl -Lo delta.deb "https://github.com/dandavison/delta/releases/latest/download/git-delta_${DELTA_VERSION}_amd64.deb"
+  sudo dpkg -i delta.deb
+  rm delta.deb
 }
 
 generate_ssh_key() {
@@ -141,6 +150,7 @@ install_bat
 install_fzf
 install_neovim
 install_lazygit
+install_delta
 install_rust
 generate_ssh_key
 install_dotfiles
