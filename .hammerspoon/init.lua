@@ -10,11 +10,9 @@ local habitDeck = hs.loadSpoon("HabitDeck")
 
 -- Config
 local meh = { "cmd", "ctrl", "alt" }
-local hyper = { "cmd", "ctrl", "alt", "shift" }
 
 -- Console hotkeys
 hs.hotkey.bind(meh, "`", hs.reload)
-hs.hotkey.bind(hyper, "`", function() hs.application.open("Hammerspoon") end) -- Open console
 
 -- Startup notification
 hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.", withdrawAfter = 5 }):send()
