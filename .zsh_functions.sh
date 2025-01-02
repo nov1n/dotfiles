@@ -79,7 +79,11 @@ y() {
 }
 
 cd() {
-  z "$@" && wezterm set-working-directory "${PWD/${HOME}/~}"
+  z "$@"
+  # Unless we're in an ssh session update window title by sending an OSC 7 command
+  if [[ -z "$SSH_CLIENT" && $? ]]; then
+    wezterm set-working-directory "${PWD/${HOME}/~}"
+  fi
 }
 
 ssh() {
