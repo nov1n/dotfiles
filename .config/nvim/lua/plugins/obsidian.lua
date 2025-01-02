@@ -1,7 +1,7 @@
 return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
-  lazy = false,
+  lazy = true,
   -- stylua: ignore
   keys = {
     { "<leader>o/",     "<cmd>ObsidianSearch<CR>",          { desc = "Search for notes in your vault" } },
@@ -13,7 +13,7 @@ return {
     { "<leader>ojj",    "<cmd>ObsidianToday<CR>",           { desc = "Open/create today's daily note" } },
     { "<leader>ojn",    "<cmd>ObsidianTomorrow<CR>",        { desc = "Open/create tomorrow's daily note" } },
     { "<leader>ojp",    "<cmd>ObsidianYesterday<CR>",       { desc = "Open/create yesterday's daily note" } },
-    { "<leader>on",    "<cmd>ObsidianNew<CR>",             { desc = "Create a new note" } },
+    { "<leader>on",     "<cmd>ObsidianNew<CR>",             { desc = "Create a new note" } },
     { "<leader>oo",     "<cmd>ObsidianOpen<CR>",            { desc = "Open Obsidian" } },
     { "<leader>op",     "<cmd>ObsidianPasteImg<CR>",        { desc = "Paste an image from the clipboard" } },
     { "<leader>or",     "<cmd>ObsidianRename<CR>",          { desc = "Rename the current note" } },
