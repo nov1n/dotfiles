@@ -1,18 +1,28 @@
 local path = require("fzf-lua.path")
 
-local function open_in_finder(selected, opts)
-  for _, sel in ipairs(selected) do
-    local entry = path.entry_to_file(sel, opts, opts._uri)
-    if entry.path == "<none>" then
-      return
-    end
-    local fullpath = entry.bufname or entry.uri and entry.uri:match("^%a+://(.*)") or entry.path
-    local resolved = vim.fn.fnamemodify(fullpath, ":p")
+-- Converts an entry to an absolute path
+local function path_from_entry(entry, opts)
+  local file = path.entry_to_file(entry, opts, opts._uri)
+  local fullpath = file.bufname or file.uri and file.uri:match("^%a+://(.*)") or file.path
+  local resolved = vim.fn.fnamemodify(fullpath, ":p")
+  return resolved
+end
 
-    -- Open in Finder
-    vim.fn.jobstart({ "open", "-R", resolved }, { detach = true })
+-- Opens all selected entries in Finder
+local function open_in_finder(selected, opts)
+  for _, entry in ipairs(selected) do
+    vim.fn.jobstart({ "open", "-R", path_from_entry(entry, opts) }, { detach = true })
   end
   vim.api.nvim_win_close(0, true)
+end
+
+-- Copies the path of the firs selected entry to the clipboard
+local function copy_path(selected, opts)
+  for _, entry in ipairs(selected) do
+    vim.fn.setreg([[*]], path_from_entry(entry, opts))
+    vim.api.nvim_win_close(0, true)
+    return
+  end
 end
 
 return {
@@ -22,7 +32,8 @@ return {
     defaults = { formatter = "path.filename_first" },
     files = {
       actions = {
-        ["alt-o"] = { open_in_finder },
+        ["ctrl-o"] = { open_in_finder },
+        ["ctrl-y"] = { copy_path },
       },
     },
     grep = {
