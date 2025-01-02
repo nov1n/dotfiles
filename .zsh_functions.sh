@@ -78,8 +78,16 @@ y() {
   rm -f -- "$tmp"
 }
 
-function cd() {
-  builtin cd "$@" && printf "\033]7;%s\a" "${PWD/${HOME}/~}"
+cd() {
+  z "$@" && wezterm set-working-directory "${PWD/${HOME}/~}"
+}
+
+ssh() {
+  local host="$1"
+  local title="ssh:$host"
+  wezterm set-working-directory "$title"
+  command ssh "$@"
+  cd . # Trigger OSC 7 from function above to update window title
 }
 
 # Convert video to gif file.

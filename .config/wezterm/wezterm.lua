@@ -25,6 +25,7 @@ config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night"
 config.font_size = 16
+config.tab_max_width = 32
 config.window_padding = {
 	left = 5,
 	right = 5,

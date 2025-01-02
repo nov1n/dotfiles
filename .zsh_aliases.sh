@@ -16,7 +16,6 @@ alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
 alias cat="bat"
 alias grep="rg"
-alias cd="z"
 alias lg="lazygit"
 
 # Nudges
