@@ -78,6 +78,10 @@ y() {
   rm -f -- "$tmp"
 }
 
+function cd() {
+  builtin cd "$@" && printf "\033]7;%s\a" "${PWD/${HOME}/~}"
+}
+
 # Convert video to gif file.
 # Usage: video2gif video_file (scale) (fps)
 video2gif() {
