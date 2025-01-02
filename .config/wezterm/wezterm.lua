@@ -2,8 +2,6 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 -- Modules
---require("projects")
---require("statusbar")
 require("handlers")
 
 -- Plugins
