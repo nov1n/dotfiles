@@ -27,7 +27,7 @@ install_packages() {
     echo "Failed to update package lists" exit 1
   }
   echo "Installing packages..."
-  sudo apt install -y git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext || {
+  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick || {
     echo "Failed to install packages"
     exit 1
   }
@@ -50,6 +50,11 @@ install_bat() {
 }
 
 install_fzf() {
+  if [ -d ~/.fzf ]; then
+    echo "fzf directory already exists, skipping installation"
+    return 0
+  fi
+
   echo "Cloning fzf repository..."
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf || {
     echo "Failed to clone fzf repository"
@@ -68,6 +73,9 @@ install_fzf() {
 }
 
 install_neovim() {
+  if [ -d neovim ]; then
+    echo "Neovim directory already exists, skipping installation"
+  fi
   echo "Cloning Neovim repository..."
   git clone https://github.com/neovim/neovim || {
     echo "Failed to clone Neovim repository"
@@ -92,6 +100,20 @@ install_neovim() {
   }
 }
 
+install_rust() {
+  echo "Downloading and installing rustup..."
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+}
+
+generate_ssh_key() {
+  ssh-keygen -t ed25519 -C "robert@carosi.nl"
+  eval "$(ssh-agent -s)"
+  touch ~/.ssh/config
+  printf "Host github.com\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519\n" >>~/.ssh/config
+  printf "Add this public key to Github:\n"
+  cat ~/.ssh/id_ed25519.pub
+}
+
 install_dotfiles() {
   echo "Cloning dotfiles repository..."
   git clone https://github.com/nov1n/dotfiles.git ~/dotfiles || {
@@ -106,18 +128,14 @@ install_dotfiles() {
   }
 }
 
-install_rust() {
-  echo "Downloading and installing rustup..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-}
-
 install_packages
 install_starship
 install_bat
 install_fzf
 install_neovim
-install_dotfiles
 install_rust
+generate_ssh_key
+install_dotfiles
 
 # Change the default shell to zsh
 echo "Changing the default shell to zsh..."
