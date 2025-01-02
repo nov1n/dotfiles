@@ -16,6 +16,9 @@ local hyper = { "cmd", "ctrl", "alt", "shift" }
 hs.hotkey.bind(meh, "`", hs.reload)
 hs.hotkey.bind(hyper, "`", function() hs.application.open("Hammerspoon") end) -- Open console
 
+-- Startup notification
+hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.", withdrawAfter = 5 }):send()
+
 -- Sleep configs
 caff:start(true)
 caff:setState(true)
@@ -33,7 +36,7 @@ if credentials_file then
     username = username,
     password = password,
     habits = { "Move", "Meditate", "Journal" },
-    sync_interval = 60,
+    sync_interval = 10,
   })
 else
   hs.alert.show("Warning: ~/.beaverhabits file not found")
