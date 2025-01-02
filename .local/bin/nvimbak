@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# nvimbak
+#
+# Description:
+#   This script creates a backup of the user's dotfiles directory and starts
+#   Neovim with the backup configuration. The backup directory and any submodules
+#   are reset to the latest Git commit - which is assumed to be working.
+#
+#   NEOVIM_ARGS: Optional arguments to pass to Neovim. These arguments will be
+#                passed to Neovim when it is started with the backup configuration.
+#
+# Dependencies:
+#   - Git
+#   - Neovim
+#
+# Installation:
+#   1. Save this script to a file (e.g., nvimbak.sh)
+#   2. Move the script to /usr/local/bin:
+#      sudo mv nvimbak.sh /usr/local/bin/nvimbak
+#   3. Make the script executable:
+#      sudo chmod +x /usr/local/bin/nvimbak
+#
+#   After installation, you can run the script with:
+#     nvimbak [NEOVIM_ARGS...]
+
+# Update this to match your dotfiles directory
+dotfiles="$HOME/dotfiles"
+dotfiles_bak="$HOME/dotfiles.bak"
+
+if ! [[ -d "$dotfiles" ]]; then
+  echo "Error: dotfiles directory '$dotfiles' does not exist or is not a directory" >&2
+  exit 1
+fi
+echo "Using dotfiles directory: $dotfiles"
+
+if ! git -C "$dotfiles" rev-parse --is-inside-work-tree &>/dev/null; then
+  echo "Error: dotfiles directory '$dotfiles' is not a Git repository" >&2
+  exit 1
+fi
+
+echo "Creating backup configuration in: '$dotfiles_bak'"
+rm -rf "$dotfiles_bak" 2>/dev/null
+cp -r "$dotfiles" "$dotfiles_bak"
+cd "$dotfiles_bak" || exit
+
+echo "Resetting backup directory to the latest Git commit"
+git reset --hard HEAD
+git submodule foreach --recursive git reset --hard HEAD
+
+cd - >/dev/null || exit
+
+echo "Starting Neovim with the backup configuration..."
+XDG_CONFIG_HOME="$dotfiles_bak/.config" nvim "$@"
