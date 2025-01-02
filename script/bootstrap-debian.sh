@@ -27,7 +27,7 @@ install_packages() {
     echo "Failed to update package lists" exit 1
   }
   echo "Installing packages..."
-  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick || {
+  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd || {
     echo "Failed to install packages"
     exit 1
   }
@@ -105,6 +105,13 @@ install_rust() {
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 }
 
+install_lazygit() {
+  LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+  tar xf lazygit.tar.gz lazygit
+  sudo install lazygit /usr/local/bin
+}
+
 generate_ssh_key() {
   ssh-keygen -t ed25519 -C "robert@carosi.nl"
   eval "$(ssh-agent -s)"
@@ -133,6 +140,7 @@ install_starship
 install_bat
 install_fzf
 install_neovim
+install_lazygit
 install_rust
 generate_ssh_key
 install_dotfiles
