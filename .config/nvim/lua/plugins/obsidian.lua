@@ -10,7 +10,7 @@ return {
     { "<leader>oe",     "<cmd>ObsidianExtractNote<CR>",     { desc = "Extract the selected text into a new note" } },
     { "<leader>of",     "<cmd>ObsidianFollowLink<CR>",      { desc = "Follow a note reference" } },
     { "<leader>oja",    "<cmd>ObsidianDailies<CR>",         { desc = "Open a list of daily notes" } },
-    { "<leader>ojt",    "<cmd>ObsidianToday<CR>",           { desc = "Open/create today's daily note" } },
+    { "<leader>ojj",    "<cmd>ObsidianToday<CR>",           { desc = "Open/create today's daily note" } },
     { "<leader>ojn",    "<cmd>ObsidianTomorrow<CR>",        { desc = "Open/create tomorrow's daily note" } },
     { "<leader>ojp",    "<cmd>ObsidianYesterday<CR>",       { desc = "Open/create yesterday's daily note" } },
     { "<leader>on",    "<cmd>ObsidianNew<CR>",             { desc = "Create a new note" } },
