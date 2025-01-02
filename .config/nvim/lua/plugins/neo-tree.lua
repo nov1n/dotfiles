@@ -1,6 +1,3 @@
-local inputs = require("neo-tree.ui.inputs")
-local sources = require("neo-tree.sources.manager")
-
 return {
   enabled = false,
   "nvim-neo-tree/neo-tree.nvim",
@@ -16,13 +13,13 @@ return {
         delete = function(state)
           local path = state.tree:get_node().path
           local msg = "Are you sure you want to trash " .. path
-          inputs.confirm(msg, function(confirmed)
+          require("neo-tree.ui.inputs").confirm(msg, function(confirmed)
             if not confirmed then
               return
             end
 
             vim.fn.system({ "trash", path })
-            sources.refresh(state.name)
+            require("neo-tree.sources.manager").refresh(state.name)
           end)
         end,
 
@@ -31,7 +28,7 @@ return {
           local count = #selected_nodes
           local msg = "Are you sure you want to trash " .. count .. " files?"
 
-          inputs.confirm(msg, function(confirmed)
+          require("neo-tree.ui.inputs").confirm(msg, function(confirmed)
             if not confirmed then
               return
             end
@@ -40,7 +37,7 @@ return {
               vim.fn.system({ "trash", node.path })
             end
 
-            sources.refresh(state.name)
+            require("neo-tree.sources.manager").refresh(state.name)
           end)
         end,
       },
