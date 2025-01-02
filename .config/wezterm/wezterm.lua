@@ -17,12 +17,6 @@ config.automatically_reload_config = true
 config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
--- config.unix_domains = {
--- 	{
--- 		name = "unix",
--- 	},
--- }
--- config.default_gui_startup_args = { "connect", "unix" }
 
 -- Appearance
 --config.enable_tab_bar = false
@@ -30,8 +24,6 @@ config.use_fancy_tab_bar = false
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night"
--- config.window_background_opacity = 0.1
--- config.macos_window_background_blur = 30
 config.font_size = 16
 config.window_padding = {
 	left = 5,
@@ -84,7 +76,7 @@ config.keys = {
 	{
 		key = "Backspace",
 		mods = leader,
-		action = wezterm.action_callback(function(win, pane)
+		action = wezterm.action_callback(function(_, pane)
 			local is_neovim = pane:get_foreground_process_name():match("nvim$") ~= nil
 			local tab = pane:tab()
 
