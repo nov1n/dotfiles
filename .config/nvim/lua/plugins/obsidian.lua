@@ -1,12 +1,14 @@
 return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
-  lazy = true,
+  enabled = function()
+    return vim.fn.has("mac") == 1
+  end,
+  cmd = { "ObsidianToday" },
   -- stylua: ignore
   keys = {
     { "<leader>o/",     "<cmd>ObsidianSearch<CR>",          { desc = "Search for notes in your vault" } },
     { "<leader>ob",     "<cmd>ObsidianBacklinks<CR>",       { desc = "Get backlinks for the current buffer" } },
-    { "<leader>oc",     "<cmd>ObsidianToggleCheckbox<CR>",  { desc = "Cycle through checkbox options" } },
     { "<leader>oe",     "<cmd>ObsidianExtractNote<CR>",     { desc = "Extract the selected text into a new note" } },
     { "<leader>of",     "<cmd>ObsidianFollowLink<CR>",      { desc = "Follow a note reference" } },
     { "<leader>oja",    "<cmd>ObsidianDailies<CR>",         { desc = "Open a list of daily notes" } },
@@ -36,6 +38,7 @@ return {
     daily_notes = {
       folder = "Journal",
       default_tags = { "journal" },
+      template = "daily-note-template.md",
     },
     templates = {
       folder = "Templates",
@@ -55,6 +58,10 @@ return {
     },
     picker = {
       name = "fzf-lua",
+    },
+    callbacks = {
+      enter_note = function(client, note) end,
+      leave_note = function(client, note) end,
     },
   },
 }
