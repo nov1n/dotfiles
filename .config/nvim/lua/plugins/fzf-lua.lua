@@ -40,6 +40,9 @@ return {
       -- Default rg opts with added  --hidden flag
       rg_opts = "--hidden --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
     },
+    winopts = {
+      fullscreen = true,
+    },
     previewers = {
       builtin = {
         extensions = {
