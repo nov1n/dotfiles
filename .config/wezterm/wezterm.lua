@@ -18,6 +18,10 @@ config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
 
+-- Performance
+config.max_fps = 144
+config.animation_fps = 144
+
 -- Appearance
 --config.enable_tab_bar = false
 config.use_fancy_tab_bar = false
