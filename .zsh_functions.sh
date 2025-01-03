@@ -102,69 +102,81 @@ video2gif() {
   rm "${1}.png"
 }
 
-function journal() {
-  nvim +'ObsidianToday' '+ZenMode' -c 'sleep 100m' -c 'normal! G' -c 'normal! 2o' -c 'startinsert'
+# BEGIN zsh-vi-mode patch: https://github.com/jeffreytse/zsh-vi-mode/issues/19#issuecomment-1915625381
+if [[ $(uname) = "Darwin" ]]; then
+  on_mac_os=0
+else
+  on_mac_os=1
+fi
 
-  # TODO: Replace with Rust client
-  if
-    printf "\n"
-    curl -s --location 'http://portainer.carosi.nl:7440/api/v1/habits/35da0e/completions' \
-      --header "Authorization: Bearer $BEAVER_TOKEN" \
-      --header "Content-Type: application/json" \
-      --output /dev/null \
-      --data "{\"date_fmt\": \"%d-%m-%Y\", \"date\": \"$(date +'%d-%m-%Y')\", \"done\": true}"
-  then
-    echo "Habit completion logged successfully."
+cbread() {
+  if [[ $on_mac_os -eq 0 ]]; then
+    pbcopy
+  else
+    xclip -selection primary -i -f | xclip -selection secondary -i -f | xclip -selection clipboard -i
   fi
 }
 
-# BEGIN zsh-vi-mode patch: https://github.com/jeffreytse/zsh-vi-mode/issues/19#issuecomment-1915625381
+cbprint() {
+  if [[ $on_mac_os -eq 0 ]]; then
+    pbpaste
+  else
+    if x=$(xclip -o -selection clipboard 2>/dev/null); then
+      echo -n $x
+    elif x=$(xclip -o -selection primary 2>/dev/null); then
+      echo -n $x
+    elif x=$(xclip -o -selection secondary 2>/dev/null); then
+      echo -n $x
+    fi
+  fi
+}
+
 my_zvm_vi_yank() {
   zvm_vi_yank
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_delete() {
   zvm_vi_delete
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_change() {
   zvm_vi_change
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_change_eol() {
   zvm_vi_change_eol
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_substitute() {
   zvm_vi_substitute
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_substitute_whole_line() {
   zvm_vi_substitute_whole_line
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 my_zvm_vi_put_after() {
-  CUTBUFFER=$(pbpaste)
+  CUTBUFFER=$(cbprint)
   zvm_vi_put_after
   zvm_highlight clear # zvm_vi_put_after introduces weird highlighting
 }
 
 my_zvm_vi_put_before() {
-  CUTBUFFER=$(pbpaste)
+  CUTBUFFER=$(cbprint)
   zvm_vi_put_before
   zvm_highlight clear # zvm_vi_put_before introduces weird highlighting
 }
 
 my_zvm_vi_replace_selection() {
-  CUTBUFFER=$(pbpaste)
+  CUTBUFFER=$(cbprint)
   zvm_vi_replace_selection
-  echo -en "${CUTBUFFER}" | pbcopy
+  echo -en "${CUTBUFFER}" | cbread
 }
 
 zvm_after_lazy_keybindings() {
