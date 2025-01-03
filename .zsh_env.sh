@@ -37,9 +37,9 @@ export LESS_TERMCAP_md="${yellow}";
 export MANPAGER='less -X';
 
 # Fzf
-#export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
-#export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# https://github.com/folke/tokyonight.nvim/blob/main/extras/fzf/tokyonight_moon.sh
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# Adapted from https://github.com/folke/tokyonight.nvim/blob/main/extras/fzf/tokyonight_moon.sh
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --highlight-line \
   --info=inline-right \
@@ -47,11 +47,10 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --layout=reverse \
   --border=none
   --color=bg+:#2d3f76 \
-  --color=bg:#1e2030 \
   --color=border:#589ed7 \
   --color=fg:#c8d3f5 \
-  --color=gutter:#1e2030 \
-  --color=header:#ff966c \
+  --color=gutter:-1 \
+  --color=header:#2d3f76 \
   --color=hl+:#65bcff \
   --color=hl:#65bcff \
   --color=info:#545c7e \
