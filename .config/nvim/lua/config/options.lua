@@ -6,9 +6,6 @@
 -- vim.o.timeoutlen = 0
 vim.o.ttimeoutlen = 0
 
--- Enable line wrapping
-vim.opt.wrap = true
-
 -- Break lines at word boundaries
 vim.opt.linebreak = true
 
