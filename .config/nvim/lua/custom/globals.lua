@@ -1,6 +1,6 @@
 -- Global variables
 _G.VARS = {
-  notes_dir = "~/Notes",
+  notes_dir = os.getenv("NOTES_HOME"),
 }
 
 -- Pretty-print a lua type
