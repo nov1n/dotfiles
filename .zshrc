@@ -5,14 +5,8 @@ fi
 source ~/.antidote/antidote.zsh
 antidote load
 
-# I don't think compinit stuff is needed as the 
-skip_global_compinit=1
-
-# Set the theme
-autoload -Uz promptinit; promptinit
-
 # Load the shell dotfiles
-for file in ~/.zsh_{path,exports,aliases,functions,local}.sh; do
+for file in ~/.zsh_{env,path,aliases,functions,local}.sh; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;

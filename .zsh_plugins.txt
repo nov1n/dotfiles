@@ -1,6 +1,15 @@
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-completions
+# Completions
+mattmc3/ez-compinit
+zsh-users/zsh-completions kind:fpath path:src
 Aloxaf/fzf-tab
+
+# Completion styles
+belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup
+
+# Vi mode
 jeffreytse/zsh-vi-mode
 
+
+# Fish-like features
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
