@@ -4,7 +4,7 @@ export KEYTIMEOUT=1
 
 export PROJECTS=$HOME/Projects
 export DOTFILES_HOME=$HOME/dotfiles
-export NOTES_HOME=$HOME/Documents/notes
+export NOTES_HOME=$HOME/Notes
 
 # Make nvim the default editor.
 export EDITOR="nvim";

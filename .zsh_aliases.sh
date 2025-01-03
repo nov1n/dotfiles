@@ -7,7 +7,6 @@ alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 alias edot="cd dotfiles; nvim"
-alias notes="cd ~/Notes; vim"
 alias youtube-dl="yt-dlp"
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
 alias adot=dotfiles_adder.sh
