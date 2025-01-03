@@ -21,10 +21,27 @@ vim.api.nvim_create_autocmd("FocusLost", {
   callback = close_on_shutdown,
 })
 
--- Disable autoformat for kotlin files, because Picnic's style deviates from the default style.
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "kotlin" },
+  desc = "Disable autoformat for kotlin files, because Picnic's style deviates from the default style.",
   callback = function()
     vim.b.autoformat = false
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  pattern = VARS.notes_dir .. "/*",
+  desc = "Mark 'journal' habit done when saving today's journal entry",
+  callback = function()
+    local filename = U.get_buf_path()
+    local current_date = os.date("%Y%%-%m%%-%d") -- Replace - with %- to turn into a lua pattern
+    if string.match(filename, current_date .. ".md$") then
+      vim.system({ "mark-journal-habit-done.sh" }, {}, function()
+        vim.notify("Marked 'journal' habit for today as done.", vim.log.levels.INFO, {
+          title = "HabitDeck",
+          render = "minimal",
+        })
+      end)
+    end
   end,
 })
