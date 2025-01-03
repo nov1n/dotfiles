@@ -5,9 +5,8 @@ fi
 source ~/.antidote/antidote.zsh
 antidote load
 
-# Load autosuggestions
-autoload -U compinit
-compinit
+# I don't think compinit stuff is needed as the 
+skip_global_compinit=1
 
 # Set the theme
 autoload -Uz promptinit; promptinit
@@ -22,17 +21,31 @@ unset file;
 source <(fzf --zsh)
 
 # Configure autocomplete
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# custom fzf flags
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Custom keybindings
 function zvm_after_init() {
   zvm_bindkey viins "^R" fzf-history-widget
-  zvm_bindkey viins '^ ' fzf-cd-widget
-  zvm_bindkey viins '^Y' autosuggest-accept
+  zvm_bindkey viins "^ " fzf-cd-widget
+  zvm_bindkey viins "^T" fzf-file-widget
+  zvm_bindkey viins "^Y" autosuggest-accept
+  zvm_bindkey viins "^I" fzf-tab-complete # Tab key
 }
 
 # Load tools
