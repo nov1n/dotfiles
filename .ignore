@@ -9,6 +9,7 @@
 .cache/
 .git/
 node_modules/
+target/
 
 # Dotfiles
 OfficialSpoons/
