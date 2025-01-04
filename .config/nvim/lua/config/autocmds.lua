@@ -45,3 +45,8 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     end
   end,
 })
+
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                      User commands                      │
+--          ╰─────────────────────────────────────────────────────────╯
+vim.cmd([[command DiffOrig lefta vnew | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis]])
