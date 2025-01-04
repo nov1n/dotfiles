@@ -23,9 +23,8 @@ config.max_fps = 144
 config.animation_fps = 144
 
 -- Appearance
---config.enable_tab_bar = false
 config.use_fancy_tab_bar = false
-config.window_close_confirmation = "NeverPrompt"
+--config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night Moon"
 config.font_size = 18
@@ -38,40 +37,41 @@ config.window_padding = {
 }
 
 -- Keymap
-local leader = "CMD"
+local mod = "CMD"
 config.keys = {
 	-- System
-	{ key = "d", mods = leader, action = wezterm.action.ShowDebugOverlay },
+	{ key = "d", mods = mod, action = wezterm.action.ShowDebugOverlay },
+	{ key = "q", mods = mod, action = wezterm.action.QuitApplication },
 
 	-- Tabs
-	{ key = "t", mods = leader, action = act.SpawnTab("CurrentPaneDomain") },
-	{ key = "1", mods = leader, action = act.ActivateTab(0) },
-	{ key = "2", mods = leader, action = act.ActivateTab(1) },
-	{ key = "3", mods = leader, action = act.ActivateTab(2) },
-	{ key = "4", mods = leader, action = act.ActivateTab(3) },
-	{ key = "5", mods = leader, action = act.ActivateTab(4) },
-	{ key = "6", mods = leader, action = act.ActivateTab(5) },
-	{ key = "7", mods = leader, action = act.ActivateTab(6) },
-	{ key = "8", mods = leader, action = act.ActivateTab(7) },
-	{ key = "9", mods = leader, action = act.ActivateTab(8) },
-	{ key = "[", mods = leader, action = act.ActivateTabRelative(-1) },
-	{ key = "]", mods = leader, action = act.ActivateTabRelative(1) },
+	{ key = "t", mods = mod, action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "1", mods = mod, action = act.ActivateTab(0) },
+	{ key = "2", mods = mod, action = act.ActivateTab(1) },
+	{ key = "3", mods = mod, action = act.ActivateTab(2) },
+	{ key = "4", mods = mod, action = act.ActivateTab(3) },
+	{ key = "5", mods = mod, action = act.ActivateTab(4) },
+	{ key = "6", mods = mod, action = act.ActivateTab(5) },
+	{ key = "7", mods = mod, action = act.ActivateTab(6) },
+	{ key = "8", mods = mod, action = act.ActivateTab(7) },
+	{ key = "9", mods = mod, action = act.ActivateTab(8) },
+	{ key = "[", mods = mod, action = act.ActivateTabRelative(-1) },
+	{ key = "]", mods = mod, action = act.ActivateTabRelative(1) },
 
 	-- Panes
-	{ key = "w", mods = leader, action = act.CloseCurrentPane({ confirm = true }) },
-	{ key = "n", mods = leader, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "m", mods = leader, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-	{ key = "z", mods = leader, action = act.TogglePaneZoomState },
+	{ key = "w", mods = mod, action = act.CloseCurrentPane({ confirm = true }) },
+	{ key = "n", mods = mod, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "m", mods = mod, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "z", mods = mod, action = act.TogglePaneZoomState },
 
 	-- Copy, paste, search
-	{ key = "c", mods = leader, action = act.CopyTo("Clipboard") },
-	{ key = "v", mods = leader, action = act.PasteFrom("Clipboard") },
-	{ key = "f", mods = leader, action = act.Search({ CaseSensitiveString = "" }) },
+	{ key = "c", mods = mod, action = act.CopyTo("Clipboard") },
+	{ key = "v", mods = mod, action = act.PasteFrom("Clipboard") },
+	{ key = "f", mods = mod, action = act.Search({ CaseSensitiveString = "" }) },
 
 	-- Font size
-	{ key = "-", mods = leader, action = act.DecreaseFontSize },
-	{ key = "=", mods = leader, action = act.IncreaseFontSize },
-	{ key = "0", mods = leader, action = act.ResetFontSize },
+	{ key = "-", mods = mod, action = act.DecreaseFontSize },
+	{ key = "=", mods = mod, action = act.IncreaseFontSize },
+	{ key = "0", mods = mod, action = act.ResetFontSize },
 
 	-- Map control backspace to Control-w
 	{ key = "Backspace", mods = "CTRL", action = act.SendKey({ key = "w", mods = "CTRL" }) },
@@ -80,7 +80,7 @@ config.keys = {
 	-- Toggles from a terminal pane to Neovim
 	{
 		key = "Backspace",
-		mods = leader,
+		mods = mod,
 		action = wezterm.action_callback(function(_, pane)
 			local is_neovim = pane:get_foreground_process_name():match("nvim$") ~= nil
 			local tab = pane:tab()
@@ -91,7 +91,7 @@ config.keys = {
 
 				if not pane_next then
 					-- If there is no next pane, split the current pane vertically
-					pane_next = pane:split({ direction = "Bottom" })
+					pane_next = pane:split({ direction = "Bottom", cwd = pane:get_current_working_dir().file_path })
 				end
 
 				pane_next:activate()
