@@ -23,13 +23,6 @@ return {
         -- statusline will be shown only if 'laststatus' == 3
         laststatus = 0, -- turn off the statusline in zen mode
       },
-      -- this will change the font size on wezterm when in zen mode
-      -- See alse also the Plugins/Wezterm section in this projects README
-      wezterm = {
-        enabled = true,
-        -- can be either an absolute font size or the number of incremental steps
-        font = "+1", -- (10% increase per step)
-      },
     },
   },
 }
