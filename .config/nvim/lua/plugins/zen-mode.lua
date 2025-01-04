@@ -2,7 +2,7 @@ return {
   "folke/zen-mode.nvim",
   opts = {
     window = {
-      width = 80,
+      width = 81,
       options = {
         signcolumn = "no", -- disable signcolumn
         number = false, -- disable number column
