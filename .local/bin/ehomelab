@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+mkdir -p /tmp/portainer
+
+if ! mount | grep -q "/tmp/portainer"; then
+  sshfs carosi@192.168.50.3:/home/carosi/docker/ /tmp/portainer
+fi
+
+cd /tmp/portainer || true
+
+nvim
