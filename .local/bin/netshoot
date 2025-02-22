@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Show usage if no container name provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 CONTAINER_NAME"
+    echo "Attaches a debug shell to a running container"
+    echo ""
+    echo "Example: $0 my-nginx"
+    exit 1
+fi
+
+CONTAINER_NAME=$1
+
+# Check if container exists and is running
+if ! docker ps | grep -q "$CONTAINER_NAME"; then
+    echo "Error: Container '$CONTAINER_NAME' not found or not running"
+    exit 1
+fi
+
+# Attach debug container
+echo "Attaching debug shell to container: $CONTAINER_NAME"
+docker run -it --rm \
+    --pid=container:$CONTAINER_NAME \
+    --net=container:$CONTAINER_NAME \
+    --cap-add=SYS_PTRACE \
+    nicolaka/netshoot
