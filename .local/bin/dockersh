@@ -90,6 +90,7 @@ inject_busybox() {
     return 1
   fi
 
+  # Make busybox executable locally before copying
   chmod +x "$TEMP_DIR/busybox"
 
   printf "Copying busybox into container...\n" >&2
@@ -98,14 +99,21 @@ inject_busybox() {
     return 1
   fi
 
-  # Try to make busybox executable in container
-  if ! docker exec "$CONTAINER_NAME" chmod +x /tmp/busybox; then
-    printf "Failed to make busybox executable\n" >&2
-    return 1
-  fi
+  # Create a temporary directory for busybox tools
+  printf "Setting up busybox environment...\n" >&2
+  docker exec "$CONTAINER_NAME" /tmp/busybox mkdir -p /tmp/bin
 
-  printf "Starting busybox shell...\n" >&2
-  docker exec -it "$CONTAINER_NAME" /tmp/busybox sh
+  # Create symlinks for all busybox applets
+  printf "Creating symlinks for all busybox applets...\n" >&2
+  docker exec "$CONTAINER_NAME" /tmp/busybox sh -c '
+        cd /tmp/bin
+        for cmd in $(/tmp/busybox --list); do
+            /tmp/busybox ln -sf /tmp/busybox "$cmd"
+        done
+    '
+
+  printf "Starting busybox shell with enhanced PATH...\n" >&2
+  docker exec -it "$CONTAINER_NAME" /tmp/busybox sh -c 'PATH=/tmp/bin:$PATH sh'
   return 0
 }
 
@@ -122,12 +130,3 @@ printf "Attempting to inject busybox...\n" >&2
 if inject_busybox; then
   exit 0
 fi
-
-# Step 3: Fall back to debug container
-printf "All direct shell attempts failed\n" >&2
-printf "Attaching debug container instead...\n" >&2
-docker run -it --rm \
-  --pid=container:"$CONTAINER_NAME" \
-  --net=container:"$CONTAINER_NAME" \
-  --cap-add=SYS_PTRACE \
-  nicolaka/netshoot
