@@ -10,6 +10,8 @@ alias edot="cd dotfiles; nvim"
 alias youtube-dl="yt-dlp"
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
 alias adot=dotfiles_adder.sh
+alias resetusb="uhubctl -a cycle -p 2"
+alias shfmt="shfmt -w -i 2 -ci -bn"
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
@@ -27,7 +29,10 @@ alias sudo='sudo '
 # Get week number
 alias week='date +%V'
 
-alias stretch="vlc --play-and-exit -f ~/Documents/yt-dlp/15-min-standing-yoga.mkv"
+# Picnic
+alias secrets="docker run --rm -it --volume \"\$(pwd):/home/picnic/repository\" 008971659647.dkr.ecr.eu-west-1.amazonaws.com/teampicnic/picnic-secrets-scanner:2.4.0"
+
+alias stretch="vlc --play-and-exit -f ~/Documents/yt-dlp/15-min-standing-yoga.mkv && habit move"
 
 # Networking
 alias localip="ipconfig getifaddr en0"

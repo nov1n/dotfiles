@@ -8,4 +8,4 @@
 # Optional parameters:
 # @raycast.icon 🪑
 
-zsh -ci 'hass-cli service call button.press --arguments entity_id=button.standing_desk_preset_3'
+zsh -ci 'hass-cli service call button.press --arguments entity_id=button.standing_desk_preset_1'

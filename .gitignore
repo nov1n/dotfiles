@@ -1,7 +1,5 @@
-# Compiled Python files
-*.pyc
-
-# Folder view configuration files
+# Only files that are specific to my setup are listed here.
+# The rest should live in project-specific .gitignore files.
 .DS_Store
 Desktop.ini
 
@@ -12,7 +10,4 @@ Thumbs.db
 # Files that might appear on external disks
 .Spotlight-V100
 .Trashes
-
-# Tools
-kls_database.db
 
