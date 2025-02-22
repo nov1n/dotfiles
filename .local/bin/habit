@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail
+
+# Define the associative array of habit names and IDs
+declare -A habits=(
+  ["move"]="8c9665"
+  ["meditate"]="438a49"
+  ["journal"]="35da0e"
+)
+
+# Get the current date in the desired format
+current_date=$(date +"%d-%m-%Y")
+
+# Set the API endpoint and headers
+endpoint="portainer.carosi.nl:7440/api/v1/habits"
+
+# Check if a habit name is provided as an argument
+if [[ $# -eq 0 ]]; then
+  echo "Usage: $0 <habit_name>"
+  exit 1
+fi
+
+# Get the habit ID from the associative array
+habit_id="${habits[$1]}"
+
+# Check if the habit ID exists
+if [[ -z "$habit_id" ]]; then
+  echo "Invalid habit name: $1"
+  exit 1
+fi
+
+# Construct the endpoint and payload
+endpoint="${endpoint}/${habit_id}/completions"
+payload='{"date_fmt": "%d-%m-%Y", "date": "'"$current_date"'", "done": true}'
+
+# Make the API request
+response=$(curl -X POST -H "Content-Type: application/json" -d "$payload" "http://$endpoint")
+
+# Print the response
+echo "$response"
