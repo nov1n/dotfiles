@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+
+# Show usage if no container name provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 CONTAINER_NAME"
+    echo "Attempts to get a shell in a container using multiple methods"
+    echo ""
+    echo "Example: $0 my-nginx"
+    exit 1
+fi
+
+CONTAINER_NAME=$1
+TEMP_DIR=$(mktemp -d)
+
+# Busybox binaries for different architectures
+declare -A BUSYBOX_URLS=(
+    ["x86_64"]="https://busybox.net/downloads/binaries/1.35.0-x86_64-linux-musl/busybox"
+    ["aarch64"]="https://busybox.net/downloads/binaries/1.35.0-aarch64-linux-musl/busybox"
+    ["armv7l"]="https://busybox.net/downloads/binaries/1.35.0-armv7l-linux-musleabihf/busybox"
+)
+
+# Clean up function
+cleanup() {
+    rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
+
+# Check if container exists and is running
+if ! docker ps | grep -q "$CONTAINER_NAME"; then
+    echo "Error: Container '$CONTAINER_NAME' not found or not running"
+    exit 1
+fi
+
+# Function to try existing shells
+try_existing_shells() {
+    echo "Trying existing shells..."
+    
+    # Try bash
+    if docker exec -it "$CONTAINER_NAME" which bash >/dev/null 2>&1; then
+        echo "Found bash, connecting..."
+        docker exec -it "$CONTAINER_NAME" bash
+        return 0
+    fi
+    
+    # Try sh
+    if docker exec -it "$CONTAINER_NAME" which sh >/dev/null 2>&1; then
+        echo "Found sh, connecting..."
+        docker exec -it "$CONTAINER_NAME" sh
+        return 0
+    fi
+    
+    echo "No standard shells found"
+    return 1
+}
+
+# Function to detect container architecture
+detect_arch() {
+    docker exec "$CONTAINER_NAME" uname -m
+}
+
+# Function to inject busybox
+inject_busybox() {
+    local arch=$(detect_arch)
+    local busybox_url="${BUSYBOX_URLS[$arch]}"
+    
+    if [ -z "$busybox_url" ]; then
+        echo "No busybox binary available for architecture: $arch"
+        return 1
+    fi
+    
+    echo "Detected architecture: $arch"
+    echo "Downloading static busybox binary..."
+    if ! wget -q "$busybox_url" -O "$TEMP_DIR/busybox"; then
+        echo "Failed to download busybox"
+        return 1
+    fi
+    
+    chmod +x "$TEMP_DIR/busybox"
+    
+    echo "Copying busybox into container..."
+    if ! docker cp "$TEMP_DIR/busybox" "$CONTAINER_NAME:/tmp/busybox"; then
+        echo "Failed to copy busybox into container"
+        return 1
+    fi
+    
+    # Try to make busybox executable in container
+    if ! docker exec "$CONTAINER_NAME" chmod +x /tmp/busybox; then
+        echo "Failed to make busybox executable"
+        return 1
+    fi
+    
+    echo "Starting busybox shell..."
+    docker exec -it "$CONTAINER_NAME" /tmp/busybox sh
+    return 0
+}
+
+# Main logic
+echo "Attempting to get a shell in container: $CONTAINER_NAME"
+
+# Step 1: Try existing shells
+if try_existing_shells; then
+    exit 0
+fi
+
+# Step 2: Try injecting busybox
+echo "Attempting to inject busybox..."
+if inject_busybox; then
+    exit 0
+fi
+
