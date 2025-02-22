@@ -29,22 +29,24 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  pattern = VARS.notes_dir .. "/*",
-  desc = "Mark 'journal' habit done when saving today's journal entry",
-  callback = function()
-    local filename = U.get_buf_path()
-    local current_date = os.date("%Y%%-%m%%-%d") -- Replace - with %- to turn into a lua pattern
-    if string.match(filename, current_date .. ".md$") then
-      vim.system({ "mark-journal-habit-done.sh" }, {}, function()
-        vim.notify("Marked 'journal' habit for today as done.", vim.log.levels.INFO, {
-          title = "HabitDeck",
-          render = "minimal",
-        })
-      end)
-    end
-  end,
-})
+if VARS.notes_dir then
+  vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+    pattern = VARS.notes_dir .. "/*",
+    desc = "Mark 'journal' habit done when saving today's journal entry",
+    callback = function()
+      local filename = U.get_buf_path()
+      local current_date = os.date("%Y%%-%m%%-%d") -- Replace - with %- to turn into a lua pattern
+      if string.match(filename, current_date .. ".md$") then
+        vim.system({ "habit", "journal" }, {}, function()
+          vim.notify("Marked 'journal' habit for today as done.", vim.log.levels.INFO, {
+            title = "HabitDeck",
+            render = "minimal",
+          })
+        end)
+      end
+    end,
+  })
+end
 
 --          ╭─────────────────────────────────────────────────────────╮
 --          │                      User commands                      │
