@@ -58,7 +58,7 @@ detect_arch() {
   # Try to detect architecture
   local detected_arch
   if ! detected_arch=$(docker exec "$CONTAINER_NAME" uname -m 2>/dev/null); then
-    echo "Warning: Could not detect architecture, falling back to x86_64" >&2
+    # Fallback
     echo "x86_64"
   fi
 
@@ -68,7 +68,7 @@ detect_arch() {
       echo "$detected_arch"
       ;;
     *)
-      echo "Warning: Unsupported architecture '$detected_arch', falling back to x86_64" >&2
+      # Fallback
       echo "x86_64"
       ;;
   esac
