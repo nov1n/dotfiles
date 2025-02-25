@@ -30,7 +30,7 @@ if credentials_file then
   credentials_file:close()
 
   habitDeck:start({
-    endpoint = "http://portainer.carosi.nl:7440",
+    endpoint = "https://habits.carosi.nl",
     username = username,
     password = password,
     habits = { "Move", "Meditate", "Journal" },
