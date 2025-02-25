@@ -1,3 +1,4 @@
+-- https://github.com/neovim/neovim/discussions/28010
 local M = {}
 
 local function paste()
