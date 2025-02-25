@@ -12,6 +12,8 @@ alias wakewin="wakeonlan 74:56:3C:45:75:87"
 alias adot=dotfiles_adder.sh
 alias resetusb="uhubctl -a cycle -p 2"
 alias shfmt="shfmt -w -i 2 -ci -bn"
+alias k=kubectl
+alias d=docker
 
 alias ll="lsd -l"
 alias tree="lsd -l --tree --depth=3"
