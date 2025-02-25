@@ -20,7 +20,7 @@ retry() {
 }
 
 is_on_home_network() {
-  curl -s http://portainer.carosi.nl >/dev/null
+  curl -s http://192.168.50.1 >/dev/null
 }
 
 exit_if_not_at_desk() {
