@@ -8,33 +8,37 @@
 # Optional parameters:
 # @raycast.icon 🖥️
 
+DURATION=0.05
+
 osascript -e 'quit app "Aerospace"' || true
-sleep 0.1
+sleep $DURATION
 open -a Aerospace
 while ! aerospace list-windows --all >/dev/null 2>&1; do
-  sleep 0.001
+  sleep $DURATION
 done
+aerospace workspace main >/dev/null 2>&1
+sleep $DURATION
 aerospace layout v_accordion
-sleep 0.1
+sleep $DURATION
 aerospace trigger-binding --mode main alt-cmd-ctrl-b
-sleep 0.1
+sleep $DURATION
 aerospace move right
-sleep 0.1
+sleep $DURATION
 aerospace resize width +640
-sleep 0.1
+sleep $DURATION
 aerospace trigger-binding --mode main alt-cmd-ctrl-v
-sleep 0.1
+sleep $DURATION
 aerospace join-with right
-sleep 0.1
+sleep $DURATION
 aerospace trigger-binding --mode main alt-cmd-ctrl-t
-sleep 0.1
+sleep $DURATION
 aerospace join-with right
-sleep 0.1
+sleep $DURATION
 aerospace layout floating
-sleep 0.1
+sleep $DURATION
 aerospace layout tiling
-sleep 0.1
+sleep $DURATION
 aerospace layout v_accordion
-sleep 0.1
+sleep $DURATION
 aerospace focus up
-sleep 0.1
+sleep $DURATION
