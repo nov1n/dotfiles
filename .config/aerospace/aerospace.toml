@@ -109,7 +109,6 @@ alt-cmd-ctrl-space = 'exec-and-forget open -a Raycast'
 alt-cmd-ctrl-slash = 'layout tiles horizontal vertical'
 alt-cmd-ctrl-comma = 'layout accordion horizontal vertical'
 
-# 
 # Hyper: alt-cmd-ctrl
 # Hyper+Shift: alt-cmd-ctrl-shift
 
@@ -186,7 +185,7 @@ if.app-name-regex-substring = 'Reminders|Proton\ Mail|Calendar'
 run = ['move-node-to-workspace org']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Chrome|Bambu|Fusion'
+if.app-name-regex-substring = 'Chrome|Bambu|Fusion|Kulve'
 run = ['move-node-to-workspace scratch']
 
 # Floating assignments
