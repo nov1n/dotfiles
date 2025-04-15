@@ -6,7 +6,7 @@ local map = function(modes, lhs, rhs, desc)
   if modes == "a" then
     modes = { "v", "n", "i" }
   end
-  return vim.keymap.set(modes, lhs, rhs, { desc = desc })
+  return vim.keymap.set(modes, lhs, rhs, { desc = desc, silent = true })
 end
 
 local function search_visual_selection()
