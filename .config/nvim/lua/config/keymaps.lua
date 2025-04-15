@@ -39,6 +39,7 @@ map("n",          "<c-n>",      "<Plug>(YankyNextEntry)",                     "C
 map("n",          "<c-p>",      "<Plug>(YankyPreviousEntry)",                 "Cycle back in Yanky ring")
 map("n",          "<leader>fd", "<cmd>DiffOrig<cr>",                          "Diff buffer with file on disk")
 map("i",          "<S-Enter>",  "<Esc>A;<CR>",                                "Shift enter adds semicolon to end of line")
+map("n",          "yp", ":call setreg('+', expand('%:p'))<CR>",               "Copy filepath")
 map("n",          "<leader>bn", ":enew<cr>",                                  "Create new buffer")
 map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       "Git blame")
 map("n",          "<leader>r",  "<cmd>source<cr>",                            "Source current file")
