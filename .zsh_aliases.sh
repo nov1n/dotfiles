@@ -1,12 +1,10 @@
 alias v=nvim
-alias vim='echo Use \"v\" instead!'
 
 alias c="clear"
 alias g="git"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=\$DOTFILES_HOME/script/Brewfile"
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
-alias edot="cd dotfiles; nvim"
 alias youtube-dl="yt-dlp"
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
 alias adot=dotfiles_adder.sh
