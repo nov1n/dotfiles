@@ -13,7 +13,7 @@ declare -A habits=(
 current_date=$(date +"%d-%m-%Y")
 
 # Set the API endpoint and headers
-endpoint="portainer.carosi.nl:7440/api/v1/habits"
+endpoint="https://habits.carosi.nl/api/v1/habits"
 
 # Check if a habit name is provided as an argument
 if [[ $# -eq 0 ]]; then
@@ -35,7 +35,7 @@ endpoint="${endpoint}/${habit_id}/completions"
 payload='{"date_fmt": "%d-%m-%Y", "date": "'"$current_date"'", "done": true}'
 
 # Make the API request
-response=$(curl -X POST -H "Content-Type: application/json" -d "$payload" "http://$endpoint")
+response=$(curl -X POST -H "Content-Type: application/json" -d "$payload" "$endpoint")
 
 # Print the response
 echo "$response"
