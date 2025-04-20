@@ -10,7 +10,7 @@ local function close_on_shutdown()
 
   -- Check if the buffer is unnamed and empty
   if bufname == "" and #bufcontent == 1 and bufcontent[1] == "" then
-    vim.api.nvim_buf_set_option(bufnr, "modified", false) -- Set the buffer as not modified
+    vim.bo[bufnr].modified = false -- Set the buffer as not modified
   end
 end
 
