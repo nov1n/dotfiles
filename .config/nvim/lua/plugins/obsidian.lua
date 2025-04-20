@@ -1,10 +1,10 @@
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
+  lazy = false,
   enabled = function()
     return vim.fn.has("mac") == 1
   end,
-  cmd = { "ObsidianToday" },
   -- stylua: ignore
   keys = {
     { "<leader>o/",     "<cmd>ObsidianSearch<CR>",          { desc = "Search for notes in your vault" } },
@@ -73,6 +73,10 @@ return {
     callbacks = {
       enter_note = function(client, note) end,
       leave_note = function(client, note) end,
+    },
+    completion = {
+      blink = true,
+      min_chars = 2,
     },
   },
 }
