@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🖥️
 
-DURATION=0.05
+DURATION=0.2
 
 osascript -e 'quit app "Aerospace"' || true
 sleep $DURATION
@@ -20,7 +20,7 @@ aerospace workspace main >/dev/null 2>&1
 sleep $DURATION
 aerospace layout v_accordion
 sleep $DURATION
-aerospace trigger-binding --mode main alt-cmd-ctrl-b
+aerospace trigger-binding --mode main alt-cmd-ctrl-o
 sleep $DURATION
 aerospace move right
 sleep $DURATION
@@ -29,6 +29,14 @@ sleep $DURATION
 aerospace trigger-binding --mode main alt-cmd-ctrl-v
 sleep $DURATION
 aerospace join-with right
+sleep $DURATION
+aerospace trigger-binding --mode main alt-cmd-ctrl-b
+sleep $DURATION
+aerospace join-with right
+sleep $DURATION
+aerospace layout floating
+sleep $DURATION
+aerospace layout tiling
 sleep $DURATION
 aerospace trigger-binding --mode main alt-cmd-ctrl-t
 sleep $DURATION
@@ -40,5 +48,4 @@ aerospace layout tiling
 sleep $DURATION
 aerospace layout v_accordion
 sleep $DURATION
-aerospace focus up
-sleep $DURATION
+aerospace trigger-binding --mode main alt-cmd-ctrl-v
