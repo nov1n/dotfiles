@@ -35,11 +35,9 @@ map("n",          "<A-h>",      require("smart-splits").move_cursor_left,     "M
 map("n",          "<A-j>",      require("smart-splits").move_cursor_down,     "Move down")
 map("n",          "<A-k>",      require("smart-splits").move_cursor_up,       "Move up")
 map("n",          "<A-l>",      require("smart-splits").move_cursor_right,    "Move right")
-map("n",          "<c-n>",      "<Plug>(YankyNextEntry)",                     "Cycle forward in Yanky ring")
-map("n",          "<c-p>",      "<Plug>(YankyPreviousEntry)",                 "Cycle back in Yanky ring")
 map("n",          "<leader>fd", "<cmd>DiffOrig<cr>",                          "Diff buffer with file on disk")
 map("i",          "<S-Enter>",  "<Esc>A;<CR>",                                "Shift enter adds semicolon to end of line")
-map("n",          "yp", ":call setreg('+', expand('%:p'))<CR>",               "Copy filepath")
+map("n",          "yp",         ":call setreg('+', expand('%:p'))<CR>",       "Copy filepath")
 map("n",          "<leader>bn", ":enew<cr>",                                  "Create new buffer")
 map("n",          "<leader>gb", "<cmd>BlameToggle<cr>",                       "Git blame")
 map("n",          "<leader>r",  "<cmd>source<cr>",                            "Source current file")
@@ -47,15 +45,10 @@ map("n",          "<leader>uz", "<cmd>ZenMode<cr>",                           "E
 map("v",          "<leader>/",  search_visual_selection,                      "Grep visual selection")
 map({ "n", "v" }, "<leader>xr", "<cmd>SnipRun<cr>",                           "Run snippet")
 map({"n", "t"},   "<C-/>",      "<nop",                                       "Disable terminal keymap")
-
---          ╭─────────────────────────────────────────────────────────╮
---          │                       Comment Box                       │
---          ╰─────────────────────────────────────────────────────────╯
-map({ "n", "v" }, "gcb", "<Cmd>CBccbox<CR>", "Insert box comment")
-map({ "n", "v" }, "gct", "<Cmd>CBllline 15<CR>", "Insert named parts comment")
-map("n",          "gcl", "<Cmd>CBline<CR>", "Insert line comment")
-map({ "n", "v" }, "gcm", "<Cmd>CBllbox10<CR>", "Insert a marked comment")
-map({ "n", "v" }, "gcd", "<Cmd>CBd<CR>", "Remove a box comment")
--- HACK: For some reason this mapping works only with vimscript
-vim.cmd("nmap <bs> ;")
+map({ "n", "v" }, "gcb",        "<Cmd>CBccbox<CR>",                           "Insert box comment")
+map({ "n", "v" }, "gct",        "<Cmd>CBllline 15<CR>",                       "Insert named parts comment")
+map("n",          "gcl",        "<Cmd>CBline<CR>",                            "Insert line comment")
+map({ "n", "v" }, "gcm",        "<Cmd>CBllbox10<CR>",                         "Insert a marked comment")
+map({ "n", "v" }, "gcd",        "<Cmd>CBd<CR>",                               "Remove a box comment")
+vim.cmd("nmap <bs> ;") -- HACK: For some reason this mapping works only with vimscript
 -- stylua: ignore end
