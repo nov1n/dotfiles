@@ -97,6 +97,7 @@ alt-cmd-ctrl-m = 'exec-and-forget open -a Proton\ Mail'
 alt-cmd-ctrl-p = 'exec-and-forget open -a Spotify'
 alt-cmd-ctrl-a = 'exec-and-forget open -a Calendar'
 alt-cmd-ctrl-r = 'exec-and-forget open -a Reminders'
+alt-cmd-ctrl-o = 'exec-and-forget open -a Google\ Chrome'
 alt-cmd-ctrl-s = 'exec-and-forget open -a Slack'
 alt-cmd-ctrl-t = 'exec-and-forget open -a Wezterm'
 alt-cmd-ctrl-v = 'exec-and-forget open -a Firefox'
@@ -185,7 +186,7 @@ if.app-name-regex-substring = 'Reminders|Proton\ Mail|Calendar'
 run = ['move-node-to-workspace org']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Chrome|Bambu|Fusion|Kulve'
+if.app-name-regex-substring = 'Bambu|Fusion|Kulve'
 run = ['move-node-to-workspace scratch']
 
 # Floating assignments
