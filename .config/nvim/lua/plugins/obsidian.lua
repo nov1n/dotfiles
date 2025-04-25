@@ -62,14 +62,7 @@ return {
     ui = {
       enable = false,
     },
-    mappings = {
-      ["<leader>ch"] = {
-        action = function()
-          require("obsidian").util.toggle_checkbox()
-        end,
-        opts = { buffer = true },
-      },
-    },
+    mappings = {},
     callbacks = {
       enter_note = function(client, note) end,
       leave_note = function(client, note) end,
