@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# llm_file_context.sh - Find files, display content, copy to clipboard
+# Usage: ./file-collector.sh "REGEX_PATTERN"
+
+set -e
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 \"REGEX_PATTERN\""
+  exit 1
+fi
+
+PATTERN="$1"
+SEPARATOR="=================================================================="
+TEMP_FILE=$(mktemp)
+FILES_LIST=$(mktemp)
+
+echo "Searching for files matching: $PATTERN"
+echo
+
+# Find and process files
+fd "$PATTERN" --type f | while read -r FILE; do
+  # Skip binary and large files
+  if file "$FILE" | grep -q "binary" || [ "$(stat -c%s "$FILE" 2>/dev/null || stat -f%z "$FILE")" -gt 102400 ]; then
+    continue
+  fi
+
+  # Add to files list
+  echo "$FILE" >>"$FILES_LIST"
+
+  echo "$SEPARATOR" | tee -a "$TEMP_FILE"
+  echo "FILE: $FILE" | tee -a "$TEMP_FILE"
+  echo "$SEPARATOR" | tee -a "$TEMP_FILE"
+  tee -a "$TEMP_FILE" <"$FILE"
+  echo "" | tee -a "$TEMP_FILE"
+  echo "" | tee -a "$TEMP_FILE"
+done
+
+# Copy to clipboard
+cb <"$TEMP_FILE"
+
+# Count files
+FILE_COUNT=$(wc -l <"$FILES_LIST" | tr -d '[:space:]' || echo 0)
+
+# Print the summary of all files
+echo ""
+echo "$SEPARATOR"
+echo "SUMMARY: Found $FILE_COUNT files matching \"$PATTERN\":"
+echo "$SEPARATOR"
+if [ "$FILE_COUNT" -gt 0 ]; then
+  cat "$FILES_LIST"
+fi
+echo "$SEPARATOR"
+
+# Clean up
+rm "$TEMP_FILE" "$FILES_LIST"
