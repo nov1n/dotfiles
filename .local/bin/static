@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Script to upload a file via SCP and copy the URL to the clipboard
+
+REMOTE_HOST="homelab"
+REMOTE_PATH="/home/carosi/static"
+DOMAIN="static.carosi.nl"
+LOCAL_FILE="$1"
+SSH_PORT="${5:-22}" # Use default of 22 if not specified
+
+upload_file() {
+  # Check if the local file exists
+  if [ ! -f "$LOCAL_FILE" ]; then
+    echo "Error: Local file not found: $LOCAL_FILE"
+    return 1
+  fi
+
+  # Extract the filename from the local path
+  FILENAME=$(basename "$LOCAL_FILE")
+
+  # Construct the SCP command
+  SCP_COMMAND="scp -P $SSH_PORT \"$LOCAL_FILE\" \"$REMOTE_HOST:$REMOTE_PATH\""
+
+  # Upload the file
+  echo "Uploading file..."
+  eval "$SCP_COMMAND" # Use eval to execute the command (important for variables)
+
+  if [ $? -ne 0 ]; then
+    echo "Error: SCP failed. Check your connection, credentials, and paths."
+    return 1
+  fi
+
+  # Construct the URL
+  URL="https://${DOMAIN}/${FILENAME}" # HTTPS by default
+
+  # Copy the URL to the clipboard
+  echo "Copying URL to clipboard..."
+  echo "$URL" | cb # Requires 'clipcopy' or similar (see below)
+
+  if [ $? -ne 0 ]; then
+    echo "Warning: Could not copy to clipboard."
+    echo "URL: $URL"
+  else
+    echo "URL copied to clipboard: $URL"
+  fi
+
+  return 0
+}
+
+# --- Main Script ---
+
+# Check for the correct number of arguments
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <local_file>"
+  echo "Example: $0 my_image.jpg"
+  exit 1
+fi
+
+# Call the upload function
+upload_file "$LOCAL_FILE" "$REMOTE_HOST" "$REMOTE_PATH" "$DOMAIN" "$SSH_PORT"
+
+exit $? # Exit with the return code of the upload_file function
