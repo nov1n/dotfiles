@@ -94,7 +94,7 @@ install_neovim() {
     exit 1
   }
   echo "Installing Neovim..."
-  sudo dpkg -i nvim-linux64.deb || {
+  sudo dpkg -i nvim-linux-x86_64.deb || {
     echo "Failed to install Neovim"
     exit 1
   }
