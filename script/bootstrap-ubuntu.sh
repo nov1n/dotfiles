@@ -27,7 +27,7 @@ install_packages() {
     echo "Failed to update package lists" exit 1
   }
   echo "Installing packages..."
-  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd-find || {
+  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd-find || {
     echo "Failed to install packages"
     exit 1
   }
@@ -47,6 +47,10 @@ install_bat() {
     exit 1
   }
   rm "$bat_deb"
+}
+
+install_zoxide() {
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 }
 
 install_fzf() {
@@ -148,6 +152,7 @@ install_dotfiles() {
 
 install_packages
 install_starship
+install_zoxide
 install_bat
 install_fzf
 install_neovim
