@@ -145,7 +145,7 @@ install_delta() {
 }
 
 generate_ssh_key() {
-  ssh-keygen -t ed25519 -C "robert@carosi.nl"
+  ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -N "" -C "robert@carosi.nl"
   eval "$(ssh-agent -s)"
   touch ~/.ssh/config
   printf "Host github.com\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519\n" >>~/.ssh/config
