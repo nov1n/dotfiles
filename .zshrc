@@ -43,7 +43,7 @@ function zvm_after_init() {
 }
 
 # Load tools
-eval $(thefuck --alias) 
+eval "$(pay-respects zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
