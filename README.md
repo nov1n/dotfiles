@@ -5,7 +5,7 @@
 ### Bootstrap debian box
 
 ```bash
-wget -qO- dotfiles.carosi.nl | sh
+wget -qO- dotfiles.carosi.nl | bash
 ```
 
 ### Bootstrap Mac
