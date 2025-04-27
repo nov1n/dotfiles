@@ -27,10 +27,12 @@ install_packages() {
     echo "Failed to update package lists" exit 1
   }
   echo "Installing packages..."
-  sudo apt install -y --allow-unauthenticated ca-certificates git stow zsh curl thefuck lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd-find || {
+  sudo apt install -y --allow-unauthenticated ca-certificates git stow zsh curl lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd-find || {
     echo "Failed to install packages"
     exit 1
   }
+  echo "Installint pay-respects..."
+  curl -sSfL https://raw.githubusercontent.com/iffse/pay-respects/main/install.sh | sh
 }
 
 install_bat() {
