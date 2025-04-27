@@ -128,6 +128,8 @@ generate_ssh_key() {
   printf "Host github.com\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519\n" >>~/.ssh/config
   printf "Add this public key to Github:\n"
   cat ~/.ssh/id_ed25519.pub
+  echo "Press any key when done..."
+  read -n 1 -s -r
 }
 
 install_dotfiles() {
