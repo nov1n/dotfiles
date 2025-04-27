@@ -27,7 +27,7 @@ install_packages() {
     echo "Failed to update package lists" exit 1
   }
   echo "Installing packages..."
-  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd || {
+  sudo apt install -y --allow-unauthenticated git stow zsh curl thefuck zoxide lsd man sudo wget unzip cmake ninja-build gettext nodejs npm python3 imagemagick ripgrep fd-find || {
     echo "Failed to install packages"
     exit 1
   }
