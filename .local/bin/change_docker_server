@@ -23,7 +23,7 @@ case "$1" in
     DOCKER_HOST="" # Empty variable defaults to localhost
     ;;
   desktop)
-    DOCKER_HOST="tcp://docker.carosi.nl"
+    DOCKER_HOST="ssh://desktop"
     ;;
   *)
     echo "Invalid argument: $1"
