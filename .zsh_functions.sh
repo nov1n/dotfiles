@@ -131,11 +131,6 @@ cbprint() {
   fi
 }
 
-chdocker() {
-  change_docker_server "$1"
-  rel
-}
-
 my_zvm_vi_yank() {
   zvm_vi_yank
   echo -en "${CUTBUFFER}" | cbread
