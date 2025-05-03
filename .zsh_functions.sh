@@ -131,6 +131,14 @@ cbprint() {
   fi
 }
 
+notify() {
+  local command_text="$*"
+  time "$@"
+  local statuscode=$?
+  printf "\e]9;%s\e\\" "Command '$command_text' finished with status code: $statuscode"
+  afplay /System/Library/Sounds/Glass.aiff
+}
+
 my_zvm_vi_yank() {
   zvm_vi_yank
   echo -en "${CUTBUFFER}" | cbread
