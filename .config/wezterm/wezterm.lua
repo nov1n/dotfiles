@@ -25,6 +25,7 @@ config.animation_fps = 144
 -- Appearance
 config.use_fancy_tab_bar = false
 --config.window_close_confirmation = "NeverPrompt"
+config.notification_handling = "AlwaysShow"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night Moon"
 config.font_size = 18
@@ -76,6 +77,11 @@ config.keys = {
 	-- Map control backspace to Control-w
 	{ key = "Backspace", mods = "CTRL", action = act.SendKey({ key = "w", mods = "CTRL" }) },
 	{ key = "w", mods = "CTRL", action = act.Nop },
+
+	-- Scrolling
+	{ key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-5) },
+	{ key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(5) },
+	{ key = "e", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
 	-- Toggles from a terminal pane to Neovim
 	{
