@@ -123,6 +123,34 @@ config.keys = {
 			end
 		end),
 	},
+
+	-- Rerun last command in pane below
+	{
+		key = "r",
+		mods = mod,
+		action = wezterm.action_callback(function(win, pane)
+			local is_neovim = pane:get_foreground_process_name():match("nvim$") ~= nil
+			local tab = pane:tab()
+
+			if is_neovim then
+				-- If the current pane is Neovim, try to switch to the next pane in the tab
+				local pane_next = tab:get_pane_direction("Down")
+
+				if not pane_next then
+					-- If there is no next pane, we do nothing
+					print("No pane below the current one!")
+					return
+				end
+
+				pane_next:activate()
+
+				win:perform_action(wezterm.action({ SendString = "!!\n" }), pane_next)
+
+				-- Return focus to the original pane
+				win:perform_action(wezterm.action({ ActivatePaneDirection = "Up" }), pane)
+			end
+		end),
+	},
 }
 
 smart_splits.apply_to_config(config, {
