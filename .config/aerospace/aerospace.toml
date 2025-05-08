@@ -191,5 +191,5 @@ run = ['move-node-to-workspace scratch']
 
 # Floating assignments
 [[on-window-detected]]
-if.app-name-regex-substring = 'Karabiner|Finder|Preview|QuickTime'
+if.app-name-regex-substring = 'Karabiner|Finder|Preview|QuickTime|Cisco Secure Client'
 run = ['layout floating']
