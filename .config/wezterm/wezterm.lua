@@ -67,7 +67,7 @@ config.keys = {
 	-- Copy, paste, search
 	{ key = "c", mods = mod, action = act.CopyTo("Clipboard") },
 	{ key = "v", mods = mod, action = act.PasteFrom("Clipboard") },
-	{ key = "f", mods = mod, action = act.Search({ CaseSensitiveString = "" }) },
+	{ key = "f", mods = mod, action = act.Search("CurrentSelectionOrEmptyString") },
 
 	-- Font size
 	{ key = "-", mods = mod, action = act.DecreaseFontSize },
