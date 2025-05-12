@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -eo pipefail
-set -x
 
 # Set new line and tab for word splitting
 IFS=$'\n\t'
@@ -12,6 +11,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
+# Read the full path of the source file
 SOURCE=$(readlink -f "$1")
 
 # Check if source exists
@@ -20,13 +20,13 @@ if [ ! -e "$SOURCE" ]; then
   exit 1
 fi
 
-# Get relative path from home directory
-REL_PATH=$(grealpath --relative-to="$HOME" "$SOURCE")
-DOTFILES_PATH="$DOTFILES_HOME/$REL_PATH"
+# Get the base name (e.g., .vimrc) for use in destination path
+BASENAME=$(basename "$SOURCE")
+DOTFILES_PATH="$DOTFILES_HOME/$BASENAME"
 
-# Check if already in dotfiles
+# Check if the file already exists in the dotfiles directory
 if [ -e "$DOTFILES_PATH" ]; then
-  echo "$REL_PATH already exists in dotfiles"
+  echo "$BASENAME already exists in dotfiles"
   exit 0
 fi
 
@@ -36,8 +36,8 @@ mkdir -p "$(dirname "$DOTFILES_PATH")"
 # Move to dotfiles
 mv "$SOURCE" "$DOTFILES_PATH"
 
-# Use Stow to create the symlink
+# Use Stow to create the symlink in the home directory
 cd "$DOTFILES_HOME"
 stow -v .
 
-echo "Successfully added $REL_PATH to dotfiles and created symlink using Stow"
+echo "Successfully added $BASENAME to dotfiles and created symlink using Stow"
