@@ -94,6 +94,27 @@ ssh() {
   cd . # Trigger OSC 7 from function above to update window title
 }
 
+dsh() {
+  docker exec -it $1 bash
+}
+# Completion function for `dsh`
+_dsh() {
+  local state
+
+  _arguments \
+    '1:container name:->containers'
+  
+  case $state in
+    containers)
+      # Use Docker to get the list of running container names
+      local containers=("${(@f)$(docker ps --format '{{.Names}}')}")
+      compadd "$@" -- "${containers[@]}"
+      ;;
+  esac
+}
+# Register the completion function with `dsh`
+compdef _dsh dsh
+
 # Convert video to gif file.
 # Usage: video2gif video_file (scale) (fps)
 video2gif() {
