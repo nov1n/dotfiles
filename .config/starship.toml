@@ -21,7 +21,6 @@ vimcmd_symbol = "[❮](green)"
 
 [git_branch]
 format = "[$branch]($style) "
-style = "bright-black"
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\)'
