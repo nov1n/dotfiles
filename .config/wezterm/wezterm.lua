@@ -81,6 +81,8 @@ config.keys = {
 	-- Scrolling
 	{ key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-5) },
 	{ key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(5) },
+	{ key = "PageUp", action = act.ScrollByPage(-0.5) },
+	{ key = "PageDown", action = act.ScrollByPage(0.5) },
 	{ key = "e", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
 	-- Toggles from a terminal pane to Neovim
