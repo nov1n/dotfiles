@@ -16,8 +16,7 @@ alias d=docker
 alias ll="lsd -l"
 alias la="lsd -la"
 alias tree="lsd -l --tree --depth=3"
-alias cat="bat"
-alias grep="rg"
+#alias cat="bat"
 alias lg="lazygit"
 alias tw="taskwarrior-tui"
 
