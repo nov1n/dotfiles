@@ -4,6 +4,7 @@ return {
   opts = {
     spec = {
       { "<leader>o", group = "obsidian", icon = "󱞂" },
+      { "<leader>a", group = "CodeCompanion", icon = "" },
     },
   },
 }
