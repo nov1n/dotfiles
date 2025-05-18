@@ -50,5 +50,11 @@ map({ "n", "v" }, "gct",        "<Cmd>CBllline 15<CR>",                       "I
 map("n",          "gcl",        "<Cmd>CBline<CR>",                            "Insert line comment")
 map({ "n", "v" }, "gcm",        "<Cmd>CBllbox10<CR>",                         "Insert a marked comment")
 map({ "n", "v" }, "gcd",        "<Cmd>CBd<CR>",                               "Remove a box comment")
+map({ "n", "v" }, "<leader>ac", "<cmd>CodeCompanionActions<cr>",              "Show CodeCompanion actions")
+map({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>",          "Toggle CodeCompanion chat")
+map("v",          "<leader>av", "<cmd>CodeCompanionChat Add<cr>",             "Add current selection to CodeCompanion chat")
+
+-- Expand 'cc' into 'CodeCompanion' in the command line
+vim.cmd([[cab cc CodeCompanion]])
 vim.cmd("nmap <bs> ;") -- HACK: For some reason this mapping works only with vimscript
 -- stylua: ignore end
