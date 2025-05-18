@@ -5,8 +5,7 @@ return {
     opts.sections.lualine_c[4] = { "filename", path = 1 }
     -- Disable clock
     opts.sections.lualine_z = {}
-
-    -- Add cwd to lualine_x
+    -- Add cwd to right side
     opts.sections.lualine_x = {
       function()
         return " " .. vim.fn.getcwd()
