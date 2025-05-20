@@ -25,6 +25,18 @@ include solarized-dark-256.theme
 #include solarized-light-256.theme
 #include no-color.theme
 
+context=picnic
 context.picnic.read=project:picnic
 context.picnic.write=project:picnic
-context=picnic
+
+# Completed today
+report.completed.today.name=Completed Today
+report.completed.today.filter=end.after:yesterday status:completed
+report.completed.today.columns=start.age,description,end,project
+report.completed.today.sort=end-
+
+# Completed this week
+report.completed.week.name=Completed This Week
+report.completed.week.filter=end.after:today-7days status:completed
+report.completed.week.columns=start.age,description,end,project
+report.completed.week.sort=end-
