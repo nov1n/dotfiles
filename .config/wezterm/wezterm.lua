@@ -146,7 +146,7 @@ config.keys = {
 
 				pane_next:activate()
 
-				win:perform_action(wezterm.action({ SendString = "!!\n" }), pane_next)
+				win:perform_action(wezterm.action({ SendString = "\x03!!\n" }), pane_next)
 
 				-- Return focus to the original pane
 				win:perform_action(wezterm.action({ ActivatePaneDirection = "Up" }), pane)
