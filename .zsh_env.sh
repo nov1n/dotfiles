@@ -33,8 +33,8 @@ export LC_ALL='en_US.UTF-8';
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
 
-# Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
+# Use nvim as manpager.
+export MANPAGER="nvim -c 'Man!'";
 
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
