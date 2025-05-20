@@ -177,7 +177,10 @@
   conflictstyle = diff3
 
 [diff]
-  colorMoved = default
+	tool = nvimdiff
+
+[difftool "nvimdiff"]
+	cmd = "nvim -c \"DiffviewOpen\""
 
 [merge "mergiraf"]
 	name = mergiraf
