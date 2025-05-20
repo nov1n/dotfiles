@@ -53,6 +53,8 @@ map({ "n", "v" }, "gcd",        "<Cmd>CBd<CR>",                               "R
 map({ "n", "v" }, "<leader>ac", "<cmd>CodeCompanionActions<cr>",              "Show CodeCompanion actions")
 map({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>",          "Toggle CodeCompanion chat")
 map("v",          "<leader>av", "<cmd>CodeCompanionChat Add<cr>",             "Add current selection to CodeCompanion chat")
+map('n', 'k', function() return (vim.v.count > 1 and "m'" .. vim.v.count or "") .. 'gk' end, "Add <count>k to jumplist")
+map('n', 'j', function() return (vim.v.count > 1 and "m'" .. vim.v.count or "") .. 'gj' end, "Add <count>j to jumplist")
 
 -- Expand 'cc' into 'CodeCompanion' in the command line
 vim.cmd([[cab cc CodeCompanion]])
