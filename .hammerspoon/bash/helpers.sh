@@ -1,3 +1,5 @@
+source "${HOME}/.zsh_local.sh"
+
 _is_on_home_network() {
   curl -s http://192.168.50.1 >/dev/null
 }

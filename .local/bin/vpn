@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+function get_vpn_status() {
+  if picnic vpn 2>/dev/null | grep -Eiq "state: Connected|>> state: Connected"; then
+    return 0 # Connected
+  else
+    return 1 # Disconnected
+  fi
+}
+
+function disconnect_vpn() {
+  echo "Disconnecting VPN..."
+  if picnic vpn disconnect; then
+    echo "VPN disconnected successfully."
+  else
+    echo "Error disconnecting VPN or already disconnected."
+  fi
+}
+
+function connect_vpn() {
+  if get_vpn_status; then
+    echo "VPN is already connected."
+    return
+  fi
+
+  if picnic vpn connect; then
+    echo "VPN connected successfully."
+  else
+    echo "Error connecting to VPN."
+    return 1
+  fi
+}
+
+function usage() {
+  echo "Usage: $0 [connect|disconnect|toggle|status]"
+  exit 1
+}
+
+ACTION="${1}"
+
+case "$ACTION" in
+  connect) connect_vpn ;;
+  disconnect) disconnect_vpn ;;
+  toggle)
+    echo "Toggling VPN state..."
+    if get_vpn_status; then disconnect_vpn; else connect_vpn; fi
+    ;;
+  status)
+    if get_vpn_status; then
+      echo "VPN is Connected."
+      exit 0
+    else
+      echo "VPN is Disconnected."
+      exit 1
+    fi
+    ;;
+  *) usage ;;
+esac
+
+exit 0

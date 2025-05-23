@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 . "$(dirname "$0")/helpers.sh"
 
