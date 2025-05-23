@@ -49,6 +49,7 @@ eval "$(starship init zsh)"
 
 # Load autocmpletions
 source <(docker completion zsh)
+source <(picnic autocomplete script zsh)
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
