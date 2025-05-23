@@ -2,29 +2,34 @@ local log = hs.logger.new("SleepWatcher", "debug")
 
 local watcher = hs.caffeinate.watcher
 
-local M = {}
+local function executeAndLogAsync(scriptPath)
+  local task = hs.task.new(scriptPath, function(exitCode, stdOut, stdErr)
+    if exitCode == 0 then
+      log.i("\n" .. stdOut)
+    else
+      log.e("Error executing script: " .. stdErr)
+    end
+  end)
 
-local function executeAndLog(scriptPath)
-  -- True here runs the script in a login shell
-  local output, _, _, _ = hs.execute(scriptPath, true)
-  log.i("\n" .. output)
+  if not task:start() then log.e("Failed to start task for script: " .. scriptPath) end
 end
 
 local scriptPath = debug.getinfo(1, "S").source:sub(2)
 local scriptDir = scriptPath:match("(.*/)") .. "../bash/"
-M.sleepScript = scriptDir .. "sleep.sh"
-M.wakeScript = scriptDir .. "wakeup.sh"
+local sleepScript = scriptDir .. "sleep.sh"
+local wakeScript = scriptDir .. "wakeup.sh"
 
-function M:handler(event)
+local function handler(event)
   if event == watcher.systemWillSleep then
-    executeAndLog(self.sleepScript)
+    executeAndLogAsync(sleepScript)
   elseif event == watcher.systemDidWake then
-    executeAndLog(self.wakeScript)
+    executeAndLogAsync(wakeScript)
   end
 end
 
-M.watcher = watcher.new(function(event) M:handler(event) end)
+local M = {}
 
+M.watcher = watcher.new(function(event) handler(event) end)
 function M:start() self.watcher:start() end
 function M:stop() self.watcher:stop() end
 

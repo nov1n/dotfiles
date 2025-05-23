@@ -3,6 +3,7 @@ require("hs.ipc")
 
 -- Local modules
 local sleepWatcher = require("util.sleepwatcher")
+local vpnMonitor = require("util.vpnmonitor")
 
 -- External Spoons
 local caff = hs.loadSpoon("Caffeine")
@@ -21,6 +22,9 @@ hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.",
 caff:start(true)
 caff:setState(true)
 sleepWatcher:start()
+
+-- VPN Monitor
+vpnMonitor:start()
 
 -- HabitDeck
 local credentials_file = io.open(os.getenv("HOME") .. "/.beaverhabits", "r")
