@@ -185,7 +185,7 @@ if.app-name-regex-substring = 'Reminders|Proton\ Mail|Calendar'
 run = ['move-node-to-workspace org']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Bambu|Fusion|Kulve'
+if.app-name-regex-substring = 'Bambu|Fusion|Kulve|Affinity'
 run = ['move-node-to-workspace scratch']
 
 # Floating assignments
