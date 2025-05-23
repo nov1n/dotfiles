@@ -6,7 +6,7 @@ source ~/.antidote/antidote.zsh
 antidote load
 
 # Load the shell dotfiles
-for file in ~/.zsh_{env,path,aliases,functions,local}.sh; do
+for file in ~/.zsh_{aliases,functions,local}.sh; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
