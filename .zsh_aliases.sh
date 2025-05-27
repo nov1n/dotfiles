@@ -31,9 +31,6 @@ alias sudo='sudo '
 # Get week number
 alias week='date +%V'
 
-# Picnic
-alias secrets="DOCKER_HOST='unix:///var/run/docker.sock' docker run --rm -it --volume \"\$(pwd):/home/picnic/repository\" 008971659647.dkr.ecr.eu-west-1.amazonaws.com/teampicnic/picnic-secrets-scanner:2.4.0"
-
 alias stretch="vlc --play-and-exit -f ~/Documents/yt-dlp/15-min-standing-yoga.mkv && habit move"
 
 # Networking
