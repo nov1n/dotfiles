@@ -183,7 +183,6 @@ tabline.setup({
 	options = {
 		theme = "Tokyo Night Moon",
 		theme_overrides = {
-			-- Default tab colors
 			tab = {
 				active = { fg = "#819EFA", bg = "#353955" },
 				inactive = { fg = "#797FAD", bg = "#1C1D2A" },
@@ -200,7 +199,7 @@ tabline.setup({
 			cwd,
 			{
 				"process",
-				process_to_icon = { ["nvim"] = { wezterm.nerdfonts.custom_neovim, color = { fg = "#FFFFFF" } } },
+				process_to_icon = { ["nvim"] = { wezterm.nerdfonts.custom_neovim, color = false } },
 			},
 			{ "zoomed", padding = 0 },
 		},
