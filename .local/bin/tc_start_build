@@ -1,0 +1,43 @@
+#!/bin/bash
+
+TC_ACCESS_TOKEN="${TC_PAT}" # must be passed in as env var
+TC_SERVER_URL="${TC_SERVER_URL:-https://teampicnic.teamcity.com}"
+BUILD_CONFIG_ID="${BUILD_CONFIG_ID:-JavaPlatform_SpringBootAdmin_JavaBuild}"
+BRANCH_NAME="${BRANCH_NAME:-pull/510/head}"
+POOL_ID="${POOL_ID:-43}" # k8s pool TODO: This doesn't work, figure out why
+
+JSON_PAYLOAD=$(jq -n \
+  --arg bcid_val "$BUILD_CONFIG_ID" \
+  --arg bn_val "$BRANCH_NAME" \
+  --argjson pid_val "$POOL_ID" \
+  '{
+    "buildType": { "id": $bcid_val },
+    "branchName": $bn_val,
+    "personal": true,
+    "agentPool": { "id": $pid_val }
+  }')
+
+if [ -z "$JSON_PAYLOAD" ]; then
+  echo "Error: Failed to construct JSON payload." >&2
+  exit 1
+fi
+
+API_ENDPOINT="$TC_SERVER_URL/app/rest/buildQueue?moveToTop=true"
+
+echo "Sending request to ${API_ENDPOINT}..."
+echo "$JSON_PAYLOAD" | jq
+
+RES=$(curl --silent --show-error \
+  -X POST \
+  -H "Authorization: Bearer $TC_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d "$JSON_PAYLOAD" \
+  "$API_ENDPOINT")
+
+[ -n "$DEBUG" ] && echo "$RES" | jq
+
+BUILD_ID=$(echo "$RES" | jq -e -r '.id')
+
+read -n 1 -s -r -p "Press any key to open build ${BUILD_ID} in the TeamCity UI..."
+open "https://teampicnic.teamcity.com/buildConfiguration/${BUILD_CONFIG_ID}/${BUILD_ID}"
