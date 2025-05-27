@@ -5,7 +5,7 @@
 -- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
 -- Required to prevent smart-split keybinds from triggering when pressing escape.
 -- timeout and timeoutlen apply to mappings.
-vim.o.timeoutlen = 0
+-- vim.o.timeoutlen = 0
 -- ttimeout and ttimeoutlen apply to key codes.
 vim.o.ttimeoutlen = 0
 
