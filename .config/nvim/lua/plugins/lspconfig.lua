@@ -5,12 +5,7 @@ return {
       diagnostics = {
         virtual_text = false,
         update_in_insert = true,
-        float = {
-          spacing = 4,
-          border = "rounded",
-          focusable = true,
-          source = "if_many",
-        },
+        float = false,
         severity_sort = true,
       },
     },

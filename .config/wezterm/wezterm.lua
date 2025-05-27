@@ -158,7 +158,7 @@ config.keys = {
 smart_splits.apply_to_config(config, {
 	direction_keys = { "h", "j", "k", "l" },
 	modifiers = {
-		move = "ALT",
+		move = "META",
 		resize = "ALT|SHIFT",
 	},
 })

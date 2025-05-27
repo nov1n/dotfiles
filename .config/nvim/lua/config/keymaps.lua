@@ -21,8 +21,7 @@ end
 -- stylua: ignore start
 map("a",          "<down>",     "<nop>",                                      "Disable down arrow")
 map("a",          "<left>",     "<nop>",                                      "Disable left arrow")
-map("a",          "<right>",    "<nop>",                                      "Disable right arrow")
-map("a",          "<up>",       "<nop>",                                      "Disable up arrow")
+map("n", "<C-j>", "<Nop>", "Disable Ctrl-j in normal mode")
 map("ca",         "__from",     "__to",                                       "Example snippet (command mode)")
 map("ia",         "__from",     "__to",                                       "Example snippet (insert mode")
 map("n",          "-",          "<cmd>Oil<cr>",                               "Open parent directory in oil")
