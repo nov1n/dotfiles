@@ -106,13 +106,11 @@ config.keys = {
 			else
 				-- If the current pane is not Neovim, try to find a Neovim pane
 				local tab_panes = tab:panes()
-				print("tab_panes", tab_panes)
 				local neovim_pane = nil
 				for i = 1, #tab_panes do
 					local tab_pane = tab_panes[i]
 					local process_name = tab_pane:get_foreground_process_name()
 					if process_name:match("nvim$") then
-						print("process_name", process_name)
 						neovim_pane = tab_pane
 					end
 				end
@@ -158,8 +156,8 @@ config.keys = {
 smart_splits.apply_to_config(config, {
 	direction_keys = { "h", "j", "k", "l" },
 	modifiers = {
-		move = "META",
-		resize = "ALT|SHIFT",
+		move = "META", -- Option key on MacOS. Karabiner maps command to option because nvim can't have cmd key mappings.
+		resize = "META|SHIFT",
 	},
 })
 
