@@ -31,7 +31,6 @@ return {
   },
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "ibhagwan/fzf-lua",
     "nvim-treesitter",
   },
   opts = {
@@ -57,7 +56,7 @@ return {
       },
     },
     picker = {
-      name = "fzf-lua",
+      name = "snacks.pick",
     },
     ui = {
       enable = false,
