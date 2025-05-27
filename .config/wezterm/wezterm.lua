@@ -1,48 +1,57 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
--- Modules
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                         Modules                         │
+--          ╰─────────────────────────────────────────────────────────╯
+
 require("handlers")
 
--- Plugins
-local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                         System                          │
+--          ╰─────────────────────────────────────────────────────────╯
 
--- Config
 local config = wezterm.config_builder()
-config.disable_default_key_bindings = true
-
--- System
-smart_splits.apply_to_config(config, {})
 config.automatically_reload_config = true
 config.set_environment_variables = {
 	PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
 
--- Performance
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                       Performance                       │
+--          ╰─────────────────────────────────────────────────────────╯
+
 config.max_fps = 144
 config.animation_fps = 144
 
--- Appearance
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                       Appearance                        │
+--          ╰─────────────────────────────────────────────────────────╯
+
 config.use_fancy_tab_bar = false
 --config.window_close_confirmation = "NeverPrompt"
 config.notification_handling = "AlwaysShow"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night Moon"
-config.font_size = 16
+config.font_size = 20
 config.tab_max_width = 32
 config.window_padding = {
-	left = 5,
-	right = 5,
+	left = 50,
+	right = 50,
 	top = 0,
 	bottom = 0,
 }
 
--- Keymap
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                         Keymap                          │
+--          ╰─────────────────────────────────────────────────────────╯
+
+config.disable_default_key_bindings = true
 local mod = "CMD"
 config.keys = {
 	-- System
-	{ key = "d", mods = mod, action = wezterm.action.ShowDebugOverlay },
-	{ key = "q", mods = mod, action = wezterm.action.QuitApplication },
+	{ key = "x", mods = mod, action = act.ShowDebugOverlay },
+	{ key = "q", mods = mod, action = act.QuitApplication },
 
 	-- Tabs
 	{ key = "t", mods = mod, action = act.SpawnTab("CurrentPaneDomain") },
@@ -60,8 +69,8 @@ config.keys = {
 
 	-- Panes
 	{ key = "w", mods = mod, action = act.CloseCurrentPane({ confirm = true }) },
-	{ key = "n", mods = mod, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "m", mods = mod, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "d", mods = mod, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "D", mods = mod, action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	{ key = "z", mods = mod, action = act.TogglePaneZoomState },
 
 	-- Copy, paste, search
@@ -144,15 +153,67 @@ config.keys = {
 
 				pane_next:activate()
 
-				win:perform_action(wezterm.action({ SendString = "\x03!!\n" }), pane_next)
+				win:perform_action(act({ SendString = "\x03!!\n" }), pane_next)
 
 				-- Return focus to the original pane
-				win:perform_action(wezterm.action({ ActivatePaneDirection = "Up" }), pane)
+				win:perform_action(act({ ActivatePaneDirection = "Up" }), pane)
 			end
 		end),
 	},
 }
 
+local cwd = {
+	"cwd",
+	padding = 0,
+	max_length = 30,
+	fmt = function(cwd)
+		return tostring(cwd):gsub("carosi", "~"):match("([^/]+)/?$")
+	end,
+}
+
+--          ╭─────────────────────────────────────────────────────────╮
+--          │                         Plugins                         │
+--          ╰─────────────────────────────────────────────────────────╯
+
+local smart_splits = wezterm.plugin.require("https://github.com/mrjones2014/smart-splits.nvim")
+local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabline.wez")
+
+-- Tabline
+tabline.setup({
+	options = {
+		theme = "Tokyo Night Moon",
+		theme_overrides = {
+			-- Default tab colors
+			tab = {
+				active = { fg = "#819EFA", bg = "#353955" },
+				inactive = { fg = "#797FAD", bg = "#1C1D2A" },
+				inactive_hover = { fg = "#797FAD", bg = "#353955" },
+			},
+		},
+	},
+	sections = {
+		tabline_a = { "mode" },
+		tabline_b = {},
+		tabline_c = { " " },
+		tab_active = {
+			"index",
+			cwd,
+			{
+				"process",
+				process_to_icon = { ["nvim"] = { wezterm.nerdfonts.custom_neovim, color = { fg = "#FFFFFF" } } },
+			},
+			{ "zoomed", padding = 0 },
+		},
+		tab_inactive = { "index", cwd, { "process" } },
+		tabline_x = {},
+		tabline_y = {},
+		tabline_z = {},
+	},
+	extensions = {},
+})
+tabline.apply_to_config(config)
+
+-- Smart splits
 smart_splits.apply_to_config(config, {
 	direction_keys = { "h", "j", "k", "l" },
 	modifiers = {
