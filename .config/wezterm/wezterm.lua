@@ -28,17 +28,19 @@ config.animation_fps = 144
 --          │                       Appearance                        │
 --          ╰─────────────────────────────────────────────────────────╯
 
-config.use_fancy_tab_bar = false
 --config.window_close_confirmation = "NeverPrompt"
+config.use_fancy_tab_bar = false
 config.notification_handling = "AlwaysShow"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night Moon"
-config.font_size = 20
-config.tab_max_width = 32
+config.font = wezterm.font("0xProto Nerd Font")
+config.harfbuzz_features = { "ss01" } -- Enable cursive comments
+config.font_size = 21
+config.tab_max_width = 128
 config.window_padding = {
-	left = 50,
-	right = 50,
-	top = 0,
+	left = 0,
+	right = 20,
+	top = 30,
 	bottom = 0,
 }
 
@@ -211,7 +213,6 @@ tabline.setup({
 	},
 	extensions = {},
 })
-tabline.apply_to_config(config)
 
 -- Smart splits
 smart_splits.apply_to_config(config, {
