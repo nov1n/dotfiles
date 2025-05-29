@@ -199,11 +199,11 @@ tabline.setup({
 			cwd,
 			{
 				"process",
-				process_to_icon = { ["nvim"] = { wezterm.nerdfonts.custom_neovim, color = false } },
+				icons_only = true,
 			},
 			{ "zoomed", padding = 0 },
 		},
-		tab_inactive = { "index", cwd, { "process" } },
+		tab_inactive = { "index", cwd, { "process", icons_only = true } },
 		tabline_x = {},
 		tabline_y = {},
 		tabline_z = {},
