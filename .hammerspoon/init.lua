@@ -1,13 +1,14 @@
 -- Hammerspoon modules
 require("hs.ipc")
 
+-- External Spoons
+hs.loadSpoon("EmmyLua")
+local caff = hs.loadSpoon("Caffeine")
+local habitDeck = hs.loadSpoon("HabitDeck")
+
 -- Local modules
 local sleepWatcher = require("util.sleepwatcher")
 local vpnMonitor = require("util.vpnmonitor")
-
--- External Spoons
-local caff = hs.loadSpoon("Caffeine")
-local habitDeck = hs.loadSpoon("HabitDeck")
 
 -- Config
 local meh = { "cmd", "ctrl", "alt" }

@@ -1,4 +1,4 @@
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") --[[@as Wezterm]]
 local act = wezterm.action
 
 --          ╭─────────────────────────────────────────────────────────╮
@@ -30,13 +30,15 @@ config.animation_fps = 144
 
 --config.window_close_confirmation = "NeverPrompt"
 config.use_fancy_tab_bar = false
+---@diagnostic disable-next-line: inject-field I think this type is missing
 config.notification_handling = "AlwaysShow"
 config.window_decorations = "RESIZE"
 config.color_scheme = "Tokyo Night Moon"
 config.font = wezterm.font("0xProto Nerd Font")
 config.harfbuzz_features = { "ss01" } -- Enable cursive comments
 config.font_size = 21
-config.tab_max_width = 128
+config.tab_max_width = 300
+config.show_new_tab_button_in_tab_bar = false
 config.window_padding = {
 	left = 0,
 	right = 20,
