@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TC_ACCESS_TOKEN="${TC_PAT}" # must be passed in as env var
 TC_SERVER_URL="${TC_SERVER_URL:-https://teampicnic.teamcity.com}"
