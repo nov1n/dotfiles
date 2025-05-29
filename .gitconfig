@@ -140,31 +140,15 @@
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
 
-# URL shorthands
-[url "git://github.com/"]
-  insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-  insteadOf = "gst:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-  insteadOf = "gist:"
-
 [core]
-  pager = delta
+  pager = delta --diff-so-fancy 
 
 [interactive]
-  diffFilter = delta --color-only
+  diffFilter = delta --color-only --diff-so-fancy 
 
 [delta]
   navigate = true    # use n and N to move between diff sections
   paging = always
-
-  # delta detects terminal colors automatically; set one of these to disable auto-detection
-  # dark = true
-  # light = true
 
 [merge]
   conflictstyle = diff3
