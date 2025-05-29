@@ -13,8 +13,8 @@ alias shfmt="shfmt -w -i 2 -ci -bn"
 alias k=kubectl
 alias d=docker
 
-alias ll="lsd -l"
-alias la="lsd -la"
+alias la="lsd -la --sort time"
+alias ll="lsd -l --sort time"
 alias tree="lsd -l --tree --depth=3"
 #alias cat="bat"
 alias lg="lazygit"
