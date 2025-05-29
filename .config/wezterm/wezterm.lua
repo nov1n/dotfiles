@@ -66,7 +66,8 @@ config.keys = {
 	{ key = "9", mods = mod, action = act.ActivateTab(8) },
 	{ key = "[", mods = mod, action = act.ActivateTabRelative(-1) },
 	{ key = "]", mods = mod, action = act.ActivateTabRelative(1) },
-
+	{ key = "{", mods = mod, action = act.MoveTabRelative(-1) },
+	{ key = "}", mods = mod, action = act.MoveTabRelative(1) },
 	-- Panes
 	{ key = "w", mods = mod, action = act.CloseCurrentPane({ confirm = true }) },
 	{ key = "d", mods = mod, action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
