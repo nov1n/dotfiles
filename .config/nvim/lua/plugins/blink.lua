@@ -7,6 +7,40 @@ return {
   },
   config = function()
     require("blink.cmp").setup({
+      completion = {
+        documentation = {
+          window = {
+            border = "rounded",
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+          },
+        },
+        menu = {
+          border = "rounded",
+          winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+          draw = {
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return kind_icon
+                end,
+                -- (optional) use highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return hl
+                end,
+              },
+              kind = {
+                -- (optional) use highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return hl
+                end,
+              },
+            },
+          },
+        },
+      },
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
         per_filetype = {
@@ -24,42 +58,6 @@ return {
       enabled = function()
         return not string.match(U.get_buf_path(), "/Journal/")
       end,
-      appearance = {
-        -- Blink does not expose its default kind icons so you must copy them all (or set your custom ones) and add Copilot
-        kind_icons = {
-          Copilot = "",
-          Text = "󰉿",
-          Method = "󰊕",
-          Function = "󰊕",
-          Constructor = "󰒓",
-
-          Field = "󰜢",
-          Variable = "󰆦",
-          Property = "󰖷",
-
-          Class = "󱡠",
-          Interface = "󱡠",
-          Struct = "󱡠",
-          Module = "󰅩",
-
-          Unit = "󰪚",
-          Value = "󰦨",
-          Enum = "󰦨",
-          EnumMember = "󰦨",
-
-          Keyword = "󰻾",
-          Constant = "󰏿",
-
-          Snippet = "󱄽",
-          Color = "󰏘",
-          File = "󰈔",
-          Reference = "󰬲",
-          Folder = "󰉋",
-          Event = "󱐋",
-          Operator = "󰪚",
-          TypeParameter = "󰬛",
-        },
-      },
     })
   end,
 }
