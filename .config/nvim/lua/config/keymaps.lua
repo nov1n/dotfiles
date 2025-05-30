@@ -50,8 +50,12 @@ map({ "v" },        "<leader>av", "<cmd>CodeCompanionChat Add<cr>",             
 map({ "n", "x" },   "j",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "j" or "j" end, "Add <count>j to jumplist")
 map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "k" or "k" end, "Add <count>k to jumplist")
 map({ "n" },        "-",          "<cmd>Oil<cr>",                                                              "Open parent directory in oil")
+map({ "n" },        "<leader>E",  "<cmd>:LazyExtras<cr>",                                                      "Open Lazy Extras panel")
 -- stylua: ignore end
 --
 -- HACK: For some reason this mappings works only with vimscript
 vim.cmd("cab cc CodeCompanion")
+vim.cmd('cab w :lua Snacks.notify.error("Disabled")')
+vim.cmd('cab q :lua Snacks.notify.error("Disabled")')
+vim.cmd('cab wq :lua Snacks.notify.error("Disabled")')
 vim.cmd("nmap <bs> ;")

@@ -3,6 +3,9 @@ return {
   "folke/snacks.nvim",
   ---@type snacks.Config
   opts = {
+    indent = {
+      enabled = false,
+    },
     dashboard = {
       pane_gap = 5,
       preset = {
@@ -42,6 +45,13 @@ return {
           },
           { icon = " ", key = "s", desc = "Restore Session", section = "session" },
           { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+          {
+            icon = "󰒲 ",
+            key = "E",
+            desc = "Lazy Extras",
+            action = ":LazyExtras",
+            enabled = package.loaded.lazy ~= nil,
+          },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
         },
       },
