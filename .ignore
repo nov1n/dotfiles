@@ -6,11 +6,11 @@
 *.wasm
 
 # Directories
-.cache/
-.git/
-node_modules/
-target/
+.cache/*
+.git/*
+node_modules/*
+target/*
 
 # Dotfiles
-OfficialSpoons/
+OfficialSpoons/*
 automatic_backups/
