@@ -36,4 +36,4 @@ style = "bright-black"
 
 [kubernetes]
 format = '$context \($namespace\)(dimmed green) '
-disabled = false
+disabled = true
