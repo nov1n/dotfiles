@@ -1,5 +1,6 @@
 alias v=nvim
 
+alias ..="cd .."
 alias c="clear"
 alias g="git"
 alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew bundle dump -f --file=\$DOTFILES_HOME/script/Brewfile"
@@ -24,6 +25,9 @@ alias tw="taskwarrior-tui"
 alias nslookup="doggo"
 alias host="doggo"
 alias htop="btm"
+
+# Experimental
+alias grep="rg"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
