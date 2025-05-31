@@ -1,10 +1,26 @@
+local snacks = require("snacks")
 -- TODO: Implement these in snacks.picker
 return {
   "folke/snacks.nvim",
   ---@type snacks.Config
   opts = {
+    layout = {
+      fullscreen = true,
+    },
     indent = {
-      enabled = false,
+      indent = {
+        enabled = false,
+      },
+      chunk = {
+        enabled = true,
+        char = {
+          corner_top = "╭",
+          corner_bottom = "╰",
+          horizontal = "─",
+          vertical = "│",
+          arrow = "─",
+        },
+      },
     },
     dashboard = {
       pane_gap = 5,
@@ -20,39 +36,22 @@ return {
         }, "\n"),
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-          { icon = "󱞀 ", key = "o", desc = "Find note", action = ":ObsidianSearch" },
-          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-          { icon = " ", key = "/", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-          {
-            icon = " ",
-            key = "p",
-            desc = "Projects",
-            action = ":lua Snacks.dashboard.pick('projects')",
-          },
-          {
-            icon = "󰊢",
-            key = "g",
-            desc = "Lazygit",
-            action = ":lua Snacks.lazygit( { cwd = LazyVim.root.git() })",
-          },
-          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          { icon = " ", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          { icon = " ", desc = "New File", action = ":ene | startinsert" },
+          { icon = "󱞀 ", desc = "Find Note", action = ":ObsidianSearch" },
+          { icon = " ", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", desc = "Projects", action = ":lua Snacks.dashboard.pick('projects')" },
+          { icon = "󰊢", desc = "Lazygit", action = ":lua Snacks.lazygit( { cwd = LazyVim.root.git() })" },
+          { icon = " ", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
           {
             icon = " ",
-            key = "c",
             desc = "Config",
             action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
           },
-          { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-          { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-          {
-            icon = "󰒲 ",
-            key = "E",
-            desc = "Lazy Extras",
-            action = ":LazyExtras",
-            enabled = package.loaded.lazy ~= nil,
-          },
-          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          { icon = " ", desc = "Restore Session", section = "session" },
+          { icon = "󰒲 ", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+          { icon = "󰒲 ", desc = "Lazy Extras", action = ":LazyExtras", enabled = package.loaded.lazy ~= nil },
+          { icon = " ", desc = "Quit", action = ":qa" },
         },
       },
       sections = {
@@ -76,7 +75,7 @@ return {
             {
               icon = " ",
               title = "Git Status",
-              cmd = "git --no-pager diff --stat -B -M -C",
+              cmd = "git --no-pager diff --stat -B -M -C || true",
               height = 10,
             },
           }
@@ -105,6 +104,7 @@ return {
           hidden = true,
         },
         grep = {
+          regex = false,
           hidden = true,
         },
         todo_comments = {
@@ -124,12 +124,14 @@ return {
           keys = {
             ["<C-y>"] = { "copy_path_abs", mode = { "n", "i" } },
             ["<C-o>"] = { "open_in_finder", mode = { "n", "i" } },
+            ["<a-r>"] = { "toggle_regex", mode = { "n", "i" } },
           },
         },
       },
       actions = {
-        copy_path_abs = function(picker)
-          local selected = picker:current()
+        ---@param p snacks.Picker
+        copy_path_abs = function(p)
+          local selected = p:current()
           if selected and selected._path then
             vim.fn.setreg([[*]], selected._path)
           else
@@ -137,8 +139,9 @@ return {
             Snacks.debug.inspect(selected)
           end
         end,
-        open_in_finder = function(picker)
-          local selected = picker:current()
+        ---@param p snacks.Picker
+        open_in_finder = function(p)
+          local selected = p:current()
           if selected and selected._path then
             os.execute("open -R " .. vim.fn.shellescape(selected._path))
           else
