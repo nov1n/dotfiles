@@ -36,8 +36,8 @@ return {
         }, "\n"),
         ---@type snacks.dashboard.Item[]
         keys = {
-          { icon = " ", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = " ", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
           { icon = "󱞀 ", desc = "Find Note", action = ":ObsidianSearch" },
           { icon = " ", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
           { icon = " ", desc = "Projects", action = ":lua Snacks.dashboard.pick('projects')" },
