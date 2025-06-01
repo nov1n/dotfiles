@@ -38,7 +38,6 @@ end
 
 -- stylua: ignore start
 --                                 HACK: The vim.schedule was needed, because the plugin stopped working at some point. Figure out why.
-map({"n"},          "<leader><space>", function() Snacks.picker.smart() end,                                   "Smart Find Files")
 map({ "n" },        "<M-h>",      function() vim.schedule(require("smart-splits").move_cursor_left) end,       "Move left")
 map({ "n" },        "<M-j>",      function() vim.schedule(require("smart-splits").move_cursor_down) end,       "Move down")
 map({ "n" },        "<M-k>",      function() vim.schedule(require("smart-splits").move_cursor_up) end,         "Move up")
@@ -72,6 +71,7 @@ map({ "n" },        "<leader>E",  "<cmd>:LazyExtras<cr>",                       
 map({ "n" },        "<leader>fd", function() Snacks.picker.files({cwd = "~/dotfiles"}) end,                    "Find dotfiles")
 map({ "n" },        "<leader>fp", project_picker,                                                              "Find projects")
 map({ "n", "i" },   "<M-cr>",     vim.lsp.buf.code_action,                                                     "Perform code action")
+map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,                                        "Smart Find Files")
 -- stylua: ignore end
 --
 -- HACK: For some reason this mappings works only with vimscript
