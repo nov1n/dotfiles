@@ -1,14 +1,11 @@
 return {
   "saghen/blink.cmp",
-  dependencies = {
-    {
-      "giuxtaposition/blink-cmp-copilot",
-    },
-  },
+  dependencies = { "fang2hou/blink-copilot" },
   config = function()
     require("blink.cmp").setup({
       completion = {
         documentation = {
+          auto_show = true,
           window = {
             border = "rounded",
             winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
@@ -17,32 +14,21 @@ return {
         menu = {
           border = "rounded",
           winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
-          draw = {
-            components = {
-              kind_icon = {
-                text = function(ctx)
-                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-                  return kind_icon
-                end,
-                -- (optional) use highlights from mini.icons
-                highlight = function(ctx)
-                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                  return hl
-                end,
-              },
-              kind = {
-                -- (optional) use highlights from mini.icons
-                highlight = function(ctx)
-                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                  return hl
-                end,
-              },
-            },
-          },
         },
       },
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+            opts = {
+              max_completions = 3, -- Override global max_completions
+            },
+          },
+        },
         per_filetype = {
           codecompanion = { "codecompanion" },
         },
