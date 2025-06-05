@@ -14,7 +14,7 @@
 
 REPO_URL="${1:-$(osascript "$HOME/.local/bin/get_url_from_focused_browser.scpt")}"
 DOMAIN="${2:-personal}"
-TARGET_DIR="${2:-"$HOME/Projects/$DOMAIN"}"
+TARGET_DIR="$HOME/Projects/$DOMAIN"
 
 # Extract the full repository path (e.g., "foo/bar") and the repository name (e.g., "bar")
 REPO_PATH=$(echo "$REPO_URL" | sed -E 's|^https?://github\.com/([^/]+/[^/#]+).*|\1|')
