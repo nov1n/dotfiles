@@ -23,6 +23,7 @@ return {
       },
     },
     dashboard = {
+      enabled = false,
       pane_gap = 5,
       preset = {
         header = table.concat({
