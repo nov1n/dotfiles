@@ -7,6 +7,7 @@ alias update="brew update && brew upgrade && brew cleanup && brew doctor && brew
 alias updot="git -C ~/dotfiles pull"
 alias rel="exec zsh"
 alias youtube-dl="yt-dlp"
+alias play-yt='vlc --play-and-exit -f  "$(fd . ~/Documents/yt-dlp/ | fzf)" && habit move'
 alias wakewin="wakeonlan 74:56:3C:45:75:87"
 alias adot=dotfiles_adder.sh
 alias resetusb="uhubctl -a cycle -p 2"
@@ -34,8 +35,6 @@ alias sudo='sudo '
 
 # Get week number
 alias week='date +%V'
-
-alias stretch="vlc --play-and-exit -f ~/Documents/yt-dlp/15-min-standing-yoga.mkv && habit move"
 
 # Networking
 alias localip="ipconfig getifaddr en0"
