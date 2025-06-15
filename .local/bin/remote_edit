@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-# Exit on any error
+# Script to mount a remote directory using sshfs and open it in nvim
+
 set -e
 
-MOUNT_POINT="/tmp/homelab"
-REMOTE_HOST="carosi@192.168.50.3"
-REMOTE_PATH="/home/carosi/docker/"
+MOUNT_POINT="$(mktemp -d)"
+REMOTE_HOST="$1"
+REMOTE_PATH="$2"
 
 # Create mount point if it doesn't exist
 mkdir -p "$MOUNT_POINT"
