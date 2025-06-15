@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🖥️
 
-DURATION=0.2
+DURATION=1
 
 osascript -e 'quit app "Aerospace"' || true
 open -a Aerospace
