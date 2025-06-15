@@ -12,3 +12,6 @@ Thumbs.db
 .Trashes
 
 .idea
+
+# Compiled Neovim spell files
+*.spl
