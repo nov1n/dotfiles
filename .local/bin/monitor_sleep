@@ -1,0 +1,18 @@
+#!/bin/bash
+
+LOG_FILE="/tmp/sleep_events_monitor.log"
+USB_SWITCHER_URL="http://usb-switcher.local:8080/activate/desktop" # URL to call
+
+log stream --predicate 'eventMessage contains "Sleep"' --info | while read -r line; do
+  echo "$line" | tee -a "$LOG_FILE" | grep -E "Clamshell Sleep|Software Sleep" | {
+    while read -r event; do
+      echo "$(date): $event" >>"$LOG_FILE"
+
+      # Check if the event is a Clamshell Sleep
+      if echo "$event" | grep -q "Clamshell Sleep"; then
+        echo "$(date): Detected Clamshell Sleep, activating desktop." >>"$LOG_FILE"
+        curl -X POST "$USB_SWITCHER_URL"
+      fi
+    done
+  }
+done
