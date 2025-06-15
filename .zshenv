@@ -70,11 +70,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export NVM_DIR="$HOME/.nvm"
 
 # Configure path
-if [[ "$(uname)" == "Darwin" ]]; then
-  [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ "$(uname)" == "Linux" ]]; then
-  command -v brew >/dev/null 2>&1 && eval "$($(brew --prefix)/bin/brew shellenv)"
-fi
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"

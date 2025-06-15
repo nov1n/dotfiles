@@ -60,3 +60,10 @@ source <(picnic autocomplete script zsh)
 
 # Cargo
 . "$HOME/.cargo/env"
+
+# Homebrew
+if [[ "$(uname)" == "Darwin" ]]; then
+  [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ "$(uname)" == "Linux" ]]; then
+  command -v brew >/dev/null 2>&1 && eval "$($(brew --prefix)/bin/brew shellenv)"
+fi
