@@ -7,7 +7,7 @@ return {
   end,
   -- stylua: ignore
   keys = {
-    { "<leader>o/",     "<cmd>ObsidianSearch<CR>",                { desc = "Search for notes in your vault" } },
+    { "<leader>fn",     "<cmd>ObsidianSearch<CR>",                { desc = "Search for notes in your vault" } },
     { "<leader>ob",     "<cmd>ObsidianBacklinks<CR>",             { desc = "Get backlinks for the current buffer" } },
     { "<leader>oe",     "<cmd>ObsidianExtractNote<CR>",           { desc = "Extract the selected text into a new note" } },
     { "<leader>of",     "<cmd>ObsidianFollowLink<CR>",            { desc = "Follow a note reference" } },
