@@ -23,7 +23,6 @@ brew "starship"
 brew "yarn"
 brew "zoxide"
 brew "zsh"
-brew "timescam/tap/pay-respects"
 brew "wezterm/wezterm-linuxbrew/wezterm"
 EOF
   brew bundle install
@@ -39,8 +38,6 @@ install_apt_packages() {
     echo "Failed to install packages"
     exit 1
   }
-  echo "Installint pay-respects..."
-  curl -sSfL https://raw.githubusercontent.com/iffse/pay-respects/main/install.sh | sh
 }
 
 generate_ssh_key() {
