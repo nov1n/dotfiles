@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PATH="/opt/homebrew/bin:$PATH"
+
 function get_vpn_status() {
   if picnic vpn 2>/dev/null | grep -Eiq "state: Connected|>> state: Connected"; then
     return 0 # Connected
