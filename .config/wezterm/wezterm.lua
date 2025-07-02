@@ -82,7 +82,6 @@ config.keys = {
   -- Copy, paste, search
   { key = "c", mods = mod, action = act.CopyTo("Clipboard") },
   { key = "v", mods = mod, action = act.PasteFrom("Clipboard") },
-  { key = "f", mods = mod, action = act.Search("CurrentSelectionOrEmptyString") },
 
   -- Font size
   { key = "-", mods = mod, action = act.DecreaseFontSize },
@@ -99,6 +98,7 @@ config.keys = {
   { key = "PageUp", action = act.ScrollByPage(-0.5) },
   { key = "PageDown", action = act.ScrollByPage(0.5) },
   { key = "e", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
+  { key = "f", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
   -- Toggles from a terminal pane to Neovim
   {
