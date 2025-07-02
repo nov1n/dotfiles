@@ -63,9 +63,4 @@ fi
 . "$HOME/.cargo/env"
 
 # Homebrew
-if [[ "$(uname)" == "Darwin" ]]; then
-  [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ "$(uname)" == "Linux" ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  command -v brew >/dev/null 2>&1 && eval "$($(brew --prefix)/bin/brew shellenv)"
-fi
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
