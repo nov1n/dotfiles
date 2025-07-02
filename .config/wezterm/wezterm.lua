@@ -23,6 +23,7 @@ config.set_environment_variables = {
 
 config.max_fps = 144
 config.animation_fps = 144
+config.scrollback_lines = 50000
 
 --          ╭─────────────────────────────────────────────────────────╮
 --          │                       Appearance                        │
