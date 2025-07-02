@@ -31,8 +31,6 @@ install_packages() {
     echo "Failed to install packages"
     exit 1
   }
-  echo "Installint pay-respects..."
-  curl -sSfL https://raw.githubusercontent.com/iffse/pay-respects/main/install.sh | sh
 }
 
 install_bat() {
@@ -52,7 +50,10 @@ install_bat() {
 }
 
 install_zoxide() {
-  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash -s -- --bin-dir "/usr/local/bin" || {
+    echo "Failed to install zoxide"
+    exit 1
+  }
 }
 
 install_fzf() {
@@ -123,6 +124,8 @@ install_neovim() {
     echo "Failed to install Neovim"
     exit 1
   }
+  echo "Cleaning up source dir"
+  rm -rf neovim
 }
 
 install_rust() {
