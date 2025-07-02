@@ -43,7 +43,6 @@ function zvm_after_init() {
 }
 
 # Load tools
-eval "$(pay-respects zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
@@ -65,5 +64,6 @@ source <(picnic autocomplete script zsh)
 if [[ "$(uname)" == "Darwin" ]]; then
   [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ "$(uname)" == "Linux" ]]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
   command -v brew >/dev/null 2>&1 && eval "$($(brew --prefix)/bin/brew shellenv)"
 fi
