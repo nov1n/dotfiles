@@ -48,12 +48,14 @@ eval "$(starship init zsh)"
 
 # Load autocmpletions
 source <(docker completion zsh)
-source <(picnic autocomplete script zsh)
+if command -v picnic >/dev/null 2>&1; then
+  source <(picnic autocomplete script zsh)
+fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# SDKMAN!
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# Setup nvm
+# Setup NVM
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
