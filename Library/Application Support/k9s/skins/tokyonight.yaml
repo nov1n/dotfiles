@@ -17,7 +17,7 @@ k9s:
   # General K9s styles
   body:
     fgColor: *foreground
-    bgColor: *background
+    bgColor: default
     logoColor: *orange
   # Command prompt styles
   prompt:
