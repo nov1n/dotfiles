@@ -52,3 +52,4 @@ end
 --          │                      User commands                      │
 --          ╰─────────────────────────────────────────────────────────╯
 vim.cmd([[command DiffOrig lefta vnew | set buftype=nofile | read ++edit # | 0d_ | diffthis | wincmd p | diffthis]])
+vim.cmd([[command RefreshTodos g/^- /m$]])

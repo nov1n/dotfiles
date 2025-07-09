@@ -74,3 +74,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.rd/bin:$PATH"
+
+# From https://picnic.atlassian.net/wiki/spaces/DEVPLA/pages/4395466765/Poetry+Getting+started+with+Python+at+Picnic#6.-Install-picnic-poetry-plugin
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+
+# Default aws profile
+export AWS_PROFILE="picnic-artifacts"
