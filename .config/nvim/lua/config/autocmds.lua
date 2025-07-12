@@ -48,6 +48,14 @@ if VARS.notes_dir then
   })
 end
 
+-- Disable wrapping for text files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "text" },
+  callback = function()
+    vim.opt_local.wrap = false
+  end,
+})
+
 --          ╭─────────────────────────────────────────────────────────╮
 --          │                      User commands                      │
 --          ╰─────────────────────────────────────────────────────────╯
