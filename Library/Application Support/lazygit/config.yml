@@ -12,8 +12,8 @@ customCommands:
     description: "Commit message with optional ticket number"
     output: terminal
   - key: "b"
-    command: "git browse"
-    context: "files"
+    command: "git browse || gh browse"
+    context: "global"
     loadingText: "Opening repository in browser..."
     description: "Open repository in browser"
 git:
