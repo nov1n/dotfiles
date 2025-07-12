@@ -14,3 +14,6 @@ vim.opt.linebreak = true
 
 -- Disable all animations from snacks.nvim
 vim.g.snacks_animate = false
+
+-- Disable wrapping long lines
+vim.opt.wrap = false
