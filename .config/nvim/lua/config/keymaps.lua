@@ -7,15 +7,9 @@ local Snacks = require("snacks")
 local map = function(modes, lhs, rhs, desc, options)
   local opts = options or {} -- Default options to empty table
 
-  -- Add description and silent if not already defined in options
-  opts.desc = opts.desc or desc
+  opts.desc = opts.desc or desc -- Add description and silent if not already defined in options
   opts.silent = opts.silent ~= false and true -- Default to silent unless explicitly set to false
   opts.noremap = opts.noremap ~= false and true -- Default to noremap unless explicitly set to false
-
-  -- Automatically enable expr if rhs is a function, unless explicitly disabled
-  if type(rhs) == "function" and opts.expr ~= false then
-    opts.expr = true
-  end
 
   return vim.keymap.set(modes, lhs, rhs, opts)
 end
@@ -29,25 +23,32 @@ local project_picker = function()
       preview = { minimal = true },
       input = {
         keys = {
-          ["<C-w>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "delete word" },
+          ["<C-w>"] = { "<c-s-w>", mode = { "i" }, expr = true, desc = "Delete word" },
         },
       },
     },
   })
 end
 
+-- Copy the provided register content to the clipboard
+local reg_to_cb = function(reg)
+  local file_path = vim.fn.expand(reg)
+  vim.fn.setreg("+", file_path)
+  Snacks.notify.info(file_path)
+end
+
 -- stylua: ignore start
---                                 HACK: The vim.schedule was needed, because the plugin stopped working at some point. Figure out why.
-map({ "n" },        "<M-h>",      function() vim.schedule(require("smart-splits").move_cursor_left) end,       "Move left")
-map({ "n" },        "<M-j>",      function() vim.schedule(require("smart-splits").move_cursor_down) end,       "Move down")
-map({ "n" },        "<M-k>",      function() vim.schedule(require("smart-splits").move_cursor_up) end,         "Move up")
-map({ "n" },        "<M-l>",      function() vim.schedule(require("smart-splits").move_cursor_right) end,      "Move right")
-map({ "n" },        "<M-H>",      function() vim.schedule(require("smart-splits").resize_left) end,            "Resize left")
-map({ "n" },        "<M-J>",      function() vim.schedule(require("smart-splits").resize_down) end,            "Resize down")
-map({ "n" },        "<M-K>",      function() vim.schedule(require("smart-splits").resize_up) end,              "Resize up")
-map({ "n" },        "<M-L>",      function() vim.schedule(require("smart-splits").resize_right) end,           "Resize right")
+map({ "n" },        "<M-h>",      require("smart-splits").move_cursor_left,                                    "Move left")
+map({ "n" },        "<M-j>",      require("smart-splits").move_cursor_down,                                    "Move down")
+map({ "n" },        "<M-k>",      require("smart-splits").move_cursor_up,                                      "Move up")
+map({ "n" },        "<M-l>",      require("smart-splits").move_cursor_right,                                   "Move right")
+map({ "n" },        "<M-H>",      require("smart-splits").resize_left,                                         "Resize left")
+map({ "n" },        "<M-J>",      require("smart-splits").resize_down,                                         "Resize down")
+map({ "n" },        "<M-K>",      require("smart-splits").resize_up,                                           "Resize up")
+map({ "n" },        "<M-L>",      require("smart-splits").resize_right,                                        "Resize right")
 map({ "n" },        "<leader>do", "<cmd>DiffOrig<cr>",                                                         "Diff buffer with file on disk")
-map({ "n" },        "yp",         ":call setreg('+',                                                           expand('%:p'))<cr>", "Copy filepath")
+map({ "n" },        "yp",         function() reg_to_cb("%:p") end,                                             "Copy filepath")
+map({ "n" },        "yP",         function() reg_to_cb("%:t") end,                                             "Copy filename")
 map({ "n" },        "<leader>bn", ":enew<cr>",                                                                 "Create new buffer")
 map({ "n" },        "<leader>gb", "<cmd>BlameToggle<cr>",                                                      "Git blame")
 map({ "n" },        "<leader>r",  "<cmd>source<cr>",                                                           "Source current file")
@@ -64,16 +65,17 @@ map({ "n", "v" },   "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>",          
 map({ "n", "v" },   "<leader>an", "<cmd>CodeCompanionChat<cr>",                                                "New CodeCompanion chat")
 map({ "n", "v" },   "<leader>ap", ":CodeCompanion<cr>",                                                        "Prompt CodeCompanion")
 map({ "v" },        "<leader>av", "<cmd>CodeCompanionChat Add<cr>",                                            "Add current selection to CodeCompanion chat")
-map({ "n", "x" },   "j",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "j" or "j" end, "Add <count>j to jumplist")
-map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "k" or "k" end, "Add <count>k to jumplist")
+-- WARNING: Incorrect use of '{ expr = true }' will cause the keybind to lazily evaluate every time it's pressed causing UI lag, use with caution.
+map({ "n", "x" },   "j",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "j" or "j" end, "Add <count>j to jumplist", { expr = true })
+map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "k" or "k" end, "Add <count>k to jumplist", { expr = true })
 map({ "n" },        "-",          "<cmd>Oil<cr>",                                                              "Open parent directory in oil")
 map({ "n" },        "<leader>E",  "<cmd>:LazyExtras<cr>",                                                      "Open Lazy Extras panel")
-map({ "n" },        "<leader>fd", function() Snacks.picker.files({cwd = "~/dotfiles"}) end,                    "Find dotfiles")
 map({ "n" },        "<leader>fp", project_picker,                                                              "Find projects")
 map({ "n", "i" },   "<M-cr>",     vim.lsp.buf.code_action,                                                     "Perform code action")
-map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,                                        "Smart Find Files")
+map({ "n" },        "<leader>fd", function() Snacks.picker.files({cwd = "~/dotfiles"}) end,                    "Find dotfiles")
+map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,                                        "Smart find files")
 -- stylua: ignore end
---
+
 -- HACK: For some reason this mappings works only with vimscript
 vim.cmd("cab cc CodeCompanion")
 vim.cmd('cab w :lua Snacks.notify.error("Disabled")')
