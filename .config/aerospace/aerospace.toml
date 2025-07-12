@@ -164,10 +164,10 @@ backspace = ['close-all-windows-but-current', 'mode main']
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 #s = ['layout sticky tiling', 'mode main']
 
-alt-cmd-ctrl-h = ['join-with left', 'mode main']
-alt-cmd-ctrl-j = ['join-with down', 'mode main']
-alt-cmd-ctrl-k = ['join-with up', 'mode main']
-alt-cmd-ctrl-l = ['join-with right', 'mode main']
+alt-cmd-ctrl-h = ['swap left', 'mode main']
+alt-cmd-ctrl-j = ['swap down', 'mode main']
+alt-cmd-ctrl-k = ['swap up', 'mode main']
+alt-cmd-ctrl-l = ['swap right', 'mode main']
 
 # Callbacks: see https://nikitabobko.github.io/AeroSpace/guide#callbacks
 # [[on-window-detected]]
