@@ -30,13 +30,6 @@ local project_picker = function()
   })
 end
 
--- Copy the provided register content to the clipboard
-local reg_to_cb = function(reg)
-  local file_path = vim.fn.expand(reg)
-  vim.fn.setreg("+", file_path)
-  Snacks.notify.info(file_path)
-end
-
 -- stylua: ignore start
 map({ "n" },        "<M-h>",      require("smart-splits").move_cursor_left,                                    "Move left")
 map({ "n" },        "<M-j>",      require("smart-splits").move_cursor_down,                                    "Move down")
@@ -47,8 +40,6 @@ map({ "n" },        "<M-J>",      require("smart-splits").resize_down,          
 map({ "n" },        "<M-K>",      require("smart-splits").resize_up,                                           "Resize up")
 map({ "n" },        "<M-L>",      require("smart-splits").resize_right,                                        "Resize right")
 map({ "n" },        "<leader>do", "<cmd>DiffOrig<cr>",                                                         "Diff buffer with file on disk")
-map({ "n" },        "yp",         function() reg_to_cb("%:p") end,                                             "Copy filepath")
-map({ "n" },        "yP",         function() reg_to_cb("%:t") end,                                             "Copy filename")
 map({ "n" },        "<leader>bn", ":enew<cr>",                                                                 "Create new buffer")
 map({ "n" },        "<leader>gb", "<cmd>BlameToggle<cr>",                                                      "Git blame")
 map({ "n" },        "<leader>r",  "<cmd>source<cr>",                                                           "Source current file")
