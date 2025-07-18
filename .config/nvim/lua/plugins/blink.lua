@@ -33,13 +33,11 @@ return {
           codecompanion = { "codecompanion" },
         },
       },
+      snippets = {
+        preset = "luasnip",
+      },
       keymap = {
         preset = "default",
-        ["<C-enter>"] = {},
-        ["<Tab>"] = {},
-        ["<S-Tab>"] = {},
-        ["<Right>"] = { "snippet_forward" },
-        ["<Left>"] = { "snippet_backward" },
       },
       enabled = function()
         return not string.match(U.get_buf_path(), "/Journal/")
