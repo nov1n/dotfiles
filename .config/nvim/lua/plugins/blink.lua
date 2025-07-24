@@ -6,6 +6,7 @@ return {
       completion = {
         documentation = {
           auto_show = true,
+          auto_show_delay_ms = 0,
           window = {
             border = "rounded",
             winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
@@ -15,6 +16,7 @@ return {
           border = "rounded",
           winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
         },
+        ghost_text = { enabled = false },
       },
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "copilot" },
@@ -22,7 +24,7 @@ return {
           copilot = {
             name = "copilot",
             module = "blink-copilot",
-            score_offset = 100,
+            score_offset = -100,
             async = true,
             opts = {
               max_completions = 3, -- Override global max_completions
@@ -38,6 +40,15 @@ return {
       },
       keymap = {
         preset = "default",
+        ["<C-enter>"] = {},
+        ["<Up>"] = {},
+        ["<Down>"] = {},
+        ["<Tab>"] = {},
+        ["<S-Tab>"] = {},
+        ["<Right>"] = { "snippet_forward", "fallback" },
+        ["<Left>"] = { "snippet_backward", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
       },
       enabled = function()
         return not string.match(U.get_buf_path(), "/Journal/")
