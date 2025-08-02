@@ -34,10 +34,10 @@ config.use_fancy_tab_bar = false
 ---@diagnostic disable-next-line: inject-field I think this type is missing
 config.notification_handling = "AlwaysShow"
 config.window_decorations = "RESIZE"
-config.color_scheme = "Tokyo Night Moon"
+config.color_scheme = "Tokyo Night"
 config.font = wezterm.font("JetBrainsMono Nerd Font Mono")
 -- config.harfbuzz_features = { "ss01" } -- Enable cursive comments
-config.font_size = 21
+config.font_size = 20
 config.tab_max_width = 300
 config.show_new_tab_button_in_tab_bar = false
 config.window_padding = {
