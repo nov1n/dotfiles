@@ -41,8 +41,6 @@ return {
       keymap = {
         preset = "default",
         ["<C-enter>"] = {},
-        ["<Up>"] = {},
-        ["<Down>"] = {},
         ["<Tab>"] = {},
         ["<S-Tab>"] = {},
         ["<Right>"] = { "snippet_forward", "fallback" },
