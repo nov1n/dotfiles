@@ -62,6 +62,7 @@ map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. 
 map({ "n" },        "-",          "<cmd>Oil<cr>",                                                              "Open parent directory in oil")
 map({ "n" },        "<leader>E",  "<cmd>:LazyExtras<cr>",                                                      "Open Lazy Extras panel")
 map({ "n" },        "<leader>fp", project_picker,                                                              "Find projects")
+map({ "n" },        "<leader>ft", ":vimgrep /^- / %| copen<cr>",                                               "Find todos")
 map({ "n", "i" },   "<M-cr>",     vim.lsp.buf.code_action,                                                     "Perform code action")
 map({ "n" },        "<leader>fd", function() Snacks.picker.files({cwd = "~/dotfiles"}) end,                    "Find dotfiles")
 map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,                                        "Smart find files")
