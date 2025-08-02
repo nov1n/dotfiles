@@ -17,3 +17,6 @@ vim.g.snacks_animate = false
 
 -- Disable wrapping long lines
 vim.opt.wrap = false
+
+-- Disable swap file
+vim.opt.swapfile = false
