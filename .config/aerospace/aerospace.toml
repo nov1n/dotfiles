@@ -185,10 +185,10 @@ if.app-name-regex-substring = 'Reminders|Proton\ Mail|Calendar'
 run = ['move-node-to-workspace org']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Bambu|Fusion|Kulve|Affinity'
+if.app-name-regex-substring = 'Bambu|Fusion|Kulve|Affinity|GarageBand|FreeTube'
 run = ['move-node-to-workspace scratch']
 
 # Floating assignments
 [[on-window-detected]]
-if.app-name-regex-substring = 'Karabiner|Finder|Preview|QuickTime|Cisco Secure Client'
+if.app-name-regex-substring = 'Karabiner|Finder|Preview|QuickTime|Cisco Secure Client|DaisyDisk'
 run = ['layout floating']
