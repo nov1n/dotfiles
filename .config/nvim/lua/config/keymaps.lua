@@ -51,11 +51,6 @@ map({ "n", "v" },   "gct",        "<cmd>CBllline 15<cr>",                       
 map({ "n" },        "gcl",        "<cmd>CBline<cr>",                                                           "Insert line comment")
 map({ "n", "v" },   "gcm",        "<cmd>CBllbox10<cr>",                                                        "Insert a marked comment")
 map({ "n", "v" },   "gcd",        "<cmd>CBd<cr>",                                                              "Remove a box comment")
-map({ "n", "v" },   "<leader>aa", "<cmd>CodeCompanionActions<cr>",                                             "Show CodeCompanion actions")
-map({ "n", "v" },   "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>",                                         "Toggle CodeCompanion chat")
-map({ "n", "v" },   "<leader>an", "<cmd>CodeCompanionChat<cr>",                                                "New CodeCompanion chat")
-map({ "n", "v" },   "<leader>ap", ":CodeCompanion<cr>",                                                        "Prompt CodeCompanion")
-map({ "v" },        "<leader>av", "<cmd>CodeCompanionChat Add<cr>",                                            "Add current selection to CodeCompanion chat")
 -- WARNING: Incorrect use of '{ expr = true }' will cause the keybind to lazily evaluate every time it's pressed causing UI lag, use with caution.
 map({ "n", "x" },   "j",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "j" or "j" end, "Add <count>j to jumplist", { expr = true })
 map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "k" or "k" end, "Add <count>k to jumplist", { expr = true })
@@ -69,7 +64,6 @@ map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,         
 -- stylua: ignore end
 
 -- HACK: For some reason this mappings works only with vimscript
-vim.cmd("cab cc CodeCompanion")
 vim.cmd('cab w :lua Snacks.notify.error("Disabled")')
 vim.cmd('cab q :lua Snacks.notify.error("Disabled")')
 vim.cmd('cab wq :lua Snacks.notify.error("Disabled")')
