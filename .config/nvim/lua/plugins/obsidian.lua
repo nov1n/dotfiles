@@ -61,7 +61,6 @@ return {
     ui = {
       enable = false,
     },
-    mappings = {},
     callbacks = {
       enter_note = function(client, note) end,
       leave_note = function(client, note) end,
