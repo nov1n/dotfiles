@@ -62,6 +62,8 @@ map({ "n" },        "<leader>ft", ":vimgrep /^- / %| copen<cr>",                
 map({ "n", "i" },   "<M-cr>",     vim.lsp.buf.code_action,                                                     "Perform code action")
 map({ "n" },        "<leader>fd", function() Snacks.picker.files({cwd = "~/dotfiles"}) end,                    "Find dotfiles")
 map({"n"},          "<leader>fs", function() Snacks.picker.smart() end,                                        "Smart find files")
+map({ "c" },        "<tab>",      "<Nop>",                                                                     "Disable tab in command mode")
+map({ "c" },        "<s-tab>",    "<Nop>",                                                                     "Disable shift tab in command mode")
 -- stylua: ignore end
 
 -- HACK: For some reason this mappings works only with vimscript
