@@ -39,6 +39,7 @@ map({ "n" },        "<M-H>",      require("smart-splits").resize_left,          
 map({ "n" },        "<M-J>",      require("smart-splits").resize_down,                                         "Resize down")
 map({ "n" },        "<M-K>",      require("smart-splits").resize_up,                                           "Resize up")
 map({ "n" },        "<M-L>",      require("smart-splits").resize_right,                                        "Resize right")
+map({ "n" },        "<leader>R", "<cmd>restart<cr>",                                                           "Restart Neovim")
 map({ "n" },        "<leader>do", "<cmd>DiffOrig<cr>",                                                         "Diff buffer with file on disk")
 map({ "n" },        "<leader>bn", ":enew<cr>",                                                                 "Create new buffer")
 map({ "n" },        "<leader>gb", "<cmd>BlameToggle<cr>",                                                      "Git blame")
