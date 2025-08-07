@@ -3,6 +3,12 @@ return {
   dependencies = { "fang2hou/blink-copilot" },
   config = function()
     require("blink.cmp").setup({
+      cmdline = {
+        keymap = { preset = "inherit" },
+        completion = {
+          menu = { auto_show = false },
+        },
+      },
       completion = {
         documentation = {
           auto_show = true,
