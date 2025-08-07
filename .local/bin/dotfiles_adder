@@ -20,13 +20,20 @@ if [ ! -e "$SOURCE" ]; then
   exit 1
 fi
 
-# Get the base name (e.g., .vimrc) for use in destination path
-BASENAME=$(basename "$SOURCE")
-DOTFILES_PATH="$DOTFILES_HOME/$BASENAME"
+# Get the relative path from HOME to preserve directory structure
+HOME_PATH=$(readlink -f "$HOME")
+if [[ "$SOURCE" == "$HOME_PATH"/* ]]; then
+  # Remove HOME path prefix to get relative path
+  RELATIVE_PATH="${SOURCE#"$HOME_PATH"/}"
+  DOTFILES_PATH="$DOTFILES_HOME/$RELATIVE_PATH"
+else
+  echo "Error: $SOURCE is not within the home directory"
+  exit 1
+fi
 
 # Check if the file already exists in the dotfiles directory
 if [ -e "$DOTFILES_PATH" ]; then
-  echo "$BASENAME already exists in dotfiles"
+  echo "$RELATIVE_PATH already exists in dotfiles"
   exit 0
 fi
 
@@ -40,4 +47,4 @@ mv "$SOURCE" "$DOTFILES_PATH"
 cd "$DOTFILES_HOME"
 stow -v .
 
-echo "Successfully added $BASENAME to dotfiles and created symlink using Stow"
+echo "Successfully added $RELATIVE_PATH to dotfiles and created symlink using Stow"
