@@ -9,22 +9,6 @@ export NOTES_HOME=$HOME/Notes
 # Make nvim the default editor.
 export EDITOR="nvim";
 
-# Configure shell history
-HISTSIZE=500000
-SAVEHIST=$HISTSIZE
-HISTFILE=~/.zsh_history
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
-
-# The characters which ^-W should stop at
-WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
-
 # Prefer US English and use UTF-8.
 export LANG='en_US.UTF-8';
 export LANGUAGE='en_US.UTF-8'

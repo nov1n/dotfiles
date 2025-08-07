@@ -14,6 +14,22 @@ unset file;
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
+# Configure shell history
+HISTSIZE=500000
+SAVEHIST=$HISTSIZE
+HISTFILE=~/.zsh_history
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# The characters which ^<BS> should stop at
+WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
+
 # Configure autocomplete
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -35,11 +51,13 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Custom keybindings
 function zvm_after_init() {
-  zvm_bindkey viins "^R" fzf-history-widget
-  zvm_bindkey viins "^ " fzf-cd-widget
+  zvm_bindkey viins "^F" fzf-cd-widget
   zvm_bindkey viins "^T" fzf-file-widget
   zvm_bindkey viins "^Y" autosuggest-accept
-  zvm_bindkey viins "^I" fzf-tab-complete # Tab key
+  zvm_bindkey viins "^ " fzf-tab-complete # Tab key
+
+  # Lazy load atuin, otherwise keybinds get overwritten, see https://github.com/jeffreytse/zsh-vi-mode/issues/12
+  eval "$(atuin init zsh --disable-up-arrow)"
 }
 
 # Load tools
