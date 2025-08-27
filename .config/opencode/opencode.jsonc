@@ -10,8 +10,10 @@
       "ls": "allow",
       "pwd": "allow",
       "cd": "allow",
+      "find": "allow",
       "mv": "ask",
       "rm": "ask",
+      "chmod": "allow",
       "*": "ask"
     }
   }
