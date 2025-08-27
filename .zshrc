@@ -5,6 +5,11 @@ fi
 source ~/.antidote/antidote.zsh
 antidote load
 
+# Load zprof if debugging flag is set
+if [[ -n "$ZSH_DEBUGRC" ]]; then
+  zmodload zsh/zprof
+fi
+
 # Load the shell dotfiles
 for file in ~/.zsh_{aliases,functions,local,work}.sh; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
@@ -87,3 +92,8 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
+
+# Show profiling summary if debug flag is set
+if [[ -n "$ZSH_DEBUGRC" ]]; then
+  zprof
+fi
