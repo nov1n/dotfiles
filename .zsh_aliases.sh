@@ -1,5 +1,6 @@
 alias v=nvim
 
+alias ~="cd ~"
 alias ..="cd .."
 alias c="clear"
 alias g="git"
@@ -15,6 +16,7 @@ alias shfmt="shfmt -w -i 2 -ci -bn"
 alias k=kubectl
 alias d=docker
 alias dirsizes="lsd -l --total-size --sizesort"
+alias todo="cd ~/Notes/Todo && v"
 
 alias la="lsd -la --sort time"
 alias ll="lsd -l --sort time"
@@ -27,6 +29,7 @@ alias tw="taskwarrior-tui"
 alias nslookup="doggo"
 alias host="doggo"
 alias htop="btm"
+alias nvm="echo 'Use fnm!'"
 
 # Experimental
 alias grep="rg"
