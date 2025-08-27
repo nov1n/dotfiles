@@ -28,8 +28,15 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --highlight-line \
   --info=inline-right \
   --ansi \
+  --no-scrollbar \
   --layout=reverse \
-  --border=none
+  --border=none \
+  --scroll-off=3 \
+  --no-cycle \
+  --marker='·' \
+  --pointer='' \
+  --prompt='❯ ' \
+  \
   --color=bg+:#2d3f76 \
   --color=border:#589ed7 \
   --color=fg:#c8d3f5 \
