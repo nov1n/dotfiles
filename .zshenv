@@ -50,9 +50,6 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 # SDKMAN
 export SDKMAN_DIR="$HOME/.sdkman"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-
 # Configure path
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
