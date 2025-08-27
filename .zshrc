@@ -80,12 +80,8 @@ if command -v picnic >/dev/null 2>&1; then
   fpath=(/Users/carosi/Library/Caches/picnic-cli/autocomplete/functions/zsh $fpath)
 fi
 
-# SDKMAN!
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# Setup NVM
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Experimental home-cooked sdkman lazy loader 🧪
+[ -f ~/.zsh_sdkman_lazy_loader.sh ] && source ~/.zsh_sdkman_lazy_loader.sh
 
 # Cargo
 . "$HOME/.cargo/env"
@@ -108,3 +104,4 @@ fi
 if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
+
