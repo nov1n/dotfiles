@@ -3,5 +3,8 @@ return {
   build = "cargo build --release",
   opts = {
     prompt = " ",
+    layout = {
+      prompt_position = "top",
+    },
   },
 }
