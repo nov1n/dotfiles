@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# For gpg binary
+export PATH="/opt/homebrew/bin:$PATH"
+
+NOTES_DIR="$HOME/Notes"
+
+# Function to log with timestamp
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+cd "$NOTES_DIR" || exit 1
+
+if git diff --quiet && git diff --cached --quiet; then
+  log "No changes to sync"
+  exit 0
+fi
+
+log "Starting sync process..."
+git add .
+git commit -m "Daily sync: $(date '+%Y-%m-%d %H:%M:%S')"
+git push
