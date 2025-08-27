@@ -62,3 +62,4 @@ export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 
 # Default aws profile
 export AWS_PROFILE="picnic-artifacts"
+. "/Users/carosi/.local/share/bob/env/env.sh"
