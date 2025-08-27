@@ -74,7 +74,10 @@ eval "$(starship init zsh)"
 # Load autocmpletions
 source <(docker completion zsh)
 if command -v picnic >/dev/null 2>&1; then
-  source <(picnic autocomplete script zsh)
+  # `picnic autocomplete script zsh` also calls compinit, which reinitizliaes the completion system.
+  # This is unnecessary and slows down zsh startup time, so we only add the completion function to the
+  # fpath, and let the ez-compinit plugin take care of the rest.
+  fpath=(/Users/carosi/Library/Caches/picnic-cli/autocomplete/functions/zsh $fpath)
 fi
 
 # SDKMAN!
