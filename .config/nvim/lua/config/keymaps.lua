@@ -30,15 +30,24 @@ local project_picker = function()
   })
 end
 
+local open_oil_with_preview = function()
+  local oil = require("oil")
+  oil.open(nil, { preview = {} }, function(err)
+    if not err then
+      vim.api.nvim_command("vertical resize 40")
+    end
+  end)
+end
+
 -- stylua: ignore start
-map({ "n", "t" },        "<m-h>",      require("smart-splits").move_cursor_left,                                    "Move left")
-map({ "n", "t" },        "<m-j>",      require("smart-splits").move_cursor_down,                                    "Move down")
-map({ "n", "t" },        "<m-k>",      require("smart-splits").move_cursor_up,                                      "Move up")
-map({ "n", "t" },        "<m-l>",      require("smart-splits").move_cursor_right,                                   "Move right")
-map({ "n", "t" },        "<m-H>",      require("smart-splits").resize_left,                                         "Resize left")
-map({ "n", "t" },        "<m-J>",      require("smart-splits").resize_down,                                         "Resize down")
-map({ "n", "t" },        "<m-K>",      require("smart-splits").resize_up,                                           "Resize up")
-map({ "n", "t" },        "<m-L>",      require("smart-splits").resize_right,                                        "Resize right")
+map({ "n", "t" },        "<m-h>",      require("smart-splits").move_cursor_left,                               "Move left")
+map({ "n", "t" },        "<m-j>",      require("smart-splits").move_cursor_down,                               "Move down")
+map({ "n", "t" },        "<m-k>",      require("smart-splits").move_cursor_up,                                 "Move up")
+map({ "n", "t" },        "<m-l>",      require("smart-splits").move_cursor_right,                              "Move right")
+map({ "n", "t" },        "<m-H>",      require("smart-splits").resize_left,                                    "Resize left")
+map({ "n", "t" },        "<m-J>",      require("smart-splits").resize_down,                                    "Resize down")
+map({ "n", "t" },        "<m-K>",      require("smart-splits").resize_up,                                      "Resize up")
+map({ "n", "t" },        "<m-L>",      require("smart-splits").resize_right,                                   "Resize right")
 map({ "n" },        "<leader>R", "<cmd>restart<cr>",                                                           "Restart Neovim")
 map({ "n" },        "<leader>do", "<cmd>DiffOrig<cr>",                                                         "Diff buffer with file on disk")
 map({ "n" },        "<leader>bn", ":enew<cr>",                                                                 "Create new buffer")
@@ -55,7 +64,7 @@ map({ "n", "v" },   "gcd",        "<cmd>CBd<cr>",                               
 -- WARNING: Incorrect use of '{ expr = true }' will cause the keybind to lazily evaluate every time it's pressed causing UI lag, use with caution.
 map({ "n", "x" },   "j",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "j" or "j" end, "Add <count>j to jumplist", { expr = true })
 map({ "n", "x" },   "k",          function() return vim.v.count > 1 and "m'" .. vim.v.count .. "k" or "k" end, "Add <count>k to jumplist", { expr = true })
-map({ "n" },        "-",          "<cmd>Oil<cr>",                                                              "Open parent directory in oil")
+map({ "n" },        "-",          function() open_oil_with_preview() end,                                      "Open parent directory in oil")
 map({ "n" },        "<leader>E",  "<cmd>:LazyExtras<cr>",                                                      "Open Lazy Extras panel")
 map({ "n" },        "<leader>fp", project_picker,                                                              "Find projects")
 map({ "n" },        "<leader>ft", ":vimgrep /^- / %| copen<cr>",                                               "Find todos")
