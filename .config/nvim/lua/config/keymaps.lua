@@ -88,6 +88,7 @@ map({ "n", "i" },   "<m-cr>",           vim.lsp.buf.code_action,                
 map({ "n" },        "<leader><leader>", function() Snacks.picker.smart() end,       "Smart find files")
 map({ "c" },        "<tab>",            "<Nop>",                                    "Disable tab in command mode")
 map({ "c" },        "<s-tab>",          "<Nop>",                                    "Disable shift tab in command mode")
+map({ "n" },        "s",                "<Nop>",                                    "Disable s key")
 -- stylua: ignore end
 
 -- HACK: For some reason this mappings works only with vimscript
