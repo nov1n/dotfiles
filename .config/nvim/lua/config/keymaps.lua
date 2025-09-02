@@ -85,7 +85,7 @@ map({ "n" },        "<leader>E",        "<cmd>:LazyExtras<cr>",                 
 map({ "n" },        "<leader>fp",       project_picker,                             "Find projects")
 map({ "n" },        "<leader>ft",       ":vimgrep /^- / %| copen<cr>",              "Find todos")
 map({ "n", "i" },   "<m-cr>",           vim.lsp.buf.code_action,                    "Perform code action")
-map({ "n" },        "<leader><leader>", function() Snacks.picker.smart() end,       "Smart find files")
+map({ "n" },        "<leader><leader>", function() Snacks.picker.files() end,       "Smart find files")
 map({ "c" },        "<tab>",            "<Nop>",                                    "Disable tab in command mode")
 map({ "c" },        "<s-tab>",          "<Nop>",                                    "Disable shift tab in command mode")
 map({ "n" },        "s",                "<Nop>",                                    "Disable s key")
