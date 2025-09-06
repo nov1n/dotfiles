@@ -20,6 +20,9 @@ export LESS_TERMCAP_md="${yellow}";
 # Use nvim as manpager.
 export MANPAGER="nvim -c 'Man!'";
 
+# Ripgrep
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
