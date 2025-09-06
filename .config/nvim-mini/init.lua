@@ -1,6 +1,6 @@
 -- stylua: ignore start
 
--- Bootstrap 'mini.nvim' ======================================================
+-- Bootstrap 'mini.deps =======================================================
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
@@ -21,6 +21,7 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 _G.Config = {}
 
 -- Options ====================================================================
+vim.g.mapleader = ' '                               -- Set leader key to space
 vim.o.iskeyword   = '@,48-57,_,192-255,-'           -- Treat dash separated words as a word text object
 vim.o.completeopt = 'menuone,noselect,fuzzy,nosort' -- Use fuzzy matching for built-in completion
 vim.o.complete    = '.,w,b,kspell'                  -- Use spell check and don't use tags for completion
@@ -35,12 +36,9 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
   { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
-  { mode = 'n', keys = '<Leader>L', desc = '+Lua/Log' },
-  { mode = 'n', keys = '<Leader>m', desc = '+Map' },
+  { zbqr = 'a', xrlf = '<Yrnqre>Y', qrfp = '+Yhn/Ybt' },
+  { zbqr = 'a', xrlf = '<Yrnqre>z', qrfp = '+Znc' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
-  { mode = 'n', keys = '<Leader>r', desc = '+R' },
-  { mode = 'n', keys = '<Leader>t', desc = '+Terminal/Minitest' },
-  { mode = 'n', keys = '<Leader>T', desc = '+Test' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
 
   { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
@@ -63,6 +61,12 @@ nmap("<M-J>", function() require("smart-splits").resize_down() end,       "Resiz
 nmap("<M-K>", function() require("smart-splits").resize_up() end,         "Resize up")
 nmap("<M-L>", function() require("smart-splits").resize_right() end,      "Resize right")
 
+-- Clear hl on <esc>
+vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
+  vim.cmd("noh")
+  return "<esc>"
+end, { expr = true, desc = "Escape and Clear hlsearch" })
+
 -- Create `<Leader>` mappings
 local nmap_leader = function(suffix, rhs, desc, opts)
   opts = opts or {}
@@ -76,6 +80,10 @@ local xmap_leader = function(suffix, rhs, desc, opts)
   vim.keymap.set('x', '<Leader>' .. suffix, rhs, opts)
 end
 
+-- shortcuts of longer commands
+nmap_leader('<leader>', '<Cmd>Pick files<CR>',                             'Files')
+nmap_leader('/', '<Cmd>Pick grep_live<CR>',                         'Grep live')
+
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
 nmap_leader('bd', '<Cmd>lua MiniBufremove.delete()<CR>',         'Delete')
@@ -88,9 +96,11 @@ nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 nmap_leader('ec', '<Cmd>edit ~/dotfiles/.config/nvim/init.lua<CR>', 'Neovim config')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',             'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>',          'Quickfix')
+nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
+nmap_leader('ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
 
 -- f is for 'fuzzy find'
-nmap_leader('f/', '<Cmd>Pick history scope="/"<CR>',                 '"/" history')
+nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
 nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',                 '":" history')
 nmap_leader('fa', '<Cmd>Pick git_hunks scope="staged"<CR>',          'Added hunks (all)')
 nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
@@ -158,6 +168,12 @@ nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>',      'Refresh')
 nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>',  'Side (toggle)')
 nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       'Toggle')
 
+-- v is for 'visits'
+nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>',    'Add "core" label')
+nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
+nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>',          'Add label')
+nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',       'Remove label')
+
 -- o is for 'other'
 local trailspace_toggle_command = '<Cmd>lua vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable<CR>'
 nmap_leader('oC', '<Cmd>lua MiniCursorword.toggle()<CR>',  'Cursor word hl toggle')
@@ -171,14 +187,12 @@ nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
 nmap_leader('oT', trailspace_toggle_command,               'Trailspace hl toggle')
 nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
 
-
 -- Create insert mode mappings
 local imap = function(lhs, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc
   vim.keymap.set('i', lhs, rhs, opts)
 end
-
 
 -- Create listed scratch buffer and focus on it
 Config.new_scratch_buffer = function() vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true)) end
@@ -200,8 +214,33 @@ Config.insert_section = function(symbol, total_width)
   vim.cmd([[startreplace]])
 end
 
+-- Execute current line with `lua`
+Config.execute_lua_line = function()
+  local line = 'lua ' .. vim.api.nvim_get_current_line()
+  vim.api.nvim_command(line)
+  print(line)
+  vim.api.nvim_input('<Down>')
+end
+
+-- Tabpage with lazygit
+Config.open_lazygit = function()
+  vim.cmd('tabedit')
+  vim.cmd('setlocal nonumber signcolumn=no')
+
+  -- Unset vim environment variables to be able to call `vim` without errors
+  -- Use custom `--git-dir` and `--work-tree` to be able to open inside
+  -- symlinked submodules
+  vim.fn.termopen('VIMRUNTIME= VIM= lazygit --git-dir=$(git rev-parse --git-dir) --work-tree=$(realpath .)', {
+    on_exit = function()
+      vim.cmd('silent! :checktime')
+      vim.cmd('silent! :bw')
+    end,
+  })
+  vim.cmd('startinsert')
+end
 
 -- Plugins ====================================================================
+
 -- Safely execute immediately
 now(function()
   add({ source = 'folke/tokyonight.nvim', })
@@ -220,14 +259,14 @@ now(function() require('mini.hipatterns').setup() end)
 now(function() require('mini.icons').setup() end)
 now(function() require('mini.indentscope').setup() end)
 now(function() require('mini.map').setup() end)
-now(function() require('mini.notify').setup() end)
+
 now(function() require('mini.sessions').setup() end)
 now(function() require('mini.starter').setup() end)
 now(function() require('mini.trailspace').setup() end)
 
 -- Safely execute later
-later(function() require('mini.ai') end)
-later(function() require('mini.align') end)
+later(function() require('mini.ai').setup() end)
+later(function() require('mini.align').setup() end)
 later(function() require('mini.bracketed').setup() end)
 later(function() require('mini.bufremove').setup() end)
 later(function()
@@ -238,38 +277,27 @@ later(function()
       },
     },
     triggers = {
-      -- Leader triggers
-      { mode = 'n', keys = '<Leader>' },
+      { mode = 'n', keys = '<Leader>' }, -- Leader triggers
       { mode = 'x', keys = '<Leader>' },
-
-      -- Built-in completion
-      { mode = 'i', keys = '<C-x>' },
-
-      -- `g` key
-      { mode = 'n', keys = 'g' },
+      { mode = 'n', keys = [[\]] },      -- mini.basics
+      { mode = 'n', keys = '[' },        -- mini.bracketed
+      { mode = 'n', keys = ']' },
+      { mode = 'x', keys = '[' },
+      { mode = 'x', keys = ']' },
+      { mode = 'i', keys = '<C-x>' },    -- Built-in completion
+      { mode = 'n', keys = 'g' },        -- `g` key
       { mode = 'x', keys = 'g' },
-
-      -- Marks
-      { mode = 'n', keys = "'" },
+      { mode = 'n', keys = "'" },        -- Marks
       { mode = 'n', keys = '`' },
       { mode = 'x', keys = "'" },
       { mode = 'x', keys = '`' },
-
-      -- Registers
-      { mode = 'n', keys = '"' },
+      { mode = 'n', keys = '"' },        -- Registers
       { mode = 'x', keys = '"' },
       { mode = 'i', keys = '<C-r>' },
       { mode = 'c', keys = '<C-r>' },
-
-      -- `z` key
-      { mode = 'n', keys = 'z' },
+      { mode = 'n', keys = '<C-w>' },    -- Window commands
+      { mode = 'n', keys = 'z' },        -- `z` key
       { mode = 'x', keys = 'z' },
-      { mode = 'n', keys = 'z' },
-      { mode = 'x', keys = 'z' },
-
-      -- Square brackets
-      { mode = 'n', keys = ']' },
-      { mode = 'n', keys = '[' },
     },
     clues = {
       Config.leader_group_clues,
@@ -282,21 +310,30 @@ later(function()
     },
   }) end)
 later(function() require('mini.comment').setup() end)
-later(function() require('mini.completion') end)
+later(function() require('mini.completion').setup() end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
 later(function() require('mini.git').setup() end)
-later(function() require('mini.jump').setup() end)
-later(function() require('mini.jump2d').setup() end)
-later(function() require('mini.keymap') end)
+-- later(function() require('mini.jump').setup() end)
+later(function()
+  local jump2d = require('mini.jump2d')
+  jump2d.setup({
+    spotter = jump2d.gen_spotter.pattern('[^%s%p]+'),
+    labels = 'asdfghjkl;',
+    view = { dim = true, n_steps_ahead = 2 },
+  })
+  vim.keymap.set({ 'n', 'x', 'o' }, 'sj', function() MiniJump2d.start(MiniJump2d.builtin_opts.single_character) end)
+end)
+later(function() require('mini.keymap').setup() end)
 later(function() require('mini.misc').setup() end)
-later(function() require('mini.move') end)
-later(function() require('mini.operators') end)
-later(function() require('mini.pairs') end)
+-- TODO: I think this is nice, but keybinds currently conflict with smart-splits
+-- later(function() require('mini.move').setup() end)
+later(function() require('mini.operators').setup() end)
+later(function() require('mini.pairs').setup() end)
 later(function() require('mini.pick').setup() end)
-later(function() require('mini.sessions').setup() end)
-later(function() require('mini.snippets') end)
+
+later(function() require('mini.snippets').setup() end)
 later(function() require('mini.splitjoin') end)
 later(function() require('mini.surround').setup() end)
 later(function() require('mini.visits').setup() end)
