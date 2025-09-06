@@ -25,6 +25,7 @@ alias tree="lsd -l --tree --depth=3"
 #alias cat="bat"
 alias lg="lazygit"
 alias tw="taskwarrior-tui"
+alias fd='fd --hidden'
 
 # Nudges
 alias nslookup="doggo"
@@ -32,6 +33,7 @@ alias host="doggo"
 alias htop="btm"
 alias nvm="echo 'Use fnm!'"
 alias rm="rip"
+alias time="echo 'Use hyperfine!'"
 
 # Experimental
 alias grep="rg"
@@ -44,6 +46,7 @@ alias week='date +%V'
 
 # Networking
 alias pubip="curl -s https://checkip.amazonaws.com"
+# shellcheck disable=SC2142
 alias locip="ifconfig | awk '/flags/{gsub(\":\", \"\", \$1); iface=\$1} /inet / && \$2 != \"127.0.0.1\" {print iface, \$2}'"
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 alias flush="dscacheutil -flushcache && sudo killall -HUP mDNSResponder"
