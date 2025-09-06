@@ -15,7 +15,6 @@ end
 
 -- Set up 'mini.deps' immediately to have its `now()` and `later()` helpers
 require('mini.deps').setup()
-
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 -- Define main config table to be able to use it in scripts
@@ -240,25 +239,78 @@ end)
 now(function() require('mini.basics').setup() end)
 now(function() require('mini.colors').setup() end)
 now(function() require('mini.cursorword').setup() end)
-
 now(function() require('mini.icons').setup() end)
 now(function() require('mini.indentscope').setup() end)
 now(function() require('mini.map').setup() end)
-
 now(function() require('mini.sessions').setup() end)
-now(function() require('mini.starter').setup() end)
-now(function() require('mini.trailspace').setup() end)
-now(function()
-  -- Use other plugins with `add()`. It ensures plugin is available in current
-  -- session (installs if absent)
+now(function() require('mini.starter').setup() end) -- Shows 'dashboard'
+now(function() require('mini.trailspace').setup() end) -- Shows trailing whitespace
+
+-- Safely execute later =======================================================
+
+-- Tree-sitter (advanced syntax parsing, highlighting, textobjects) ===========
+later(function()
   add({
-    source = 'neovim/nvim-lspconfig',
-    -- Supply dependencies near target plugin
-    depends = { 'williamboman/mason.nvim' },
+    source = 'nvim-treesitter/nvim-treesitter',
+    checkout = 'main',
+    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+  })
+  add({ source = 'nvim-treesitter/nvim-treesitter-textobjects' })
+
+  require('nvim-treesitter.configs').setup {
+    ensure_installed = {
+      'bash','c','cpp','css','diff','go',
+      'html','javascript','json','julia','nu','php','python',
+      'r','regex','rst','rust','toml','tsx','yaml',
+    },
+    auto_install = true,
+    highlight = { enable = true },
+    indent = { enable = true },
+    textobjects = { select = { enable = true } },
+  }
+end)
+
+-- Install LSP/formatting/linter executables
+later(function()
+  add('mason-org/mason.nvim')
+  require('mason').setup()
+end)
+
+later(function()
+  add('neovim/nvim-lspconfig')
+
+  -- All language servers are expected to be installed with 'mason.nvim'
+  vim.lsp.enable({
+    'lua_ls',
+    'rust_analyzer',
+    'ts_ls',
   })
 end)
 
--- Safely execute later
+-- Formatting =================================================================
+later(function()
+  add('stevearc/conform.nvim')
+
+  require('conform').setup({
+    -- Map of filetype to formatters
+    formatters_by_ft = {
+      javascript = { 'prettier' },
+			sh = { 'shfmt' },
+      json = { 'prettier' },
+      lua = { 'stylua' },
+      python = { 'black' },
+    },
+
+    formatters = {
+      shfmt = {
+        prepend_args = { "-i", "2", "-ci" },
+      },
+      prettier = {
+        prepend_args = { "--prose-wrap=always" },
+      },
+    },
+  })
+end)
 later(function()
   add({ source = 'kdheepak/lazygit.nvim'})
 end)
@@ -322,7 +374,21 @@ later(function()
     },
   }) end)
 later(function() require('mini.comment').setup() end)
-later(function() require('mini.completion').setup() end)
+later(function()
+  -- Don't show 'Text' suggestions
+  local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
+  local process_items = function(items, base)
+    return MiniCompletion.default_process_items(items, base, process_items_opts)
+  end
+  require('mini.completion').setup({
+    lsp_completion = { source_func = 'omnifunc', auto_setup = false, process_items = process_items },
+  })
+
+  -- Set up LSP part of completion
+  local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
+  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
+  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+end)
 later(function() require('mini.diff').setup() end)
 later(function() require('mini.extra').setup() end)
 later(function() require('mini.files').setup() end)
