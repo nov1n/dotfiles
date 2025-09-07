@@ -173,3 +173,15 @@ later(function()
     source = 'mrjones2014/smart-splits.nvim'
   })
 end)
+
+-- OpenCode integration
+later(function()
+  add({
+    source = 'NickvanDyke/opencode.nvim',
+  })
+
+  -- Configure opencode using the new method
+  vim.g.opencode_opts = {
+    -- Your configuration, if any — see lua/opencode/config.lua
+  }
+end)
