@@ -1,4 +1,8 @@
--- TODO: port all the useful plugins
+-- TODO:
+-- Port useful plugins from my own config
+-- Port useful plugins from echan's config
+-- configure neodev
+-- maybe split out keymaps to a separate file or copy his approach with a few different files
 -- stylua: ignore start
 
 -- Bootstrap 'mini.deps =======================================================
@@ -13,6 +17,7 @@ if not vim.loop.fs_stat(mini_path) then
   vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
+
 -- Set up 'mini.deps' immediately to have its `now()` and `later()` helpers
 require('mini.deps').setup()
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
@@ -21,13 +26,39 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 _G.Config = {}
 
 -- Options ====================================================================
-vim.g.mapleader = ' '                               -- Set leader key to space
-vim.o.iskeyword   = '@,48-57,_,192-255,-'           -- Treat dash separated words as a word text object
-vim.o.completeopt = 'menuone,noselect,fuzzy,nosort' -- Use fuzzy matching for built-in completion
-vim.o.complete    = '.,w,b,kspell'                  -- Use spell check and don't use tags for completion
-vim.o.tabstop     = 2                               -- Insert 2 spaces for a tab
+vim.g.mapleader      = ' '                                   -- Set leader key to space
+vim.o.iskeyword      = '@,48-57,_,192-255,-'                 -- Treat dash separated words as a word text object
+vim.o.completeopt    = 'menuone,noselect,fuzzy,nosort'       -- Use fuzzy matching for built-in completion
+vim.o.complete       = '.,w,b,kspell'                        -- Use spell check and don't use tags for completion
+vim.o.shiftwidth     = 2                                     -- Use this number of spaces for indentation
+vim.o.tabstop        = 2                                     -- Insert 2 spaces for a tab
+vim.o.autoindent     = true                                  -- Use auto indent
+vim.o.expandtab      = true                                  -- Convert tabs to spaces
+vim.o.formatoptions  = 'rqnl1j'                              -- Improve comment editing
+vim.o.cursorlineopt  = 'screenline,number'                   -- Show cursor line only screen line when wrapped
+vim.o.breakindentopt = 'list:-1'                             -- Add padding for lists when 'wrap' is on
+vim.o.shortmess      = 'CFOSWaco'                            -- Don't show "Scanning..." messages
+vim.o.splitkeep      = 'screen'                              -- Reduce scroll during window split
+vim.o.winborder      = 'rounded'                             -- Use double-line as default border
+vim.o.pumblend       = 10                                    -- Make builtin completion menus slightly transparent
+vim.o.pumheight      = 10                                    -- Make popup menu smaller
+vim.o.winblend       = 10                                    -- Make floating windows slightly transparent
+vim.o.pummaxwidth    = 100                                   -- Limit maximum width of popup menu
+vim.o.completefuzzycollect = 'keyword,files,whole_line'      -- Use fuzzy matching when collecting candidates
+vim.o.listchars            = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',') -- Special text symbols
+vim.o.fillchars            = table.concat({ 'foldopen:', 'foldclose:', 'fold: ', 'foldsep: ', 'diff:╱', 'eob: ', }, ',') -- Pretty symbols for folding, diff, and end-of-buffer
+
+-- Command line autocompletion
+vim.cmd([[autocmd CmdlineChanged [:/\?@] call wildtrigger()]])
+vim.o.wildmode = 'noselect:lastused'
+vim.o.wildoptions = 'pum,fuzzy'
+vim.keymap.set('c', '<Up>', '<C-u><Up>')
+vim.keymap.set('c', '<Down>', '<C-u><Down>')
+vim.keymap.set('c', '<Tab>', [[cmdcomplete_info().pum_visible ? "\<C-n>" : "\<Tab>"]], { expr = true })
+vim.keymap.set('c', '<S-Tab>', [[cmdcomplete_info().pum_visible ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 
 -- Mappings ===================================================================
+
 -- Create global tables with information about clue groups in certain modes
 -- Structure of tables is taken to be compatible with 'mini.clue'.
 _G.Config.leader_group_clues = {
@@ -40,10 +71,25 @@ _G.Config.leader_group_clues = {
   { zbqr = 'a', xrlf = '<Yrnqre>z', qrfp = '+Znc' },
   { mode = 'n', keys = '<Leader>o', desc = '+Other' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
-
   { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
   { mode = 'x', keys = '<Leader>r', desc = '+R' },
 }
+
+-- From `mini.basics`
+
+-- , for toggling common options:
+-- - `b` - |'background'|.
+-- - `c` - |'cursorline'|.
+-- - `C` - |'cursorcolumn'|.
+-- - `d` - diagnostic (via |vim.diagnostic| functions).
+-- - `h` - |'hlsearch'| (or |v:hlsearch| to be precise).
+-- - `i` - |'ignorecase'|.
+-- - `l` - |'list'|.
+-- - `n` - |'number'|.
+-- - `r` - |'relativenumber'|.
+-- - `s` - |'spell'|.
+-- - `w` - |'wrap'|.
+
 
 -- Create normal mode mappings
 local nmap = function(lhs, rhs, desc, opts)
@@ -61,12 +107,6 @@ nmap("<M-J>", function() require("smart-splits").resize_down() end,       "Resiz
 nmap("<M-K>", function() require("smart-splits").resize_up() end,         "Resize up")
 nmap("<M-L>", function() require("smart-splits").resize_right() end,      "Resize right")
 
--- Clear hl on <esc>
-vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  return "<esc>"
-end, { expr = true, desc = "Escape and Clear hlsearch" })
-
 -- Create `<Leader>` mappings
 local nmap_leader = function(suffix, rhs, desc, opts)
   opts = opts or {}
@@ -81,8 +121,8 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- shortcuts of longer commands
-nmap_leader('<leader>', '<Cmd>Pick files<CR>',                             'Files')
-nmap_leader('/', '<Cmd>Pick grep_live<CR>',                         'Grep live')
+nmap_leader('<leader>', '<Cmd>Pick files<CR>',     'Files')
+nmap_leader('/',        '<Cmd>Pick grep_live<CR>', 'Grep live')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -93,9 +133,9 @@ nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
 -- e is for 'explore' and 'edit'
-nmap_leader('ec', '<Cmd>edit ~/dotfiles/.config/nvim/init.lua<CR>', 'Neovim config')
-nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',             'Sessions')
-nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>',          'Quickfix')
+nmap_leader('ec', '<Cmd>edit ~/dotfiles/.config/nvim/init.lua<CR>',            'Neovim config')
+nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',                        'Sessions')
+nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>',                     'Quickfix')
 nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
 nmap_leader('ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
 
@@ -127,28 +167,16 @@ nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',                'Visit path
 nmap_leader('fV', '<Cmd>Pick visit_paths<CR>',                       'Visit paths (cwd)')
 
 -- g is for git
-local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ │\ \%s --topo-order]]
-nmap_leader('ga', '<Cmd>Git diff --cached<CR>',                   'Added diff')
-nmap_leader('gA', '<Cmd>Git diff --cached -- %<CR>',              'Added diff buffer')
-nmap_leader('gc', '<Cmd>Git commit<CR>',                          'Commit')
-nmap_leader('gC', '<Cmd>Git commit --amend<CR>',                  'Commit amend')
-nmap_leader('gd', '<Cmd>Git diff<CR>',                            'Diff')
-nmap_leader('gD', '<Cmd>Git diff -- %<CR>',                       'Diff buffer')
-nmap_leader('gb', '<Cmd>BlameToggle<CR>',                    		  'Toggle git blame')
-nmap_leader('gg', '<Cmd>LazyGit<CR>',           									'Open LazyGit')
-nmap_leader('gl', '<Cmd>' .. git_log_cmd .. '<CR>',               'Log')
-nmap_leader('gL', '<Cmd>' .. git_log_cmd .. ' --follow -- %<CR>', 'Log buffer')
-nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>',       'Toggle overlay')
-nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',        'Show at cursor')
-xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',        'Show at selection')
+nmap_leader('gb', '<Cmd>BlameToggle<CR>',                   'Toggle git blame')
+nmap_leader('gg', '<Cmd>LazyGit<CR>',                       'Open LazyGit')
+nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
+nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at cursor')
+xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at selection')
 
--- l is for 'LSP' (Language Server Protocol)
+-- l is for 'LSP'
 local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
 nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>',   'Actions')
 nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', 'Diagnostics popup')
-nmap_leader('li', '<Cmd>lua vim.lsp.buf.hover()<CR>',         'Information')
-nmap_leader('lj', '<Cmd>lua vim.diagnostic.goto_next()<CR>',  'Next diagnostic')
-nmap_leader('lk', '<Cmd>lua vim.diagnostic.goto_prev()<CR>',  'Prev diagnostic')
 nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>',    'References')
 nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>',        'Rename')
 nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>',    'Source definition')
@@ -156,7 +184,6 @@ nmap_leader('lf', formatting_cmd,                             'Format')
 xmap_leader('lf', formatting_cmd,                             'Format selection')
 
 -- L is for 'Lua'
-nmap_leader('Lc', '<Cmd>lua Config.log_clear()<CR>',               'Clear log')
 nmap_leader('LL', '<Cmd>luafile %<CR><Cmd>echo "Sourced lua"<CR>', 'Source buffer')
 nmap_leader('Ls', '<Cmd>lua Config.log_print()<CR>',               'Show log')
 nmap_leader('Lx', '<Cmd>lua Config.execute_lua_line()<CR>',        'Execute `lua` line')
@@ -176,24 +203,14 @@ nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>',          'Add label')
 nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',       'Remove label')
 
 -- o is for 'other'
-local trailspace_toggle_command = '<Cmd>lua vim.b.minitrailspace_disable = not vim.b.minitrailspace_disable<CR>'
-nmap_leader('oC', '<Cmd>lua MiniCursorword.toggle()<CR>',  'Cursor word hl toggle')
-nmap_leader('oh', '<Cmd>normal gxiagxila<CR>',             'Move arg left')
-nmap_leader('oH', '<Cmd>TSBufToggle highlight<CR>',        'Highlight toggle')
-nmap_leader('og', '<Cmd>lua MiniDoc.generate()<CR>',       'Generate plugin doc')
-nmap_leader('ol', '<Cmd>normal gxiagxina<CR>',             'Move arg right')
-nmap_leader('or', '<Cmd>lua MiniMisc.resize_window()<CR>', 'Resize to default width')
-nmap_leader('oS', '<Cmd>lua Config.insert_section()<CR>',  'Section insert')
-nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',    'Trim trailspace')
-nmap_leader('oT', trailspace_toggle_command,               'Trailspace hl toggle')
-nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
+nmap_leader('oh', '<Cmd>normal gxiagxila<CR>',            'Move arg left')
+nmap_leader('og', '<Cmd>lua MiniDoc.generate()<CR>',      'Generate plugin doc')
+nmap_leader('ol', '<Cmd>normal gxiagxina<CR>',            'Move arg right')
+nmap_leader('oS', '<Cmd>lua Config.insert_section()<CR>', 'Section insert')
+nmap_leader('ot', '<Cmd>lua MiniTrailspace.trim()<CR>',   'Trim trailspace')
+nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',         'Zoom toggle')
 
--- Create insert mode mappings
-local imap = function(lhs, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set('i', lhs, rhs, opts)
-end
+-- Functions ==================================================================
 
 -- Create listed scratch buffer and focus on it
 Config.new_scratch_buffer = function() vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true)) end
@@ -223,6 +240,14 @@ Config.execute_lua_line = function()
   vim.api.nvim_input('<Down>')
 end
 
+Config.toggle_quickfix = function()
+  local cur_tabnr = vim.fn.tabpagenr()
+  for _, wininfo in ipairs(vim.fn.getwininfo()) do
+    if wininfo.quickfix == 1 and wininfo.tabnr == cur_tabnr then return vim.cmd('cclose') end
+  end
+  vim.cmd('copen')
+end
+
 -- Plugins ====================================================================
 
 -- Safely execute immediately
@@ -234,9 +259,16 @@ now(function()
   require('mini.notify').setup()
   vim.notify = require('mini.notify').make_notify()
 end)
--- now(function() require('mini.tabline').setup() end)
--- now(function() require('mini.statusline').setup() end)
-now(function() require('mini.basics').setup() end)
+
+now(function() require('mini.tabline').setup() end) -- Top bar
+now(function() require('mini.statusline').setup() end) -- Bottom bar
+now(function() require('mini.basics').setup({
+  mappings = {
+    basic = true,
+    option_toggle_prefix = [[,]],
+  },
+  autocommands = { relnum_in_visual_mode = true },
+}) end)
 now(function() require('mini.colors').setup() end)
 now(function() require('mini.cursorword').setup() end)
 now(function() require('mini.icons').setup() end)
@@ -248,7 +280,7 @@ now(function() require('mini.trailspace').setup() end) -- Shows trailing whitesp
 
 -- Safely execute later =======================================================
 
--- Tree-sitter (advanced syntax parsing, highlighting, textobjects) ===========
+-- Tree-sitter (advanced syntax parsing, highlighting, textobjects)
 later(function()
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -295,7 +327,7 @@ later(function()
     -- Map of filetype to formatters
     formatters_by_ft = {
       javascript = { 'prettier' },
-			sh = { 'shfmt' },
+      sh = { 'shfmt' },
       json = { 'prettier' },
       lua = { 'stylua' },
       python = { 'black' },
@@ -401,7 +433,6 @@ later(function()
     labels = 'asdfghjkl',
     view = { dim = true, n_steps_ahead = 2 },
   })
-  vim.keymap.set({ 'n', 'x', 'o' }, 'sj', function() MiniJump2d.start(MiniJump2d.builtin_opts.single_character) end)
 end)
 later(function() require('mini.keymap').setup() end)
 later(function() require('mini.misc').setup() end)
@@ -418,7 +449,7 @@ later(function()
   add({
     source = 'FabijanZulj/blame.nvim'
   })
-	require('blame').setup()
+  require('blame').setup()
 end)
 later(function()
   add({
