@@ -101,4 +101,4 @@ local diagnostic_opts = {
 MiniDeps.later(function()
   vim.diagnostic.config(diagnostic_opts)
 end)
-
+-- stylua: ignore end
