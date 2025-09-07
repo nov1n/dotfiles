@@ -2,20 +2,23 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 -- Colorscheme
 now(function()
-  add({ source = 'folke/tokyonight.nvim', })
-  vim.cmd('colorscheme tokyonight')
+  add({ source = "folke/tokyonight.nvim" })
+  vim.cmd("colorscheme tokyonight")
 end)
 
 -- Tree-sitter (advanced syntax parsing, highlighting, textobjects)
 later(function()
   add({
-    source = 'nvim-treesitter/nvim-treesitter',
-    checkout = 'main',
-    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+    source = "nvim-treesitter/nvim-treesitter",
+    hooks = {
+      post_checkout = function()
+        vim.cmd("TSUpdate")
+      end,
+    },
   })
-  add({ source = 'nvim-treesitter/nvim-treesitter-textobjects' })
+  add({ source = "nvim-treesitter/nvim-treesitter-textobjects" })
 
-  require('nvim-treesitter.configs').setup {
+  require("nvim-treesitter").setup({
     ensure_installed = {
       "bash",
       "hcl",
@@ -30,81 +33,81 @@ later(function()
       "regex",
       "terraform",
       "yaml",
-      'bash',
-      'c',
-      'cpp',
-      'css',
-      'diff',
-      'go',
-      'html',
-      'javascript',
-      'json',
-      'julia',
-      'nu',
-      'php',
-      'python',
-      'r',
-      'regex',
-      'rst',
-      'rust',
-      'toml',
-      'tsx',
-      'yaml',
+      "bash",
+      "c",
+      "cpp",
+      "css",
+      "diff",
+      "go",
+      "html",
+      "javascript",
+      "json",
+      "julia",
+      "nu",
+      "php",
+      "python",
+      "r",
+      "regex",
+      "rst",
+      "rust",
+      "toml",
+      "tsx",
+      "yaml",
     },
     auto_install = true,
     highlight = { enable = true },
     indent = { enable = true },
     textobjects = { select = { enable = true } },
-  }
+  })
 end)
 
 -- Install LSP/formatting/linter executables
 later(function()
-  add('mason-org/mason.nvim')
-  require('mason').setup()
+  add("mason-org/mason.nvim")
+  require("mason").setup()
 end)
 
 -- LSP Configuration
 later(function()
-  add('neovim/nvim-lspconfig')
+  add("neovim/nvim-lspconfig")
 
   -- All language servers are expected to be installed with 'mason.nvim'
   vim.lsp.enable({
-    'lua_ls',
-    'rust_analyzer',
-    'ts_ls',
+    "lua_ls",
+    "rust_analyzer",
+    "ts_ls",
   })
 end)
 
 -- Lua development environment
 later(function()
   add({
-    source = 'folke/lazydev.nvim',
+    source = "folke/lazydev.nvim",
     depends = {
-      'nvim-lua/plenary.nvim',
-      'gonstoll/wezterm-types',
+      "nvim-lua/plenary.nvim",
+      "gonstoll/wezterm-types",
     },
   })
 
-  require('lazydev').setup({
+  require("lazydev").setup({
     library = {
-      { path = 'wezterm-types', mods = { 'wezterm' } },
+      { path = "wezterm-types", mods = { "wezterm" } },
     },
   })
 end)
 
 -- Formatting =================================================================
 later(function()
-  add('stevearc/conform.nvim')
+  add("stevearc/conform.nvim")
 
-  require('conform').setup({
+  require("conform").setup({
     -- Map of filetype to formatters
     formatters_by_ft = {
-      javascript = { 'prettier' },
-      sh = { 'shfmt' },
-      json = { 'prettier' },
-      lua = { 'stylua' },
-      python = { 'black' },
+      javascript = { "prettier" },
+      sh = { "shfmt" },
+      json = { "prettier" },
+      lua = { "stylua" },
+      python = { "black" },
     },
 
     formatters = {
@@ -121,63 +124,63 @@ end)
 -- Obsidian integration
 later(function()
   add({
-    source = 'epwalsh/obsidian.nvim',
+    source = "epwalsh/obsidian.nvim",
     depends = {
-      'nvim-lua/plenary.nvim',
+      "nvim-lua/plenary.nvim",
     },
   })
 
-  require('obsidian').setup({
+  require("obsidian").setup({
     daily_notes = {
-      folder = 'Journal',
-      default_tags = { 'journal' },
+      folder = "Journal",
+      default_tags = { "journal" },
     },
     templates = {
-      folder = 'Templates',
-      date_format = '%Y-%m-%d-%a',
-      time_format = '%H:%M',
+      folder = "Templates",
+      date_format = "%Y-%m-%d-%a",
+      time_format = "%H:%M",
       substitutions = {
         yesterday = function()
-          return os.date('%Y-%m-%d', os.time() - 86400)
+          return os.date("%Y-%m-%d", os.time() - 86400)
         end,
       },
     },
     workspaces = {
       {
-        name = 'personal',
-        path = '~/Notes',
+        name = "personal",
+        path = "~/Notes",
       },
     },
     picker = {
-      name = 'mini.pick',
+      name = "mini.pick",
     },
   })
 end)
 
 -- Git integration
 later(function()
-  add({ source = 'kdheepak/lazygit.nvim'})
+  add({ source = "kdheepak/lazygit.nvim" })
 end)
 
 -- Git blame
 later(function()
   add({
-    source = 'FabijanZulj/blame.nvim'
+    source = "FabijanZulj/blame.nvim",
   })
-  require('blame').setup()
+  require("blame").setup()
 end)
 
 -- Smart window splitting
 later(function()
   add({
-    source = 'mrjones2014/smart-splits.nvim'
+    source = "mrjones2014/smart-splits.nvim",
   })
 end)
 
 -- OpenCode integration
 later(function()
   add({
-    source = 'NickvanDyke/opencode.nvim',
+    source = "NickvanDyke/opencode.nvim",
   })
 
   vim.g.opencode_opts = {
