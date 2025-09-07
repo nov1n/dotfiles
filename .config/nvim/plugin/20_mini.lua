@@ -19,7 +19,13 @@ now(function() require('mini.basics').setup({
 now(function() require('mini.colors').setup() end)
 now(function() require('mini.cursorword').setup() end)
 now(function() require('mini.icons').setup() end)
-now(function() require('mini.indentscope').setup() end)
+now(function() require('mini.indentscope').setup({
+  draw = {
+    delay = 0,
+    animation = require('mini.indentscope').gen_animation.none(),
+  },
+  symbol = '│'
+}) end)
 now(function() require('mini.map').setup() end)
 now(function() require('mini.sessions').setup() end)
 -- now(function() require('mini.starter').setup() end) -- Shows 'dashboard'
