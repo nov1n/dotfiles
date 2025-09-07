@@ -91,4 +91,3 @@ Config.toggle_quickfix = function()
   end
   vim.cmd("copen")
 end
-

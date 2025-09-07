@@ -180,8 +180,7 @@ later(function()
     source = 'NickvanDyke/opencode.nvim',
   })
 
-  -- Configure opencode using the new method
   vim.g.opencode_opts = {
-    -- Your configuration, if any — see lua/opencode/config.lua
+    -- Configuration, if any — see lua/opencode/config.lua
   }
 end)
