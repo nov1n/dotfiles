@@ -152,6 +152,29 @@ cbprint() {
   fi
 }
 
+nvim-dir() {
+  if [ $# -lt 1 ]; then
+    echo "Usage: nvim-dir /path/to/config [files...]"
+    return 1
+  fi
+
+  # Expand first argument into an absolute path
+  local config_dir
+  config_dir="$(realpath "$1")"
+
+  if [ ! -d "$config_dir" ]; then
+    echo "Error: Config dir '$config_dir' does not exist"
+    return 1
+  fi
+
+  # Use basename of dir as NVIM_APPNAME
+  local appname
+  appname="$(basename "$config_dir")"
+
+  shift
+  NVIM_APPNAME="$appname" XDG_CONFIG_HOME="$(dirname "$config_dir")" nvim "$@"
+}
+
 notify() {
   local command_text="$*"
   time "$@"
