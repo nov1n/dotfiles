@@ -1,3 +1,4 @@
+-- TODO: read all mini docs and configure where needed, especially mini.pick, mini.files
 -- stylua: ignore start
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
@@ -34,7 +35,7 @@ now(function() require('mini.trailspace').setup() end)  -- Shows trailing whites
 
 -- Safely execute later =======================================================
 
-later(function() require('mini.extra').setup() end)     -- Extra functionality for mini modules
+later(function() require('mini.extra').setup() end)     -- Extra functionality for mini modules, e.g. pickers
 later(function()                                        -- Highlights patterns like TODO, FIXME, hex colors
   local hipatterns = require('mini.hipatterns')
   local hi_words = MiniExtra.gen_highlighter.words
@@ -121,12 +122,28 @@ later(function()                                        -- Jump to any position 
   })
 end)
 later(function() require('mini.keymap').setup() end)    -- Keymap utilities
-later(function() require('mini.misc').setup() end)      -- Miscellaneous utilities
+later(function()
+  require('mini.misc').setup()
+  require('mini.misc').setup_restore_cursor()
+end)      -- Miscellaneous utilities
 later(function() require('mini.operators').setup() end) -- Text transformation operators
 later(function() require('mini.pairs').setup() end)     -- Auto-pairs for brackets, quotes
-later(function() require('mini.pick').setup() end)      -- Fuzzy finder
+local win_config = function()                           -- Centers picker window
+  local height = math.floor(0.618 * vim.o.lines)
+  local width = math.floor(0.618 * vim.o.columns)
+  return {
+    anchor = 'NW', height = height, width = width,
+    row = math.floor(0.5 * (vim.o.lines - height)),
+    col = math.floor(0.5 * (vim.o.columns - width)),
+  }
+end
+later(function() require('mini.pick').setup({           -- Fuzzy pickers
+  window = {
+    config = win_config
+  }
+}) end)
 later(function() require('mini.snippets').setup() end)  -- Code snippets
-later(function() require('mini.splitjoin') end)         -- Split/join code constructs
+later(function() require('mini.splitjoin').setup() end) -- Split/join code constructs with gS
 later(function() require('mini.surround').setup() end)  -- Surround text with pairs
 later(function() require('mini.visits').setup() end)    -- Track and reuse file visits
 -- stylua: ignore end
