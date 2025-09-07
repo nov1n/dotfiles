@@ -9,11 +9,10 @@
       "git diff": "allow",
       "ls": "allow",
       "pwd": "allow",
-      "cd": "allow",
-      "find": "allow",
-      "mv": "ask",
-      "rm": "ask",
-      "chmod": "allow",
+      "cd *": "allow",
+      "find *": "allow",
+      "nvim *": "allow",
+      "chmod *": "allow",
       "*": "ask"
     }
   }

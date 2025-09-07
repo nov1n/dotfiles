@@ -2,6 +2,7 @@
 -- Create global tables with information about clue groups in certain modes
 -- Structure of tables is taken to be compatible with 'mini.clue'.
 _G.Config.leader_group_clues = {
+  { mode = 'n', keys = '<Leader>a', desc = '+AI/OpenCode' },
   { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
   { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
@@ -12,6 +13,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>o', desc = '+Obsidian' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
   { mode = 'n', keys = '<Leader>x', desc = '+Extra' },
+  { mode = 'v', keys = '<Leader>a', desc = '+AI/OpenCode' },
   { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
 }
 
@@ -161,6 +163,19 @@ nmap_leader("op",  "<cmd>ObsidianPasteImg<CR>",       "Paste clipboard image")
 nmap_leader("or",  "<cmd>ObsidianRename<CR>",         "Rename current note")
 nmap_leader("ol",  "<cmd>ObsidianTemplate<CR>",       "Insert a template")
 nmap_leader("ot",  "<cmd>ObsidianTags<CR>",           "List notes by tag")
+
+-- a is for 'AI'
+nmap_leader('aA', function() require('opencode').ask() end,                                     'Ask opencode')
+nmap_leader('aa', function() require('opencode').ask('@cursor: ') end,                          'Ask opencode about this')
+nmap_leader('at', function() require('opencode').toggle() end,                                  'Toggle embedded opencode')
+nmap_leader('an', function() require('opencode').command('session_new') end,                    'New session')
+nmap_leader('ay', function() require('opencode').command('messages_copy') end,                  'Copy last message')
+nmap_leader('ap', function() require('opencode').select_prompt() end,                           'Select prompt')
+nmap_leader('ae', function() require('opencode').prompt("Explain @cursor and its context") end, "Explain code near cursor")
+xmap_leader('aa', function() require('opencode').ask('@selection: ') end,                       'Ask opencode about selection')
+xmap_leader('ap', function() require('opencode').select_prompt() end,                           'Select prompt')
+nmap('<S-C-u>',   function() require('opencode').command('messages_half_page_up') end,          'Scroll messages up')
+nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_down') end,        'Scroll messages down')
 
 -- x is for 'extra'
 nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',              'Move arg left')

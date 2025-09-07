@@ -22,7 +22,7 @@ now(function() require('mini.icons').setup() end)
 now(function() require('mini.indentscope').setup() end)
 now(function() require('mini.map').setup() end)
 now(function() require('mini.sessions').setup() end)
-now(function() require('mini.starter').setup() end) -- Shows 'dashboard'
+-- now(function() require('mini.starter').setup() end) -- Shows 'dashboard'
 now(function() require('mini.trailspace').setup() end) -- Shows trailing whitespace
 
 -- Safely execute later =======================================================
