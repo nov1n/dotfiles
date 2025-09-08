@@ -5,14 +5,16 @@
   "autoupdate": true,
   "permission": {
     "bash": {
-      "git status": "allow",
-      "git diff": "allow",
-      "ls": "allow",
+      "git status *": "allow",
+      "git diff *": "allow",
+      "ls *": "allow",
       "pwd": "allow",
       "cd *": "allow",
       "find *": "allow",
       "nvim *": "allow",
       "chmod *": "allow",
+      "mkdir *": "allow",
+      "mv *": "allow",
       "*": "ask"
     }
   }
