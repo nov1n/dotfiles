@@ -95,20 +95,40 @@ later(function()                                        -- Shows key binding hin
     },
   }) end)
 later(function() require('mini.comment').setup() end)   -- Smart commenting
-later(function()                                        -- Auto-completion
-  -- Don't show 'Text' suggestions
-  local process_items_opts = { kind_priority = { Text = -1, Snippet = 99 } }
+later(function()                                        -- Code snippets
+  local snippets = require('mini.snippets')
+  local config_path = vim.fn.stdpath('config')
+  snippets.setup({
+    snippets = {
+      snippets.gen_loader.from_file(config_path .. '/snippets/global.json'),
+    },
+    mappings = {
+      expand = '<Down>',
+      jump_next = '<Right>',
+      jump_prev = '<Left>',
+      stop = '<C-c>',
+    },
+  })
+end)
+later(function()
+  -- Don't show 'Text' suggestions and list snippets last
+  local kind_priority = { Text = -1, Snippet = 99 }
+  local opts = { kind_priority = kind_priority }
   local process_items = function(items, base)
-    return MiniCompletion.default_process_items(items, base, process_items_opts)
+    return MiniCompletion.default_process_items(items, base, opts)
   end
 
   require('mini.completion').setup({
-    lsp_completion = { source_func = 'omnifunc', auto_setup = false, process_items = process_items },
+    window = {
+      -- The popup menu itself (pum) currently doesn't support a border.
+      -- See https://github.com/neovim/neovim/pull/25541 for more details.
+      -- TODO: Add rounded border when this PR is merged
+      info = { height = 40, width = 120, border = 'rounded' },
+      signature = { height = 40, width = 120, border = 'rounded' },
+    },
+    lsp_completion = { source_func = 'omnifunc', process_items = process_items },
+    fallback_action = nil,
   })
-                                                        -- Set up LSP part of completion
-  local on_attach = function(args) vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp' end
-  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
-  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
 end)
 later(function() require('mini.diff').setup() end)      -- Git diff visualization
 later(function() require('mini.files').setup() end)     -- File explorer
@@ -142,7 +162,7 @@ later(function() require('mini.pick').setup({           -- Fuzzy pickers
     config = win_config
   }
 }) end)
-later(function() require('mini.snippets').setup() end)  -- Code snippets
+
 later(function() require('mini.splitjoin').setup() end) -- Split/join code constructs with gS
 later(function() require('mini.surround').setup() end)  -- Surround text with pairs
 later(function() require('mini.visits').setup() end)    -- Track and reuse file visits
