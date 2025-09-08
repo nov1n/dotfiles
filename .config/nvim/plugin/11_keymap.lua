@@ -17,7 +17,6 @@ _G.Config.leader_group_clues = {
   { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
 }
 
-
 -- Command mode mappings ======================================================
 
 -- Command line autocompletion
@@ -25,6 +24,20 @@ vim.keymap.set('c', '<Up>', '<C-u><Up>')
 vim.keymap.set('c', '<Down>', '<C-u><Down>')
 vim.keymap.set('c', '<Tab>', [[cmdcomplete_info().pum_visible ? "\<C-n>" : "\<Tab>"]], { expr = true })
 vim.keymap.set('c', '<S-Tab>', [[cmdcomplete_info().pum_visible ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+
+
+-- Insert mode mappings =======================================================
+
+local imap = function(lhs, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set('i', lhs, rhs, opts)
+end
+
+imap("<Left>", "<Nop>", "Disable left arrow key")
+imap("<Right>", "<Nop>", "Disable right arrow key")
+imap("<Up>", "<Nop>", "Disable up arrow key")
+imap("<Down>", "<Nop>", "Disable down arrow key")
 
 -- Normal mode mappings =======================================================
 
@@ -43,6 +56,9 @@ nmap("<M-J>", function() require("smart-splits").resize_down() end,       "Resiz
 nmap("<M-K>", function() require("smart-splits").resize_up() end,         "Resize up")
 nmap("<M-L>", function() require("smart-splits").resize_right() end,      "Resize right")
 
+nmap('-',        '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
+nmap('_',        '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
+
 -- <Leader> mappings ==========================================================
 
 local nmap_leader = function(suffix, rhs, desc, opts)
@@ -58,8 +74,8 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- shortcuts
-nmap_leader('<leader>', '<Cmd>Pick files<CR>',     'Files')
-nmap_leader('/',        '<Cmd>Pick grep_live<CR>', 'Grep live')
+nmap_leader('<leader>', '<Cmd>Pick files<CR>',                                       'Files')
+nmap_leader('/',        '<Cmd>Pick grep_live<CR>',                                   'Grep live')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -81,8 +97,6 @@ nmap_leader('ek', edit_config_file('11_keymap.lua'),                           '
 nmap_leader('em', edit_config_file('20_mini.lua'),                             'Mini.nvim config')
 nmap_leader('eo', edit_config_file('10_options.lua'),                          'Options config')
 nmap_leader('ep', edit_config_file('21_plugins.lua'),                          'Plugins config')
-nmap_leader('ed', '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
-nmap_leader('ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
 
 -- f is for 'fuzzy find'
 nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
