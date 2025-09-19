@@ -12,7 +12,11 @@
       "cd *": "allow",
       "find *": "allow",
       "nvim *": "allow",
+      "grep *": "allow",
+      "head *": "allow",
+      "helmfile template": "allow",
       "chmod *": "allow",
+      "cat *": "allow",
       "mkdir *": "allow",
       "mv *": "allow",
       "*": "ask"
