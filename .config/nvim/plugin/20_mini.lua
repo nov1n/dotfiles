@@ -131,7 +131,41 @@ later(function()
   })
 end)
 later(function() require('mini.diff').setup() end)      -- Git diff visualization
-later(function() require('mini.files').setup() end)     -- File explorer
+later(function()                                        -- File explorer
+  local files = require('mini.files')
+  files.setup({
+    mappings = {
+      set_cwd = 'C',
+    }
+  })
+  -- Disable '-' while files is active
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesBufferCreate",
+    callback = function(args)
+      local bufnr = args.data.buf_id
+      vim.keymap.set("n", "-", function()
+        print("'mini.files' is already open.")
+      end, { buffer = bufnr, noremap = true, silent = true })
+    end,
+  })
+  -- Map "C" to change cwd to enclosing (parent) directory
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesBufferCreate",
+    callback = function(args)
+      local bufnr = args.data.buf_id
+      vim.keymap.set("n", "C", function()
+        local fs_entry = require("mini.files").get_fs_entry()
+        if fs_entry == nil then return end
+
+        -- always take the parent directory, even if entry is a folder itself
+        local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
+
+        vim.fn.chdir(enclosing)
+        print("Cwd set to " .. enclosing)
+      end, { buffer = bufnr, noremap = true, silent = true })
+    end,
+  })
+end)
 later(function() require('mini.git').setup() end)       -- Git integration
 later(function()                                        -- Jump to any position with 2 keystrokes
   local jump2d = require('mini.jump2d')
