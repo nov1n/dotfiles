@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -e -u -o pipefail
+
+# Publishes a Helm chart to the Nexus repository with commit hash appended to version.
+#
+# This script packages a Helm chart with the current git commit hash appended to the
+# chart version (e.g., 1.0.0 becomes 1.0.0-abc1234), uploads it to the Nexus repository,
+# and restores the original Chart.yaml file. Useful for testing charts.
+#
+# Requirements:
+# - Must be run from the picnic-helm-charts directory
+# - Requires VPN connection (automatically established)
+# - Requires NEXUS_USERNAME_ADMIN and NEXUS_PASSWORD_ADMIN environment variables
+#
+# Arguments:
+#   $1 - Chart name (required): Name of the chart directory under charts/
+
+# Check if chart name argument is provided
+if [[ -z "${1:-}" ]]; then
+  echo "Error: Chart name is required as first argument" >&2
+  exit 1
+fi
+
+# Ensure we're in the picnic-helm-charts directory
+if [[ ! -d "charts" ]] || [[ "$(basename "$PWD")" != "picnic-helm-charts" ]]; then
+  echo "Error: This script must be run from the picnic-helm-charts directory" >&2
+  exit 1
+fi
+
+# Validate that the chart directory exists
+if [[ ! -d "charts/$1" ]]; then
+  echo "Error: Chart directory 'charts/$1' does not exist" >&2
+  exit 1
+fi
+
+# Get the current commit hash (short version)
+COMMIT_HASH=$(git rev-parse --short HEAD)
+echo "Current commit hash: $COMMIT_HASH"
+
+# Backup the original Chart.yaml
+cp "charts/$1/Chart.yaml" "charts/$1/Chart.yaml.bak"
+
+# Read the current version and append commit hash
+ORIGINAL_VERSION=$(grep "^version:" "charts/$1/Chart.yaml" | sed 's/version: //')
+NEW_VERSION="${ORIGINAL_VERSION}-${COMMIT_HASH}"
+echo "Updating version from $ORIGINAL_VERSION to $NEW_VERSION"
+
+# Update the Chart.yaml with the new version
+sed -i.tmp "s/^version: .*/version: $NEW_VERSION/" "charts/$1/Chart.yaml"
+rm "charts/$1/Chart.yaml.tmp"
+
+vpn connect
+
+# Package the chart and extract the file path
+PACKAGE_PATH=$(helm package ./charts/$1 | ggrep -oP '(?<=Successfully packaged chart and saved it to: ).*')
+echo "Packaged chart at $PACKAGE_PATH"
+
+curl -v -u "${NEXUS_USERNAME_ADMIN}:${NEXUS_PASSWORD_ADMIN}" \
+  https://nexus.global.picnicinternational.com/repository/helm/ \
+  --upload-file "$PACKAGE_PATH"
+
+# Restore the original Chart.yaml
+mv "charts/$1/Chart.yaml.bak" "charts/$1/Chart.yaml"
+echo "Restored original Chart.yaml"
+echo ""
+echo "$NEW_VERSION"
