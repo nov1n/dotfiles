@@ -7,7 +7,7 @@ now(function()
 end)
 
 -- Tree-sitter (advanced syntax parsing, highlighting, textobjects)
-later(function()
+now(function()
   add({
     source = "nvim-treesitter/nvim-treesitter",
     hooks = {
@@ -18,13 +18,14 @@ later(function()
   })
   add({ source = "nvim-treesitter/nvim-treesitter-textobjects" })
 
-  require("nvim-treesitter").setup({
+  require("nvim-treesitter.configs").setup({
     ensure_installed = {
       "bash",
       "hcl",
       "html",
       "javascript",
       "json",
+      "jsonnet",
       "lua",
       "markdown",
       "markdown_inline",
@@ -59,6 +60,8 @@ later(function()
     indent = { enable = true },
     textobjects = { select = { enable = true } },
   })
+  
+
 end)
 
 -- Install LSP/formatting/linter executables
@@ -106,6 +109,7 @@ later(function()
       javascript = { "prettier" },
       sh = { "shfmt" },
       json = { "prettier" },
+      jsonnet = { "jsonnetfmt" },
       lua = { "stylua" },
       python = { "black" },
     },
@@ -117,6 +121,11 @@ later(function()
       prettier = {
         prepend_args = { "--prose-wrap=always" },
       },
+    },
+
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_fallback = true,
     },
   })
 end)

@@ -181,7 +181,7 @@ later(function()
   require('mini.misc').setup_restore_cursor()
 end)      -- Miscellaneous utilities
 later(function() require('mini.operators').setup() end) -- Text transformation operators
-later(function() require('mini.pairs').setup() end)     -- Auto-pairs for brackets, quotes
+-- later(function() require('mini.pairs').setup() end)     -- Auto-pairs for brackets, quotes
 local win_config = function()                           -- Centers picker window
   local height = math.floor(0.618 * vim.o.lines)
   local width = math.floor(0.618 * vim.o.columns)
