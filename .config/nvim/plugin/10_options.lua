@@ -64,14 +64,6 @@ vim.o.breakindent   = true      -- Indent wrapped lines to match line start
 -- item'
 vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
 
--- Enable syntax highlighting if it wasn't already
-if vim.fn.exists("syntax_on") ~= 1 then
-  vim.cmd("syntax enable")
-end
-
--- Enable all filetype plugins
-vim.cmd("filetype plugin indent on")
-
 -- Custom autocommands ========================================================
 local augroup = vim.api.nvim_create_augroup("CustomSettings", {})
 vim.api.nvim_create_autocmd("FileType", {
