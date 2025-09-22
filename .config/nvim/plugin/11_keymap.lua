@@ -74,8 +74,10 @@ local xmap_leader = function(suffix, rhs, desc, opts)
 end
 
 -- shortcuts
-nmap_leader('<leader>', '<Cmd>Pick files<CR>',                                       'Files')
-nmap_leader('/',        '<Cmd>Pick grep_live<CR>',                                   'Grep live')
+nmap_leader('<leader>', '<Cmd>Pick files<CR>',      'Files')
+nmap_leader('/',        '<Cmd>Pick grep_live<CR>',  'Grep live')
+nmap_leader(',',        '<Cmd>Pick buffers<CR>',    'Buffers')
+nmap_leader('RR',       '<Cmd>restart<CR>',         'Restart Neovim')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -86,17 +88,13 @@ nmap_leader('bw', '<Cmd>lua MiniBufremove.wipeout()<CR>',        'Wipeout')
 nmap_leader('bW', '<Cmd>lua MiniBufremove.wipeout(0, true)<CR>', 'Wipeout!')
 
 -- e is for 'explore' and 'edit'
-local edit_config_file = function(filename)
-  return '<Cmd>edit ' .. vim.fn.stdpath('config') .. '/plugin/' .. filename .. '<CR>'
-end
-nmap_leader('ec', '<Cmd>edit ~/dotfiles/.config/nvim/init.lua<CR>',            'Neovim config')
+nmap_leader('ec', function()
+  require('mini.pick').builtin.files(nil, {
+    source = {cwd = vim.fn.stdpath('config')}
+  })
+end, 'Neovim config files')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',                        'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>',                     'Quickfix')
-nmap_leader('ef', edit_config_file('12_functions.lua'),                        'Functions config')
-nmap_leader('ek', edit_config_file('11_keymap.lua'),                           'Keymap config')
-nmap_leader('em', edit_config_file('20_mini.lua'),                             'Mini.nvim config')
-nmap_leader('eo', edit_config_file('10_options.lua'),                          'Options config')
-nmap_leader('ep', edit_config_file('21_plugins.lua'),                          'Plugins config')
 
 -- f is for 'fuzzy find'
 nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
@@ -200,6 +198,12 @@ nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',   'Section insert')
 nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',     'Trim trailspace')
 nmap_leader('xz', '<Cmd>lua MiniMisc.zoom()<CR>',           'Zoom toggle')
 nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>', 'Show notifications history')
+
+-- Clear search on escape
+vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
+  vim.cmd("noh")
+  return "<esc>"
+end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- HACK: For some reason this mapping works only with vimscript
 vim.cmd("nmap <bs> ;")
