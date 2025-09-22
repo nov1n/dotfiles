@@ -11,6 +11,7 @@
       "ls *": "allow",
       "pwd": "allow",
       "cd *": "allow",
+      "wc *": "allow",
       "find *": "allow",
       "nvim *": "allow",
       "grep *": "allow",
