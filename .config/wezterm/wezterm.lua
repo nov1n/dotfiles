@@ -14,7 +14,7 @@ require("handlers")
 local config = wezterm.config_builder()
 config.automatically_reload_config = true
 config.set_environment_variables = {
-  PATH = "/opt/homebrew/bin:" .. os.getenv("PATH"),
+  PATH = "/Users/carosi/.local/share/bob/nvim-bin:" .. "/opt/homebrew/bin:" .. os.getenv("PATH"),
 }
 
 --          ╭─────────────────────────────────────────────────────────╮
@@ -97,7 +97,6 @@ config.keys = {
   { key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(5) },
   { key = "PageUp", action = act.ScrollByPage(-0.5) },
   { key = "PageDown", action = act.ScrollByPage(0.5) },
-  { key = "e", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
   { key = "f", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
   -- Toggles from a terminal pane to Neovim
@@ -188,6 +187,9 @@ local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabl
 tabline.setup({
   options = {
     theme = "Tokyo Night Moon",
+    section_separators = "",
+    component_separators = "",
+    tab_separators = "",
     theme_overrides = {
       tab = {
         active = { fg = "#819EFA", bg = "#353955" },
@@ -199,7 +201,7 @@ tabline.setup({
   sections = {
     tabline_a = { "mode" },
     tabline_b = {},
-    tabline_c = { " " },
+    tabline_c = { "" },
     tab_active = {
       "index",
       cwd,

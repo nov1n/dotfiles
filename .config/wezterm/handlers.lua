@@ -32,7 +32,11 @@ wezterm.on("trigger-vim-with-scrollback", function(window, pane)
   local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
 
   -- Create a temporary file to pass to vim
-  local name = os.tmpname()
+  local scrollback_dir = "/tmp/scrollback/"
+
+  -- Create scrollback directory if it doesn't exist
+  os.execute("mkdir -p " .. scrollback_dir)
+  local name = scrollback_dir .. string.format("%x", math.random(0, 2 ^ 32 - 1))
   local f = io.open(name, "w+")
   f:write(text)
   f:flush()
@@ -40,8 +44,9 @@ wezterm.on("trigger-vim-with-scrollback", function(window, pane)
 
   -- Open a new window running vim and tell it to open the file
   window:perform_action(
-    act.SpawnCommandInNewWindow({
-      args = { "nvim", name },
+    act.SpawnCommandInNewTab({
+      cwd = scrollback_dir,
+      args = { "nvim", "+normal G", name },
     }),
     pane
   )
