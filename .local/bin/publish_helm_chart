@@ -63,4 +63,6 @@ curl -v -u "${NEXUS_USERNAME_ADMIN}:${NEXUS_PASSWORD_ADMIN}" \
 mv "charts/$1/Chart.yaml.bak" "charts/$1/Chart.yaml"
 echo "Restored original Chart.yaml"
 echo ""
-echo "$NEW_VERSION"
+echo "$NEW_VERSION" | cb
+echo "Copied '$NEW_VERSION' to clipboard"
+echo "See https://nexus.global.picnicinternational.com/#browse/search=name.raw%3D$1"
