@@ -9,8 +9,7 @@ vim.o.mouse        = 'a'            -- Enable mouse
 vim.o.switchbuf    = 'usetab'       -- Use already opened buffers when switching
 vim.o.writebackup  = false          -- Don't store backup (better performance)
 vim.o.undofile     = true           -- Enable persistent undo
-
--- UI =========================================================================
+vim.o.swapfile     = false          -- Disable swapfile
 vim.o.iskeyword            = '@,48-57,_,192-255,-'                 -- Treat dash separated words as a word text object
 vim.o.completeopt          = 'menuone,noselect,fuzzy,nosort'       -- Use fuzzy matching for built-in completion
 vim.o.complete             = '.,w,b,kspell'                        -- Use spell check and don't use tags for completion
@@ -19,17 +18,26 @@ vim.o.tabstop              = 2                                     -- Insert 2 s
 vim.o.autoindent           = true                                  -- Use auto indent
 vim.o.expandtab            = true                                  -- Convert tabs to spaces
 vim.o.formatoptions        = 'rqnl1j'                              -- Improve comment editing
-vim.o.cursorlineopt        = 'screenline,number'                   -- Show cursor line only screen line when wrapped
 vim.o.breakindentopt       = 'list:-1'                             -- Add padding for lists when 'wrap' is on
+vim.o.completefuzzycollect = 'keyword,files,whole_line'            -- Use fuzzy matching when collecting candidates
+
+-- UI =========================================================================
+vim.o.cursorlineopt        = 'screenline,number'                   -- Show cursor line only screen line when wrapped
 vim.o.shortmess            = 'CFOSWaco'                            -- Don't show "Scanning..." messages
 vim.o.splitkeep            = 'screen'                              -- Reduce scroll during window split
 vim.o.winborder            = 'rounded'                             -- Use double-line as default border
 vim.o.pumheight            = 10                                    -- Make popup menu smaller
 vim.o.winblend             = 10                                    -- Make floating windows slightly transparent
 vim.o.pummaxwidth          = 100                                   -- Limit maximum width of popup menu
-vim.o.completefuzzycollect = 'keyword,files,whole_line'            -- Use fuzzy matching when collecting candidates
 vim.o.listchars            = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',') -- Special text symbols
 vim.o.fillchars            = table.concat({ 'foldopen:▾', 'foldclose:▸', 'fold: ', 'foldsep: ', 'diff:╱', 'eob: ', }, ',') -- Pretty symbols for folding, diff, and end-of-buffer
+
+-- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
+-- Required to prevent smart-split keybinds from triggering when pressing escape.
+-- timeout and timeoutlen apply to mappings.
+-- vim.o.timeoutlen = 0
+-- ttimeout and ttimeoutlen apply to key codes.
+vim.o.ttimeoutlen = 0
 
 -- Command line autocompletion
 vim.cmd([[autocmd CmdlineChanged [:/\?@] call wildtrigger()]])
