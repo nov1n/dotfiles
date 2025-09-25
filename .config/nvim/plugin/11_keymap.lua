@@ -4,6 +4,7 @@
 _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>a', desc = '+AI/OpenCode' },
   { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
+  { mode = 'n', keys = '<Leader>u', desc = '+UI Toggles' },
   { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
@@ -77,7 +78,7 @@ end
 nmap_leader('<leader>', '<Cmd>Pick files<CR>',      'Files')
 nmap_leader('/',        '<Cmd>Pick grep_live<CR>',  'Grep live')
 nmap_leader(',',        '<Cmd>Pick buffers<CR>',    'Buffers')
-nmap_leader('RR',       '<Cmd>restart<CR>',         'Restart Neovim')
+nmap_leader('R',       '<Cmd>restart<CR>',          'Restart Neovim')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -93,8 +94,12 @@ nmap_leader('ec', function()
     source = {cwd = vim.fn.stdpath('config')}
   })
 end, 'Neovim config files')
-nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',                        'Sessions')
-nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>',                     'Quickfix')
+nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',    'Sessions')
+nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
+
+-- u is for UI toggles
+nmap_leader('uz', '<Cmd>lua MiniMisc.zoom()<CR>',                                         'Toggle zoom')
+nmap_leader("uo", "<cmd>lua vim.o.conceallevel = vim.o.conceallevel == 0 and 2 or 0; print('conceallevel=' .. vim.o.conceallevel)<CR>", "Toggle 'conceallevel'")
 
 -- f is for 'fuzzy find'
 nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
@@ -156,10 +161,12 @@ nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>',  'Side (toggle)')
 nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       'Toggle')
 
 -- v is for 'visits'
-nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>',    'Add "core" label')
-nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>', 'Remove "core" label')
-nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>',          'Add label')
-nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',       'Remove label')
+nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>',                     'Add "core" label')
+nmap_leader('vV', '<Cmd>lua MiniVisits.remove_label("core")<CR>',                  'Remove "core" label')
+nmap_leader('vl', '<Cmd>lua MiniVisits.add_label()<CR>',                           'Add label')
+nmap_leader('vL', '<Cmd>lua MiniVisits.remove_label()<CR>',                        'Remove label')
+nmap_leader('vc', '<Cmd>lua MiniVisits.select_path("", { filter = "core" })<CR>',  'Select core (all)')
+nmap_leader('vC', '<Cmd>lua MiniVisits.select_path(nil, { filter = "core" })<CR>', 'Select core (cwd)')
 
 -- o is for 'obsidian'
 nmap_leader("o/",  "<cmd>ObsidianSearch<CR>",         "Search notes in vault")
@@ -192,11 +199,9 @@ nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_dow
 
 -- x is for 'extra'
 nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',              'Move arg left')
-nmap_leader('xg', '<Cmd>lua MiniDoc.generate()<CR>',        'Generate plugin doc')
 nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',              'Move arg right')
 nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',   'Section insert')
 nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',     'Trim trailspace')
-nmap_leader('xz', '<Cmd>lua MiniMisc.zoom()<CR>',           'Zoom toggle')
 nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>', 'Show notifications history')
 
 -- Clear search on escape

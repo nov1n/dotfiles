@@ -14,7 +14,7 @@ now(function() require('mini.statusline').setup() end)  -- Bottom bar
 now(function() require('mini.basics').setup({           -- Essential Neovim options and mappings
   mappings = {
     basic = true,
-    option_toggle_prefix = [[,]],
+    option_toggle_prefix = [[<leader>u]],
   },
   autocommands = { relnum_in_visual_mode = true },
 }) end)
@@ -80,7 +80,6 @@ later(function()                                        -- Shows key binding hin
     triggers = {
       { mode = 'n', keys = '<Leader>' },                -- Leader triggers
       { mode = 'x', keys = '<Leader>' },
-      { mode = 'n', keys = [[\]] },                     -- mini.basics
       { mode = 'n', keys = '[' },                       -- mini.bracketed
       { mode = 'n', keys = ']' },
       { mode = 'x', keys = '[' },
