@@ -54,6 +54,22 @@ later(function() require('mini.ai').setup() end)        -- Enhanced text objects
 later(function() require('mini.align').setup() end)     -- Text alignment
 later(function() require('mini.bracketed').setup() end) -- Navigation with [ and ] keys
 later(function() require('mini.bufremove').setup() end) -- Better buffer deletion
+later(function() require('mini.move').setup({
+  mappings = {
+    -- Mappings are <C-{h,j,k,l}> as Karabiner remaps these to arrow keys.
+    -- Move visual selection in Visual mode.
+    left = '<Left>',
+    right = '<Right>',
+    down = '<Down>',
+    up = '<Up>',
+
+    -- Move current line in Normal mode
+    line_left = '<Left>',
+    line_right = '<Right>',
+    line_down = '<Down>',
+    line_up = '<Up>',
+  },
+}) end)
 later(function()                                        -- Shows key binding hints
   local miniclue = require('mini.clue')
   miniclue.setup({
