@@ -99,6 +99,7 @@ later(function()                                        -- Shows key binding hin
       { mode = 'n', keys = '<C-w>' },                   -- Window commands
       { mode = 'n', keys = 'z' },                       -- `z` key
       { mode = 'x', keys = 'z' },
+      { mode = 'n', keys = ',' },                       -- `,` key
     },
     clues = {
       Config.leader_group_clues,
