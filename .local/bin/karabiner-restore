@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+KARABINER_CONFIG_DIR="$HOME/.config/karabiner"
+BACKUP_DIR="$HOME/dotfiles/.config/karabiner/automatic_backups"
+CURRENT_CONFIG="$KARABINER_CONFIG_DIR/karabiner.json"
+
+if [[ ! -d "$BACKUP_DIR" ]]; then
+    echo "Error: Backup directory not found at $BACKUP_DIR"
+    exit 1
+fi
+
+if ! command -v fzf &> /dev/null; then
+    echo "Error: fzf is not installed"
+    exit 1
+fi
+
+# Get list of backup filenames only (not full paths)
+backups=$(cd "$BACKUP_DIR" && ls -1t karabiner_*.json 2>/dev/null || true)
+
+if [[ -z "$backups" ]]; then
+    echo "No Karabiner backups found in $BACKUP_DIR"
+    exit 1
+fi
+
+# Use fzf to select backup with preview
+selected_backup=$(echo "$backups" | fzf \
+    --prompt="Select Karabiner backup to restore: " \
+    --preview="echo 'File: {}'; echo; jq -r '.profiles[].name // \"No profiles found\"' '$BACKUP_DIR/{}' 2>/dev/null | head -10" \
+    --preview-window=right:50% \
+    --height=15 \
+    --reverse)
+
+if [[ -z "$selected_backup" ]]; then
+    echo "No backup selected"
+    exit 0
+fi
+
+selected_file="$BACKUP_DIR/$selected_backup"
+
+echo "Selected backup: $selected_backup"
+
+# Create backup of current config if it exists
+if [[ -f "$CURRENT_CONFIG" ]]; then
+    backup_name="karabiner_$(date +%Y%m%d_%H%M%S)_before_restore.json"
+    cp "$CURRENT_CONFIG" "$BACKUP_DIR/$backup_name"
+    echo "Current config backed up to: $backup_name"
+fi
+
+# Ensure the karabiner config directory exists
+mkdir -p "$KARABINER_CONFIG_DIR"
+
+# Restore the selected backup
+cp "$selected_file" "$CURRENT_CONFIG"
+echo "Successfully restored Karabiner configuration from $selected_backup"
