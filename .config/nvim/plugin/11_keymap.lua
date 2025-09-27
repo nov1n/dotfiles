@@ -78,7 +78,7 @@ end
 nmap_leader('<leader>', '<Cmd>Pick files<CR>',      'Files')
 nmap_leader('/',        '<Cmd>Pick grep_live<CR>',  'Grep live')
 nmap_leader(',',        '<Cmd>Pick buffers<CR>',    'Buffers')
-nmap_leader('R',       '<Cmd>restart<CR>',          'Restart Neovim')
+nmap_leader('R',        '<Cmd>restart<CR>',         'Restart Neovim')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -98,7 +98,8 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',    'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
 -- u is for UI toggles
-nmap_leader('uz', '<Cmd>lua MiniMisc.zoom()<CR>',                                         'Toggle zoom')
+nmap_leader("uz", '<Cmd>lua MiniMisc.zoom()<CR>',                                                                                       "Toggle zoom")
+nmap_leader("uf", '<Cmd>ZenMode<CR>',                                                                                                   "Toggle focus")
 nmap_leader("uo", "<cmd>lua vim.o.conceallevel = vim.o.conceallevel == 0 and 2 or 0; print('conceallevel=' .. vim.o.conceallevel)<CR>", "Toggle 'conceallevel'")
 
 -- f is for 'fuzzy find'
