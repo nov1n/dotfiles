@@ -58,7 +58,7 @@ nmap("<M-K>", function() require("smart-splits").resize_up() end,         "Resiz
 nmap("<M-L>", function() require("smart-splits").resize_right() end,      "Resize right")
 
 nmap('-',        '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', 'File directory')
-nmap('_',        '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
+nmap('=',        '<Cmd>lua MiniFiles.open()<CR>',                             'Directory')
 
 -- <Leader> mappings ==========================================================
 

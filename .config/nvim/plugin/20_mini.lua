@@ -149,33 +149,46 @@ end)
 later(function() require('mini.diff').setup() end)      -- Git diff visualization
 later(function()                                        -- File explorer
   local files = require('mini.files')
-  files.setup({
-    mappings = {
-      set_cwd = 'C',
-    }
-  })
-  -- Disable '-' while files is active
+  files.setup()
+
+  -- Custom mappings for mini.files
   vim.api.nvim_create_autocmd("User", {
     pattern = "MiniFilesBufferCreate",
     callback = function(args)
       local bufnr = args.data.buf_id
+
+      -- Make '-' and '=' work normally
       vim.keymap.set("n", "-", function()
-        print("'mini.files' is already open.")
+        files.close()
+        files.open(vim.api.nvim_buf_get_name(0))
       end, { buffer = bufnr, noremap = true, silent = true })
-    end,
-  })
-  -- Map "C" to change cwd to enclosing (parent) directory
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "MiniFilesBufferCreate",
-    callback = function(args)
-      local bufnr = args.data.buf_id
-      vim.keymap.set("n", "C", function()
-        local fs_entry = require("mini.files").get_fs_entry()
+
+      vim.keymap.set("n", "=", function()
+        files.close()
+        files.open()
+      end, { buffer = bufnr, noremap = true, silent = true })
+
+      -- Copy selected path to system clipboard
+      vim.keymap.set("n", "gyp", function()
+        local fs_entry = files.get_fs_entry()
         if fs_entry == nil then return end
+        vim.fn.setreg('+', fs_entry.path)
+        print("Copied path: " .. fs_entry.path)
+      end, { buffer = bufnr, noremap = true, silent = true })
 
-        -- always take the parent directory, even if entry is a folder itself
+      -- Open selected file with 'open' command
+      vim.keymap.set("n", "gx", function()
+        local fs_entry = files.get_fs_entry()
+        if fs_entry == nil then return end
+        vim.fn.system("open " .. vim.fn.shellescape(fs_entry.path))
+        print("Opened: " .. fs_entry.path)
+      end, { buffer = bufnr, noremap = true, silent = true })
+
+      -- Change cwd to parent directory
+      vim.keymap.set("n", "cd", function()
+        local fs_entry = files.get_fs_entry()
+        if fs_entry == nil then return end
         local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
-
         vim.fn.chdir(enclosing)
         print("Cwd set to " .. enclosing)
       end, { buffer = bufnr, noremap = true, silent = true })
@@ -196,7 +209,11 @@ later(function()
   require('mini.misc').setup()
   require('mini.misc').setup_restore_cursor()
 end)      -- Miscellaneous utilities
-later(function() require('mini.operators').setup() end) -- Text transformation operators
+later(function()
+  require('mini.operators').setup({
+    exchange = { prefix = 'gX' }
+  })
+end) -- Text transformation operators
 -- later(function() require('mini.pairs').setup() end)     -- Auto-pairs for brackets, quotes
 local win_config = function()                           -- Centers picker window
   local height = math.floor(0.618 * vim.o.lines)
