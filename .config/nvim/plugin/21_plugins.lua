@@ -60,8 +60,6 @@ now(function()
     indent = { enable = true },
     textobjects = { select = { enable = true } },
   })
-  
-
 end)
 
 -- Install LSP/formatting/linter executables
@@ -112,9 +110,14 @@ later(function()
       jsonnet = { "jsonnetfmt" },
       lua = { "stylua" },
       python = { "black" },
+      kotlin = { "ktfmt" },
     },
 
+    -- Customize formatters
     formatters = {
+      ktfmt = {
+        prepend_args = { "--kotlinlang-style" },
+      },
       shfmt = {
         prepend_args = { "-i", "2", "-ci" },
       },
@@ -124,7 +127,7 @@ later(function()
     },
 
     format_on_save = {
-      timeout_ms = 500,
+      timeout_ms = 1000,
       lsp_fallback = true,
     },
   })
