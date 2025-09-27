@@ -195,31 +195,30 @@ later(function()
   add({
     source = "folke/zen-mode.nvim",
   })
-  
+
   require("zen-mode").setup({
     window = {
-      backdrop = 0.95,
-      width = 120,
-      height = 1,
+      width = 82,
       options = {
-        signcolumn = "no",
-        number = false,
-        relativenumber = false,
-        cursorline = false,
-        cursorcolumn = false,
-        foldcolumn = "0",
-        list = false,
+        signcolumn = "no", -- disable signcolumn
+        number = false, -- disable number column
+        relativenumber = false, -- disable relative numbers
+        cursorline = false, -- disable cursorline
+        cursorcolumn = false, -- disable cursor column
+        foldcolumn = "0", -- disable fold column
+        spell = false,
+        list = false, -- disable whitespace characters
       },
     },
     plugins = {
       options = {
         enabled = true,
-        ruler = false,
-        showcmd = false,
+        ruler = false, -- disables the ruler text in the cmd line area
+        showcmd = false, -- disables the command in the last line of the screen
+        -- you may turn on/off statusline in zen mode by setting 'laststatus'
+        -- statusline will be shown only if 'laststatus' == 3
+        laststatus = 0, -- turn off the statusline in zen mode
       },
-      twilight = { enabled = true },
-      gitsigns = { enabled = false },
-      tmux = { enabled = false },
     },
   })
 end)
