@@ -14,7 +14,7 @@ local winman = require("util.winman")
 
 -- Config
 local hyper = { "cmd", "ctrl", "alt" }
-local meh = { "shift", "cmd", "ctrl", "alt"}
+local meh = { "shift", "cmd", "ctrl", "alt" }
 local bind = hs.hotkey.bind
 
 -- Application Management
@@ -29,7 +29,17 @@ bind(hyper, "p", function() appman.switchToAndFromApp("com.spotify.client") end)
 bind(hyper, "r", function() appman.switchToAndFromApp("com.apple.reminders") end)
 bind(hyper, "s", function() appman.switchToAndFromApp("com.tinyspeck.slackmacgap") end)
 bind(hyper, "t", function() appman.switchToAndFromApp("com.github.wez.wezterm") end)
-bind(hyper, "u", function() appman.switchToAndFromApp("co.podzim.BoltGPT") end)
+bind(hyper, "u", function()
+  appman.switchToAndFromApp("co.podzim.BoltGPT")
+  -- HACK: Focus the text area so we can start typing immideately.
+  local frontmostApp = hs.application.frontmostApplication()
+  local isBoltFrontmost = frontmostApp and frontmostApp:bundleID() == "co.podzim.BoltGPT"
+  if isBoltFrontmost then
+    local focusedElement = hs.uielement.focusedElement()
+    local textAreaHasFocus = focusedElement and focusedElement:role() == "AXTextArea"
+    if not textAreaHasFocus then hs.eventtap.keyStroke({}, "/") end
+  end
+end)
 bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") end)
 
 -- Window management
