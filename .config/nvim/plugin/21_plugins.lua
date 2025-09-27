@@ -111,6 +111,7 @@ later(function()
       lua = { "stylua" },
       python = { "black" },
       kotlin = { "ktfmt" },
+      markdown = { "prettier" },
     },
 
     -- Customize formatters
@@ -186,6 +187,40 @@ end)
 later(function()
   add({
     source = "mrjones2014/smart-splits.nvim",
+  })
+end)
+
+-- Zen mode (distraction-free writing)
+later(function()
+  add({
+    source = "folke/zen-mode.nvim",
+  })
+  
+  require("zen-mode").setup({
+    window = {
+      backdrop = 0.95,
+      width = 120,
+      height = 1,
+      options = {
+        signcolumn = "no",
+        number = false,
+        relativenumber = false,
+        cursorline = false,
+        cursorcolumn = false,
+        foldcolumn = "0",
+        list = false,
+      },
+    },
+    plugins = {
+      options = {
+        enabled = true,
+        ruler = false,
+        showcmd = false,
+      },
+      twilight = { enabled = true },
+      gitsigns = { enabled = false },
+      tmux = { enabled = false },
+    },
   })
 end)
 
