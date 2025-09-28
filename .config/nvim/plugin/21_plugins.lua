@@ -134,41 +134,43 @@ later(function()
   })
 end)
 
--- Obsidian integration
-later(function()
-  add({
-    source = "epwalsh/obsidian.nvim",
-    depends = {
-      "nvim-lua/plenary.nvim",
-    },
-  })
+-- Obsidian integration (only on Mac)
+if vim.fn.has("mac") == 1 then
+  later(function()
+    add({
+      source = "epwalsh/obsidian.nvim",
+      depends = {
+        "nvim-lua/plenary.nvim",
+      },
+    })
 
-  require("obsidian").setup({
-    daily_notes = {
-      folder = "Journal",
-      default_tags = { "journal" },
-    },
-    templates = {
-      folder = "Templates",
-      date_format = "%Y-%m-%d-%a",
-      time_format = "%H:%M",
-      substitutions = {
-        yesterday = function()
-          return os.date("%Y-%m-%d", os.time() - 86400)
-        end,
+    require("obsidian").setup({
+      daily_notes = {
+        folder = "Journal",
+        default_tags = { "journal" },
       },
-    },
-    workspaces = {
-      {
-        name = "personal",
-        path = "~/Notes",
+      templates = {
+        folder = "Templates",
+        date_format = "%Y-%m-%d-%a",
+        time_format = "%H:%M",
+        substitutions = {
+          yesterday = function()
+            return os.date("%Y-%m-%d", os.time() - 86400)
+          end,
+        },
       },
-    },
-    picker = {
-      name = "mini.pick",
-    },
-  })
-end)
+      workspaces = {
+        {
+          name = "personal",
+          path = "~/Notes",
+        },
+      },
+      picker = {
+        name = "mini.pick",
+      },
+    })
+  end)
+end
 
 -- Git integration
 later(function()
