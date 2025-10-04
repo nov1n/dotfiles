@@ -173,7 +173,7 @@ later(function()                                        -- File explorer
         local fs_entry = files.get_fs_entry()
         if fs_entry == nil then return end
         vim.fn.setreg('+', fs_entry.path)
-        print("Copied path: " .. fs_entry.path)
+        vim.notify("Copied path: " .. fs_entry.path)
       end, { buffer = bufnr, noremap = true, silent = true })
 
       -- Open selected file with 'open' command
@@ -181,7 +181,7 @@ later(function()                                        -- File explorer
         local fs_entry = files.get_fs_entry()
         if fs_entry == nil then return end
         vim.fn.system("open " .. vim.fn.shellescape(fs_entry.path))
-        print("Opened: " .. fs_entry.path)
+        vim.notify("Opened: " .. fs_entry.path)
       end, { buffer = bufnr, noremap = true, silent = true })
 
       -- Change cwd to parent directory
@@ -190,7 +190,7 @@ later(function()                                        -- File explorer
         if fs_entry == nil then return end
         local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
         vim.fn.chdir(enclosing)
-        print("Cwd set to " .. enclosing)
+        vim.notify("Cwd set to " .. enclosing)
       end, { buffer = bufnr, noremap = true, silent = true })
     end,
   })
