@@ -2,7 +2,7 @@
 local M = {}
 
 -- Function to resize and center all windows with configurable padding (fast, no delays)
-function M.centerAllWindows(verticalPadding, horizontalPadding)
+function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
   -- Check if external monitor is connected
   local screens = hs.screen.allScreens()
   local hasExternalMonitor = false
@@ -20,11 +20,11 @@ function M.centerAllWindows(verticalPadding, horizontalPadding)
 
   -- If no external monitor, maximize to 100% (no padding)
   if not hasExternalMonitor then
-    verticalPadding = 0
-    horizontalPadding = 0
+    verticalPaddingPercent = 0
+    horizontalPaddingPercent = 0
   else
-    verticalPadding = verticalPadding or 100  -- Default 100px vertical padding if not specified
-    horizontalPadding = horizontalPadding or (verticalPadding * 2)  -- Default to double vertical padding if not specified
+    verticalPaddingPercent = verticalPaddingPercent or 5  -- Default 5% vertical padding
+    horizontalPaddingPercent = horizontalPaddingPercent or 15  -- Default 15% horizontal padding
   end
 
   -- Get all visible windows and resize them immediately
@@ -36,6 +36,11 @@ function M.centerAllWindows(verticalPadding, horizontalPadding)
       local winScreen = win:screen()
       if winScreen then
         local winScreenFrame = winScreen:frame()
+        
+        -- Calculate percentage-based padding
+        local verticalPadding = math.floor(winScreenFrame.h * verticalPaddingPercent / 100)
+        local horizontalPadding = math.floor(winScreenFrame.w * horizontalPaddingPercent / 100)
+        
         local winTargetWidth = winScreenFrame.w - (horizontalPadding * 2)
         local winTargetHeight = winScreenFrame.h - (verticalPadding * 2)
 
@@ -51,7 +56,7 @@ function M.centerAllWindows(verticalPadding, horizontalPadding)
   end
 
   local paddingMsg = hasExternalMonitor and
-    string.format("with %dpx vertical, %dpx horizontal padding", verticalPadding, horizontalPadding) or
+    string.format("with %.1f%% vertical, %.1f%% horizontal padding", verticalPaddingPercent, horizontalPaddingPercent) or
     "maximized to 100% (no external monitor)"
 
   hs.alert.show(string.format("Resized %d windows %s", count, paddingMsg))
