@@ -45,7 +45,6 @@ vim.o.wildmode = 'noselect:lastused'
 vim.o.wildoptions = 'pum,fuzzy'
 
 -- Editing ====================================================================
-vim.o.ignorecase    = true     -- Ignore case when searching (use `\C` to force not doing that)
 vim.o.incsearch     = true     -- Show search results while typing
 vim.o.infercase     = true     -- Infer letter cases for a richer built-in keyword completion
 vim.o.smartcase     = true     -- Don't ignore case when searching if pattern has upper case
