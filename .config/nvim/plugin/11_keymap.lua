@@ -98,9 +98,21 @@ nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',    'Sessions')
 nmap_leader('eq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Quickfix')
 
 -- u is for UI toggles
-nmap_leader("uz", '<Cmd>lua MiniMisc.zoom()<CR>',                                                                                       "Toggle zoom")
-nmap_leader("uf", '<Cmd>ZenMode<CR>',                                                                                                   "Toggle focus")
-nmap_leader("uo", "<cmd>lua vim.o.conceallevel = vim.o.conceallevel == 0 and 2 or 0; print('conceallevel=' .. vim.o.conceallevel)<CR>", "Toggle 'conceallevel'")
+nmap_leader("uz", '<Cmd>lua MiniMisc.zoom()<CR>', "Toggle zoom")
+nmap_leader("uf", '<Cmd>ZenMode<CR>', "Toggle focus")
+nmap_leader("uo", function()
+  vim.o.conceallevel = vim.o.conceallevel == 0 and 2 or 0
+  vim.notify('conceallevel=' .. vim.o.conceallevel)
+end, "Toggle 'conceallevel'")
+nmap_leader("ua", function()
+  if vim.g.disable_autoformat then
+    vim.cmd("FormatEnable")
+    vim.notify("Autoformat enabled")
+  else
+    vim.cmd("FormatDisable")
+    vim.notify("Autoformat disabled")
+  end
+end, "Toggle autoformat")
 
 -- f is for 'fuzzy find'
 nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
