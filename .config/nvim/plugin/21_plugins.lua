@@ -185,6 +185,13 @@ later(function()
   require("blame").setup()
 end)
 
+-- Markdown preview
+later(function()
+  add({
+    source = "brianhuster/live-preview.nvim",
+  })
+end)
+
 -- Smart window splitting
 later(function()
   add({
