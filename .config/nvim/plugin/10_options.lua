@@ -95,9 +95,4 @@ local diagnostic_opts = {
   -- Don't update diagnostics when typing
   update_in_insert = false,
 }
-
--- Use `later()` to avoid sourcing `vim.diagnostic` on startup
-MiniDeps.later(function()
-  vim.diagnostic.config(diagnostic_opts)
-end)
 -- stylua: ignore end
