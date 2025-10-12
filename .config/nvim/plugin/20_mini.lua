@@ -157,13 +157,13 @@ later(function()                                        -- File explorer
     callback = function(args)
       local bufnr = args.data.buf_id
 
-      -- Make '-' and '=' work normally
+      -- Make '-' and '_' work normally
       vim.keymap.set("n", "-", function()
         files.close()
         files.open(vim.api.nvim_buf_get_name(0))
       end, { buffer = bufnr, noremap = true, silent = true })
 
-      vim.keymap.set("n", "=", function()
+      vim.keymap.set("n", "_", function()
         files.close()
         files.open()
       end, { buffer = bufnr, noremap = true, silent = true })
