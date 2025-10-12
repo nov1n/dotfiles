@@ -19,7 +19,8 @@ local bind = hs.hotkey.bind
 
 -- Application Management
 bind(hyper, ".", function() appman.switchToAndFromApp("com.apple.finder") end)
-bind(hyper, "/", function() appman.switchToAndFromApp("com.apple.iCal") end)
+-- TODO: / is free!!!
+bind(hyper, "a", function() appman.switchToAndFromApp("com.apple.iCal") end)
 bind(hyper, "[", function() hs.spotify.displayCurrentTrack() end)
 bind(hyper, "=", function() hs.execute('open "devutils://auto?clipboard"') end)
 bind(hyper, "f", function() appman.switchToAndFromApp("org.mozilla.firefox") end)
@@ -29,6 +30,7 @@ bind(hyper, "p", function() appman.switchToAndFromApp("com.spotify.client") end)
 bind(hyper, "r", function() appman.switchToAndFromApp("com.apple.reminders") end)
 bind(hyper, "s", function() appman.switchToAndFromApp("com.tinyspeck.slackmacgap") end)
 bind(hyper, "t", function() appman.switchToAndFromApp("com.github.wez.wezterm") end)
+bind(hyper, "i", function() appman.switchToAndFromApp("com.apple.siri.launcher") end)
 bind(hyper, "u", function()
   appman.switchToAndFromApp("co.podzim.BoltGPT")
   -- HACK: Focus the text area so we can start typing immideately.
@@ -44,7 +46,7 @@ bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") e
 
 -- Window management
 hs.window.animationDuration = 0
-bind(hyper, "0", function() winman.centerAllWindows(75, 600) end)
+bind(hyper, "0", function() winman.centerAllWindows(5, 15) end)
 bind(hyper, "return", winman.toggleFullScreen)
 bind(hyper, "\\", winman.splitScreenTwoWindows)
 bind(hyper, "-", winman.toggleMinimizeAllWindows)
@@ -75,7 +77,7 @@ if credentials_file then
     endpoint = "https://habits.carosi.nl",
     username = username,
     password = password,
-    habits = { "Move", "Meditate", "Journal" },
+    habits = { "Meditate" },
     sync_interval = 10,
   })
 else
