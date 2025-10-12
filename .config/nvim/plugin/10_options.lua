@@ -10,6 +10,7 @@ vim.o.switchbuf    = 'usetab'       -- Use already opened buffers when switching
 vim.o.writebackup  = false          -- Don't store backup (better performance)
 vim.o.undofile     = true           -- Enable persistent undo
 vim.o.swapfile     = false          -- Disable swapfile
+vim.opt.autoread   = true           -- Automatically read file when it's modified outside of nvim
 vim.o.iskeyword            = '@,48-57,_,192-255,-'                 -- Treat dash separated words as a word text object
 vim.o.completeopt          = 'menuone,noselect,fuzzy,nosort'       -- Use fuzzy matching for built-in completion
 vim.o.complete             = '.,w,b,kspell'                        -- Use spell check and don't use tags for completion
