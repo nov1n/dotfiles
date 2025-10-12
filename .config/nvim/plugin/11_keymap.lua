@@ -179,7 +179,7 @@ nmap_leader('mo', '<Cmd>lua MiniMap.open()<CR>',         'Open')
 nmap_leader('mr', '<Cmd>lua MiniMap.refresh()<CR>',      'Refresh')
 nmap_leader('ms', '<Cmd>lua MiniMap.toggle_side()<CR>',  'Side (toggle)')
 nmap_leader('mt', '<Cmd>lua MiniMap.toggle()<CR>',       'Toggle')
-nmap_leader('mp', '<Cmd>LivePreview start<CR>',       'Markdown preview')
+nmap_leader('mp', '<Cmd>LivePreview start<CR>',          'Markdown preview')
 
 -- v is for 'visits'
 nmap_leader('vv', '<Cmd>lua MiniVisits.add_label("core")<CR>',                     'Add "core" label')
