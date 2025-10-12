@@ -141,10 +141,10 @@
   followTags = true
 
 [core]
-  pager = delta --diff-so-fancy 
+  pager = delta --diff-so-fancy
 
 [interactive]
-  diffFilter = delta --color-only --diff-so-fancy 
+  diffFilter = delta --color-only --diff-so-fancy
 
 [delta]
   navigate = true    # use n and N to move between diff sections
@@ -175,10 +175,10 @@
   conflictstyle = diff3
 
 [diff]
-  tool = nvimdiff
+  tool = nvim_difftool
 
-[difftool "nvimdiff"]
-  cmd = "nvim -c \"DiffviewOpen\""
+[difftool "nvim_difftool"]
+  cmd = nvim -c \"DiffTool $LOCAL $REMOTE\"
 
 [merge "mergiraf"]
   name = mergiraf
