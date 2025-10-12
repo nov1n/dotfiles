@@ -245,3 +245,7 @@ later(function()
     -- Configuration, if any — see lua/opencode/config.lua
   }
 end)
+
+-- Builtin plugins
+vim.cmd.packadd("nvim.undotree")
+vim.cmd.packadd("nvim.difftool")

@@ -98,9 +98,15 @@ end, 'Neovim config files')
 nmap_leader('es', '<Cmd>lua MiniSessions.select()<CR>',    'Sessions')
 
 -- u is for toggles (think of it as U-turn, or up/down)
-nmap_leader('uq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Toggle quickfix')
+nmap_leader('uq', '<Cmd>lua Config.toggle_quickfix()<CR>', 'Toggle Quickfix')
 nmap_leader("uz", '<Cmd>lua MiniMisc.zoom()<CR>', "Toggle zoom")
 nmap_leader("uf", '<Cmd>ZenMode<CR>', "Toggle focus")
+nmap_leader("ut", function()
+  require("undotree").open({
+    title = "undotree",
+    command = "topleft 60vnew",
+  })
+end, "Toggle undotree")
 nmap_leader("uo", function()
   vim.o.conceallevel = vim.o.conceallevel == 0 and 2 or 0
   vim.notify('conceallevel=' .. vim.o.conceallevel)
