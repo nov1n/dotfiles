@@ -1,0 +1,238 @@
+#!/usr/bin/env bash
+
+# Script to list Nexus artifacts for a given name in descending creation order
+
+function usage() {
+  echo "Usage: $0 ARTIFACT_NAME [OPTIONS]"
+  echo ""
+  echo "List Nexus artifacts in descending creation order"
+  echo ""
+  echo "Arguments:"
+  echo "  ARTIFACT_NAME    Name/pattern of the artifact to search for"
+  echo ""
+  echo "Options:"
+  echo "  -r, --repository REPO    Repository name: maven-releases|maven-snapshots|helm (default: maven-releases)"
+  echo "  -g, --group GROUP        Group ID filter"
+  echo "  -u, --url URL           Nexus base URL (default: from NEXUS_URL env var)"
+  echo "  -c, --credentials CREDS  Username:password (default: from NEXUS_USERNAME/NEXUS_PASSWORD env vars)"
+  echo "  -l, --limit LIMIT        Limit number of results (default: 15)"
+  echo "  -f, --format FORMAT      Output format: table|json|csv (default: table)"
+  echo "  -h, --help              Show this help message"
+  echo ""
+  echo "Environment Variables:"
+  echo "  NEXUS_URL       Base URL of Nexus repository"
+  echo "  NEXUS_USERNAME  Nexus username"
+  echo "  NEXUS_PASSWORD  Nexus password"
+  echo ""
+  echo "Examples:"
+  echo "  $0 my-artifact"
+  echo "  $0 my-artifact -g com.example -l 10"
+  echo "  $0 my-artifact -r maven-snapshots -f json"
+  echo "  $0 my-helm-chart -r helm"
+  exit 1
+}
+
+function validate_dependencies() {
+  local missing=()
+
+  if ! command -v curl >/dev/null 2>&1; then
+    missing+=("curl")
+  fi
+
+  if ! command -v jq >/dev/null 2>&1; then
+    missing+=("jq")
+  fi
+
+  if [ ${#missing[@]} -gt 0 ]; then
+    echo "Error: Missing required dependencies: ${missing[*]}"
+    echo "Please install the missing tools and try again."
+    exit 1
+  fi
+}
+
+function format_table_output() {
+  local artifacts="$1"
+
+  printf "%-20s %-35s %-15s %-20s\n" "ARTIFACT" "VERSION" "REPOSITORY" "CREATED"
+  printf "%-20s %-35s %-15s %-20s\n" "$(printf '%*s' 20 | tr ' ' '-')" "$(printf '%*s' 35 | tr ' ' '-')" "$(printf '%*s' 15 | tr ' ' '-')" "$(printf '%*s' 20 | tr ' ' '-')"
+
+  echo "$artifacts" | jq -r '.items[] | "\(.name) \(.version) \(.repository) \(.assets[0].blobCreated // .assets[0].lastModified // "unknown")"' |
+    while read -r name version repo modified; do
+      # Format timestamp to readable date
+      if command -v gdate >/dev/null 2>&1; then
+        formatted_date=$(gdate -d "$modified" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "$modified")
+      else
+        formatted_date=$(date -d "$modified" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "$modified")
+      fi
+      printf "%-20s %-35s %-15s %-20s\n" "$name" "$version" "$repo" "$formatted_date"
+    done
+}
+
+function format_csv_output() {
+  local artifacts="$1"
+
+  echo "artifact,version,repository,created"
+  echo "$artifacts" | jq -r '.items[] | "\(.name),\(.version),\(.repository),\(.assets[0].blobCreated // .assets[0].lastModified // "unknown")"'
+}
+
+function list_artifacts() {
+  local artifact_name="$1"
+  local repository="$2"
+  local group="$3"
+  local nexus_url="$4"
+  local credentials="$5"
+  local limit="$6"
+  local format="$7"
+
+  # Build search URL
+  local search_url="${nexus_url}/service/rest/v1/search"
+  local params="name=${artifact_name}&sort=version"
+
+  if [ -n "$repository" ]; then
+    params="${params}&repository=${repository}"
+  fi
+
+  if [ -n "$group" ]; then
+    params="${params}&group=${group}"
+  fi
+
+  # Make API request
+  local curl_opts=(-s -w "%{http_code}")
+
+  if [ -n "$credentials" ]; then
+    curl_opts+=(-u "$credentials")
+  fi
+
+  local response
+  response=$(curl "${curl_opts[@]}" "${search_url}?${params}")
+  local http_code="${response: -3}"
+  local body="${response%???}"
+
+  if [ "$http_code" != "200" ]; then
+    echo "Error: Failed to fetch artifacts (HTTP $http_code)"
+    if [ "$http_code" = "401" ]; then
+      echo "Authentication failed. Check your credentials."
+    elif [ "$http_code" = "404" ]; then
+      echo "Repository or endpoint not found. Check your Nexus URL."
+    fi
+    exit 1
+  fi
+
+  # Parse response and sort by creation date (descending)
+  local artifacts
+  artifacts=$(echo "$body" | jq --argjson limit "$limit" '
+        .items
+        | sort_by(.assets[0].blobCreated // .assets[0].lastModified // now)
+        | reverse
+        | {items: .[:$limit]}')
+
+  if [ "$(echo "$artifacts" | jq '.items | length')" -eq 0 ]; then
+    echo "No artifacts found matching: $artifact_name"
+    exit 0
+  fi
+
+  # Output in requested format
+  case "$format" in
+    json)
+      echo "$artifacts" | jq '.'
+      ;;
+    csv)
+      format_csv_output "$artifacts"
+      ;;
+    table | *)
+      format_table_output "$artifacts"
+      ;;
+  esac
+}
+
+# Parse command line arguments
+ARTIFACT_NAME=""
+REPOSITORY="maven-releases"
+GROUP=""
+NEXUS_URL="${NEXUS_URL:-}"
+CREDENTIALS=""
+if [ -n "${NEXUS_USERNAME:-}" ] && [ -n "${NEXUS_PASSWORD:-}" ]; then
+  CREDENTIALS="${NEXUS_USERNAME}:${NEXUS_PASSWORD}"
+fi
+LIMIT=20
+FORMAT="table"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -r | --repository)
+      REPOSITORY="$2"
+      shift 2
+      ;;
+    -g | --group)
+      GROUP="$2"
+      shift 2
+      ;;
+    -u | --url)
+      NEXUS_URL="$2"
+      shift 2
+      ;;
+    -c | --credentials)
+      CREDENTIALS="$2"
+      shift 2
+      ;;
+    -l | --limit)
+      LIMIT="$2"
+      shift 2
+      ;;
+    -f | --format)
+      FORMAT="$2"
+      shift 2
+      ;;
+    -h | --help)
+      usage
+      ;;
+    -*)
+      echo "Error: Unknown option $1"
+      usage
+      ;;
+    *)
+      if [ -z "$ARTIFACT_NAME" ]; then
+        ARTIFACT_NAME="$1"
+      else
+        echo "Error: Multiple artifact names provided"
+        usage
+      fi
+      shift
+      ;;
+  esac
+done
+
+# Validate required arguments
+if [ -z "$ARTIFACT_NAME" ]; then
+  echo "Error: Artifact name is required"
+  usage
+fi
+
+if [ -z "$NEXUS_URL" ]; then
+  echo "Error: Nexus URL is required (set NEXUS_URL environment variable or use -u option)"
+  usage
+fi
+
+# Validate format option
+if [[ ! "$FORMAT" =~ ^(table|json|csv)$ ]]; then
+  echo "Error: Invalid format '$FORMAT'. Must be one of: table, json, csv"
+  usage
+fi
+
+# Validate repository option
+if [[ ! "$REPOSITORY" =~ ^(maven-releases|maven-snapshots|helm)$ ]]; then
+  echo "Error: Invalid repository '$REPOSITORY'. Must be one of: maven-releases, maven-snapshots, helm"
+  usage
+fi
+
+# Validate limit is a number
+if ! [[ "$LIMIT" =~ ^[0-9]+$ ]]; then
+  echo "Error: Limit must be a positive number"
+  usage
+fi
+
+# Validate dependencies
+validate_dependencies
+
+# Execute the search
+list_artifacts "$ARTIFACT_NAME" "$REPOSITORY" "$GROUP" "$NEXUS_URL" "$CREDENTIALS" "$LIMIT" "$FORMAT"
