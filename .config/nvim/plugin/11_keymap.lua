@@ -151,7 +151,7 @@ nmap_leader('fs', '<Cmd>Pick lsp scope="workspace_symbol"<CR>',      'Symbols wo
 nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',                'Visit paths (all)')
 
 -- g is for git
-nmap_leader('gb', '<Cmd>BlameToggle<CR>',                   'Toggle git blame')
+nmap_leader('gb', '<Cmd>let line=line(".")<CR><Cmd>:vert Git blame -- %<CR><Cmd>exe line<CR>', 'Toggle git blame pane')
 nmap_leader('gg', '<Cmd>LazyGit<CR>',                       'Open LazyGit')
 nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
 nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at cursor')

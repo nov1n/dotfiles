@@ -180,14 +180,6 @@ later(function()
   add({ source = "kdheepak/lazygit.nvim" })
 end)
 
--- Git blame
-later(function()
-  add({
-    source = "FabijanZulj/blame.nvim",
-  })
-  require("blame").setup()
-end)
-
 -- Markdown preview
 later(function()
   add({
