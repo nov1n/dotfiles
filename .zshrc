@@ -84,8 +84,8 @@ if command -v picnic >/dev/null 2>&1; then
   fpath=(/Users/carosi/Library/Caches/picnic-cli/autocomplete/functions/zsh $fpath)
 fi
 
-# Experimental home-cooked sdkman lazy loader 🧪
-[ -f ~/.zsh_sdkman_lazy_loader.sh ] && source ~/.zsh_sdkman_lazy_loader.sh
+# SDKMAN!
+[[ -s "/Users/carosi/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/carosi/.sdkman/bin/sdkman-init.sh"
 
 # Cargo
 . "$HOME/.cargo/env"
