@@ -5,14 +5,9 @@ vim.pack.add({ { src = "https://github.com/nvim-mini/mini.nvim" } }, { load = tr
 
 require("mini.notify").setup() -- Enhanced notifications
 vim.notify = require("mini.notify").make_notify()
-
 require("mini.tabline").setup() -- Top bar
 require("mini.statusline").setup() -- Bottom bar
 require("mini.basics").setup({ -- Essential Neovim options and mappings
-  mappings = {
-    basic = true,
-    option_toggle_prefix = [[<leader>u]],
-  },
   autocommands = { relnum_in_visual_mode = true },
 })
 -- require('mini.colors').setup()
