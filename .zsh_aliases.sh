@@ -32,7 +32,6 @@ alias nslookup="doggo"
 alias host="doggo"
 alias htop="btm"
 alias nvm="echo 'Use fnm!'"
-alias rm="rip"
 alias time="echo 'Use hyperfine!'"
 
 # Experimental
