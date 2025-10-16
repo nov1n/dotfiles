@@ -46,23 +46,23 @@ vim.o.wildmode = 'noselect:lastused'
 vim.o.wildoptions = 'pum,fuzzy'
 
 -- Editing ====================================================================
-vim.o.incsearch     = true     -- Show search results while typing
-vim.o.infercase     = true     -- Infer letter cases for a richer built-in keyword completion
-vim.o.smartcase     = true     -- Don't ignore case when searching if pattern has upper case
-vim.o.smartindent   = true     -- Make indenting smart
-vim.o.virtualedit   = 'block'  -- Allow going past the end of line in visual block mode
-vim.o.colorcolumn   = '+1'      -- Draw colored column one step to the right of desired maximum width
-vim.o.cursorline    = true      -- Enable highlighting of the current line
-vim.o.linebreak     = true      -- Wrap long lines at 'breakat' (if 'wrap' is set)
-vim.o.list          = true      -- Show helpful character indicators
-vim.o.number        = true      -- Show line numbers
-vim.o.ruler         = false     -- Don't show cursor position
-vim.o.showmode      = false     -- Don't show mode in command line
-vim.o.signcolumn    = 'yes'     -- Always show signcolumn or it would frequently shift
-vim.o.splitbelow    = true      -- Horizontal splits will be below
-vim.o.splitright    = true      -- Vertical splits will be to the right
-vim.o.wrap          = false     -- Display long lines as just one line
-vim.o.breakindent   = true      -- Indent wrapped lines to match line start
+vim.o.incsearch      = true      -- Show search results while typing
+vim.o.infercase      = true      -- Infer letter cases for a richer built-in keyword completion
+vim.o.smartcase      = true      -- Don't ignore case when searching if pattern has upper case
+vim.o.smartindent    = true      -- Make indenting smart
+vim.o.virtualedit    = 'block'   -- Allow going past the end of line in visual block mode
+vim.o.colorcolumn    = '+1'      -- Draw colored column one step to the right of desired maximum width
+vim.o.cursorline     = true      -- Enable highlighting of the current line
+vim.o.linebreak      = true      -- Wrap long lines at 'breakat' (if 'wrap' is set)
+vim.o.list           = true      -- Show helpful character indicators
+vim.o.number         = true      -- Show line numbers
+vim.o.ruler          = false     -- Don't show cursor position
+vim.o.showmode       = false     -- Don't show mode in command line
+vim.o.signcolumn     = 'yes'     -- Always show signcolumn or it would frequently shift
+vim.o.splitbelow     = true      -- Horizontal splits will be below
+vim.o.splitright     = true      -- Vertical splits will be to the right
+vim.o.wrap           = false     -- Display long lines as just one line
+vim.o.breakindent    = true      -- Indent wrapped lines to match line start
 -- stylua: ignore end
 
 -- Define pattern for a start of 'numbered' list. This is responsible for
