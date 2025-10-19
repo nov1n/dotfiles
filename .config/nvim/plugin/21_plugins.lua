@@ -4,6 +4,8 @@ local plugins = {
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
   { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/williamboman/mason-lspconfig.nvim" },
+  { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/folke/lazydev.nvim" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
@@ -13,6 +15,7 @@ local plugins = {
   { src = "https://github.com/brianhuster/live-preview.nvim" },
   { src = "https://github.com/mrjones2014/smart-splits.nvim" },
   { src = "https://github.com/folke/zen-mode.nvim" },
+  { src = "https://github.com/SmiteshP/nvim-navic" },
   { src = "https://github.com/NickvanDyke/opencode.nvim" },
 }
 
@@ -71,6 +74,7 @@ require("nvim-treesitter.configs").setup({
     "rust",
     "toml",
     "tsx",
+    "xml",
     "yaml",
   },
   auto_install = true,
@@ -82,12 +86,79 @@ require("nvim-treesitter.configs").setup({
 -- Mason setup
 require("mason").setup()
 
--- LSP Configuration
-vim.lsp.enable({
-  "lua_ls",
-  "rust_analyzer",
-  "ts_ls",
+-- Mason-lspconfig setup (auto-enable LSP servers)
+require("mason-lspconfig").setup({
+  -- mason-tool-installer handles installation, we just need auto-enabling
+  automatic_installation = true,
 })
+
+-- Mason-tool-installer setup (auto-install everything)
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    -- LSP servers (using lspconfig names thanks to mason-lspconfig integration)
+    "lua_ls",
+    "rust_analyzer",
+    "ts_ls",
+    "kotlin_lsp",
+    "lemminx",
+    "yamlls",
+    "jsonls",
+    "taplo",
+
+    -- Formatters
+    "prettier",
+    "shfmt",
+    "jsonnetfmt",
+    "stylua",
+    "black",
+    "xmlformatter",
+    "ktfmt",
+    "google-java-format",
+
+    -- Linters
+    "eslint_d",
+    "shellcheck",
+    "yamllint",
+    "jsonlint",
+    "markdownlint",
+  },
+  auto_update = false,
+  run_on_start = true,
+})
+
+-- nvim-navic setup (breadcrumbs)
+local function setup_navic()
+  local navic = require("nvim-navic")
+
+  -- Filetypes where navic winbar should be shown
+  local navic_filetypes = { "xml", "yaml", "json", "toml" }
+
+  -- Attach navic to LSP clients for specific filetypes
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      if vim.tbl_contains(navic_filetypes, vim.bo.filetype) then
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, args.buf)
+        end
+      end
+    end,
+  })
+
+  -- Update winbar when navic updates (using same events navic uses internally)
+  vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorMoved", "InsertLeave" }, {
+    callback = function()
+      if vim.tbl_contains(navic_filetypes, vim.bo.filetype) then
+        if navic.is_available() then
+          vim.opt_local.winbar = " %{%v:lua.require('nvim-navic').get_location()%}"
+        else
+          vim.opt_local.winbar = " " -- Reserve the line with a space
+        end
+      end
+    end,
+  })
+end
+setup_navic()
 
 -- Lua development environment
 require("lazydev").setup({
@@ -106,7 +177,9 @@ require("conform").setup({
     jsonnet = { "jsonnetfmt" },
     lua = { "stylua" },
     python = { "black" },
+    xml = { "xmlformatter" },
     kotlin = { "ktfmt" },
+    java = { "google-java-format" },
     markdown = { "prettier" },
   },
 
@@ -120,6 +193,9 @@ require("conform").setup({
     },
     prettier = {
       prepend_args = { "--prose-wrap=always" },
+    },
+    xmlformatter = {
+      prepend_args = { "--indent", "4", "--blanks" },
     },
   },
 
