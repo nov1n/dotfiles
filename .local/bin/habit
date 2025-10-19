@@ -4,9 +4,9 @@ set -e -o pipefail
 
 # Define the associative array of habit names and IDs
 declare -A habits=(
-  ["move"]="8c9665"
-  ["meditate"]="438a49"
-  ["journal"]="35da0e"
+  ["move"]="todo"
+  ["meditate"]="483cc9"
+  ["journal"]="todo"
 )
 
 # Get the current date in the desired format
