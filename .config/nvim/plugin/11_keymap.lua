@@ -8,6 +8,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
+  { mode = 'n', keys = '\\', desc = '+Toggles' },
   { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
   { mode = 'n', keys = '<Leader>L', desc = '+Lua/Log' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
