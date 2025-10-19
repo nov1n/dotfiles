@@ -192,12 +192,12 @@ vim.api.nvim_create_autocmd("User", {
 
 require("mini.git").setup() -- Git integration
 -- Jump to any position with 2 keystrokes
-local jump2d = require("mini.jump2d")
-jump2d.setup({
-  spotter = jump2d.gen_spotter.pattern("[^%s%p]+"),
-  labels = "asdfghjkl",
-  view = { dim = true, n_steps_ahead = 2 },
-})
+-- local jump2d = require("mini.jump2d")
+-- jump2d.setup({
+--   spotter = jump2d.gen_spotter.pattern("[^%s%p]+"),
+--   labels = "asdfghjkl",
+--   view = { dim = true, n_steps_ahead = 2 },
+-- })
 
 require("mini.keymap").setup() -- Keymap utilities
 require("mini.misc").setup()
