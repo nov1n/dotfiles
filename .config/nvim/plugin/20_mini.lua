@@ -88,6 +88,7 @@ miniclue.setup({
     { mode = "n", keys = "z" }, -- `z` key
     { mode = "x", keys = "z" },
     { mode = "n", keys = "," }, -- `,` key
+    { mode = "n", keys = "\\" }, -- Toggles
   },
   clues = {
     Config.leader_group_clues,
