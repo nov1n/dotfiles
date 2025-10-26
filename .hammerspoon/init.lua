@@ -55,6 +55,16 @@ bind(hyper, "-", winman.toggleMinimizeAllWindows)
 -- Console hotkeys
 bind(hyper, "`", hs.reload)
 
+-- Password from Keychain
+hs.hotkey.bind({}, "f14", function()
+  local output, status = hs.execute('security find-generic-password -s "dashlane" -w')
+  if status then
+    hs.eventtap.keyStrokes(output)
+  else
+    hs.alert.show("Failed to retrieve password from keychain")
+  end
+end)
+
 -- Startup notification
 hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.", withdrawAfter = 5 }):send()
 
