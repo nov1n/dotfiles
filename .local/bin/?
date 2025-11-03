@@ -1,0 +1,342 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+VERSION="0.0.1"
+DEFAULT_MODEL="gemini-2.5-flash"
+
+show_help() {
+  cat <<EOF
+? - AI-powered command suggestion tool
+
+Usage: ? [OPTIONS] <prompt>
+
+Options:
+    -m <model>      Model to use (default: gemini-2.5-flash)
+    -d, --debug     Print debug information
+    -h, --help      Show this help message
+    -v, --version   Show version
+
+Interactive Actions:
+    (Enter)         Run the suggested command
+    (e)xplain       Get an explanation of the command
+    (r)efine        Refine the command with additional requirements
+    (c)opy          Copy command to clipboard
+    (q)uit          Exit without running
+
+Examples:
+    ? "find files modified in the last week"
+    ? "show me commits by alice with stats"
+    ? "kill all node processes"
+    ? "compress this directory excluding node_modules"
+    ? "rename all jpg files to lowercase"
+
+EOF
+}
+
+show_version() {
+  echo "? version $VERSION"
+}
+
+check_dependencies() {
+  if ! command -v gemini &>/dev/null; then
+    echo "Error: gemini CLI is not installed"
+    echo "Install it from: https://github.com/google-gemini/gemini-cli"
+    exit 1
+  fi
+}
+
+build_base_prompt() {
+  local prompt="$1"
+
+  echo "You are a command-line expert. Your ONLY job is to provide a single runnable shell command.
+
+CRITICAL RULES:
+- Return ONLY the command itself - nothing else
+- NO explanations, NO markdown, NO code blocks, NO tool calls
+- Do NOT say you cannot do something - just provide the shell command
+- The command will be executed directly in a bash shell
+- ALWAYS prefer the simplest, most basic command that accomplishes the task
+
+Shell best practices:
+- ALWAYS quote strings that contain spaces (e.g., echo \"hello world\" NOT echo hello world)
+- Quote all literal strings to prevent word splitting
+- Use proper escaping for special characters
+- Avoid unnecessary flags unless specifically requested
+
+User request: $prompt"
+}
+
+call_gemini() {
+  local full_prompt="$1"
+  local model="$2"
+
+  if [ "${DEBUG:-false}" = "true" ]; then
+    echo "=== DEBUG: Full prompt ===" >&2
+    echo "$full_prompt" >&2
+    echo "=== END DEBUG ===" >&2
+    echo >&2
+  fi
+
+  local response
+  response=$(gemini -m "$model" -o text -p "$full_prompt" 2>/dev/null)
+
+  if echo "$response" | grep -q "GEMINI_API_KEY\|settings.json"; then
+    echo "Error: Gemini API key not configured" >&2
+    echo "Set GEMINI_API_KEY environment variable" >&2
+    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
+    return 1
+  fi
+
+  echo "$response" | grep -v "^gemini:" | sed 's/```.*//g' | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
+}
+
+get_suggestions() {
+  local prompt="$1"
+  local model="${2:-$DEFAULT_MODEL}"
+
+  local full_prompt
+  full_prompt=$(build_base_prompt "$prompt")
+
+  call_gemini "$full_prompt" "$model"
+}
+
+refine_command() {
+  local prompt="$1"
+  local model="$2"
+  local context="$3"
+  local last_cmd="$4"
+
+  local full_prompt
+  full_prompt=$(build_base_prompt "$prompt")
+
+  full_prompt="$full_prompt
+
+The previous command was: $last_cmd
+
+Modify this command to add these requirements:
+$context
+
+IMPORTANT: Keep the existing command structure but add or modify flags to satisfy the new requirements. Make sure the command actually does what is requested."
+
+  call_gemini "$full_prompt" "$model"
+}
+
+show_menu() {
+  local cmd="$1"
+
+  echo "$ $cmd"
+}
+
+get_action() {
+  local choice
+  local result
+
+  read -r -s -n 1 choice
+
+  case "$choice" in
+    "")
+      result="run"
+      ;;
+    e | E)
+      result="explain"
+      ;;
+    r | R)
+      result="refine"
+      ;;
+    c | C)
+      result="copy"
+      ;;
+    q | Q | $'\e')
+      result="quit"
+      ;;
+    h | H | \?)
+      result="help"
+      ;;
+    *)
+      result="invalid"
+      ;;
+  esac
+
+  echo "$result"
+}
+
+execute_command() {
+  local cmd="$1"
+
+  eval "$cmd"
+}
+
+copy_command() {
+  local cmd="$1"
+
+  if command -v pbcopy &>/dev/null; then
+    printf "%s" "$cmd" | pbcopy
+    echo "Copied to clipboard"
+  elif command -v xclip &>/dev/null; then
+    printf "%s" "$cmd" | xclip -selection clipboard
+    echo "Copied to clipboard"
+  else
+    echo "Clipboard tool not found. Command:"
+    echo "$cmd"
+  fi
+}
+
+explain_command() {
+  local cmd="$1"
+  local model="${2:-$DEFAULT_MODEL}"
+
+  echo "Getting explanation..."
+  echo
+
+  local explain_prompt="Explain this shell command in a clear and concise way:
+
+$cmd
+
+Format as plain text for terminal display. Use section headers like 'Overview:', 'Flags:', 'Notes:' without numbering or special characters. Keep it conversational and easy to read."
+
+  local explanation
+  explanation=$(gemini -m "$model" -o text -p "$explain_prompt" 2>&1)
+
+  if echo "$explanation" | grep -q "GEMINI_API_KEY\|settings.json"; then
+    echo "Error: Gemini API key not configured" >&2
+    return 1
+  fi
+
+  echo "$explanation"
+  echo
+}
+
+main() {
+  local prompt=""
+  local model="$DEFAULT_MODEL"
+  export DEBUG="false"
+
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -m)
+        model="$2"
+        shift 2
+        ;;
+      -d | --debug)
+        export DEBUG="true"
+        shift
+        ;;
+      -h | --help)
+        show_help
+        exit 0
+        ;;
+      -v | --version)
+        show_version
+        exit 0
+        ;;
+      -*)
+        echo "Unknown option: $1"
+        show_help
+        exit 1
+        ;;
+      *)
+        prompt="$1"
+        shift
+        ;;
+    esac
+  done
+
+  if [ -z "$prompt" ]; then
+    echo "Error: prompt is required"
+    show_help
+    exit 1
+  fi
+
+  check_dependencies
+
+  local accumulated_context=""
+
+  local suggestion
+
+  if ! suggestion=$(get_suggestions "$prompt" "$model"); then
+    echo "Error: Failed to get suggestions from Gemini"
+    exit 1
+  fi
+
+  if [ -z "$suggestion" ]; then
+    echo "Error: No suggestions received"
+    exit 1
+  fi
+
+  while true; do
+    show_menu "$suggestion"
+
+    local action
+    action=$(get_action)
+
+    local selected_cmd="$suggestion"
+
+    case "$action" in
+      run)
+        execute_command "$selected_cmd"
+        break
+        ;;
+      explain)
+        echo
+        explain_command "$selected_cmd" "$model"
+        ;;
+      refine)
+        echo
+        echo -n "Refine: "
+        read -r context_input
+        echo
+
+        if [ -n "$context_input" ]; then
+          local context_to_add="- $context_input"
+
+          if ! suggestion=$(refine_command "$prompt" "$model" "$context_to_add" "$selected_cmd"); then
+            echo "Error: Failed to get suggestions from Gemini"
+            exit 1
+          fi
+
+          if [ -z "$suggestion" ]; then
+            echo "Error: No suggestions received"
+            exit 1
+          fi
+
+          if [ -z "$accumulated_context" ]; then
+            accumulated_context="$context_to_add"
+          else
+            accumulated_context="$accumulated_context"$'\n'"$context_to_add"
+          fi
+        fi
+        continue
+        ;;
+
+      copy)
+        echo
+        copy_command "$selected_cmd"
+        break
+        ;;
+      help)
+        echo
+        echo "Actions:"
+        echo "  (Enter)      Run the suggested command"
+        echo "  (e)xplain    Get an explanation of the command"
+        echo "  (r)efine     Refine the command with additional requirements"
+        echo "  (c)opy       Copy command to clipboard"
+        echo "  (q)uit       Exit without running"
+        echo "  (h)elp / ?   Show this help"
+        echo
+        ;;
+      quit)
+        echo
+        echo "Quitting..."
+        exit 0
+        ;;
+      invalid)
+        echo
+        echo "Invalid input. Please try again."
+        echo
+        ;;
+    esac
+  done
+}
+
+main "$@"
