@@ -25,11 +25,9 @@ Interactive Actions:
     (q)uit          Exit without running
 
 Examples:
-    ? "find files modified in the last week"
-    ? "show me commits by alice with stats"
-    ? "kill all node processes"
+    ? kill all node processes
     ? "compress this directory excluding node_modules"
-    ? "rename all jpg files to lowercase"
+    ? list all files in $HOME not owned by $(whoami)
 
 EOF
 }
@@ -57,6 +55,7 @@ CRITICAL RULES:
 - Do NOT say you cannot do something - just provide the shell command
 - The command will be executed directly in a bash shell
 - ALWAYS prefer the simplest, most basic command that accomplishes the task
+- MUST be a single line command - no multi-line scripts, loops, or functions
 
 Shell best practices:
 - ALWAYS quote strings that contain spaces (e.g., echo \"hello world\" NOT echo hello world)
@@ -81,7 +80,7 @@ call_gemini() {
   local response
   response=$(gemini -m "$model" -o text -p "$full_prompt" 2>/dev/null)
 
-  if echo "$response" | grep -q "GEMINI_API_KEY\|settings.json"; then
+  if echo "$response" | grep -q "GEMINI_API_KEY"; then
     echo "Error: Gemini API key not configured" >&2
     echo "Set GEMINI_API_KEY environment variable" >&2
     echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
@@ -104,7 +103,7 @@ get_suggestions() {
 refine_command() {
   local prompt="$1"
   local model="$2"
-  local context="$3"
+  local accumulated_context="$3"
   local last_cmd="$4"
 
   local full_prompt
@@ -114,8 +113,8 @@ refine_command() {
 
 The previous command was: $last_cmd
 
-Modify this command to add these requirements:
-$context
+Modify this command to satisfy ALL of these requirements:
+$accumulated_context
 
 IMPORTANT: Keep the existing command structure but add or modify flags to satisfy the new requirements. Make sure the command actually does what is requested."
 
@@ -195,15 +194,7 @@ $cmd
 
 Format as plain text for terminal display. Use section headers like 'Overview:', 'Flags:', 'Notes:' without numbering or special characters. Keep it conversational and easy to read."
 
-  local explanation
-  explanation=$(gemini -m "$model" -o text -p "$explain_prompt" 2>&1)
-
-  if echo "$explanation" | grep -q "GEMINI_API_KEY\|settings.json"; then
-    echo "Error: Gemini API key not configured" >&2
-    return 1
-  fi
-
-  echo "$explanation"
+  gemini -m "$model" -o text -p "$explain_prompt" 2>/dev/null
   echo
 }
 
@@ -215,6 +206,11 @@ main() {
   while [[ $# -gt 0 ]]; do
     case $1 in
       -m)
+        if [ -z "${2:-}" ]; then
+          echo "Error: -m flag requires a model name"
+          show_help
+          exit 1
+        fi
         model="$2"
         shift 2
         ;;
@@ -236,8 +232,8 @@ main() {
         exit 1
         ;;
       *)
-        prompt="$1"
-        shift
+        prompt="$*"
+        break
         ;;
     esac
   done
@@ -270,16 +266,14 @@ main() {
     local action
     action=$(get_action)
 
-    local selected_cmd="$suggestion"
-
     case "$action" in
       run)
-        execute_command "$selected_cmd"
+        execute_command "$suggestion"
         break
         ;;
       explain)
         echo
-        explain_command "$selected_cmd" "$model"
+        explain_command "$suggestion" "$model"
         ;;
       refine)
         echo
@@ -287,31 +281,35 @@ main() {
         read -r context_input
         echo
 
-        if [ -n "$context_input" ]; then
-          local context_to_add="- $context_input"
+        if [ -z "$context_input" ]; then
+          echo "Refinement cannot be empty"
+          echo
+          continue
+        fi
 
-          if ! suggestion=$(refine_command "$prompt" "$model" "$context_to_add" "$selected_cmd"); then
-            echo "Error: Failed to get suggestions from Gemini"
-            exit 1
-          fi
+        local context_to_add="- $context_input"
 
-          if [ -z "$suggestion" ]; then
-            echo "Error: No suggestions received"
-            exit 1
-          fi
+        if [ -z "$accumulated_context" ]; then
+          accumulated_context="$context_to_add"
+        else
+          accumulated_context="$accumulated_context"$'\n'"$context_to_add"
+        fi
 
-          if [ -z "$accumulated_context" ]; then
-            accumulated_context="$context_to_add"
-          else
-            accumulated_context="$accumulated_context"$'\n'"$context_to_add"
-          fi
+        if ! suggestion=$(refine_command "$prompt" "$model" "$accumulated_context" "$suggestion"); then
+          echo "Error: Failed to get suggestions from Gemini"
+          exit 1
+        fi
+
+        if [ -z "$suggestion" ]; then
+          echo "Error: No suggestions received"
+          exit 1
         fi
         continue
         ;;
 
       copy)
         echo
-        copy_command "$selected_cmd"
+        copy_command "$suggestion"
         break
         ;;
       help)
@@ -331,7 +329,7 @@ main() {
         exit 0
         ;;
       invalid)
-        echo
+        printf "\033[2K\r"
         echo "Invalid input. Please try again."
         echo
         ;;
