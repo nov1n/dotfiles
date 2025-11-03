@@ -7,7 +7,7 @@ DEFAULT_MODEL="gemini-2.5-flash"
 
 show_keybindings() {
   cat <<EOF
-(Enter)      Run the suggested command
+(Enter)      Run the generated command
 (e)xplain    Get an explanation of the command
 (r)efine     Refine the command with additional requirements
 (c)opy       Copy command to clipboard
@@ -443,7 +443,6 @@ EOF
     case "$action" in
       run)
         execute_command "$command"
-        break
         ;;
       explain)
         echo
