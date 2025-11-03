@@ -135,35 +135,14 @@ build_base_prompt() {
   local prompt="$1"
 
   cat <<EOF
-You are a shell command generator. Generate a single executable command for the user's request.
+Generate a shell command for this task. Output only the raw command text, no formatting or explanation.
 
-# System Context
-Operating System: $OS_INFO
-User: $USER
-Home Directory: $HOME
-Current Directory: $PWD
+Examples:
+"list files modified today" → find . -type f -mtime 0
+"count python lines" → find . -name "*.py" -exec wc -l {} + | tail -1
+"show tcp listeners" → lsof -iTCP -sTCP:LISTEN
 
-# Output Format
-- Return ONLY the command text
-- No explanations, markdown, code blocks, or commentary
-- Single line only (no multi-line scripts)
-
-# Command Requirements
-- Must be executable in common shells (bash/zsh)
-- Use OS-appropriate commands and flags
-- Prefer simple, standard Unix utilities
-- Use proper quoting for strings with spaces
-- Escape special characters appropriately
-
-# Examples
-Request: "list files modified today"
-Response: find . -type f -mtime 0
-
-Request: "count lines in all python files"
-Response: find . -name "*.py" -exec wc -l {} + | tail -1
-
-# User Request
-$prompt
+Task: $prompt
 EOF
 }
 
@@ -310,7 +289,7 @@ explain_command() {
   local cmd="$1"
   local model="${2:-$DEFAULT_MODEL}"
 
-  echo "Getting explanation..."
+  echo "Explaining..."
   echo
 
   local explain_prompt="Explain this shell command in a clear and concise way:
