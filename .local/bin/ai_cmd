@@ -19,10 +19,10 @@ EOF
 show_help() {
   cat <<EOF
 ? - AI-powered command generation tool
-
 Usage: ? [OPTIONS] <prompt>
 
 Options:
+
     -m <model>      Gemini model to use (default: $DEFAULT_MODEL)
                     Note: Only Gemini models are supported
     -d, --debug     Print debug information
@@ -100,6 +100,19 @@ check_preconditions() {
   if ! command -v gemini &>/dev/null; then
     echo "Error: gemini CLI is not installed"
     echo "Install it from: https://github.com/google-gemini/gemini-cli"
+    exit 1
+  fi
+
+  # Run a test command to see if we are authenticated
+  if ! gemini "hello world"; then
+    echo "Error: Gemini CLI is not authenticated" >&2
+    echo "" >&2
+    echo "To set up authentication, run:" >&2
+    echo "" >&2
+    echo "  gemini" >&2
+    echo "" >&2
+    echo "Then choose 'Login with Google' to set up OAuth authentication." >&2
+    echo "This includes a free tier of 60 requests/min and 1,000 requests/day." >&2
     exit 1
   fi
 }
