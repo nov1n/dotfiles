@@ -96,17 +96,10 @@ EOF
   esac
 }
 
-check_dependencies() {
+check_preconditions() {
   if ! command -v gemini &>/dev/null; then
     echo "Error: gemini CLI is not installed"
     echo "Install it from: https://github.com/google-gemini/gemini-cli"
-    exit 1
-  fi
-
-  if [ -z "${GEMINI_API_KEY:-}" ]; then
-    echo "Error: Gemini API key not configured" >&2
-    echo "Set GEMINI_API_KEY environment variable" >&2
-    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
     exit 1
   fi
 }
@@ -157,7 +150,7 @@ call_gemini() {
   temp_stderr=$(mktemp)
   temp_stdout=$(mktemp)
 
-  gemini -m "$model" -o text -p "$full_prompt" 2>"$temp_stderr" >"$temp_stdout" &
+  gemini -m "$model" "$full_prompt" 2>"$temp_stderr" >"$temp_stdout" &
   local gemini_pid=$!
 
   show_spinner $gemini_pid
@@ -394,7 +387,7 @@ EOF
     exit 1
   fi
 
-  check_dependencies
+  check_preconditions
 
   if [ -z "${AI_CMD_WRAPPER:-}" ] && [ "$suppress_warning" != "true" ]; then
     cat >&2 <<'EOF'
