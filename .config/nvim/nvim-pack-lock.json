@@ -1,11 +1,15 @@
 {
   "plugins": {
     "conform.nvim": {
-      "rev": "fbcb4fa",
+      "rev": "26c02e1",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "csvview.nvim": {
+      "rev": "bbab4c2",
+      "src": "https://github.com/hat0uma/csvview.nvim"
+    },
     "lazydev.nvim": {
-      "rev": "e28ce52",
+      "rev": "371cd74",
       "src": "https://github.com/folke/lazydev.nvim"
     },
     "lazygit.nvim": {
@@ -13,11 +17,11 @@
       "src": "https://github.com/kdheepak/lazygit.nvim"
     },
     "live-preview.nvim": {
-      "rev": "bd099b7",
+      "rev": "a1bb1b3",
       "src": "https://github.com/brianhuster/live-preview.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "2304ff6",
+      "rev": "d7b5feb",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -29,11 +33,11 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "8a7cf7e",
+      "rev": "f545dcc",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-lspconfig": {
-      "rev": "ac98db2",
+      "rev": "a89bfcf",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-navic": {
@@ -45,7 +49,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "71385f1",
+      "rev": "5ca4aaa",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
     },
     "obsidian.nvim": {
@@ -53,7 +57,7 @@
       "src": "https://github.com/epwalsh/obsidian.nvim"
     },
     "opencode.nvim": {
-      "rev": "f8a3a88",
+      "rev": "fa7b538",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "plenary.nvim": {
@@ -61,11 +65,11 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "9a26145",
+      "rev": "1611946",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "tokyonight.nvim": {
-      "rev": "d14614c",
+      "rev": "b13cfc1",
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "wezterm-types": {
@@ -73,7 +77,7 @@
       "src": "https://github.com/gonstoll/wezterm-types"
     },
     "zen-mode.nvim": {
-      "rev": "438a59c",
+      "rev": "8564ce6",
       "src": "https://github.com/folke/zen-mode.nvim"
     }
   }
