@@ -80,23 +80,30 @@ show_spinner() {
 build_base_prompt() {
   local prompt="$1"
 
-  echo "You are a command-line expert. Your ONLY job is to provide a single runnable shell command.
+  cat <<EOF
+You are a shell command generator. Generate a single executable command for the user's request.
 
-CRITICAL RULES:
-- Return ONLY the command itself - nothing else
-- NO explanations, NO markdown, NO code blocks, NO tool calls
-- Do NOT say you cannot do something - just provide the shell command
-- The command will be executed directly in a bash shell
-- ALWAYS prefer the simplest, most basic command that accomplishes the task
-- MUST be a single line command - no multi-line scripts, loops, or functions
+# Output Format
+- Return ONLY the command text
+- No explanations, markdown, code blocks, or commentary
+- Single line only (no multi-line scripts)
 
-Shell best practices:
-- ALWAYS quote strings that contain spaces (e.g., echo \"hello world\" NOT echo hello world)
-- Quote all literal strings to prevent word splitting
-- Use proper escaping for special characters
-- Avoid unnecessary flags unless specifically requested
+# Command Requirements
+- Must be executable in bash/zsh
+- Prefer simple, standard Unix utilities
+- Use proper quoting for strings with spaces
+- Escape special characters appropriately
 
-User request: $prompt"
+# Examples
+Request: "list files modified today"
+Response: find . -type f -mtime 0
+
+Request: "count lines in all python files"
+Response: find . -name "*.py" -exec wc -l {} + | tail -1
+
+# User Request
+$prompt
+EOF
 }
 
 call_gemini() {
