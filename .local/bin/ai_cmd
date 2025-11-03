@@ -77,6 +77,16 @@ show_spinner() {
   printf "\r  \r" >&2
 }
 
+detect_shell() {
+  if [ -n "${ZSH_VERSION:-}" ]; then
+    echo "zsh"
+  elif [ -n "${BASH_VERSION:-}" ]; then
+    echo "bash"
+  else
+    echo "unknown"
+  fi
+}
+
 build_base_prompt() {
   local prompt="$1"
   local os_info=""
@@ -90,11 +100,26 @@ build_base_prompt() {
     os_info=$(uname -s)
   fi
 
+  # Detect shell
+  local shell_type=$(detect_shell)
+  local shell_info=""
+  if [ "$shell_type" = "zsh" ]; then
+    shell_info="zsh $ZSH_VERSION"
+  elif [ "$shell_type" = "bash" ]; then
+    shell_info="bash $BASH_VERSION"
+  else
+    shell_info=$(basename "$SHELL")
+  fi
+
   cat <<EOF
 You are a shell command generator. Generate a single executable command for the user's request.
 
 # System Context
 Operating System: $os_info
+Shell: $shell_info
+User: $USER
+Home Directory: $HOME
+Current Directory: $PWD
 
 # Output Format
 - Return ONLY the command text
@@ -235,9 +260,10 @@ execute_command() {
   local cmd="$1"
 
   # Add to shell history
-  if [ -n "${ZSH_VERSION:-}" ]; then
+  local shell_type=$(detect_shell)
+  if [ "$shell_type" = "zsh" ]; then
     print -s "$cmd"
-  elif [ -n "${BASH_VERSION:-}" ]; then
+  elif [ "$shell_type" = "bash" ]; then
     history -s "$cmd"
   fi
 
