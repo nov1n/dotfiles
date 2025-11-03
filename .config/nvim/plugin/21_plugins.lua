@@ -17,6 +17,7 @@ local plugins = {
   { src = "https://github.com/folke/zen-mode.nvim" },
   { src = "https://github.com/SmiteshP/nvim-navic" },
   { src = "https://github.com/NickvanDyke/opencode.nvim" },
+  { src = "https://github.com/hat0uma/csvview.nvim" },
 }
 
 -- Obsidian integration (only on Mac)
@@ -99,7 +100,7 @@ require("mason-tool-installer").setup({
     "lua_ls",
     "rust_analyzer",
     "ts_ls",
-    "kotlin_lsp",
+    -- "kotlin_lsp",
     "lemminx",
     "yamlls",
     "jsonls",
