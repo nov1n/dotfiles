@@ -79,9 +79,22 @@ show_spinner() {
 
 build_base_prompt() {
   local prompt="$1"
+  local os_info=""
+
+  # Detect OS
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    os_info="macOS $(sw_vers -productVersion 2>/dev/null)"
+  elif [[ -f /etc/os-release ]]; then
+    os_info=$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)
+  else
+    os_info=$(uname -s)
+  fi
 
   cat <<EOF
 You are a shell command generator. Generate a single executable command for the user's request.
+
+# System Context
+Operating System: $os_info
 
 # Output Format
 - Return ONLY the command text
@@ -90,6 +103,7 @@ You are a shell command generator. Generate a single executable command for the 
 
 # Command Requirements
 - Must be executable in bash/zsh
+- Use OS-appropriate commands and flags
 - Prefer simple, standard Unix utilities
 - Use proper quoting for strings with spaces
 - Escape special characters appropriately
