@@ -84,7 +84,7 @@ EOF
     bash)
       cat <<'EOF'
 function ? {
-  # Add the invocation itself to history (bash doesn't record function calls by default)
+  # Add the prompt to the history as bash doesn't record function calls by default
   history -s "? $*"
 
   local tmpfile=$(mktemp)
