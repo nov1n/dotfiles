@@ -5,15 +5,6 @@ set -euo pipefail
 VERSION="0.0.1"
 DEFAULT_MODEL="gemini-2.5-flash"
 
-# Detect OS
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  OS_INFO="macOS $(sw_vers -productVersion 2>/dev/null)"
-elif [[ -f /etc/os-release ]]; then
-  OS_INFO=$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)
-else
-  OS_INFO=$(uname -s)
-fi
-
 show_keybindings() {
   cat <<EOF
 (Enter)      Run the suggested command
