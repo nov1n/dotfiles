@@ -5,18 +5,6 @@ set -euo pipefail
 VERSION="0.0.1"
 DEFAULT_MODEL="gemini-2.5-flash"
 
-# Detect shell type
-if [ -n "${ZSH_VERSION:-}" ]; then
-  SHELL_TYPE="zsh"
-  SHELL_VERSION="$ZSH_VERSION"
-elif [ -n "${BASH_VERSION:-}" ]; then
-  SHELL_TYPE="bash"
-  SHELL_VERSION="$BASH_VERSION"
-else
-  SHELL_TYPE="unknown"
-  SHELL_VERSION=""
-fi
-
 # Detect OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
   OS_INFO="macOS $(sw_vers -productVersion 2>/dev/null)"
@@ -39,7 +27,7 @@ EOF
 
 show_help() {
   cat <<EOF
-? - AI-powered bash command generation tool
+? - AI-powered command generation tool
 
 Usage: ? [OPTIONS] <prompt>
 
@@ -101,16 +89,11 @@ show_spinner() {
 build_base_prompt() {
   local prompt="$1"
 
-  # Build shell info string
-  local shell_info="$SHELL_TYPE"
-  [ -n "$SHELL_VERSION" ] && shell_info="$SHELL_TYPE $SHELL_VERSION"
-
   cat <<EOF
 You are a shell command generator. Generate a single executable command for the user's request.
 
 # System Context
 Operating System: $OS_INFO
-Shell: $shell_info
 User: $USER
 Home Directory: $HOME
 Current Directory: $PWD
@@ -121,7 +104,7 @@ Current Directory: $PWD
 - Single line only (no multi-line scripts)
 
 # Command Requirements
-- Must be executable in $SHELL_TYPE
+- Must be executable in common shells (bash/zsh)
 - Use OS-appropriate commands and flags
 - Prefer simple, standard Unix utilities
 - Use proper quoting for strings with spaces
@@ -254,9 +237,9 @@ execute_command() {
   local cmd="$1"
 
   # Add to shell history
-  if [ "$SHELL_TYPE" = "zsh" ]; then
+  if [ -n "${ZSH_VERSION:-}" ]; then
     print -s "$cmd"
-  elif [ "$SHELL_TYPE" = "bash" ]; then
+  elif [ -n "${BASH_VERSION:-}" ]; then
     history -s "$cmd"
   fi
 
