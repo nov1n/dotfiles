@@ -67,13 +67,13 @@ show_version() {
 
 show_init() {
   local shell="${1:-}"
-  
+
   if [ -z "$shell" ]; then
     echo "Error: --init requires a shell argument (bash or zsh)" >&2
     echo "Usage: ai_cmd --init bash|zsh" >&2
     return 1
   fi
-  
+
   case "$shell" in
     zsh)
       cat <<'EOF'
@@ -129,7 +129,7 @@ check_dependencies() {
 show_spinner() {
   local pid=$1
   local delay=0.1
-  local spinstr='|/-\'
+  local spinstr="|/-\\"
   local i=0
 
   while kill -0 "$pid" 2>/dev/null; do
