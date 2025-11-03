@@ -138,6 +138,21 @@ cbread() {
   fi
 }
 
+'?' () {
+  local tmpfile=$(mktemp)
+  ai_cmd "$@" 2>&1 | tee "$tmpfile"
+
+  local cmd=$(tr -d '\r' < "$tmpfile" | grep -o '$ .*' | tail -1 | cut -c 3-)
+
+  if [[ -n "$cmd" ]]; then
+    if [[ -n "${ZSH_VERSION:-}" ]]; then
+      print -s "$cmd"
+    elif [[ -n "${BASH_VERSION:-}" ]]; then
+      history -s "$cmd"
+    fi
+  fi
+}
+
 cbprint() {
   if [[ $on_mac_os -eq 0 ]]; then
     pbpaste
