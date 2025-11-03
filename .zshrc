@@ -109,3 +109,4 @@ if [[ -n "$ZSH_DEBUGRC" ]]; then
   zprof
 fi
 
+[ -x "$(command -v ai_cmd)" ] && eval "$(ai_cmd --init zsh)"
