@@ -26,7 +26,6 @@ alias tree="lsd -l --tree --depth=3"
 alias lg="lazygit"
 alias tw="taskwarrior-tui"
 alias fd='fd --hidden'
-alias '?'='ai_cmd'
 
 # Nudges
 alias nslookup="doggo"
@@ -34,9 +33,6 @@ alias host="doggo"
 alias htop="btm"
 alias nvm="echo 'Use fnm!'"
 alias time="echo 'Use hyperfine!'"
-
-# Experimental
-alias grep="rg"
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
