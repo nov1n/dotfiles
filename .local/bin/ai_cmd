@@ -34,8 +34,10 @@ Usage: ? [OPTIONS] <prompt>
 Options:
     -m <model>      Model to use (default: $DEFAULT_MODEL)
     -d, --debug     Print debug information
+    -q, --quiet     Suppress shell integration warning
     -h, --help      Show this help message
     -v, --version   Show version
+    --init <shell>  Output shell integration code (bash or zsh)
 
 Keybindings:
 EOF
@@ -47,29 +49,66 @@ Examples:
     ? "compress this directory excluding node_modules"
     ? list all files in \$HOME not owned by \$(whoami)
 
-Tip: Add this wrapper function to your shell config for history support:
+Setup:
+Add this to your shell config:
 
-'?' () {
-  local tmpfile=\$(mktemp)
-  ai_cmd "\$@" 2>&1 | tee "\$tmpfile"
+    # For zsh (~/.zshrc):
+    eval "\$(ai_cmd --init zsh)"
 
-  local cmd=\$(tr -d '\r' < "\$tmpfile" | grep -o '\$ .*' | tail -1 | cut -c 3-)
-
-  if [[ -n "\$cmd" ]]; then
-    if [[ -n "\${ZSH_VERSION:-}" ]]; then
-      print -s "\$cmd"
-    elif [[ -n "\${BASH_VERSION:-}" ]]; then
-      history -s "\$cmd"
-    fi
-  fi
-}
-alias '?'='noglob ?'
+    # For bash (~/.bashrc):
+    eval "\$(ai_cmd --init bash)"
 
 EOF
 }
 
 show_version() {
   echo "? version $VERSION"
+}
+
+show_init() {
+  local shell="${1:-}"
+  
+  if [ -z "$shell" ]; then
+    echo "Error: --init requires a shell argument (bash or zsh)" >&2
+    echo "Usage: ai_cmd --init bash|zsh" >&2
+    return 1
+  fi
+  
+  case "$shell" in
+    zsh)
+      cat <<'EOF'
+'?' () {
+  local tmpfile=$(mktemp)
+  AI_CMD_WRAPPER=1 ai_cmd "$@" 2>&1 | tee "$tmpfile"
+  
+  local cmd=$(tr -d '\r' < "$tmpfile" | \grep -o '$ .*' | tail -1 | cut -c 3-)
+  
+  [[ -n "$cmd" ]] && print -s "$cmd"
+  
+  rm -f "$tmpfile"
+}
+alias '?'='noglob ?'
+EOF
+      ;;
+    bash)
+      cat <<'EOF'
+function ? {
+  local tmpfile=$(mktemp)
+  AI_CMD_WRAPPER=1 ai_cmd "$@" 2>&1 | tee "$tmpfile"
+  
+  local cmd=$(tr -d '\r' < "$tmpfile" | \grep -o '$ .*' | tail -1 | cut -c 3-)
+  
+  [[ -n "$cmd" ]] && history -s "$cmd"
+  
+  rm -f "$tmpfile"
+}
+EOF
+      ;;
+    *)
+      echo "Error: Unsupported shell '$shell'. Use 'bash' or 'zsh'." >&2
+      return 1
+      ;;
+  esac
 }
 
 check_dependencies() {
@@ -319,6 +358,7 @@ Format as plain text for terminal display. Use section headers like 'Overview:',
 main() {
   local prompt=""
   local model="$DEFAULT_MODEL"
+  local suppress_warning="false"
   export DEBUG="false"
 
   while [[ $# -gt 0 ]]; do
@@ -336,12 +376,25 @@ main() {
         export DEBUG="true"
         shift
         ;;
+      -q | --quiet)
+        suppress_warning="true"
+        shift
+        ;;
       -h | --help)
         show_help
         exit 0
         ;;
       -v | --version)
         show_version
+        exit 0
+        ;;
+      --init)
+        if [ -z "${2:-}" ]; then
+          echo "Error: --init requires a shell argument (bash or zsh)"
+          show_help
+          exit 1
+        fi
+        show_init "$2"
         exit 0
         ;;
       -*)
@@ -357,11 +410,44 @@ main() {
   done
 
   if [ -z "$prompt" ]; then
+    if [ -z "${AI_CMD_WRAPPER:-}" ] && [ "$suppress_warning" != "true" ]; then
+      cat >&2 <<'EOF'
+Warning: Running without shell integration. Commands won't be added to history.
+
+Add this to your shell config:
+
+  For zsh (~/.zshrc):
+    eval "$(ai_cmd --init zsh)"
+
+  For bash (~/.bashrc):
+    eval "$(ai_cmd --init bash)"
+
+Or use -q/--quiet to suppress this warning.
+
+EOF
+    fi
     show_help
     exit 1
   fi
 
   check_dependencies
+
+  if [ -z "${AI_CMD_WRAPPER:-}" ] && [ "$suppress_warning" != "true" ]; then
+    cat >&2 <<'EOF'
+Warning: Running without shell integration. Commands won't be added to history.
+
+Add this to your shell config:
+
+  For zsh (~/.zshrc):
+    eval "$(ai_cmd --init zsh)"
+
+  For bash (~/.bashrc):
+    eval "$(ai_cmd --init bash)"
+
+Or use -q/--quiet to suppress this warning.
+
+EOF
+  fi
 
   local accumulated_context=""
 
