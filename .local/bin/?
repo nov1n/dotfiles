@@ -18,12 +18,12 @@ EOF
 
 show_help() {
   cat <<EOF
-? - AI-powered command suggestion tool
+? - AI-powered bash command generation tool
 
 Usage: ? [OPTIONS] <prompt>
 
 Options:
-    -m <model>      Model to use (default: gemini-2.5-flash)
+    -m <model>      Model to use (default: $DEFAULT_MODEL)
     -d, --debug     Print debug information
     -h, --help      Show this help message
     -v, --version   Show version
@@ -65,7 +65,7 @@ show_spinner() {
   local delay=0.1
   local spinstr='|/-\'
   local i=0
-  
+
   while kill -0 "$pid" 2>/dev/null; do
     local char="${spinstr:i++%${#spinstr}:1}"
     printf "\r%s " "$char" >&2
