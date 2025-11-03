@@ -17,7 +17,7 @@ customCommands:
     loadingText: "Opening repository in browser..."
     description: "Open repository in browser"
 git:
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never --diff-so-fancy
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never --diff-so-fancy
   overrideGpg: true
