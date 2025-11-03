@@ -5,6 +5,17 @@ set -euo pipefail
 VERSION="0.0.1"
 DEFAULT_MODEL="gemini-2.5-flash"
 
+show_keybindings() {
+  cat <<EOF
+(Enter)      Run the suggested command
+(e)xplain    Get an explanation of the command
+(r)efine     Refine the command with additional requirements
+(c)opy       Copy command to clipboard
+(q)uit       Exit without running
+(h)elp / ?   Show this help
+EOF
+}
+
 show_help() {
   cat <<EOF
 ? - AI-powered command suggestion tool
@@ -17,12 +28,10 @@ Options:
     -h, --help      Show this help message
     -v, --version   Show version
 
-Interactive Actions:
-    (Enter)         Run the suggested command
-    (e)xplain       Get an explanation of the command
-    (r)efine        Refine the command with additional requirements
-    (c)opy          Copy command to clipboard
-    (q)uit          Exit without running
+Keybindings:
+EOF
+  show_keybindings | sed 's/^/    /'
+  cat <<EOF
 
 Examples:
     ? kill all node processes
@@ -49,6 +58,20 @@ check_dependencies() {
     echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
     exit 1
   fi
+}
+
+show_spinner() {
+  local pid=$1
+  local delay=0.1
+  local spinstr='|/-\'
+  local i=0
+  
+  while kill -0 "$pid" 2>/dev/null; do
+    local char="${spinstr:i++%${#spinstr}:1}"
+    printf "\r%s " "$char" >&2
+    sleep $delay
+  done
+  printf "\r  \r" >&2
 }
 
 build_base_prompt() {
@@ -85,14 +108,31 @@ call_gemini() {
   fi
 
   local response
-  response=$(gemini -m "$model" -o text -p "$full_prompt" 2>/dev/null)
+  local temp_stderr
+  local temp_stdout
+  temp_stderr=$(mktemp)
+  temp_stdout=$(mktemp)
 
-  if echo "$response" | grep -q "GEMINI_API_KEY"; then
-    echo "Error: Gemini API key not configured" >&2
-    echo "Set GEMINI_API_KEY environment variable" >&2
-    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
+  gemini -m "$model" -o text -p "$full_prompt" 2>"$temp_stderr" >"$temp_stdout" &
+  local gemini_pid=$!
+
+  show_spinner $gemini_pid
+  wait $gemini_pid
+  local exit_code=$?
+
+  response=$(cat "$temp_stdout")
+
+  if [ $exit_code -ne 0 ] || [ -z "$response" ]; then
+    if [ -s "$temp_stderr" ]; then
+      cat "$temp_stderr" >&2
+    else
+      echo "Error: Failed to get response from Gemini" >&2
+    fi
+    rm -f "$temp_stderr" "$temp_stdout"
     return 1
   fi
+
+  rm -f "$temp_stderr" "$temp_stdout"
 
   echo "$response" | grep -v "^gemini:" | sed 's/```.*//g' | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
 }
@@ -201,7 +241,30 @@ $cmd
 
 Format as plain text for terminal display. Use section headers like 'Overview:', 'Flags:', 'Notes:' without numbering or special characters. Keep it conversational and easy to read."
 
-  gemini -m "$model" -o text -p "$explain_prompt" 2>/dev/null
+  local temp_stderr
+  local temp_stdout
+  temp_stderr=$(mktemp)
+  temp_stdout=$(mktemp)
+
+  gemini -m "$model" -o text -p "$explain_prompt" 2>"$temp_stderr" >"$temp_stdout" &
+  local gemini_pid=$!
+
+  show_spinner $gemini_pid
+  wait $gemini_pid
+  local exit_code=$?
+
+  if [ $exit_code -ne 0 ]; then
+    if [ -s "$temp_stderr" ]; then
+      cat "$temp_stderr" >&2
+    else
+      echo "Error: Failed to get explanation from Gemini" >&2
+    fi
+    rm -f "$temp_stderr" "$temp_stdout"
+    return 1
+  fi
+
+  cat "$temp_stdout"
+  rm -f "$temp_stderr" "$temp_stdout"
   echo
 }
 
@@ -320,13 +383,8 @@ main() {
         ;;
       help)
         echo
-        echo "Actions:"
-        echo "  (Enter)      Run the suggested command"
-        echo "  (e)xplain    Get an explanation of the command"
-        echo "  (r)efine     Refine the command with additional requirements"
-        echo "  (c)opy       Copy command to clipboard"
-        echo "  (q)uit       Exit without running"
-        echo "  (h)elp / ?   Show this help"
+        echo "Keybindings:"
+        show_keybindings | sed 's/^/  /'
         echo
         ;;
       quit)
