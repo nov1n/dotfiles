@@ -121,6 +121,7 @@ nmap("\\a", function()
     vim.notify("Autoformat disabled")
   end
 end, "Toggle autoformat")
+nmap("\\p", "<Cmd>CsvViewToggle<CR>", "Toggle CSV view")
 
 -- f is for 'fuzzy find'
 nmap_leader('f/', '<Cmd>Pick history scope="search"<CR>',            'Search history')
@@ -218,11 +219,13 @@ nmap('<S-C-u>',   function() require('opencode').command('messages_half_page_up'
 nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_down') end,        'Scroll messages down')
 
 -- x is for 'extra'
-nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',              'Move arg left')
-nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',              'Move arg right')
-nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',   'Section insert')
-nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',     'Trim trailspace')
-nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>', 'Show notifications history')
+nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',                     'Move arg left')
+nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',                     'Move arg right')
+nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',          'Section insert')
+nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',            'Trim trailspace')
+nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',        'Show notifications history')
+nmap_leader('xu', '<Cmd>lua vim.pack.update()<CR>',                'Update vim.pack dependencies')
+nmap_leader('xU', '<Cmd>MasonUpdate<CR><Cmd>MasonToolsUpdate<CR>', 'Update Mason registries and packages')
 
 -- Clear search on escape
 vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
