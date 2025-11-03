@@ -36,7 +36,10 @@ EOF
 Examples:
     ? kill all node processes
     ? "compress this directory excluding node_modules"
-    ? list all files in $HOME not owned by $(whoami)
+    ? list all files in \$HOME not owned by \$(whoami)
+
+Tip: Add an alias to your ~/.{bash,zsh,...}rc for convenience:
+    alias '?'='gen_cmd'
 
 EOF
 }
