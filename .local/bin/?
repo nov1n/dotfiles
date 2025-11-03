@@ -42,6 +42,13 @@ check_dependencies() {
     echo "Install it from: https://github.com/google-gemini/gemini-cli"
     exit 1
   fi
+
+  if [ -z "${GEMINI_API_KEY:-}" ]; then
+    echo "Error: Gemini API key not configured" >&2
+    echo "Set GEMINI_API_KEY environment variable" >&2
+    echo "Get your API key from: https://aistudio.google.com/app/apikey" >&2
+    exit 1
+  fi
 }
 
 build_base_prompt() {
@@ -90,7 +97,7 @@ call_gemini() {
   echo "$response" | grep -v "^gemini:" | sed 's/```.*//g' | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
 }
 
-get_suggestions() {
+generate_command() {
   local prompt="$1"
   local model="${2:-$DEFAULT_MODEL}"
 
@@ -239,7 +246,6 @@ main() {
   done
 
   if [ -z "$prompt" ]; then
-    echo "Error: prompt is required"
     show_help
     exit 1
   fi
@@ -248,32 +254,32 @@ main() {
 
   local accumulated_context=""
 
-  local suggestion
+  local command
 
-  if ! suggestion=$(get_suggestions "$prompt" "$model"); then
-    echo "Error: Failed to get suggestions from Gemini"
+  if ! command=$(generate_command "$prompt" "$model"); then
+    echo "Error: Failed to generate command"
     exit 1
   fi
 
-  if [ -z "$suggestion" ]; then
-    echo "Error: No suggestions received"
+  if [ -z "$command" ]; then
+    echo "Error: No command received"
     exit 1
   fi
 
   while true; do
-    show_menu "$suggestion"
+    show_menu "$command"
 
     local action
     action=$(get_action)
 
     case "$action" in
       run)
-        execute_command "$suggestion"
+        execute_command "$command"
         break
         ;;
       explain)
         echo
-        explain_command "$suggestion" "$model"
+        explain_command "$command" "$model"
         ;;
       refine)
         echo
@@ -295,13 +301,13 @@ main() {
           accumulated_context="$accumulated_context"$'\n'"$context_to_add"
         fi
 
-        if ! suggestion=$(refine_command "$prompt" "$model" "$accumulated_context" "$suggestion"); then
-          echo "Error: Failed to get suggestions from Gemini"
+        if ! command=$(refine_command "$prompt" "$model" "$accumulated_context" "$command"); then
+          echo "Error: Failed to refine command"
           exit 1
         fi
 
-        if [ -z "$suggestion" ]; then
-          echo "Error: No suggestions received"
+        if [ -z "$command" ]; then
+          echo "Error: No refined command received"
           exit 1
         fi
         continue
@@ -309,7 +315,7 @@ main() {
 
       copy)
         echo
-        copy_command "$suggestion"
+        copy_command "$command"
         break
         ;;
       help)
