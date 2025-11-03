@@ -39,7 +39,7 @@ Examples:
     ? list all files in \$HOME not owned by \$(whoami)
 
 Tip: Add an alias to your ~/.{bash,zsh,...}rc for convenience:
-    alias '?'='gen_cmd'
+    alias '?'='ai_cmd'
 
 EOF
 }
@@ -212,7 +212,7 @@ get_action() {
 
 execute_command() {
   local cmd="$1"
-  
+
   # Add to shell history
   if [ -n "${ZSH_VERSION:-}" ]; then
     print -s "$cmd"
