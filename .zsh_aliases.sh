@@ -16,16 +16,17 @@ alias shfmt="shfmt -w -i 2 -ci -bn"
 alias k=kubectl
 alias d=docker
 alias todo="cd ~/Notes/Todo && v"
+alias k9s="k9s --readonly"
 
 alias la="lsd -la --sort time"
-alias ls="lsd"
-alias ll="lsd -l --sort time"
+alias ll="lsd -L -l --sort time"
 alias dirsizes="lsd -l --total-size --sizesort"
 alias tree="lsd -l --tree --depth=3"
 #alias cat="bat"
 alias lg="lazygit"
 alias tw="taskwarrior-tui"
 alias fd='fd --hidden'
+alias '?'='ai_cmd'
 
 # Nudges
 alias nslookup="doggo"
