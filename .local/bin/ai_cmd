@@ -84,6 +84,9 @@ EOF
     bash)
       cat <<'EOF'
 function ? {
+  # Add the invocation itself to history (bash doesn't record function calls by default)
+  history -s "? $*"
+
   local tmpfile=$(mktemp)
   AI_CMD_WRAPPER=1 ai_cmd "$@" 2>&1 | tee "$tmpfile"
 
