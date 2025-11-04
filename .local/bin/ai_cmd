@@ -10,7 +10,6 @@ show_keybindings() {
 (Enter)      Run the generated command
 (e)xplain    Get an explanation of the command
 (r)efine     Refine the command with additional requirements
-(c)opy       Copy command to clipboard
 (q)uit       Exit without running
 (h)elp       Show this help
 EOF
@@ -38,8 +37,8 @@ EOF
 
 Examples (quotes are optional):
     ? kill all node processes
-    ? "compress this directory excluding node_modules"
-    ? list all processes listening for tcp traffic
+    ? "compress this directory excluding target/"
+    ? show all processes listening for tcp traffic
 EOF
 }
 
@@ -241,9 +240,6 @@ get_action() {
     r | R)
       result="refine"
       ;;
-    c | C)
-      result="copy"
-      ;;
     q | Q | $'\e')
       result="quit"
       ;;
@@ -269,21 +265,6 @@ execute_command() {
   fi
 
   eval "$cmd"
-}
-
-copy_command() {
-  local cmd="$1"
-
-  if command -v pbcopy &>/dev/null; then
-    printf "%s" "$cmd" | pbcopy
-    echo "Copied to clipboard"
-  elif command -v xclip &>/dev/null; then
-    printf "%s" "$cmd" | xclip -selection clipboard
-    echo "Copied to clipboard"
-  else
-    echo "Clipboard tool not found. Command:"
-    echo "$cmd"
-  fi
 }
 
 explain_command() {
