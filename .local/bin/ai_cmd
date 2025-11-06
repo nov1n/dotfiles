@@ -7,11 +7,12 @@ DEFAULT_MODEL="gemini-2.5-flash"
 
 show_keybindings() {
   cat <<EOF
-(Enter)      Run the generated command
-(e)xplain    Get an explanation of the command
+(Enter)      Execute the command and exit
+(Space)      Execute the command and continue
+(e)xplain    Explain the command
 (r)efine     Refine the command with additional requirements
-(q)uit       Exit without running
-(h)elp       Show this help
+(q)uit       Quit
+(h)elp       Show help
 EOF
 }
 
@@ -228,10 +229,20 @@ get_action() {
   local choice
   local result
 
-  read -r -s -n 1 choice
+  # Unset IFS preserve whitespace for reading ' '
+  IFS= read -r -s -n 1 choice
+
+  # Debug output to see what was read
+  if [ "${DEBUG:-false}" = "true" ]; then
+    printf "DEBUG: read character with length %d, hex: " ${#choice} >&2
+    echo -n "$choice" | od -An -tx1 >&2
+  fi
 
   case "$choice" in
     "")
+      result="run_and_exit"
+      ;;
+    " ")
       result="run"
       ;;
     e | E)
@@ -240,7 +251,7 @@ get_action() {
     r | R)
       result="refine"
       ;;
-    q | Q | $'\e')
+    q | Q)
       result="quit"
       ;;
     h | H | \?)
@@ -422,8 +433,14 @@ EOF
     action=$(get_action)
 
     case "$action" in
+      run_and_exit)
+        execute_command "$command"
+        break
+        ;;
       run)
         execute_command "$command"
+        echo
+        continue
         ;;
       explain)
         echo
@@ -460,12 +477,6 @@ EOF
         fi
         continue
         ;;
-
-      copy)
-        echo
-        copy_command "$command"
-        break
-        ;;
       help)
         echo
         echo "Keybindings:"
@@ -473,9 +484,7 @@ EOF
         echo
         ;;
       quit)
-        echo
-        echo "Quitting..."
-        exit 0
+        break
         ;;
       invalid)
         echo
