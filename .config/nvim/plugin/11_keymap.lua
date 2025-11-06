@@ -22,11 +22,9 @@ _G.Config.leader_group_clues = {
 -- Command mode mappings ======================================================
 
 -- Command line autocompletion
-vim.keymap.set('c', '<Up>', '<C-u><Up>')
-vim.keymap.set('c', '<Down>', '<C-u><Down>')
-vim.keymap.set('c', '<Tab>', [[cmdcomplete_info().pum_visible ? "\<C-n>" : "\<Tab>"]], { expr = true })
-vim.keymap.set('c', '<S-Tab>', [[cmdcomplete_info().pum_visible ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
-
+-- Note: Use <C-f> in command mode to enter command-line window for normal mode editing
+-- Map C-Space to Tab since Tab triggers wildmenu completion
+vim.keymap.set('c', '<C-Space>', '<C-z>', { desc = 'Trigger command mode autocomplete' })
 
 -- Insert mode mappings =======================================================
 
@@ -36,11 +34,11 @@ local imap = function(lhs, rhs, desc, opts)
   vim.keymap.set('i', lhs, rhs, opts)
 end
 
-imap("<Left>", "<Nop>", "Disable left arrow key")
-imap("<Right>", "<Nop>", "Disable right arrow key")
-imap("<Up>", "<Nop>", "Disable up arrow key")
-imap("<Down>", "<Nop>", "Disable down arrow key")
-
+-- imap("<Left>", "<Nop>", "Disable left arrow key")
+-- imap("<Right>", "<Nop>", "Disable right arrow key")
+-- imap("<Up>", "<Nop>", "Disable up arrow key")
+-- imap("<Down>", "<Nop>", "Disable down arrow key")
+--
 -- Normal mode mappings =======================================================
 
 local nmap = function(lhs, rhs, desc, opts)
@@ -211,21 +209,20 @@ nmap_leader("ot",  "<cmd>ObsidianTags<CR>",           "List notes by tag")
 nmap_leader('aA', function() require('opencode').ask(nil, { submit = true }) end,               'Ask opencode')
 nmap_leader('aa', function() require('opencode').ask("@this: ", { submit = true }) end,         'Ask opencode about this')
 xmap_leader('aa', function() require('opencode').ask('@selection: ', { submit = true }) end,    'Ask opencode about selection')
-nmap_leader('ap', function() require("opencode").select() end,                                  'Select prompt')
 nmap_leader('ae', function() require('opencode').prompt("Explain @cursor and its context", { submit = true }) end, "Explain code near cursor")
+nmap_leader('ap', function() require("opencode").select() end,                                  'Select prompt')
 nmap_leader('an', function() require('opencode').command('session_new') end,                    'New session')
 nmap_leader('ay', function() require('opencode').command('messages_copy') end,                  'Copy last message')
 nmap('<S-C-u>',   function() require('opencode').command('messages_half_page_up') end,          'Scroll messages up')
 nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_down') end,        'Scroll messages down')
 
 -- x is for 'extra'
-nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',                     'Move arg left')
-nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',                     'Move arg right')
-nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',          'Section insert')
-nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',            'Trim trailspace')
-nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',        'Show notifications history')
-nmap_leader('xu', '<Cmd>lua vim.pack.update()<CR>',                'Update vim.pack dependencies')
-nmap_leader('xU', '<Cmd>MasonUpdate<CR><Cmd>MasonToolsUpdate<CR>', 'Update Mason registries and packages')
+nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',                                                   'Move arg left')
+nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',                                                   'Move arg right')
+nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',                                        'Section insert')
+nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',                                          'Trim trailspace')
+nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',                                      'Show notifications history')
+nmap_leader('xu', '<Cmd>MasonUpdate<CR><Cmd>MasonToolsUpdate<CR><Cmd>lua vim.pack.update()<CR>', 'Update everything')
 
 -- Clear search on escape
 vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
