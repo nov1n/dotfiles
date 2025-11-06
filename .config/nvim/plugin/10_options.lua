@@ -33,6 +33,10 @@ vim.o.pummaxwidth          = 100                                   -- Limit maxi
 vim.o.listchars            = table.concat({ 'extends:…', 'nbsp:␣', 'precedes:…', 'tab:> ' }, ',') -- Special text symbols
 vim.o.fillchars            = table.concat({ 'foldopen:▾', 'foldclose:▸', 'fold: ', 'foldsep: ', 'diff:╱', 'eob: ', }, ',') -- Pretty symbols for folding, diff, and end-of-buffer
 
+ -- LSP autocompletion
+vim.o.pumborder = 'rounded'
+vim.api.nvim_set_hl(0, 'PmenuBorder', { link = 'FloatBorder' })
+
 -- https://vi.stackexchange.com/questions/24925/usage-of-timeoutlen-and-ttimeoutlen
 -- Required to prevent smart-split keybinds from triggering when pressing escape.
 -- timeout and timeoutlen apply to mappings.
