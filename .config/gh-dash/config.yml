@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://gh-dash.dev/schema.json
+prSections:
+  - title: Mine
+    filters: org:PicnicSupermarket repo:* is:open author:@me
+    layout:
+      author:
+        hidden: true
+  - title: Review
+    filters: org:PicnicSupermarket is:open repo:* review-requested:@me
+    layout:
+      repo:
+        width: 6
+  - title: DevPla
+    filters: "\
+      repo:PicnicSupermarket/ci-support \
+      repo:PicnicSupermarket/picnic-java-support-modules"
+  - title: Commented
+    filters: org:PicnicSupermarket repo:* commenter:@me
+  - title: Mentioned
+    filters: org:PicnicSupermarket repo:* mentions:@me state:open
+
+pager:
+  diff: diffnav
+defaults:
+  view: prs
+  refetchIntervalMinutes: 10
+  layout:
+    prs:
+      repoName:
+        grow: true,
+        width: 10
+        hidden: false
+      base:
+        hidden: true
+  preview:
+    open: true
+    width: 70
+  prsLimit: 20
+  issuesLimit: 20
+repoPaths:
+  PicnicSupermarket/*: ~/Projects/picnic/*
+  nov1n/*: ~/Projects/personal/*
+
+keybindings:
+  universal:
+    - key: esc
+      name: disabled
+      command:
+    - key: g
+      name: lazygit
+      command: >
+        cd {{.RepoPath}} && lazygit
+  prs:
+    - key: O
+      builtin: checkout
+    - key: m
+      command: gh pr merge --admin --repo {{.RepoName}} {{.PrNumber}}
+    - key: C
+      name: code review
+      command: >
+        tmux new-window -c {{.RepoPath}} -n "octo" '
+        nvim -c ":silent Octo pr edit {{.PrNumber}}"
+        '
+    - key: T
+      command: >-
+        tmux new-window -n "enhance" '
+          gh enhance -R {{.RepoName}} {{.PrNumber}}
+        '
+    - key: a
+      name: lazygit add
+      command: >
+        cd {{.RepoPath}} && git add -A && lazygit
+    - key: v
+      name: approve
+      command: >
+        gh pr review --repo {{.RepoName}} --approve --body "$(gum input --prompt='Approval Comment: ')" {{.PrNumber}}
+
+theme:
+  ui:
+    sectionsShowCount: true
+    table:
+      compact: false
