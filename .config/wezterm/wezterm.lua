@@ -173,22 +173,62 @@ config.keys = {
     action = wezterm.action_callback(function(win, pane)
       local tab = pane:tab()
       local tab_panes = tab:panes()
-      
+
       -- Only split if there's only one pane in the tab
       if #tab_panes == 1 then
         -- Split the current pane horizontally with 65% for current, 35% for new pane
         local new_pane = pane:split({
           direction = "Right",
           size = 0.35,
-          cwd = pane:get_current_working_dir().file_path
+          cwd = pane:get_current_working_dir().file_path,
         })
-        
+
         -- Start opencode in the new pane
         win:perform_action(act({ SendString = "opencode\n" }), new_pane)
-        
+
         -- Return focus to the original pane
         pane:activate()
       end
+    end),
+  },
+
+  -- Initialize session with 3 tabs
+  {
+    key = "i",
+    mods = mod,
+    action = wezterm.action_callback(function(win, pane)
+      -- Get the user's shell
+      local shell = os.getenv("SHELL") or "/bin/zsh"
+
+      -- Create tabs in reverse order and move each to the beginning
+      -- This ensures they end up in the correct order
+
+      -- Tab 3: gh dash in synthetic directory
+      win:perform_action(
+        act.SpawnCommandInNewTab({
+          args = { shell, "-c", "cd /Users/carosi/synthetic/gh-dash && gh dash; exec " .. shell },
+        }),
+        pane
+      )
+      win:perform_action(act.MoveTabRelative(-100), pane)
+
+      -- Tab 2: nvim in ~/todo
+      win:perform_action(
+        act.SpawnCommandInNewTab({
+          args = { shell, "-c", "cd ~/Notes/todo && nvim; exec " .. shell },
+        }),
+        pane
+      )
+      win:perform_action(act.MoveTabRelative(-100), pane)
+
+      -- Tab 1: nvim in ~/dotfiles
+      win:perform_action(
+        act.SpawnCommandInNewTab({
+          args = { shell, "-c", "cd ~/dotfiles && nvim; exec " .. shell },
+        }),
+        pane
+      )
+      win:perform_action(act.MoveTabRelative(-100), pane)
     end),
   },
 }
