@@ -46,7 +46,7 @@ bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") e
 
 -- Window management
 hs.window.animationDuration = 0
-bind(hyper, "0", function() winman.centerAllWindows(5, 15) end)
+bind(hyper, "0", function() winman.centerAllWindows(1.1, 15) end)
 bind(hyper, "return", winman.toggleFullScreen)
 bind(hyper, "\\", winman.splitScreenTwoWindows)
 bind(hyper, "-", winman.toggleMinimizeAllWindows)
