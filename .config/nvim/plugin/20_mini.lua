@@ -158,7 +158,7 @@ vim.api.nvim_create_autocmd("User", {
     end, { buffer = bufnr, noremap = true, silent = true })
 
     -- Copy selected path to system clipboard
-    vim.keymap.set("n", "gyp", function()
+    vim.keymap.set("n", "yp", function()
       local fs_entry = files.get_fs_entry()
       if fs_entry == nil then
         return
