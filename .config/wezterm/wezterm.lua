@@ -113,7 +113,7 @@ config.keys = {
 
         if not pane_next then
           -- If there is no next pane, split the current pane vertically
-          pane_next = pane:split({ direction = "Bottom", cwd = pane:get_current_working_dir().file_path })
+          pane_next = pane:split({ direction = "Bottom", size = 0.20, cwd = pane:get_current_working_dir().file_path })
         end
 
         pane_next:activate()
