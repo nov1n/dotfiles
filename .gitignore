@@ -17,3 +17,5 @@ Thumbs.db
 *.spl
 
 node_modules
+
+.beads
