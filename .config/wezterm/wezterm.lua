@@ -99,6 +99,9 @@ config.keys = {
   { key = "PageDown", action = act.ScrollByPage(0.5) },
   { key = "f", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
+  -- Send CSI u-encoded Shift+Enter (used in OpenCode)
+  { key = "Enter", mods = "SHIFT", action = act.SendString("\x1b[13;2u") },
+
   -- Toggles from a terminal pane to Neovim
   {
     key = "Backspace",
