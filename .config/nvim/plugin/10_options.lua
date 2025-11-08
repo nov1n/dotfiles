@@ -4,21 +4,21 @@
 vim.g.mapleader = ' '
 
 -- General ====================================================================
-vim.o.backup       = false          -- Don't store backup
-vim.o.mouse        = 'a'            -- Enable mouse
-vim.o.switchbuf    = 'usetab'       -- Use already opened buffers when switching
-vim.o.writebackup  = false          -- Don't store backup (better performance)
-vim.o.undofile     = true           -- Enable persistent undo
-vim.o.swapfile     = false          -- Disable swapfile
-vim.opt.autoread   = true           -- Automatically read file when it's modified outside of nvim
+vim.o.backup               = false                                 -- Don't store backup
+vim.o.mouse                = 'a'                                   -- Enable mouse
+vim.o.switchbuf            = 'usetab'                              -- Use already opened buffers when switching
+vim.o.writebackup          = false                                 -- Don't store backup (better performance)
+vim.o.undofile             = true                                  -- Enable persistent undo
+vim.o.swapfile             = false                                 -- Disable swapfile
+vim.o.autoread             = true                                  -- Automatically read file when it's modified outside of nvim
 vim.o.iskeyword            = '@,48-57,_,192-255,-'                 -- Treat dash separated words as a word text object
 vim.o.completeopt          = 'menuone,noselect,fuzzy,nosort'       -- Use fuzzy matching for built-in completion
 vim.o.complete             = '.,w,b,kspell'                        -- Use spell check and don't use tags for completion
 vim.o.shiftwidth           = 2                                     -- Use this number of spaces for indentation
 vim.o.tabstop              = 2                                     -- Insert 2 spaces for a tab
 vim.o.autoindent           = true                                  -- Use auto indent
-vim.o.expandtab            = true                                  -- Convert tabs to spaces
 vim.o.formatoptions        = 'rqnl1j'                              -- Improve comment editing
+vim.o.expandtab            = true                                  -- Convert tabs to spaces
 vim.o.breakindentopt       = 'list:-1'                             -- Add padding for lists when 'wrap' is on
 vim.o.completefuzzycollect = 'keyword,files,whole_line'            -- Use fuzzy matching when collecting candidates
 
