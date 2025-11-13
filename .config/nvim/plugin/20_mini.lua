@@ -158,7 +158,7 @@ vim.api.nvim_create_autocmd("User", {
     end, { buffer = bufnr, noremap = true, silent = true })
 
     -- Copy selected path to system clipboard
-    vim.keymap.set("n", "yp", function()
+    vim.keymap.set("n", "gyp", function()
       local fs_entry = files.get_fs_entry()
       if fs_entry == nil then
         return
@@ -186,6 +186,32 @@ vim.api.nvim_create_autocmd("User", {
       local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
       vim.fn.chdir(enclosing)
       vim.notify("Cwd set to " .. enclosing)
+    end, { buffer = bufnr, noremap = true, silent = true })
+
+    -- Open enclosing directory in new wezterm vertical split
+    vim.keymap.set("n", "gt", function()
+      local fs_entry = files.get_fs_entry()
+      if fs_entry == nil then
+        return
+      end
+      local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
+      local cmd = string.format(
+        'wezterm cli split-pane --bottom --cwd %s',
+        vim.fn.shellescape(enclosing)
+      )
+      vim.fn.system(cmd)
+      vim.notify("Opened terminal in: " .. enclosing)
+    end, { buffer = bufnr, noremap = true, silent = true })
+
+    -- Locate item in Finder
+    vim.keymap.set("n", "gf", function()
+      local fs_entry = files.get_fs_entry()
+      if fs_entry == nil then
+        return
+      end
+      local cmd = string.format('open -R %s', vim.fn.shellescape(fs_entry.path))
+      vim.fn.system(cmd)
+      vim.notify("Located in Finder: " .. fs_entry.path)
     end, { buffer = bufnr, noremap = true, silent = true })
   end,
 })
