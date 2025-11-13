@@ -4,11 +4,10 @@
 _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>a', desc = '+AI/OpenCode' },
   { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
-  { mode = 'n', keys = '<Leader>u', desc = '+UI Toggles' },
   { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
   { mode = 'n', keys = '<Leader>g', desc = '+Git' },
-  { mode = 'n', keys = '\\', desc = '+Toggles' },
+  { mode = 'n', keys = '\\',        desc = '+Toggles' },
   { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
   { mode = 'n', keys = '<Leader>L', desc = '+Lua/Log' },
   { mode = 'n', keys = '<Leader>m', desc = '+Map' },
@@ -78,6 +77,13 @@ nmap_leader('<leader>', '<Cmd>Pick files<CR>',      'Files')
 nmap_leader('/',        '<Cmd>Pick grep_live<CR>',  'Grep live')
 nmap_leader(',',        '<Cmd>Pick buffers<CR>',    'Buffers')
 nmap_leader('R',        '<Cmd>restart<CR>',         'Restart Neovim')
+nmap_leader('*', function()
+  local word = vim.fn.expand('<cword>')
+  vim.schedule(function()
+    MiniPick.set_picker_query(vim.split(word, ''))
+  end)
+  require('mini.pick').builtin.grep_live()
+end, 'Grep word under cursor')
 
 -- b is for 'buffer'
 nmap_leader('ba', '<Cmd>b#<CR>',                                 'Alternate')
@@ -127,7 +133,6 @@ nmap_leader('f:', '<Cmd>Pick history scope=":"<CR>',                 '":" histor
 nmap_leader('fA', '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', 'Added hunks (current)')
 nmap_leader('fC', '<Cmd>Pick git_commits path="%"<CR>',              'Commits (current)')
 nmap_leader('fD', '<Cmd>Pick diagnostic scope="current"<CR>',        'Diagnostic buffer')
-nmap_leader('fG', '<Cmd>Pick grep pattern="<cword>"<CR>',            'Grep current word')
 nmap_leader('fH', '<Cmd>Pick hl_groups<CR>',                         'Highlight groups')
 nmap_leader('fL', '<Cmd>Pick buf_lines scope="current"<CR>',         'Lines (current)')
 nmap_leader('fM', '<Cmd>Pick git_hunks path="%"<CR>',                'Modified hunks (current)')
