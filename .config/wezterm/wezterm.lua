@@ -121,20 +121,12 @@ config.keys = {
 
         pane_next:activate()
       else
-        -- If the current pane is not Neovim, try to find a Neovim pane
-        local tab_panes = tab:panes()
-        local neovim_pane = nil
-        for i = 1, #tab_panes do
-          local tab_pane = tab_panes[i]
-          local process_name = tab_pane:get_foreground_process_name()
-          if process_name:match("nvim$") then
-            neovim_pane = tab_pane
-          end
-        end
+        -- If the current pane is not Neovim, try to find the pane above
+        local pane_up = tab:get_pane_direction("Up")
 
-        if neovim_pane then
-          -- If a Neovim pane is found, activate it and zoom the tab
-          neovim_pane:activate()
+        if pane_up and pane_up:get_foreground_process_name():match("nvim$") then
+          -- If the pane above is Neovim, activate it and zoom the tab
+          pane_up:activate()
           tab:set_zoomed(true)
         end
       end
