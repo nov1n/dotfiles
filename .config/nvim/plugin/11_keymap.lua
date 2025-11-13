@@ -222,8 +222,8 @@ nmap('<S-C-u>',   function() require('opencode').command('messages_half_page_up'
 nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_down') end,        'Scroll messages down')
 
 -- x is for 'extra'
-nmap_leader('xh', '<Cmd>normal gxiagxila<CR>',                                                   'Move arg left')
-nmap_leader('xl', '<Cmd>normal gxiagxina<CR>',                                                   'Move arg right')
+nmap_leader('xh', '<Cmd>normal gXiagXila<CR>',                                                   'Move arg left')
+nmap_leader('xl', '<Cmd>normal gXiagXina<CR>',                                                   'Move arg right')
 nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',                                        'Section insert')
 nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',                                          'Trim trailspace')
 nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',                                      'Show notifications history')
