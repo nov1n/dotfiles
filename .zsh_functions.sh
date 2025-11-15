@@ -103,7 +103,7 @@ _dsh() {
 
   _arguments \
     '1:container name:->containers'
-  
+
   case $state in
     containers)
       # Use Docker to get the list of running container names
@@ -114,6 +114,16 @@ _dsh() {
 }
 # Register the completion function with `dsh`
 compdef _dsh dsh
+
+# Fuzzy search and select docker context using fzf
+dctx() {
+  local selected_context
+  selected_context=$(docker context ls --format '{{.Name}}' | fzf --height=40% --reverse --prompt="Select docker context: ")
+
+  if [[ -n "$selected_context" ]]; then
+    docker context use "$selected_context"
+  fi
+}
 
 # Convert video to gif file.
 # Usage: video2gif video_file (scale) (fps)
