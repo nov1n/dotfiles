@@ -5,8 +5,12 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "csvview.nvim": {
-      "rev": "bbab4c2",
+      "rev": "688bcc7",
       "src": "https://github.com/hat0uma/csvview.nvim"
+    },
+    "gitportal.nvim": {
+      "rev": "2420f27",
+      "src": "https://github.com/trevorhauter/gitportal.nvim"
     },
     "lazydev.nvim": {
       "rev": "371cd74",
@@ -21,7 +25,7 @@
       "src": "https://github.com/brianhuster/live-preview.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "d7b5feb",
+      "rev": "b1d9a91",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -29,15 +33,15 @@
       "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
     },
     "mason.nvim": {
-      "rev": "ad7146a",
+      "rev": "57e5a8a",
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "f545dcc",
+      "rev": "dce9bc4",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-lspconfig": {
-      "rev": "a89bfcf",
+      "rev": "c6f05c0",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-navic": {
@@ -57,7 +61,7 @@
       "src": "https://github.com/epwalsh/obsidian.nvim"
     },
     "opencode.nvim": {
-      "rev": "fa7b538",
+      "rev": "217d363",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "plenary.nvim": {
@@ -65,7 +69,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "1611946",
+      "rev": "0fddd17",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "tokyonight.nvim": {

@@ -101,6 +101,7 @@ require("mason-tool-installer").setup({
     "lua_ls",
     "rust_analyzer",
     "ts_ls",
+    "ty",
     -- "kotlin_lsp",
     "lemminx",
     "yamlls",
@@ -112,7 +113,7 @@ require("mason-tool-installer").setup({
     "shfmt",
     "jsonnetfmt",
     "stylua",
-    "black",
+    "ruff",
     "xmlformatter",
     "ktfmt",
     "google-java-format",
@@ -124,8 +125,20 @@ require("mason-tool-installer").setup({
     "jsonlint",
     "markdownlint",
   },
-  auto_update = false,
+  auto_update = true,
   run_on_start = true,
+})
+
+vim.lsp.config("ty", {
+  settings = {
+    ty = {
+      diagnosticMode = "workspace",
+      experimental = {
+        rename = true,
+        autoImport = true,
+      },
+    },
+  },
 })
 
 -- nvim-navic setup (breadcrumbs)
@@ -178,7 +191,11 @@ require("conform").setup({
     json = { "prettier" },
     jsonnet = { "jsonnetfmt" },
     lua = { "stylua" },
-    python = { "black" },
+    python = {
+      "ruff_fix",
+      "ruff_format",
+      "ruff_organize_imports",
+    },
     xml = { "xmlformatter" },
     kotlin = { "ktfmt" },
     java = { "google-java-format" },
