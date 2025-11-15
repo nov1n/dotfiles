@@ -196,7 +196,7 @@ vim.api.nvim_create_autocmd("User", {
       end
       local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
       local cmd = string.format(
-        'wezterm cli split-pane --bottom --cwd %s',
+        'wezterm cli spawn --cwd %s',
         vim.fn.shellescape(enclosing)
       )
       vim.fn.system(cmd)
