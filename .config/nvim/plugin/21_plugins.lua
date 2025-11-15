@@ -18,6 +18,7 @@ local plugins = {
   { src = "https://github.com/SmiteshP/nvim-navic" },
   { src = "https://github.com/NickvanDyke/opencode.nvim" },
   { src = "https://github.com/hat0uma/csvview.nvim" },
+  { src = "https://github.com/trevorhauter/gitportal.nvim" },
 }
 
 -- Obsidian integration (only on Mac)
