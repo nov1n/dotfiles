@@ -187,7 +187,7 @@ config.keys = {
     end),
   },
 
-  -- Initialize session with 3 tabs
+  -- Initialize session with basic tabs
   {
     key = "i",
     mods = mod,
@@ -197,6 +197,15 @@ config.keys = {
 
       -- Create tabs in reverse order and move each to the beginning
       -- This ensures they end up in the correct order
+
+      -- Tab 4: lazydocker
+      win:perform_action(
+        act.SpawnCommandInNewTab({
+          args = { shell, "-c", "cd /Users/carosi/synthetic/lazydocker && lazydocker; exec " .. shell },
+        }),
+        pane
+      )
+      win:perform_action(act.MoveTabRelative(-100), pane)
 
       -- Tab 3: gh dash in synthetic directory
       win:perform_action(
