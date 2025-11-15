@@ -157,10 +157,15 @@ nmap_leader('fv', '<Cmd>Pick visit_paths cwd=""<CR>',                'Visit path
 
 -- g is for git
 nmap_leader('gb', '<Cmd>let line=line(".")<CR><Cmd>:vert Git blame -- %<CR><Cmd>exe line<CR>', 'Toggle git blame pane')
-nmap_leader('gg', '<Cmd>LazyGit<CR>',                       'Open LazyGit')
-nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>', 'Toggle overlay')
-nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at cursor')
-xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',  'Show at selection')
+nmap_leader('gg', '<Cmd>LazyGit<CR>',                                                          'Open LazyGit')
+nmap_leader('go', '<Cmd>lua MiniDiff.toggle_overlay()<CR>',                                    'Toggle overlay')
+nmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',                                     'Show at cursor')
+xmap_leader('gs', '<Cmd>lua MiniGit.show_at_cursor()<CR>',                                     'Show at selection')
+nmap_leader('gp', '<Cmd>lua require("gitportal").open_file_in_browser()<CR>',                  'Open in browser')
+xmap_leader('gp', '<Cmd>lua require("gitportal").open_file_in_browser()<CR>',                  'Open in browser')
+nmap_leader('gr', '<Cmd>lua require("gitportal").open_file_in_neovim()<CR>',                   'Open githost link')
+nmap_leader('gc', '<Cmd>lua require("gitportal").copy_link_to_clipboard()<CR>',                'Copy permalink')
+xmap_leader('gc', '<Cmd>lua require("gitportal").copy_link_to_clipboard()<CR>',                'Copy permalink')
 
 -- l is for 'LSP'
 local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
