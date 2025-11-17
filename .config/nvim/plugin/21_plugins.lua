@@ -11,6 +11,7 @@ local plugins = {
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/gonstoll/wezterm-types" },
   { src = "https://github.com/stevearc/conform.nvim" },
+  { src = "https://github.com/mfussenegger/nvim-lint" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
   { src = "https://github.com/brianhuster/live-preview.nvim" },
   { src = "https://github.com/mrjones2014/smart-splits.nvim" },
@@ -102,6 +103,8 @@ require("mason-tool-installer").setup({
     "rust_analyzer",
     "ts_ls",
     "ty",
+    "bash-language-server",
+    "helm_ls",
     -- "kotlin_lsp",
     "lemminx",
     "yamlls",
@@ -122,7 +125,6 @@ require("mason-tool-installer").setup({
     "eslint_d",
     "shellcheck",
     "yamllint",
-    "jsonlint",
     "markdownlint",
   },
   auto_update = true,
@@ -224,6 +226,28 @@ require("conform").setup({
       return
     end
     return { timeout_ms = 1000, lsp_format = "fallback" }
+  end,
+})
+
+-- Linting setup
+local lint = require("lint")
+
+-- Map of filetype to linters
+lint.linters_by_ft = {
+  javascript = { "eslint_d" },
+  typescript = { "eslint_d" },
+  javascriptreact = { "eslint_d" },
+  typescriptreact = { "eslint_d" },
+  yaml = { "yamllint" },
+  markdown = { "markdownlint" },
+}
+
+-- Auto-lint on save and text change
+local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+  group = lint_augroup,
+  callback = function()
+    require("lint").try_lint()
   end,
 })
 

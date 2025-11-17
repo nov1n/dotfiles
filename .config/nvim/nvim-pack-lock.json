@@ -40,6 +40,10 @@
       "rev": "dce9bc4",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
+    "nvim-lint": {
+      "rev": "baf7c91",
+      "src": "https://github.com/mfussenegger/nvim-lint"
+    },
     "nvim-lspconfig": {
       "rev": "c6f05c0",
       "src": "https://github.com/neovim/nvim-lspconfig"
