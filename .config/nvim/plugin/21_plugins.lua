@@ -225,6 +225,10 @@ require("conform").setup({
     if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
       return
     end
+    -- Disable autoformat on save for Kotlin files
+    if vim.bo[bufnr].filetype == "kotlin" then
+      return
+    end
     return { timeout_ms = 1000, lsp_format = "fallback" }
   end,
 })
