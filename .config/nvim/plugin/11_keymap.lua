@@ -145,6 +145,7 @@ nmap_leader('fc', '<Cmd>Pick git_commits<CR>',                       'Commits (a
 nmap_leader('fd', '<Cmd>Pick diagnostic scope="all"<CR>',            'Diagnostic workspace')
 nmap_leader('ff', '<Cmd>Pick files<CR>',                             'Files')
 nmap_leader('fg', '<Cmd>Pick grep_live<CR>',                         'Grep live')
+nmap_leader('ft', '<Cmd>Pick hipatterns highlighters={"todo","fixme","todo","hack","note"}<CR>',  'Todos')
 nmap_leader('fh', '<Cmd>Pick help<CR>',                              'Help tags')
 nmap_leader('fk', '<Cmd>Pick keymaps<CR>',                           'Search keymaps' )
 nmap_leader('fl', '<Cmd>Pick buf_lines scope="all"<CR>',             'Lines (all)')
