@@ -99,8 +99,16 @@ config.keys = {
   { key = "PageDown", action = act.ScrollByPage(0.5) },
   { key = "f", mods = mod, action = act.EmitEvent("trigger-vim-with-scrollback") },
 
-  -- Send CSI u-encoded Shift+Enter (used in OpenCode)
-  { key = "Enter", mods = "SHIFT", action = act.SendString("\x1b[13;2u") },
+  -- Control+Enter to open fzf project selector
+  {
+    key = "Enter",
+    mods = "CTRL",
+    action = act.SendString(
+      "cd $(find ~/Projects/picnic ~/Projects/personal -type d -maxdepth 1 -mindepth 1 | "
+        .. 'awk -F/ \'{OFS="\\t"; print $(NF-1)"/"$NF "\\t" $0}\' | '
+        .. "fzf --with-nth=1 | cut -f2)\n"
+    ),
+  },
 
   -- Toggles from a terminal pane to Neovim
   {
