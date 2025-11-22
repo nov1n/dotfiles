@@ -2,7 +2,7 @@
 
 # Script to upload a file via SCP and copy the URL to the clipboard
 
-REMOTE_HOST="homelab"
+REMOTE_HOST="portainer"
 REMOTE_PATH="/home/carosi/static"
 DOMAIN="static.carosi.nl"
 LOCAL_FILE="$1"
