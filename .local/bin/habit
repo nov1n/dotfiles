@@ -5,6 +5,7 @@ set -e -o pipefail
 # Define the associative array of habit names and IDs
 declare -A habits=(
   ["move"]="todo"
+  ["stretch"]="d97a89"
   ["meditate"]="483cc9"
   ["journal"]="todo"
 )
