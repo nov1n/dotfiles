@@ -20,6 +20,7 @@ local plugins = {
   { src = "https://github.com/NickvanDyke/opencode.nvim" },
   { src = "https://github.com/hat0uma/csvview.nvim" },
   { src = "https://github.com/trevorhauter/gitportal.nvim" },
+  { src = "https://github.com/OXY2DEV/markview.nvim" },
 }
 
 -- Obsidian integration (only on Mac)
@@ -45,38 +46,33 @@ vim.cmd("colorscheme tokyonight")
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "bash",
-    "hcl",
-    "html",
-    "javascript",
-    "json",
-    "jsonnet",
-    "lua",
-    "markdown",
-    "markdown_inline",
-    "python",
-    "query",
-    "regex",
-    "terraform",
-    "yaml",
-    "bash",
     "c",
     "cpp",
     "css",
     "diff",
     "go",
+    "hcl",
     "html",
     "javascript",
     "json",
+    "jsonnet",
     "julia",
+    "latex",
+    "lua",
+    "markdown",
+    "markdown_inline",
     "nu",
     "php",
     "python",
+    "query",
     "r",
     "regex",
     "rst",
     "rust",
+    "terraform",
     "toml",
     "tsx",
+    "typst",
     "xml",
     "yaml",
   },
@@ -124,7 +120,6 @@ require("mason-tool-installer").setup({
     -- Linters
     "eslint_d",
     "shellcheck",
-    "yamllint",
     "markdownlint",
   },
   auto_update = true,
@@ -188,6 +183,7 @@ require("lazydev").setup({
 require("conform").setup({
   -- Map of filetype to formatters
   formatters_by_ft = {
+    html = { "prettier" },
     javascript = { "prettier" },
     sh = { "shfmt" },
     json = { "prettier" },
@@ -242,7 +238,6 @@ lint.linters_by_ft = {
   typescript = { "eslint_d" },
   javascriptreact = { "eslint_d" },
   typescriptreact = { "eslint_d" },
-  yaml = { "yamllint" },
   markdown = { "markdownlint" },
 }
 
