@@ -21,6 +21,7 @@ vim.o.formatoptions        = 'rqnl1j'                              -- Improve co
 vim.o.expandtab            = true                                  -- Convert tabs to spaces
 vim.o.breakindentopt       = 'list:-1'                             -- Add padding for lists when 'wrap' is on
 vim.o.completefuzzycollect = 'keyword,files,whole_line'            -- Use fuzzy matching when collecting candidates
+vim.g.markdown_folding     = 1                                     -- Allow header folding in md files, see https://www.reddit.com/r/neovim/comments/1gepv91/please_help_i_cant_for_the_life_of_me_figure_out/
 
 -- UI =========================================================================
 vim.o.cursorlineopt        = 'screenline,number'                   -- Show cursor line only screen line when wrapped
