@@ -1,7 +1,7 @@
 {
   "plugins": {
     "conform.nvim": {
-      "rev": "26c02e1",
+      "rev": "4993e07",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "csvview.nvim": {
@@ -21,11 +21,15 @@
       "src": "https://github.com/kdheepak/lazygit.nvim"
     },
     "live-preview.nvim": {
-      "rev": "a1bb1b3",
+      "rev": "774964d",
       "src": "https://github.com/brianhuster/live-preview.nvim"
     },
+    "markview.nvim": {
+      "rev": "2bfbe93",
+      "src": "https://github.com/OXY2DEV/markview.nvim"
+    },
     "mason-lspconfig.nvim": {
-      "rev": "b1d9a91",
+      "rev": "7d527c7",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -37,19 +41,19 @@
       "src": "https://github.com/mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "dce9bc4",
+      "rev": "72b0194",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-lint": {
-      "rev": "baf7c91",
+      "rev": "d111879",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "c6f05c0",
+      "rev": "de659c9",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-navic": {
-      "rev": "099b4c8",
+      "rev": "7d914a3",
       "src": "https://github.com/SmiteshP/nvim-navic"
     },
     "nvim-treesitter": {
@@ -65,7 +69,7 @@
       "src": "https://github.com/epwalsh/obsidian.nvim"
     },
     "opencode.nvim": {
-      "rev": "217d363",
+      "rev": "81ac51f",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "plenary.nvim": {
@@ -73,7 +77,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "0fddd17",
+      "rev": "ca996f2",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "tokyonight.nvim": {
