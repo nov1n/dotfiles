@@ -52,12 +52,6 @@ require("mini.move").setup({
     right = "<Right>",
     down = "<Down>",
     up = "<Up>",
-
-    -- Move current line in Normal mode
-    line_left = "<Left>",
-    line_right = "<Right>",
-    line_down = "<Down>",
-    line_up = "<Up>",
   },
 })
 -- Shows key binding hints
