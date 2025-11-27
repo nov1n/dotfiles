@@ -110,3 +110,7 @@ if [[ -n "$ZSH_DEBUGRC" ]]; then
 fi
 
 [ -x "$(command -v ai_cmd)" ] && eval "$(ai_cmd --init zsh)"
+
+# Required for Picnic's Python setup
+export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
