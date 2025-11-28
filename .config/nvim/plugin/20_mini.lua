@@ -52,6 +52,12 @@ require("mini.move").setup({
     right = "<Right>",
     down = "<Down>",
     up = "<Up>",
+
+    -- Move current line in Normal mode (disabled to prevent conflicts with smart-splits.nvim)
+    line_left = '',
+    line_right = '',
+    line_down = '',
+    line_up = '',
   },
 })
 -- Shows key binding hints
