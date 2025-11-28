@@ -20,7 +20,6 @@ local plugins = {
   { src = "https://github.com/NickvanDyke/opencode.nvim" },
   { src = "https://github.com/hat0uma/csvview.nvim" },
   { src = "https://github.com/trevorhauter/gitportal.nvim" },
-  { src = "https://github.com/OXY2DEV/markview.nvim" },
 }
 
 -- Obsidian integration (only on Mac)
