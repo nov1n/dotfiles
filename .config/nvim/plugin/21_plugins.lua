@@ -255,6 +255,9 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 -- Obsidian setup
 if vim.fn.has("mac") == 1 then
   require("obsidian").setup({
+    ui = {
+      enable = false,
+    },
     daily_notes = {
       folder = "Journal",
       default_tags = { "journal" },
