@@ -121,6 +121,7 @@ require("mason-tool-installer").setup({
     "eslint_d",
     "shellcheck",
     "markdownlint",
+    "yamllint",
   },
   auto_update = true,
   run_on_start = true,
@@ -235,10 +236,11 @@ local lint = require("lint")
 -- Map of filetype to linters
 lint.linters_by_ft = {
   javascript = { "eslint_d" },
-  typescript = { "eslint_d" },
   javascriptreact = { "eslint_d" },
-  typescriptreact = { "eslint_d" },
   markdown = { "markdownlint" },
+  typescript = { "eslint_d" },
+  typescriptreact = { "eslint_d" },
+  yaml = { "yamllint" },
 }
 
 -- Auto-lint on save and text change
