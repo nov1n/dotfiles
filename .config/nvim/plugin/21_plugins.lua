@@ -312,5 +312,12 @@ require("zen-mode").setup({
 
 -- OpenCode setup
 vim.g.opencode_opts = {
-  -- Configuration, if any — see lua/opencode/config.lua
+  provider = {
+    enabled = "wezterm",
+    wezterm = {
+      direction = "right", -- left/right/top/bottom
+      top_level = false,
+      percent = 40,
+    },
+  },
 }
