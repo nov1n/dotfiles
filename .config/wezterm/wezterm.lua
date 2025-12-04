@@ -169,32 +169,6 @@ config.keys = {
     end),
   },
 
-  -- Split window at 65% and start opencode (only if current pane is the only pane)
-  {
-    key = "u",
-    mods = mod,
-    action = wezterm.action_callback(function(win, pane)
-      local tab = pane:tab()
-      local tab_panes = tab:panes()
-
-      -- Only split if there's only one pane in the tab
-      if #tab_panes == 1 then
-        -- Split the current pane horizontally with 65% for current, 35% for new pane
-        local new_pane = pane:split({
-          direction = "Right",
-          size = 0.35,
-          cwd = pane:get_current_working_dir().file_path,
-        })
-
-        -- Start opencode in the new pane
-        win:perform_action(act({ SendString = "opencode\n" }), new_pane)
-
-        -- Return focus to the original pane
-        pane:activate()
-      end
-    end),
-  },
-
   -- Initialize session with basic tabs
   {
     key = "i",
