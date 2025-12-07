@@ -45,11 +45,6 @@ vim.api.nvim_set_hl(0, 'PmenuBorder', { link = 'FloatBorder' })
 -- ttimeout and ttimeoutlen apply to key codes.
 vim.o.ttimeoutlen = 0
 
--- Command line autocompletion
-vim.cmd([[autocmd CmdlineChanged [:/\?@] call wildtrigger()]])
-vim.o.wildmode = 'noselect:lastused'
-vim.o.wildoptions = 'pum,fuzzy'
-
 -- Editing ====================================================================
 vim.o.incsearch      = true      -- Show search results while typing
 vim.o.infercase      = true      -- Infer letter cases for a richer built-in keyword completion

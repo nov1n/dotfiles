@@ -60,6 +60,9 @@ require("mini.move").setup({
     line_up = '',
   },
 })
+
+require("mini.cmdline").setup()
+
 -- Shows key binding hints
 local miniclue = require("mini.clue")
 miniclue.setup({
