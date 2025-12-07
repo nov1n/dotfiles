@@ -22,7 +22,9 @@ _G.Config.leader_group_clues = {
 
 -- Command line autocompletion
 -- Note: Use <C-f> in command mode to enter command-line window for normal mode editing
--- Map C-Space to Tab since Tab triggers wildmenu completion
+-- Disable Tab/Shift-Tab autocomplete in command mode
+vim.keymap.set('c', '<Tab>', '<Nop>', { desc = 'Disable Tab completion' })
+vim.keymap.set('c', '<S-Tab>', '<Nop>', { desc = 'Disable Shift-Tab completion' })
 vim.keymap.set('c', '<C-Space>', '<C-z>', { desc = 'Trigger command mode autocomplete' })
 
 -- Insert mode mappings =======================================================
