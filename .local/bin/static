@@ -30,8 +30,11 @@ upload_file() {
     return 1
   fi
 
+  # URL encode the filename for special characters
+  ENCODED_FILENAME=$(printf %s "$FILENAME" | jq -sRr @uri)
+
   # Construct the URL
-  URL="https://${DOMAIN}/${FILENAME}" # HTTPS by default
+  URL="https://${DOMAIN}/${ENCODED_FILENAME}" # HTTPS by default
 
   # Copy the URL to the clipboard
   echo "Copying URL to clipboard..."
