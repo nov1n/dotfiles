@@ -1,0 +1,282 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+VERSION="2.0.0"
+ORG="PicnicSupermarket"
+
+show_help() {
+  cat <<EOF
+check_pr_status - Check PR status across GitHub organization repos
+
+Usage: check_pr_status [OPTIONS] <branch_name>
+
+Searches all repositories in the ${ORG} organization and reports the status
+of pull requests with the specified branch (open/merged/closed).
+
+Arguments:
+    <branch_name>    The branch name to search for (e.g., renovate/teamcity-dsl-10.x)
+
+Options:
+    -o, --org <org>  GitHub organization to scan (default: ${ORG})
+    -v, --verbose    Show detailed output including repo names
+    -j, --json       Output results in JSON format
+    -l, --limit <n>  Limit number of PRs to fetch (default: 1000)
+    -h, --help       Show this help message
+    --version        Show version
+
+Examples:
+    check_pr_status renovate/teamcity-dsl-10.x
+    check_pr_status -v renovate/teamcity-dsl-10.x
+    check_pr_status --org MyOrg feature/new-feature
+    check_pr_status -j renovate/teamcity-dsl-10.x > results.json
+
+Requirements:
+    - gh (GitHub CLI) must be installed and authenticated
+
+EOF
+}
+
+show_version() {
+  echo "check_pr_status version $VERSION"
+}
+
+check_preconditions() {
+  if ! command -v gh &>/dev/null; then
+    echo "Error: gh (GitHub CLI) is not installed" >&2
+    echo "Install it from: https://cli.github.com/" >&2
+    exit 1
+  fi
+
+  # Check if gh is authenticated
+  if ! gh auth status &>/dev/null; then
+    echo "Error: gh is not authenticated" >&2
+    echo "Run: gh auth login" >&2
+    exit 1
+  fi
+}
+
+main() {
+  local branch=""
+  local org="$ORG"
+  local verbose="false"
+  local json_output="false"
+  local limit="1000"
+
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -o | --org)
+        if [ -z "${2:-}" ]; then
+          echo "Error: -o/--org flag requires an organization name" >&2
+          show_help
+          exit 1
+        fi
+        org="$2"
+        shift 2
+        ;;
+      -v | --verbose)
+        verbose="true"
+        shift
+        ;;
+      -j | --json)
+        json_output="true"
+        shift
+        ;;
+      -l | --limit)
+        if [ -z "${2:-}" ]; then
+          echo "Error: -l/--limit flag requires a number" >&2
+          show_help
+          exit 1
+        fi
+        limit="$2"
+        shift 2
+        ;;
+      -h | --help)
+        show_help
+        exit 0
+        ;;
+      --version)
+        show_version
+        exit 0
+        ;;
+      -*)
+        echo "Unknown option: $1" >&2
+        show_help
+        exit 1
+        ;;
+      *)
+        branch="$1"
+        shift
+        break
+        ;;
+    esac
+  done
+
+  if [ -z "$branch" ]; then
+    echo "Error: branch name is required" >&2
+    show_help
+    exit 1
+  fi
+
+  check_preconditions
+
+  if [ "$verbose" = "true" ] && [ "$json_output" = "false" ]; then
+    echo "Searching for PRs with branch: ${branch} in organization: ${org}" >&2
+  fi
+
+  # Search for all PRs across the org with this branch
+  local prs_data
+  prs_data=$(gh search prs --owner "$org" "head:${branch}" --json repository,state,title,url --limit "$limit" 2>&1)
+
+  if [ $? -ne 0 ]; then
+    echo "Error searching for PRs: $prs_data" >&2
+    exit 1
+  fi
+
+  # Count by state
+  local total_open=0
+  local total_merged=0
+  local total_closed=0
+
+  # Temporarily disable nounset for associative arrays
+  set +u
+
+  # Parse results by repository
+  declare -A repo_open
+  declare -A repo_merged
+  declare -A repo_closed
+
+  while IFS= read -r line; do
+    if [ -z "$line" ]; then
+      continue
+    fi
+
+    local repo
+    repo=$(echo "$line" | jq -r '.repository.nameWithOwner')
+    local state
+    state=$(echo "$line" | jq -r '.state' | tr '[:lower:]' '[:upper:]')
+
+    case "$state" in
+      OPEN)
+        total_open=$((total_open + 1))
+        if [ -z "${repo_open[$repo]+x}" ]; then
+          repo_open["$repo"]=1
+        else
+          repo_open["$repo"]=$((repo_open["$repo"] + 1))
+        fi
+        ;;
+      MERGED)
+        total_merged=$((total_merged + 1))
+        if [ -z "${repo_merged[$repo]+x}" ]; then
+          repo_merged["$repo"]=1
+        else
+          repo_merged["$repo"]=$((repo_merged["$repo"] + 1))
+        fi
+        ;;
+      CLOSED)
+        total_closed=$((total_closed + 1))
+        if [ -z "${repo_closed[$repo]+x}" ]; then
+          repo_closed["$repo"]=1
+        else
+          repo_closed["$repo"]=$((repo_closed["$repo"] + 1))
+        fi
+        ;;
+    esac
+  done < <(echo "$prs_data" | jq -c '.[]')
+
+  local total_prs=$((total_open + total_merged + total_closed))
+
+  # Get unique repos
+  declare -A all_repos
+  for repo in "${!repo_open[@]}"; do
+    all_repos["$repo"]=1
+  done
+  for repo in "${!repo_merged[@]}"; do
+    all_repos["$repo"]=1
+  done
+  for repo in "${!repo_closed[@]}"; do
+    all_repos["$repo"]=1
+  done
+
+  local repos_with_prs="${#all_repos[@]}"
+
+  # Re-enable nounset
+  set -u
+
+  # Output results
+  if [ "$json_output" = "true" ]; then
+    echo "{"
+    echo "  \"branch\": \"$branch\","
+    echo "  \"organization\": \"$org\","
+    echo "  \"summary\": {"
+    echo "    \"total_open\": $total_open,"
+    echo "    \"total_merged\": $total_merged,"
+    echo "    \"total_closed\": $total_closed,"
+    echo "    \"total_prs\": $total_prs,"
+    echo "    \"repositories_with_prs\": $repos_with_prs"
+    echo "  },"
+    echo "  \"repositories\": ["
+
+    local first=true
+    if [ ${#all_repos[@]} -gt 0 ]; then
+      for repo in "${!all_repos[@]}"; do
+        if [ "$first" = true ]; then
+          first=false
+        else
+          echo ","
+        fi
+
+        local open=0
+        local merged=0
+        local closed=0
+        [ -n "${repo_open[$repo]+x}" ] && open=${repo_open["$repo"]}
+        [ -n "${repo_merged[$repo]+x}" ] && merged=${repo_merged["$repo"]}
+        [ -n "${repo_closed[$repo]+x}" ] && closed=${repo_closed["$repo"]}
+
+        echo -n "    {"
+        echo -n "\"repository\": \"$repo\", "
+        echo -n "\"open\": $open, "
+        echo -n "\"merged\": $merged, "
+        echo -n "\"closed\": $closed, "
+        echo -n "\"total\": $((open + merged + closed))"
+        echo -n "}"
+      done
+    fi
+
+    if [ "$first" = false ]; then
+      echo ""
+    fi
+
+    echo "  ]"
+    echo "}"
+  else
+    echo "Summary for branch: $branch"
+    echo "Organization: $org"
+    echo ""
+    echo "Total PRs:"
+    echo "  Open:   $total_open"
+    echo "  Merged: $total_merged"
+    echo "  Closed: $total_closed"
+    echo "  Total:  $total_prs"
+    echo ""
+    echo "Repositories with PRs for this branch: $repos_with_prs"
+
+    if [ "$verbose" = "true" ] && [ $repos_with_prs -gt 0 ]; then
+      echo ""
+      echo "Detailed breakdown:"
+      if [ ${#all_repos[@]} -gt 0 ]; then
+        for repo in "${!all_repos[@]}"; do
+          local open=0
+          local merged=0
+          local closed=0
+          [ -n "${repo_open[$repo]+x}" ] && open=${repo_open["$repo"]}
+          [ -n "${repo_merged[$repo]+x}" ] && merged=${repo_merged["$repo"]}
+          [ -n "${repo_closed[$repo]+x}" ] && closed=${repo_closed["$repo"]}
+          printf "  %-60s open: %-3d merged: %-3d closed: %-3d\n" "$repo" "$open" "$merged" "$closed"
+        done | sort
+      fi
+    fi
+  fi
+}
+
+main "$@"
