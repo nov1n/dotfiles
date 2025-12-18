@@ -56,7 +56,6 @@ require("nvim-treesitter.configs").setup({
     "json",
     "jsonnet",
     "julia",
-    "latex",
     "lua",
     "markdown",
     "markdown_inline",
