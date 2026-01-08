@@ -1,0 +1,86 @@
+#!/bin/bash
+# Setup SSH key authentication on a remote server
+# Usage: ./setup-ssh-key.sh user@hostname
+
+set -e
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 user@hostname"
+  exit 1
+fi
+
+TARGET="$1"
+SSH_KEY="$HOME/.ssh/id_rsa.pub"
+
+# Check if local SSH key exists
+if [ ! -f "$SSH_KEY" ]; then
+  echo "No SSH key found at $SSH_KEY"
+  echo "Generating new SSH key..."
+  ssh-keygen -t rsa -b 4096 -f "$HOME/.ssh/id_rsa" -N ""
+fi
+
+echo "Setting up SSH key authentication for $TARGET"
+echo "You will be prompted for the password..."
+echo
+
+# Copy SSH key to remote server
+ssh-copy-id "$TARGET"
+
+echo
+echo "SSH key copied successfully!"
+echo "Now configuring SSH server settings..."
+echo
+
+# Configure SSH server to allow key authentication and restart
+ssh "$TARGET" 'bash -s' <<'ENDSSH'
+set -e
+
+# Use sudo only if not root
+if [ "$(id -u)" -eq 0 ]; then
+    SUDO=""
+else
+    SUDO="sudo"
+fi
+
+# Backup original sshd_config
+$SUDO cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup.$(date +%Y%m%d-%H%M%S)
+
+# Enable PubkeyAuthentication if not already enabled
+if ! $SUDO grep -q "^PubkeyAuthentication yes" /etc/ssh/sshd_config; then
+    echo "Enabling PubkeyAuthentication..."
+    $SUDO sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+    # Add if line doesn't exist at all
+    if ! $SUDO grep -q "^PubkeyAuthentication" /etc/ssh/sshd_config; then
+        echo "PubkeyAuthentication yes" | $SUDO tee -a /etc/ssh/sshd_config > /dev/null
+    fi
+fi
+
+# Ensure authorized_keys file is enabled
+if ! $SUDO grep -q "^AuthorizedKeysFile" /etc/ssh/sshd_config; then
+    echo "AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2" | $SUDO tee -a /etc/ssh/sshd_config > /dev/null
+fi
+
+# Test sshd configuration
+echo "Testing SSH configuration..."
+$SUDO sshd -t
+
+# Restart SSH service
+echo "Restarting SSH service..."
+if command -v systemctl &> /dev/null; then
+    $SUDO systemctl restart sshd || $SUDO systemctl restart ssh
+elif command -v service &> /dev/null; then
+    $SUDO service ssh restart || $SUDO service sshd restart
+else
+    echo "Warning: Could not detect service manager. Please restart SSH manually."
+fi
+
+echo "SSH server configuration updated successfully!"
+ENDSSH
+
+echo
+echo "✓ SSH key authentication is now configured for $TARGET"
+echo "✓ You should now be able to SSH without a password"
+echo
+echo "Testing passwordless SSH connection..."
+ssh -o BatchMode=yes -o ConnectTimeout=5 "$TARGET" "echo '✓ Passwordless SSH works!'" || echo "✗ Passwordless SSH failed. You may need to check server logs."
