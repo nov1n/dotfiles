@@ -5,7 +5,7 @@
 --follow
 
 # Exclude directories.
---glob=!{.git,.svn,node_modules,tealdeer,Trash,vendor,target}
+--glob=!{.git,.svn,node_modules,tealdeer,Trash,vendor,target,.obsidian}
 
 # Exclude file types.
 --glob=!*.{lock}
