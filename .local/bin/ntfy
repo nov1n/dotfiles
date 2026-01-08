@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# ntfy - Execute a command and send ntfy notification on failure
+# Usage: ntfy [-t <topic>] <command> [args...]
+
+set -o pipefail
+
+NTFY_SERVER="https://ntfy.carosi.nl"
+TOPIC="terminal"
+
+# Parse options
+while getopts "t:" opt; do
+  case $opt in
+    t)
+      TOPIC="$OPTARG"
+      ;;
+    \?)
+      echo "Usage: ntfy_on_err [-t <topic>] <command> [args...]"
+      exit 1
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [ "$#" -lt 1 ]; then
+  echo "Usage: ntfy_on_err [-t <topic>] <command> [args...]"
+  exit 1
+fi
+
+# Execute the command and capture output
+OUTPUT=$(mktemp)
+"$@" 2>&1 | tee "$OUTPUT"
+EXIT_CODE=$?
+
+# Send notification based on exit code
+COMMAND_STR="$*"
+HOSTNAME=$(hostname -s)
+
+if [ $EXIT_CODE -ne 0 ]; then
+  # Get last 10 lines of output for context
+  TAIL_OUTPUT=$(tail -10 "$OUTPUT")
+
+  if [ -n "$TOPIC" ]; then
+    curl -s \
+      -H "Title: Command Failed on ${HOSTNAME}" \
+      -H "Priority: high" \
+      -H "Tags: warning" \
+      -d "Command: ${COMMAND_STR}
+Exit Code: ${EXIT_CODE}
+
+Last 10 lines of output:
+${TAIL_OUTPUT}" \
+      "${NTFY_SERVER}/${TOPIC}"
+  fi
+else
+  # Command succeeded - send low priority notification
+  if [ -n "$TOPIC" ]; then
+    curl -s \
+      -H "Title: Command Succeeded on ${HOSTNAME}" \
+      -H "Priority: low" \
+      -H "Tags: white_check_mark" \
+      -d "Command: ${COMMAND_STR}" \
+      "${NTFY_SERVER}/${TOPIC}"
+  fi
+fi
+
+# Cleanup
+rm -f "$OUTPUT"
+
+exit $EXIT_CODE
