@@ -29,8 +29,8 @@ alias fd='fd --hidden'
 alias '?'='noglob ?'
 
 # Nudges
-alias nslookup="doggo"
-alias host="doggo"
+alias nslookup="dig"
+alias host="dig"
 alias htop="btm"
 alias nvm="echo 'Use fnm!'"
 alias time="echo 'Use hyperfine!'"
