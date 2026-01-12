@@ -1,29 +1,47 @@
 #!/bin/bash
 
 # ntfy - Execute a command and send ntfy notification on failure
-# Usage: ntfy [-t <topic>] <command> [args...]
+# Usage: ntfy [-t <topic>] [-m <message>] <command> [args...]
+#        ntfy -m <message> [-t <topic>]  # Direct message mode
 
 set -o pipefail
 
 NTFY_SERVER="https://ntfy.carosi.nl"
 TOPIC="terminal"
+MESSAGE=""
 
 # Parse options
-while getopts "t:" opt; do
+while getopts "t:m:" opt; do
   case $opt in
     t)
       TOPIC="$OPTARG"
       ;;
+    m)
+      MESSAGE="$OPTARG"
+      ;;
     \?)
-      echo "Usage: ntfy_on_err [-t <topic>] <command> [args...]"
+      echo "Usage: ntfy [-t <topic>] [-m <message>] <command> [args...]"
+      echo "       ntfy -m <message> [-t <topic>]"
       exit 1
       ;;
   esac
 done
 shift $((OPTIND - 1))
 
+# If -m is provided, just send the message and exit
+if [ -n "$MESSAGE" ]; then
+  HOSTNAME=$(hostname -s)
+  curl -s \
+    -H "Title: ${HOSTNAME}" \
+    -H "Priority: default" \
+    -d "$MESSAGE" \
+    "${NTFY_SERVER}/${TOPIC}"
+  exit 0
+fi
+
 if [ "$#" -lt 1 ]; then
-  echo "Usage: ntfy_on_err [-t <topic>] <command> [args...]"
+  echo "Usage: ntfy [-t <topic>] [-m <message>] <command> [args...]"
+  echo "       ntfy -m <message> [-t <topic>]"
   exit 1
 fi
 
