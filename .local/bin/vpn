@@ -10,10 +10,18 @@ function get_vpn_status() {
   fi
 }
 
+function flush_dns_cache() {
+  echo "Flushing DNS cache..."
+  sudo dscacheutil -flushcache
+  sudo killall -HUP mDNSResponder
+  echo "DNS cache flushed."
+}
+
 function disconnect_vpn() {
   echo "Disconnecting VPN..."
   if picnic vpn disconnect; then
     echo "VPN disconnected successfully."
+    flush_dns_cache
   else
     echo "Error disconnecting VPN or already disconnected."
   fi
@@ -22,11 +30,13 @@ function disconnect_vpn() {
 function connect_vpn() {
   if get_vpn_status; then
     echo "VPN is already connected."
+    flush_dns_cache
     return
   fi
 
   if picnic vpn connect; then
     echo "VPN connected successfully."
+    flush_dns_cache
   else
     echo "Error connecting to VPN."
     return 1
