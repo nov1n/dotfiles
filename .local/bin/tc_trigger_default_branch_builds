@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+
+"""
+TeamCity Build Trigger Script
+Triggers all builds for a project and its subprojects on the default branch
+"""
+
+import os
+import sys
+import time
+import requests
+from typing import List, Dict, Optional
+import argparse
+
+
+class TeamCityClient:
+    def __init__(self, url: str, token: Optional[str] = None,
+                 username: Optional[str] = None, password: Optional[str] = None):
+        self.url = url.rstrip('/')
+        self.token = token
+        self.username = username
+        self.password = password
+
+        if not token and not (username and password):
+            raise ValueError("Either token or username/password must be provided")
+
+        # Base headers for all requests
+        self.headers = {'Accept': 'application/json'}
+        
+        if token:
+            self.headers['Authorization'] = f'Bearer {token}'
+
+    def get_build_types(self, project_id: str) -> List[Dict]:
+        """Get all build configurations for a project and its subprojects"""
+        endpoint = f"{self.url}/app/rest/buildTypes"
+        params = {'locator': f'affectedProject:(id:{project_id})'}
+
+        auth = None
+        if self.username and self.password:
+            auth = (self.username, self.password)
+
+        response = requests.get(endpoint, params=params, headers=self.headers, auth=auth)
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            print(f"HTTP Error {response.status_code}: {response.text}", file=sys.stderr)
+            raise
+
+        data = response.json()
+        return data.get('buildType', [])
+
+    def trigger_build(self, build_type_id: str, comment: str = "Triggered by script") -> Dict:
+        """Trigger a build on the default branch"""
+        endpoint = f"{self.url}/app/rest/buildQueue"
+
+        payload = {
+            "buildType": {"id": build_type_id},
+            "comment": {"text": comment}
+        }
+
+        headers = {**self.headers, 'Content-Type': 'application/json'}
+        
+        auth = None
+        if self.username and self.password:
+            auth = (self.username, self.password)
+
+        response = requests.post(endpoint, json=payload, headers=headers, auth=auth)
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            print(f"HTTP Error {response.status_code}: {response.text}", file=sys.stderr)
+            raise
+
+        return response.json()
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Trigger all TeamCity builds for a project and its subprojects'
+    )
+    parser.add_argument('project_id', help='TeamCity project ID')
+    parser.add_argument('--url', default=os.getenv('TEAMCITY_URL', 'http://localhost:8111'),
+                        help='TeamCity server URL (default: from TEAMCITY_URL env or http://localhost:8111)')
+    parser.add_argument('--token', default=os.getenv('TEAMCITY_TOKEN'),
+                        help='TeamCity API token (default: from TEAMCITY_TOKEN env)')
+    parser.add_argument('--username', default=os.getenv('TEAMCITY_USER'),
+                        help='TeamCity username (default: from TEAMCITY_USER env)')
+    parser.add_argument('--password', default=os.getenv('TEAMCITY_PASSWORD'),
+                        help='TeamCity password (default: from TEAMCITY_PASSWORD env)')
+    parser.add_argument('--delay', type=float, default=1.0,
+                        help='Delay in seconds between triggering builds (default: 1.0)')
+    parser.add_argument('--dry-run', action='store_true',
+                        help='Show what would be triggered without actually triggering builds')
+    parser.add_argument('--limit', type=int, default=None,
+                        help='Maximum number of builds to trigger (default: no limit)')
+    parser.add_argument('--list', action='store_true',
+                        help='List all build configurations and exit without triggering')
+
+    args = parser.parse_args()
+
+    # Validate authentication
+    if not args.token and not (args.username and args.password):
+        print("Error: Either --token or --username/--password must be provided", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        # Initialize client
+        client = TeamCityClient(
+            url=args.url,
+            token=args.token,
+            username=args.username,
+            password=args.password
+        )
+
+        print(f"TeamCity URL: {args.url}")
+        print(f"Project ID: {args.project_id}")
+        print()
+
+        # Get all build types
+        print("Fetching build configurations...")
+        build_types = client.get_build_types(args.project_id)
+
+        if not build_types:
+            print(f"No build configurations found for project: {args.project_id}")
+            sys.exit(1)
+
+        print(f"Found {len(build_types)} build configuration(s)")
+        print()
+
+        # List mode - just show builds and exit
+        if args.list:
+            for i, build_type in enumerate(build_types, 1):
+                build_type_id = build_type['id']
+                build_type_name = build_type['name']
+                project_name = build_type.get('projectName', 'Unknown')
+                print(f"{i}. {build_type_name} ({build_type_id}) in {project_name}")
+            sys.exit(0)
+
+        # Trigger builds
+        success_count = 0
+        fail_count = 0
+
+        for build_type in build_types:
+            build_type_id = build_type['id']
+            build_type_name = build_type['name']
+            project_name = build_type.get('projectName', 'Unknown')
+
+            # Check if we've hit the limit
+            if args.limit and success_count >= args.limit:
+                print(f"\nReached limit of {args.limit} build(s), stopping...")
+                break
+
+            if args.dry_run:
+                print(f"[DRY RUN] Would trigger: {build_type_name} ({build_type_id}) in {project_name}")
+                success_count += 1
+            elif build_type_name == "Monorepo PR Merge Gatekeeper":
+                try:
+                    print(f"Triggering: {build_type_name} ({build_type_id}) in {project_name}...")
+                    result = client.trigger_build(build_type_id)
+                    build_id = result.get('id', 'unknown')
+                    print(f"✓ Build queued successfully (Build ID: {build_id})")
+                    success_count += 1
+                    time.sleep(args.delay)
+                except Exception as e:
+                    print(f"✗ Failed to trigger build: {e}")
+                    fail_count += 1
+
+        # Summary
+        print()
+        print("=" * 50)
+        print("Summary:")
+        print(f"  Total builds: {len(build_types)}")
+        print(f"  Successful: {success_count}")
+        print(f"  Failed: {fail_count}")
+        print("=" * 50)
+
+        sys.exit(1 if fail_count > 0 else 0)
+
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
