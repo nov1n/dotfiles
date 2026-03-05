@@ -64,8 +64,7 @@ function zvm_after_init() {
   zvm_bindkey viins "^F" fzf-cd-widget
   zvm_bindkey viins "^T" fzf-file-widget
   zvm_bindkey viins "^Y" autosuggest-accept
-  zvm_bindkey viins "^ " fzf-tab-complete # Tab key
-  zvm_bindkey viins "^I" undefined-key # Disable tab for autocompletion
+  zvm_bindkey viins "^I" fzf-tab-complete # Tab key
 
   # Lazy load atuin, otherwise keybinds get overwritten, see https://github.com/jeffreytse/zsh-vi-mode/issues/12
   eval "$(atuin init zsh --disable-up-arrow)"
