@@ -310,13 +310,4 @@ require("zen-mode").setup({
 })
 
 -- OpenCode setup
-vim.g.opencode_opts = {
-  provider = {
-    enabled = "wezterm",
-    wezterm = {
-      direction = "right", -- left/right/top/bottom
-      top_level = false,
-      percent = 40,
-    },
-  },
-}
+vim.g.opencode_opts = {}
