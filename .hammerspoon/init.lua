@@ -31,7 +31,17 @@ bind(hyper, "r", function() appman.switchToAndFromApp("com.apple.reminders") end
 bind(hyper, "s", function() appman.switchToAndFromApp("com.tinyspeck.slackmacgap") end)
 bind(hyper, "t", function() appman.switchToAndFromApp("com.github.wez.wezterm") end)
 bind(hyper, "i", function() appman.switchToAndFromApp("com.apple.siri.launcher") end)
-bind(hyper, "u", function() appman.switchToAndFromApp("co.podzim.BoltGPT")
+bind(hyper, "u", function()
+  appman.switchToAndFromApp("co.podzim.boltai-mobile")
+  -- HACK: Focus the text area so we can start typing immideately.
+  local frontmostApp = hs.application.frontmostApplication()
+  local isBoltFrontmost = frontmostApp and frontmostApp:bundleID() == "co.podzim.boltai-mobile"
+  if isBoltFrontmost then
+    local focusedElement = hs.uielement.focusedElement()
+    local textAreaHasFocus = focusedElement and focusedElement:role() == "AXTextArea"
+    if not textAreaHasFocus then hs.eventtap.keyStrokes("\t") end
+  end
+end)
 bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") end)
 
 -- Window management
@@ -46,7 +56,7 @@ bind(hyper, "-", winman.toggleMinimizeAllWindows)
 bind(hyper, "`", hs.reload)
 
 -- Password from Keychain
-hs.hotkey.bind({}, "f14", function()
+hs.hotkey.bind(meh, "d", function()
   local output, status = hs.execute('security find-generic-password -s "dashlane" -w')
   if status then
     hs.eventtap.keyStrokes(output)
