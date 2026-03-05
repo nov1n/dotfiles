@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Check if image argument is provided
+if [ $# -eq 0 ]; then
+  echo "Usage: list_latest_tags <image>"
+  echo "Example: list_latest_tags 008971659647.dkr.ecr.eu-west-1.amazonaws.com/teampicnic/picnic-teamcity-agent"
+  exit 1
+fi
+
+IMAGE="$1"
+
+# Function to get tag creation date using skopeo (slow, for non-ECR)
+get_tag_info() {
+  local image=$1
+  local tag=$2
+  local creds=$3
+
+  if [ -n "$creds" ]; then
+    created=$(skopeo inspect --override-os linux --override-arch amd64 --creds "$creds" "docker://${image}:${tag}" 2>/dev/null |
+      jq -r '.Created // .created // .Labels."org.opencontainers.image.created" // empty')
+  else
+    created=$(skopeo inspect --override-os linux --override-arch amd64 "docker://${image}:${tag}" 2>/dev/null |
+      jq -r '.Created // .created // .Labels."org.opencontainers.image.created" // empty')
+  fi
+
+  if [ -z "$created" ]; then
+    if [ -n "$creds" ]; then
+      created=$(skopeo inspect --config --override-os linux --override-arch amd64 --creds "$creds" "docker://${image}:${tag}" 2>/dev/null |
+        jq -r '.created // empty')
+    else
+      created=$(skopeo inspect --config --override-os linux --override-arch amd64 "docker://${image}:${tag}" 2>/dev/null |
+        jq -r '.created // empty')
+    fi
+  fi
+
+  if [ -n "$created" ]; then
+    created=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${created:0:19}" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "${created:0:19}")
+  else
+    created="Unknown"
+  fi
+
+  printf "%-40s %s\n" "$tag" "$created"
+}
+
+# Check if this is an AWS ECR image
+if [[ "$IMAGE" =~ ^([0-9]+)\.dkr\.ecr\.([^.]+)\.amazonaws\.com/(.+)$ ]]; then
+  ACCOUNT_ID="${BASH_REMATCH[1]}"
+  REGION="${BASH_REMATCH[2]}"
+  REPO_NAME="${BASH_REMATCH[3]}"
+
+  echo "" >&2
+
+  # Use AWS ECR API to get all image details in one call (much faster)
+  {
+    echo -e "TAG\tPUSH DATE"
+
+    aws ecr describe-images \
+      --region "$REGION" \
+      --repository-name "$REPO_NAME" \
+      --output json |
+      jq -r '.imageDetails |
+             map(select(.imageTags != null) |
+                 {tags: .imageTags, pushed: .imagePushedAt}) |
+             map(.tags[] as $tag | {tag: $tag, pushed: .pushed}) |
+             map(select(.tag | startswith("pull-") | not)) |
+             sort_by(.pushed) |
+             reverse |
+             .[0:10] |
+             .[] |
+             [.tag, .pushed] |
+             @tsv' |
+      while IFS=$'\t' read -r tag push_date; do
+        # Format the date
+        if [ -n "$push_date" ]; then
+          formatted_date=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${push_date:0:19}" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "${push_date:0:19}")
+        else
+          formatted_date="Unknown"
+        fi
+
+        echo -e "${tag}\t${formatted_date}"
+      done
+  } | column -t -s $'\t'
+
+else
+  # For non-ECR images, just list tags without dates (too slow to fetch)
+  skopeo list-tags "docker://$IMAGE" |
+    jq -r '.Tags | map(select(startswith("pull-") | not)) | sort | reverse | .[0:10] | .[]'
+fi
