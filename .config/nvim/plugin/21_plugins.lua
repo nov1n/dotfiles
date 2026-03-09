@@ -282,6 +282,18 @@ if vim.fn.has("mac") == 1 then
   })
 end
 
+-- Override vim.paste to enable Cmd+V paste in picker
+local paste_orig = vim.paste
+vim.paste = function(lines, phase)
+  if MiniPick.is_picker_active() then
+    -- Paste into picker query
+    local text = table.concat(lines, "")
+    MiniPick.set_picker_query(vim.split(text, ""))
+    return true
+  end
+  return paste_orig(lines, phase)
+end
+
 -- Zen mode setup
 require("zen-mode").setup({
   window = {
