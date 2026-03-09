@@ -224,10 +224,9 @@ nmap_leader('aa', function() require('opencode').ask("@this: ", { submit = true 
 xmap_leader('aa', function() require('opencode').ask('@selection: ', { submit = true }) end,    'Ask opencode about selection')
 nmap_leader('ae', function() require('opencode').prompt("Explain @cursor and its context", { submit = true }) end, "Explain code near cursor")
 nmap_leader('ap', function() require("opencode").select() end,                                  'Select prompt')
-nmap_leader('an', function() require('opencode').command('session_new') end,                    'New session')
-nmap_leader('ay', function() require('opencode').command('messages_copy') end,                  'Copy last message')
-nmap('<S-C-u>',   function() require('opencode').command('messages_half_page_up') end,          'Scroll messages up')
-nmap('<S-C-d>',   function() require('opencode').command('messages_half_page_down') end,        'Scroll messages down')
+nmap_leader('an', function() require('opencode').command('session.new') end,                    'New session')
+nmap('<S-C-u>',   function() require('opencode').command('session.half.page.up') end,          'Scroll messages up')
+nmap('<S-C-d>',   function() require('opencode').command('session.half.page.down') end,        'Scroll messages down')
 
 -- x is for 'extra'
 nmap_leader('xh', '<Cmd>normal gXiagXila<CR>',                                                   'Move arg left')
