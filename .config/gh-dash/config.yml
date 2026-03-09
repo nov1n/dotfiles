@@ -10,10 +10,12 @@ prSections:
     layout:
       repo:
         width: 6
-  - title: DevPla
+  - title: Delivery
     filters: "\
-      repo:PicnicSupermarket/ci-support \
-      repo:PicnicSupermarket/picnic-java-support-modules"
+      org:PicnicSupermarket is:open -is:draft \
+      author:nov1n author:Sirivasv author:Badbond \
+      author:LucaHennart author:tr3mor author:serdarkkts \
+      author:nitin-picnic"
   - title: Commented
     filters: org:PicnicSupermarket repo:* commenter:@me
   - title: Mentioned
