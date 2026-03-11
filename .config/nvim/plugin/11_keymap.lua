@@ -244,4 +244,5 @@ end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- HACK: For some reason this mapping works only with vimscript
 vim.cmd("nmap <bs> ;")
+vim.cmd("vmap <bs> ;")
 -- stylua: ignore end
