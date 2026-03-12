@@ -221,18 +221,19 @@ nmap_leader("ot",  "<cmd>ObsidianTags<CR>",           "List notes by tag")
 -- a is for 'AI'
 nmap_leader('aA', function() require('opencode').ask(nil, { submit = true }) end,               'Ask opencode')
 nmap_leader('aa', function() require('opencode').ask("@this: ", { submit = true }) end,         'Ask opencode about this')
-xmap_leader('aa', function() require('opencode').ask('@selection: ', { submit = true }) end,    'Ask opencode about selection')
+xmap_leader('aa', function() require('opencode').ask('@this: ', { submit = true }) end,    'Ask opencode about selection')
 nmap_leader('ae', function() require('opencode').prompt("Explain @cursor and its context", { submit = true }) end, "Explain code near cursor")
 nmap_leader('ap', function() require("opencode").select() end,                                  'Select prompt')
 nmap_leader('an', function() require('opencode').command('session.new') end,                    'New session')
-nmap('<S-C-u>',   function() require('opencode').command('session.half.page.up') end,          'Scroll messages up')
-nmap('<S-C-d>',   function() require('opencode').command('session.half.page.down') end,        'Scroll messages down')
+nmap('<S-C-u>',   function() require('opencode').command('session.half.page.up') end,           'Scroll messages up')
+nmap('<S-C-d>',   function() require('opencode').command('session.half.page.down') end,         'Scroll messages down')
 
 -- x is for 'extra'
 nmap_leader('xh', '<Cmd>normal gXiagXila<CR>',                                                   'Move arg left')
 nmap_leader('xl', '<Cmd>normal gXiagXina<CR>',                                                   'Move arg right')
 nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',                                        'Section insert')
 nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',                                          'Trim trailspace')
+nmap_leader('xm', '<Cmd>lua Config.show_messages_in_scratch()<CR>',                              'Show messages history')
 nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',                                      'Show notifications history')
 nmap_leader('xu', '<Cmd>MasonUpdate<CR><Cmd>MasonToolsUpdate<CR><Cmd>lua vim.pack.update()<CR>', 'Update everything')
 
