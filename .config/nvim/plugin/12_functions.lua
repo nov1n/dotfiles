@@ -37,3 +37,28 @@ Config.toggle_quickfix = function()
   end
   vim.cmd("copen")
 end
+
+-- Show messages in a scratch buffer
+Config.show_messages_in_scratch = function()
+  -- Check if a messages buffer already exists
+  local buf_id
+  for _, id in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[id].filetype == "messages-history" then
+      buf_id = id
+      break
+    end
+  end
+
+  -- Create new buffer if it doesn't exist
+  if buf_id == nil then
+    buf_id = vim.api.nvim_create_buf(true, true)
+    vim.api.nvim_buf_set_name(buf_id, "custom://" .. buf_id .. "/messages")
+    vim.bo[buf_id].filetype = "messages-history"
+  end
+
+  local messages = vim.fn.execute("messages")
+  local lines = vim.split(messages, "\n")
+
+  vim.api.nvim_buf_set_lines(buf_id, 0, -1, false, lines)
+  vim.api.nvim_win_set_buf(0, buf_id)
+end
