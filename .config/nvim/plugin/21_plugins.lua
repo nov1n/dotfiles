@@ -205,7 +205,7 @@ require("conform").setup({
       prepend_args = { "--kotlinlang-style" },
     },
     shfmt = {
-      prepend_args = { "-i", "2", "-ci" },
+      prepend_args = { "-i", "2", "-ci", "-bn" },
     },
     prettier = {
       prepend_args = { "--prose-wrap=always" },
