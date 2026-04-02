@@ -201,8 +201,15 @@ later(function()
       prettier = {
         prepend_args = { "--prose-wrap=always" },
       },
+      -- Custom xmlformatter: uses xmlformat with post-processing to add space before />
+      -- This preserves self-closing tags like <relativePath /> instead of <relativePath/>
       xmlformatter = {
-        prepend_args = { "--indent", "4", "--blanks" },
+        command = "sh",
+        args = {
+          "-c",
+          "xmlformat --indent 4 --blanks --selfclose - | sed 's#/># />#g'",
+        },
+        stdin = true,
       },
     },
 
