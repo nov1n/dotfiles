@@ -5,14 +5,19 @@ vim.pack.add({ { src = "https://github.com/nvim-mini/mini.nvim" } }, { load = tr
 
 require("mini.notify").setup() -- Enhanced notifications
 vim.notify = require("mini.notify").make_notify()
+
 require("mini.tabline").setup() -- Top bar
+
 require("mini.statusline").setup() -- Bottom bar
+
 require("mini.basics").setup({ -- Essential Neovim options and mappings
   autocommands = { relnum_in_visual_mode = true },
 })
 -- require('mini.colors').setup()
 require("mini.cursorword").setup() -- Highlights word under cursor
+
 require("mini.icons").setup() -- File type icons
+
 require("mini.indentscope").setup({ -- Visualizes indent scope
   draw = {
     delay = 0,
@@ -21,12 +26,17 @@ require("mini.indentscope").setup({ -- Visualizes indent scope
   symbol = "│",
 })
 -- require('mini.animate').setup({}) -- Cursor / scroll animations
+
 require("mini.map").setup() -- Minimap for code navigation
+
 require("mini.sessions").setup() -- Session management
+
 -- require('mini.starter').setup()  -- Shows 'dashboard'
+
 require("mini.trailspace").setup() -- Shows trailing whitespace
 
 require("mini.extra").setup() -- Extra functionality for mini modules, e.g. pickers
+
 -- Highlights patterns like TODO, FIXME, hex colors
 local hipatterns = require("mini.hipatterns")
 local hi_words = MiniExtra.gen_highlighter.words
@@ -42,9 +52,13 @@ hipatterns.setup({
 })
 
 require("mini.ai").setup() -- Enhanced text objects
+
 require("mini.align").setup() -- Text alignment
+
 require("mini.bracketed").setup() -- Navigation with [ and ] keys
+
 require("mini.bufremove").setup() -- Better buffer deletion
+
 require("mini.move").setup({
   mappings = {
     -- Mappings are <C-{h,j,k,l}> as Karabiner remaps these to arrow keys.
@@ -230,13 +244,16 @@ jump2d.setup({
 })
 
 require("mini.keymap").setup() -- Keymap utilities
+
 require("mini.misc").setup()
+
 require("mini.misc").setup_restore_cursor() -- Miscellaneous utilities
 
 require("mini.operators").setup({
   exchange = { prefix = "gX" },
 }) -- Text transformation operators
 -- require('mini.pairs').setup()     -- Auto-pairs for brackets, quotes
+
 local win_config = function() -- Centers picker window
   local height = math.floor(0.618 * vim.o.lines)
   local width = math.floor(0.618 * vim.o.columns)
@@ -255,6 +272,9 @@ require("mini.pick").setup({ -- Fuzzy pickers
 })
 
 require("mini.splitjoin").setup() -- Split/join code constructs with gS
+
 require("mini.surround").setup() -- Surround text with pairs
+
 require("mini.visits").setup() -- Track and reuse file visits
+
 -- stylua: ignore end
