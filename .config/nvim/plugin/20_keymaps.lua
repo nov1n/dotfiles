@@ -174,6 +174,19 @@ xmap_leader('gc', '<Cmd>lua require("gitportal").copy_link_to_clipboard()<CR>', 
 local formatting_cmd = '<Cmd>lua require("conform").format({ lsp_fallback = true })<CR>'
 nmap_leader('la', '<Cmd>lua vim.lsp.buf.code_action()<CR>',   'Actions')
 nmap_leader('ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', 'Diagnostics popup')
+nmap_leader('li', function()
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if #clients == 0 then
+    vim.notify('No LSP clients attached to buffer', vim.log.levels.INFO)
+    return
+  end
+  local lines = {}
+  for _, client in ipairs(clients) do
+    local root = client.root_dir or 'no root'
+    table.insert(lines, string.format('%s: %s', client.name, root))
+  end
+  vim.notify(table.concat(lines, '\n'), vim.log.levels.INFO, { title = 'Active LSP Clients' })
+end, 'LSP Info')
 nmap_leader('lR', '<Cmd>lua vim.lsp.buf.references()<CR>',    'References')
 nmap_leader('lr', '<Cmd>lua vim.lsp.buf.rename()<CR>',        'Rename')
 nmap_leader('ls', '<Cmd>lua vim.lsp.buf.definition()<CR>',    'Source definition')
