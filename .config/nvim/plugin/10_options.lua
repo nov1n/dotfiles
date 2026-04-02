@@ -95,4 +95,9 @@ local diagnostic_opts = {
   -- Don't update diagnostics when typing
   update_in_insert = false,
 }
+
+Config.later(function()
+  vim.diagnostic.config(diagnostic_opts)
+end)
+
 -- stylua: ignore end
