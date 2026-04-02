@@ -5,8 +5,12 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "csvview.nvim": {
-      "rev": "da4106db5c44bfdccd0f76142c0f2740bcae8e5c",
+      "rev": "7022e18a0fbae9aecf99a3ba02b2a541edc2b8a1",
       "src": "https://github.com/hat0uma/csvview.nvim"
+    },
+    "friendly-snippets": {
+      "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
+      "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitportal.nvim": {
       "rev": "0c3e1c1d518c9e42e61e8df35ea0c0582a278a65",
@@ -21,24 +25,24 @@
       "src": "https://github.com/kdheepak/lazygit.nvim"
     },
     "live-preview.nvim": {
-      "rev": "02cb7f56a1145724d711a78c26c0200106695c99",
+      "rev": "c1fcf75c5f9c9c01dd392852de44204b60f1b5b1",
       "src": "https://github.com/brianhuster/live-preview.nvim"
     },
     "markview.nvim": {
       "rev": "1861f959599ae03cfd59f56222a542035b0cd947",
-      "src": "https://github.com/OXY2DEV/markview.nvim"
+      "src": "git@github.com:OXY2DEV/markview.nvim"
     },
     "mason-lspconfig.nvim": {
       "rev": "25f609e7fca78af7cede4f9fa3af8a94b1c4950b",
-      "src": "https://github.com/williamboman/mason-lspconfig.nvim"
+      "src": "git@github.com:williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
-      "rev": "517ef59",
-      "src": "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim"
+      "rev": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc",
+      "src": "git@github.com:WhoIsSethDaniel/mason-tool-installer.nvim"
     },
     "mason.nvim": {
-      "rev": "57e5a8a",
-      "src": "https://github.com/mason-org/mason.nvim"
+      "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
+      "src": "git@github.com:mason-org/mason.nvim"
     },
     "mini.nvim": {
       "rev": "3923662bf3d6ca49a9503f8d7196ea0450983e6a",
@@ -57,23 +61,23 @@
       "src": "https://github.com/SmiteshP/nvim-navic"
     },
     "nvim-treesitter": {
-      "rev": "cf12346a3414fa1b06af75c79faebe7f76df080a",
+      "rev": "c82bf96f0a773d85304feeb695e1e23b2207ac35",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "5ca4aaa",
+      "rev": "93d60a475f0b08a8eceb99255863977d3a25f310",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
     },
     "obsidian.nvim": {
-      "rev": "14e0427",
+      "rev": "14e0427bef6c55da0d63f9a313fd9941be3a2479",
       "src": "https://github.com/epwalsh/obsidian.nvim"
     },
     "opencode.nvim": {
-      "rev": "df533d6da724109bf08446392db860fdceddbd0c",
+      "rev": "78b720dfa6a55c3e2d167165320adc5c0ae87471",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "plenary.nvim": {
-      "rev": "b9fd522",
+      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
@@ -85,11 +89,11 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "wezterm-types": {
-      "rev": "bba4eac",
+      "rev": "bba4eacfdce545a9d5c29c69d20bbb9c90189224",
       "src": "https://github.com/gonstoll/wezterm-types"
     },
     "zen-mode.nvim": {
-      "rev": "8564ce6",
+      "rev": "8564ce6d29ec7554eb9df578efa882d33b3c23a7",
       "src": "https://github.com/folke/zen-mode.nvim"
     }
   }
