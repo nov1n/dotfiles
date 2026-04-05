@@ -45,7 +45,7 @@
       "src": "git@github.com:mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "3923662bf3d6ca49a9503f8d7196ea0450983e6a",
+      "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-lint": {
@@ -53,7 +53,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "8e2084bf5e40c79c1f42210a6ef96a0a4793a763",
+      "rev": "9ccd58a7949091c0cc2777d4e92a45a209c808c1",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-navic": {
@@ -61,7 +61,7 @@
       "src": "https://github.com/SmiteshP/nvim-navic"
     },
     "nvim-treesitter": {
-      "rev": "c82bf96f0a773d85304feeb695e1e23b2207ac35",
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-textobjects": {
@@ -73,7 +73,7 @@
       "src": "https://github.com/epwalsh/obsidian.nvim"
     },
     "opencode.nvim": {
-      "rev": "78b720dfa6a55c3e2d167165320adc5c0ae87471",
+      "rev": "fa0a495fa2c229115404cb3c1970578f9c6d2f76",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "plenary.nvim": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "12426763591f06b865c20990d8423345ea96d44f",
+      "rev": "0bd02161ee5c5378bf4133fcedf53d1fc4179e1d",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "tokyonight.nvim": {
