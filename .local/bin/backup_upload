@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Zip a folder and upload it to remote host via SCP
+# Usage: ./backup_upload.sh <folder> [remote_host] [remote_user]
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <folder> [remote_host] [remote_user]"
+  echo "  folder:       Path to the folder to backup"
+  echo "  remote_host:  SSH hostname or IP (default: portainer)"
+  echo "  remote_user:  SSH user (default: carosi)"
+  exit 1
+fi
+
+FOLDER="$1"
+REMOTE_HOST="${2:-portainer}"
+REMOTE_USER="${3:-carosi}"
+REMOTE_DIR="/home/${REMOTE_USER}/backups"
+
+if [[ ! -d "$FOLDER" ]]; then
+  echo "Error: folder '$FOLDER' does not exist"
+  exit 1
+fi
+
+FOLDER_NAME="$(basename "$FOLDER")"
+DATE="$(date +%Y%m%d_%H%M%S)"
+ZIP_FILE="${FOLDER_NAME}_${DATE}.zip"
+
+echo "Creating archive: $ZIP_FILE"
+zip -r "$ZIP_FILE" "$FOLDER" >/dev/null
+
+echo "Uploading to ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"
+scp "$ZIP_FILE" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"
+
+echo "Cleaning up local archive"
+rm -f "$ZIP_FILE"
+
+echo "Done! Backup uploaded to ${REMOTE_DIR}/${ZIP_FILE}"
