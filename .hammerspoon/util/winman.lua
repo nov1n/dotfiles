@@ -23,8 +23,8 @@ function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
     verticalPaddingPercent = 0
     horizontalPaddingPercent = 0
   else
-    verticalPaddingPercent = verticalPaddingPercent or 5  -- Default 5% vertical padding
-    horizontalPaddingPercent = horizontalPaddingPercent or 15  -- Default 15% horizontal padding
+    verticalPaddingPercent = verticalPaddingPercent or 5 -- Default 5% vertical padding
+    horizontalPaddingPercent = horizontalPaddingPercent or 15 -- Default 15% horizontal padding
   end
 
   -- Get all visible windows and resize them immediately
@@ -36,11 +36,11 @@ function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
       local winScreen = win:screen()
       if winScreen then
         local winScreenFrame = winScreen:frame()
-        
+
         -- Calculate percentage-based padding
         local verticalPadding = math.floor(winScreenFrame.h * verticalPaddingPercent / 100)
         local horizontalPadding = math.floor(winScreenFrame.w * horizontalPaddingPercent / 100)
-        
+
         local winTargetWidth = winScreenFrame.w - (horizontalPadding * 2)
         local winTargetHeight = winScreenFrame.h - (verticalPadding * 2)
 
@@ -55,9 +55,13 @@ function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
     end
   end
 
-  local paddingMsg = hasExternalMonitor and
-    string.format("with %.1f%% vertical, %.1f%% horizontal padding", verticalPaddingPercent, horizontalPaddingPercent) or
-    "maximized to 100% (no external monitor)"
+  local paddingMsg = hasExternalMonitor
+      and string.format(
+        "with %.1f%% vertical, %.1f%% horizontal padding",
+        verticalPaddingPercent,
+        horizontalPaddingPercent
+      )
+    or "maximized to 100% (no external monitor)"
 
   hs.alert.show(string.format("Resized %d windows %s", count, paddingMsg))
 end
@@ -65,9 +69,7 @@ end
 -- Function to toggle fullscreen for the focused window
 function M.toggleFullScreen()
   local win = hs.window.focusedWindow()
-  if win then
-    win:toggleFullScreen()
-  end
+  if win then win:toggleFullScreen() end
 end
 
 -- Function to put two last focused windows side by side in split screen
@@ -79,15 +81,13 @@ function M.splitScreenTwoWindows()
     return
   end
 
-  local win1 = windows[1]  -- Most recently focused
-  local win2 = windows[2]  -- Second most recently focused
+  local win1 = windows[1] -- Most recently focused
+  local win2 = windows[2] -- Second most recently focused
 
   -- Filter for valid, standard windows
   local validWindows = {}
   for _, win in ipairs(windows) do
-    if win and win:isStandard() and not win:isMinimized() then
-      table.insert(validWindows, win)
-    end
+    if win and win:isStandard() and not win:isMinimized() then table.insert(validWindows, win) end
   end
 
   if #validWindows < 2 then
@@ -104,27 +104,23 @@ function M.splitScreenTwoWindows()
   local halfWidth = math.floor(screenFrame.w / 2)
 
   -- Exit fullscreen if needed
-  if win1:isFullScreen() then
-    win1:toggleFullScreen()
-  end
+  if win1:isFullScreen() then win1:toggleFullScreen() end
 
-  if win2:isFullScreen() then
-    win2:toggleFullScreen()
-  end
+  if win2:isFullScreen() then win2:toggleFullScreen() end
 
   -- Set window frames
   win1:setFrame({
     x = screenFrame.x,
     y = screenFrame.y,
     w = halfWidth,
-    h = screenFrame.h
+    h = screenFrame.h,
   })
 
   win2:setFrame({
     x = screenFrame.x + halfWidth,
     y = screenFrame.y,
     w = halfWidth,
-    h = screenFrame.h
+    h = screenFrame.h,
   })
 
   -- Focus the first window
@@ -143,9 +139,7 @@ function M.toggleMinimizeAllWindows()
     -- Skip menu bars, dock, and desktop
     local role = win:role()
     local subrole = win:subrole()
-    if role == "AXMenuBar" or role == "AXSystemDialog" or subrole == "AXSystemDialog" then
-      return false
-    end
+    if role == "AXMenuBar" or role == "AXSystemDialog" or subrole == "AXSystemDialog" then return false end
     -- Include standard windows and some others
     return win:isStandard() or (win:title() and win:title() ~= "" and win:application())
   end
@@ -153,9 +147,7 @@ function M.toggleMinimizeAllWindows()
   -- Count truly visible windows (not minimized)
   local visibleCount = 0
   for _, win in ipairs(visibleWindows) do
-    if isValidWindow(win) and not win:isMinimized() then
-      visibleCount = visibleCount + 1
-    end
+    if isValidWindow(win) and not win:isMinimized() then visibleCount = visibleCount + 1 end
   end
 
   if visibleCount > 0 then
@@ -163,12 +155,8 @@ function M.toggleMinimizeAllWindows()
     local count = 0
     for _, win in ipairs(visibleWindows) do
       if isValidWindow(win) and not win:isMinimized() then
-        local success, err = pcall(function()
-          win:minimize()
-        end)
-        if success then
-          count = count + 1
-        end
+        local success, err = pcall(function() win:minimize() end)
+        if success then count = count + 1 end
       end
     end
     hs.alert.show(string.format("Minimized %d windows", count))
@@ -177,16 +165,52 @@ function M.toggleMinimizeAllWindows()
     local count = 0
     for _, win in ipairs(allWindows) do
       if isValidWindow(win) and win:isMinimized() then
-        local success, err = pcall(function()
-          win:unminimize()
-        end)
-        if success then
-          count = count + 1
-        end
+        local success, err = pcall(function() win:unminimize() end)
+        if success then count = count + 1 end
       end
     end
     hs.alert.show(string.format("Restored %d windows", count))
   end
+end
+
+-- Centers wezterm at the top for meeting notes.
+function M.conferenceCall()
+  local wezterm = hs.application.get("WezTerm")
+
+  if not wezterm then
+    hs.alert.show("WezTerm not found")
+    return
+  end
+
+  local win = wezterm:mainWindow()
+  if not win then
+    hs.alert.show("WezTerm window not found")
+    return
+  end
+
+  local screen = win:screen()
+  local screenFrame = screen:frame()
+
+  -- Apply 1.5% vertical padding (matching centerAllWindows keybind)
+  local verticalPadding = math.floor(screenFrame.h * 1.5 / 100)
+
+  -- Set dimensions
+  local width = 1000
+  local height = 200
+
+  -- Calculate centered x position at top of screen with padding
+  local x = screenFrame.x + (screenFrame.w - width) / 2
+  local y = screenFrame.y + verticalPadding
+
+  -- Set the window frame
+  win:setFrame({
+    x = x,
+    y = y,
+    w = width,
+    h = height,
+  })
+
+  hs.alert.show("WezTerm positioned: 900x200 at top center")
 end
 
 return M
