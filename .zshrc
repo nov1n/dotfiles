@@ -1,3 +1,6 @@
+# Homebrew (load early so tools are available)
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Install plugins
 if [ ! -d "$HOME/.antidote" ]; then
   git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
@@ -89,8 +92,8 @@ fi
 # Cargo
 . "$HOME/.cargo/env"
 
-# Homebrew
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# Bob (Neovim version manager)
+export PATH="/Users/carosi/.local/share/bob/nvim-bin:$PATH"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
