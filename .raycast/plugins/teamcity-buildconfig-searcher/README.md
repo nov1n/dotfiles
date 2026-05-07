@@ -12,7 +12,8 @@ Fuzzy search all build configurations in TeamCity.
 
 2. Set your TeamCity credentials:
    - TeamCity Token: Your personal access token
-   - TeamCity URL: Your TeamCity server URL (default: https://teampicnic.teamcity.com)
+   - TeamCity URL: Your TeamCity server URL (default:
+     https://teampicnic.teamcity.com)
 
 3. Run the plugin in development mode:
    ```bash
@@ -21,19 +22,23 @@ Fuzzy search all build configurations in TeamCity.
 
 ## Usage
 
-1. **Refresh Build Configuration List**: Fetch all build configurations from TeamCity
-2. **Search Build Configurations**: Fuzzy search through cached build configurations
+1. **Refresh Build Configuration List**: Fetch all build configurations from
+   TeamCity
+2. **Search Build Configurations**: Fuzzy search through cached build
+   configurations
 
 ## Commands
 
 - `Search Build Configurations`: Open the search interface
-- `Refresh Build Configuration List`: Fetch latest build configs from TeamCity API
+- `Refresh Build Configuration List`: Fetch latest build configs from TeamCity
+  API
 
 ## Dump Script
 
-You can also use the included `dump-build-configs.sh` script to fetch build configurations:
+You can also use the included `dump-build-configs.sh` script to fetch build
+configurations:
 
 ```bash
-export TC_PAT="your-token"
+export TEAMCITY_TOKEN="your-token"
 ./dump-build-configs.sh
 ```

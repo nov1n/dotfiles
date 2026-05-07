@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TC_ACCESS_TOKEN="${TC_PAT}" # must be passed in as env var
+TC_ACCESS_TOKEN="${TEAMCITY_TOKEN}" # must be passed in as env var
 TC_SERVER_URL="${TC_SERVER_URL:-https://teampicnic.teamcity.com}"
 BUILD_CONFIG_ID="${BUILD_CONFIG_ID:-JavaPlatform_SpringBootAdmin_JavaBuild}"
 BRANCH_NAME="${BRANCH_NAME:-pull/510/head}"
