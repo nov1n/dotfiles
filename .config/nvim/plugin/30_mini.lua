@@ -261,7 +261,14 @@ end)
 -- - `_` - open at current working directory
 later(function()
   local files = require("mini.files")
-  files.setup()
+  files.setup({
+    mappings = {
+      go_in = "<Right>",
+      go_in_plus = "",
+      go_out = "<Left>",
+      go_out_plus = ""
+    }
+  })
 
   vim.api.nvim_create_autocmd("User", {
     pattern = "MiniFilesBufferCreate",
