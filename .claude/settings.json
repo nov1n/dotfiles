@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls *)",
+      "Bash(ls)",
+      "Bash(cat *)"
+    ]
+  },
+  "enabledPlugins": {
+    "picnic-select-profile@picnic-plugins": true,
+    "atlassian@picnic-plugins": true,
+    "code-review@picnic-plugins": true,
+    "feature-dev@picnic-plugins": true,
+    "git-workflow@picnic-plugins": true,
+    "java@picnic-plugins": true,
+    "atlassian@claude-plugins-official": true,
+    "datadog@picnic-plugins": true,
+    "teamcity@picnic-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "picnic-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "PicnicSupermarket/picnic-claude-code-marketplace"
+      },
+      "autoUpdate": true
+    }
+  }
+}
