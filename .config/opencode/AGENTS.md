@@ -17,13 +17,13 @@ configuration:
 
 **Custom Fields:**
 
-- **Team:** PLA Delivery (custom field ID: customfield_11100)
+- **Team:** PLA Delivery (custom field ID: customfield_11100, team ID: 9f9c7c1c-5981-4ab5-a9aa-9f0e10fced54)
 
 **Implementation:** When calling `atlassian_createJiraIssue`, use:
 
 - `projectKey`: "PLA"
 - `assignee_account_id`: "5c33194a7d0c1a2f0111e8e4"
-- `additional_fields`: `{"customfield_11100": "PLA Delivery"}`
+- `additional_fields`: `{"customfield_11100": "9f9c7c1c-5981-4ab5-a9aa-9f0e10fced54"}`
 
 **Example:**
 
@@ -35,6 +35,6 @@ atlassian_createJiraIssue(
   summary="...",
   description="...",
   assignee_account_id="5c33194a7d0c1a2f0111e8e4",
-  additional_fields={"customfield_11100": "PLA Delivery"}
+  additional_fields={"customfield_11100": "9f9c7c1c-5981-4ab5-a9aa-9f0e10fced54"}
 )
 ```
