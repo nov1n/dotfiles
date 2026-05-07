@@ -1,0 +1,44 @@
+# ╭─────────────────────────────────────────────────────────╮
+# │                         System                          │
+# ╰─────────────────────────────────────────────────────────╯
+
+shell-integration-features = cursor,sudo,title
+
+# ╭─────────────────────────────────────────────────────────╮
+# │                       Appearance                        │
+# ╰─────────────────────────────────────────────────────────╯
+
+# Theme - using Tokyo Night
+theme = tokyonight
+
+# Font configuration
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 18
+
+# ╭─────────────────────────────────────────────────────────╮
+# │                         Keymap                          │
+# ╰─────────────────────────────────────────────────────────╯
+
+# Note: Ghostty doesn't support disabling all default keybindings,
+# but we can remap the ones we want
+
+# Panes/Splits
+keybind = super+w=close_surface
+keybind = super+d=new_split:right
+keybind = super+shift+d=new_split:down
+keybind = super+z=toggle_split_zoom
+
+
+# Font size
+keybind = super+minus=decrease_font_size:1
+keybind = super+equal=increase_font_size:1
+keybind = super+0=reset_font_size
+
+# Map control backspace to Control-w
+keybind = ctrl+backspace=text:\x17
+
+# Scrolling
+keybind = shift+up=scroll_page_fractional:-0.1
+keybind = shift+down=scroll_page_fractional:0.1
+keybind = page_up=scroll_page_fractional:-0.5
+keybind = page_down=scroll_page_fractional:0.5
