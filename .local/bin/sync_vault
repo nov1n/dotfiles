@@ -12,7 +12,7 @@ log() {
 
 cd "$NOTES_DIR" || exit 1
 
-if git diff --quiet && git diff --cached --quiet; then
+if [ -z "$(git status --porcelain)" ]; then
   log "No changes to sync"
   exit 0
 fi
