@@ -38,3 +38,11 @@ atlassian_createJiraIssue(
   additional_fields={"customfield_11100": "9f9c7c1c-5981-4ab5-a9aa-9f0e10fced54"}
 )
 ```
+
+---
+
+When working with Helm charts, always look in the following directory:
+
+**Helm Charts Repository:** `/Users/carosi/Projects/picnic/picnic-helm-charts`
+
+This repository contains all Helm charts for Picnic services and infrastructure.
