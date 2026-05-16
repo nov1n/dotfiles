@@ -383,6 +383,9 @@ now(function()
     window = {
       config = win_config,
     },
+    mappings = {
+      choose_marked = '<C-q>',
+    },
   })
 end)
 
