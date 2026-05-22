@@ -135,6 +135,7 @@ now_if_args(function()
     "yamlls",
     "jsonls",
     "taplo",
+    "terraformls",
   })
 
   -- Custom LSP server configuration
