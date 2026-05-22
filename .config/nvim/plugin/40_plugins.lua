@@ -174,6 +174,7 @@ later(function()
     },
     -- Map of filetype to formatters
     formatters_by_ft = {
+      gitcommit = { "gitcommit_formatter" },
       html = { "prettier" },
       javascript = { "prettier" },
       sh = { "shfmt" },
@@ -193,6 +194,13 @@ later(function()
 
     -- Customize formatters
     formatters = {
+      -- Git commit message formatter: enforces 50/72 rule using rule72
+      -- https://github.com/eisbaw/rule72
+      -- Preserves structure (lists, code blocks, tables) while rewrapping text
+      gitcommit_formatter = {
+        command = "rule72",
+        stdin = true,
+      },
       ktfmt = {
         prepend_args = { "--kotlinlang-style" },
       },
