@@ -34,10 +34,10 @@
       "which*": "allow",
     },
     "edit": {
-      "~/Projects/**": "allow"
+      "~/**": "allow"
     },
     "external_directory": {
-      "~/Projects/**": "allow"
+      "~/**": "allow"
     },
   },
   "mcp": {
