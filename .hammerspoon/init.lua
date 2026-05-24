@@ -56,6 +56,7 @@ bind(hyper, "-", winman.toggleMinimizeAllWindows)
 
 -- Console hotkeys
 bind(hyper, "`", hs.reload)
+bind(meh, "`", hs.openConsole)
 
 -- Password from Keychain
 hs.hotkey.bind(meh, "d", function()
