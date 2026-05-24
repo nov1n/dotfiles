@@ -3,14 +3,14 @@ local vpnCheckInterval = 5
 local logger = hs.logger.new("VPNMonitor", "info")
 
 local function getVPNStatusAsync(callback)
-  logger.i("Checking VPN status asynchronously...")
+  logger.d("Checking VPN status asynchronously...")
   local task = hs.task.new("/opt/homebrew/bin/zsh", function(exitCode, stdOut, stdErr)
     logger.d("Command output: " .. stdOut .. stdErr)
     if exitCode == 0 then
-      logger.i("VPN is connected.")
+      logger.d("VPN is connected.")
       callback(true)
     else
-      logger.i("VPN is not connected.")
+      logger.d("VPN is not connected.")
       callback(false)
     end
   end, { "-c", "vpn status" })
@@ -28,7 +28,7 @@ local M = {}
 M.menubar = hs.menubar.new()
 
 function M:updateVPNMenubar()
-  logger.i("Updating VPN menubar...")
+  logger.d("Updating VPN menubar...")
   if not self.menubar then
     logger.e("Menubar is not initialized.")
     return
@@ -39,10 +39,10 @@ function M:updateVPNMenubar()
 
     if isConnected then
       self.menubar:setIcon("/Users/carosi/dotfiles/.hammerspoon/util/shield.png")
-      logger.i("VPN icon set to connected.")
+      logger.d("VPN icon set to connected.")
     else
       self.menubar:setIcon(nil)
-      logger.i("VPN icon set to nil.")
+      logger.d("VPN icon set to nil.")
     end
 
     self.menubar:setMenu(menuItems)
