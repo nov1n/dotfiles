@@ -89,7 +89,7 @@ if credentials_file then
     endpoint = "https://habits.carosi.nl",
     username = username,
     password = password,
-    habits = { "Meditate" },
+    habits = { "Move", "Meditate", "Bedtime" },
     sync_interval = 10,
   })
 else
