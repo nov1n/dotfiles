@@ -4,6 +4,7 @@
 [user]
   name = Robert Carosi
   email = robert@carosi.nl
+	signingkey = /Users/carosi/.ssh/id_ed25519.pub
 
 [credential]
 	helper = store
@@ -116,7 +117,7 @@
 
 [commit]
   # https://help.github.com/articles/signing-commits-using-gpg/
-  gpgsign = true
+	gpgsign = true
 
 [diff]
   # Detect copies as well as renames.
@@ -185,3 +186,9 @@
   driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P
 [pager]
 	diff = diffnav
+[gpg]
+	format = ssh
+[tag]
+	gpgsign = true
+[gpg "ssh"]
+	allowedSignersFile = /Users/carosi/.ssh/allowed_signers
