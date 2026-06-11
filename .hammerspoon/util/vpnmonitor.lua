@@ -25,7 +25,6 @@ local function getVPNStatusAsync(callback)
 end
 
 local M = {}
-M.menubar = hs.menubar.new()
 
 function M:updateVPNMenubar()
   logger.d("Updating VPN menubar...")
@@ -51,6 +50,7 @@ end
 
 function M:start()
   logger.i("VPN monitor started with interval: " .. vpnCheckInterval .. " seconds.")
+  if not self.menubar then self.menubar = hs.menubar.new() end
   self.timer = hs.timer.doEvery(vpnCheckInterval, function() self:updateVPNMenubar() end)
 end
 
