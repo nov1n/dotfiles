@@ -333,6 +333,11 @@ later(function()
   require("mini.git").setup()
 end)
 
+-- User input box
+later(function()
+  require('mini.input').setup()
+end)
+
 -- Jump to any location with a two-key sequence. Example usage:
 -- - `,,` - start jump mode
 later(function()
