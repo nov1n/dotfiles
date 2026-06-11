@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-opus-4-6",
+  "model": "anthropic/claude-opus-4-8",
   "autoupdate": true,
   "permission": {
     "bash": {
@@ -9,9 +9,9 @@
       "cat*": "allow",
       "cd*": "allow",
       "chmod*": "allow",
+      "cut*": "allow",
       "du*": "allow",
       "find*": "allow",
-      "sort*": "allow",
       "git diff*": "allow",
       "git log*": "allow",
       "git push*": "deny",
@@ -29,7 +29,10 @@
       "nvim*": "allow",
       "pwd": "allow",
       "rg*": "allow",
+      "sed*": "allow",
       "shfmt*": "allow",
+      "sort*": "allow",
+      "tail*": "allow",
       "wc*": "allow",
       "which*": "allow",
     },
