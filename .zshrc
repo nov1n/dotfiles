@@ -1,6 +1,3 @@
-# Homebrew (load early so tools are available)
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # Install plugins
 if [ ! -d "$HOME/.antidote" ]; then
   git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
