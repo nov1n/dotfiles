@@ -5,7 +5,10 @@
 shell-integration-features = cursor,sudo,title
 
 # Auto-attach to (or create) a tmux session named "main" on launch.
-command = /opt/homebrew/bin/tmux new-session -A -s main
+# Route through a login zsh so .zprofile runs first — otherwise tmux inherits
+# a bare PATH (no /opt/homebrew/bin) and plugin scripts using `env bash` fall
+# back to macOS's bash 3.2, breaking tokyo-night-tmux and friends.
+command = /opt/homebrew/bin/zsh -lc 'exec tmux new-session -A -s main'
 
 # Send Option as Alt so tmux/nvim receive M-h/j/k/l etc. instead of macOS
 # compose characters (˙∆˚¬). Required for smart-splits.nvim + tmux pane nav.
@@ -70,6 +73,9 @@ keybind = super+0=reset_font_size
 
 # Map control backspace to Control-w
 keybind = ctrl+backspace=text:\x17
+
+# Shift+Enter sends ESC+CR (for Claude Code multi-line input)
+keybind = shift+enter=text:\x1b\r
 
 # Scrolling
 keybind = shift+up=scroll_page_fractional:-0.1
