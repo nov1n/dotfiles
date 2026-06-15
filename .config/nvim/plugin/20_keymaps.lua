@@ -2,7 +2,6 @@
 -- Create global tables with information about clue groups in certain modes
 -- Structure of tables is taken to be compatible with 'mini.clue'.
 _G.Config.leader_group_clues = {
-  { mode = 'n', keys = '<Leader>a', desc = '+AI/OpenCode' },
   { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
   { mode = 'n', keys = '<Leader>e', desc = '+Explore' },
   { mode = 'n', keys = '<Leader>f', desc = '+Find' },
@@ -14,7 +13,7 @@ _G.Config.leader_group_clues = {
   { mode = 'n', keys = '<Leader>o', desc = '+Obsidian' },
   { mode = 'n', keys = '<Leader>v', desc = '+Visits' },
   { mode = 'n', keys = '<Leader>x', desc = '+Extra' },
-  { mode = 'v', keys = '<Leader>a', desc = '+AI/OpenCode' },
+  { mode = 'v', keys = '<Leader>a', desc = '+AI/Claude' },
   { mode = 'x', keys = '<Leader>l', desc = '+LSP' },
 }
 
@@ -231,15 +230,39 @@ nmap_leader("or",  "<cmd>ObsidianRename<CR>",         "Rename current note")
 nmap_leader("ol",  "<cmd>ObsidianTemplate<CR>",       "Insert a template")
 nmap_leader("ot",  "<cmd>ObsidianTags<CR>",           "List notes by tag")
 
--- a is for 'AI'
-nmap_leader('aA', function() require('opencode').ask(nil, { submit = true }) end,               'Ask opencode')
-nmap_leader('aa', function() require('opencode').ask("@this: ", { submit = true }) end,         'Ask opencode about this')
-xmap_leader('aa', function() require('opencode').ask('@this: ', { submit = true }) end,         'Ask opencode about selection')
-nmap_leader('ae', function() require('opencode').prompt("Explain @cursor and its context", { submit = true }) end, "Explain code near cursor")
-nmap_leader('ap', function() require("opencode").select() end,                                  'Select prompt')
-nmap_leader('an', function() require('opencode').command('session.new') end,                    'New session')
-nmap('<S-C-u>',   function() require('opencode').command('session.half.page.up') end,           'Scroll messages up')
-nmap('<S-C-d>',   function() require('opencode').command('session.half.page.down') end,         'Scroll messages down')
+-- a is for 'AI' — send visual selection to Claude Code in a sibling tmux pane.
+-- Finds a pane in the current tmux window whose foreground command looks like
+-- Claude (matches `claude` or `node`), falls back to the last-active pane.
+local function send_selection_to_claude()
+  vim.cmd('noautocmd normal! "zy')
+  local text = vim.fn.getreg('z')
+  if text == '' then return end
+
+  local path = vim.fn.expand('%:.')
+  local s = vim.fn.getpos("'<")[2]
+  local e = vim.fn.getpos("'>")[2]
+  local locator = path ~= '' and ('@' .. path .. ':' .. (s == e and s or (s .. '-' .. e)) .. '\n') or ''
+  -- Four backticks so the fence survives selections that contain triple-backticks.
+  local fenced = '````' .. (vim.bo.filetype or '') .. '\n' .. text:gsub('[\n\r]+$', '') .. '\n````'
+
+  local target = '{last}'
+  for _, line in ipairs(vim.fn.systemlist("tmux list-panes -F '#{pane_id} #{pane_current_command}'")) do
+    local id, cmd = line:match('^(%S+)%s+(.+)$')
+    if cmd and cmd:lower():find('claude') then
+      target = id
+      break
+    end
+  end
+
+  vim.fn.system({ 'tmux', 'load-buffer', '-' }, locator .. fenced)
+  vim.fn.system({ 'tmux', 'paste-buffer', '-d', '-p', '-t', target })
+  -- ESC+CR is Claude's multi-line newline trigger (raw \n is ignored); two of them
+  -- leave a blank line below the pasted block to type a comment on.
+  vim.fn.system({ 'tmux', 'send-keys', '-t', target, '-l', '\27\13\27\13' })
+  vim.fn.system({ 'tmux', 'select-pane', '-t', target })
+end
+
+xmap_leader('aa', send_selection_to_claude, 'Send selection to Claude')
 
 -- x is for 'extra'
 nmap_leader('xh', '<Cmd>normal gXiagXila<CR>',                      'Move arg left')

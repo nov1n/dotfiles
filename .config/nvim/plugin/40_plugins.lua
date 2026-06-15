@@ -371,12 +371,6 @@ later(function()
   })
 end)
 
--- AI assistant
-later(function()
-  add({ "https://github.com/NickvanDyke/opencode.nvim" })
-  vim.g.opencode_opts = {}
-end)
-
 -- CSV viewer
 later(function()
   add({ "https://github.com/hat0uma/csvview.nvim" })
