@@ -10,8 +10,9 @@ if [[ -n "$ZSH_DEBUGRC" ]]; then
   zmodload zsh/zprof
 fi
 
-# Load the shell dotfiles
-for file in ~/.zsh_{aliases,functions,local,work}.sh; do
+# Load the shell dotfiles (.zsh_local.sh is sourced from .zshenv instead, so
+# it's also available to non-interactive shells).
+for file in ~/.zsh_{aliases,functions,work}.sh; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
