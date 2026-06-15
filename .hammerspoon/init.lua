@@ -19,7 +19,6 @@ local bind = hs.hotkey.bind
 
 -- Application Management
 bind(hyper, ".", function() appman.switchToAndFromApp("com.apple.finder") end)
--- TODO: / is free!!!
 bind(hyper, "a", function() appman.switchToAndFromApp("com.apple.iCal") end)
 bind(hyper, "[", function() hs.spotify.displayCurrentTrack() end)
 bind(hyper, "=", function() hs.execute('open "devutils://auto?clipboard"') end)
