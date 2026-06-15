@@ -1,10 +1,52 @@
 {
   "permissions": {
     "allow": [
+      "Read",
+      "Bash(cat *)",
+      "Bash(cd *)",
+      "Bash(chmod *)",
+      "Bash(cut *)",
+      "Bash(du *)",
+      "Bash(find *)",
+      "Bash(git branch *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git status *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(helmfile template *)",
       "Bash(ls *)",
-      "Bash(ls)",
-      "Bash(cat *)"
-    ]
+      "Bash(mkdir *)",
+      "Bash(ps *)",
+      "Bash(pwd)",
+      "Bash(rg *)",
+      "Bash(shfmt *)",
+      "Bash(sort *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(which *)"
+    ],
+    "deny": [
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(helmfile apply)",
+      "Bash(helmfile apply *)",
+      "Bash(helmfile delete)",
+      "Bash(helmfile delete *)",
+      "Bash(helmfile destroy)",
+      "Bash(helmfile destroy *)",
+      "Bash(kubectl apply *)",
+      "Bash(kubectl create *)",
+      "Bash(kubectl delete *)",
+      "Bash(kubectl drain *)",
+      "Bash(kubectl edit *)",
+      "Bash(kubectl patch *)",
+      "Bash(kubectl replace *)",
+      "Bash(kubectl rollout *)",
+      "Bash(kubectl scale *)"
+    ],
+    "ask": ["Bash(mv *)", "Bash(sed *)"]
   },
   "enabledPlugins": {
     "picnic-select-profile@picnic-plugins": true,
