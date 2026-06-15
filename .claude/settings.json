@@ -15,7 +15,8 @@
     "java@picnic-plugins": true,
     "atlassian@claude-plugins-official": true,
     "datadog@picnic-plugins": true,
-    "teamcity@picnic-plugins": true
+    "teamcity@picnic-plugins": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "picnic-plugins": {
