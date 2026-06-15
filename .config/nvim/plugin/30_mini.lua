@@ -311,8 +311,15 @@ later(function()
         local fs_entry = files.get_fs_entry()
         if fs_entry == nil then return end
         local enclosing = vim.fn.fnamemodify(fs_entry.path, ":h")
-        local cmd = string.format('wezterm cli spawn --cwd %s', vim.fn.shellescape(enclosing))
-        vim.fn.system(cmd)
+        if vim.env.TMUX == nil then
+          vim.notify("Not inside a tmux session", vim.log.levels.WARN)
+          return
+        end
+        local out = vim.fn.system({ "tmux", "split-window", "-h", "-c", enclosing })
+        if vim.v.shell_error ~= 0 then
+          vim.notify("tmux split-window failed: " .. out, vim.log.levels.ERROR)
+          return
+        end
         vim.notify("Opened terminal in: " .. enclosing)
       end, { buffer = bufnr, noremap = true, silent = true })
 

@@ -289,14 +289,9 @@ later(function()
   add({
     "https://github.com/folke/lazydev.nvim",
     "https://github.com/nvim-lua/plenary.nvim",
-    "https://github.com/gonstoll/wezterm-types",
   })
 
-  require("lazydev").setup({
-    library = {
-      { path = "wezterm-types", mods = { "wezterm" } },
-    },
-  })
+  require("lazydev").setup({})
 end)
 
 -- Git integration

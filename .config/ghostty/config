@@ -4,6 +4,13 @@
 
 shell-integration-features = cursor,sudo,title
 
+# Auto-attach to (or create) a tmux session named "main" on launch.
+command = /opt/homebrew/bin/tmux new-session -A -s main
+
+# Send Option as Alt so tmux/nvim receive M-h/j/k/l etc. instead of macOS
+# compose characters (˙∆˚¬). Required for smart-splits.nvim + tmux pane nav.
+macos-option-as-alt = true
+
 # ╭─────────────────────────────────────────────────────────╮
 # │                       Appearance                        │
 # ╰─────────────────────────────────────────────────────────╯
@@ -22,11 +29,38 @@ font-size = 18
 # Note: Ghostty doesn't support disabling all default keybindings,
 # but we can remap the ones we want
 
-# Panes/Splits
-keybind = super+w=close_surface
-keybind = super+d=new_split:right
-keybind = super+shift+d=new_split:down
-keybind = super+z=toggle_split_zoom
+# Splits and tabs disabled — tmux handles multiplexing instead.
+# Unbind all Ghostty default split/tab keymaps so they don't shadow tmux/nvim.
+
+# Splits
+keybind = super+[=unbind
+keybind = super+]=unbind
+keybind = super+ctrl+==unbind
+keybind = super+ctrl+arrow_up=unbind
+keybind = super+ctrl+arrow_down=unbind
+keybind = super+ctrl+arrow_left=unbind
+keybind = super+ctrl+arrow_right=unbind
+keybind = super+d=unbind
+keybind = super+shift+d=unbind
+
+# Windows
+keybind = super+n=unbind
+
+# Tabs
+keybind = super+t=unbind
+keybind = super+w=unbind
+keybind = super+alt+w=unbind
+keybind = super+shift+[=unbind
+keybind = super+shift+]=unbind
+keybind = super+digit_1=unbind
+keybind = super+digit_2=unbind
+keybind = super+digit_3=unbind
+keybind = super+digit_4=unbind
+keybind = super+digit_5=unbind
+keybind = super+digit_6=unbind
+keybind = super+digit_7=unbind
+keybind = super+digit_8=unbind
+keybind = super+digit_9=unbind
 
 
 # Font size
