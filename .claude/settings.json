@@ -48,6 +48,7 @@
     ],
     "ask": ["Bash(mv *)", "Bash(sed *)"]
   },
+  "model": "claude-opus-4-8",
   "enabledPlugins": {
     "picnic-select-profile@picnic-plugins": true,
     "atlassian@picnic-plugins": true,
