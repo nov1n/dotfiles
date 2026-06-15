@@ -20,5 +20,5 @@ curl -s -H "Authorization: Bearer $TEAMCITY_TOKEN" \
 echo "All build configurations dumped to: $OUTPUT_FILE"
 echo ""
 echo "Summary:"
-BUILD_COUNT=$(cat "$OUTPUT_FILE" | grep -o '"id"' | wc -l)
+BUILD_COUNT=$(grep -o '"id"' "$OUTPUT_FILE" | wc -l)
 echo "Total build configurations: $BUILD_COUNT"

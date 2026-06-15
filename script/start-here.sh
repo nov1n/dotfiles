@@ -27,9 +27,9 @@ echo "Press any key to continue when you added the key to Github..."
 
 # -s: Do not echo input coming from a terminal
 # -n 1: Read one character
-read -s -n 1
+read -r -s -n 1
 
 # Clone public dotfile repo
 git clone git@github.com:nov1n/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles/script
+cd ~/.dotfiles/script || exit
 ./bootstrap.sh

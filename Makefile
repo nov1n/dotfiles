@@ -11,4 +11,10 @@ stow:
 	stow -R -v .
 
 lint:
-	@find . -name "*.sh" -type f ! -path "./.git/*" -exec shellcheck {} +
+	@find . -name "*.sh" -type f \
+		! -path "./.git/*" \
+		! -path "*/node_modules/*" \
+		! -path "*/spoon-submodules/*" \
+		! -path "./.hammerspoon/bash/*" \
+		! -name ".zsh_*" \
+		-exec shellcheck {} +
