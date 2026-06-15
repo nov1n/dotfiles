@@ -3,7 +3,7 @@
 set -euo pipefail
 
 KARABINER_CONFIG_DIR="$HOME/.config/karabiner"
-BACKUP_DIR="$HOME/dotfiles/.config/karabiner/automatic_backups"
+BACKUP_DIR="$KARABINER_CONFIG_DIR/automatic_backups"
 CURRENT_CONFIG="$KARABINER_CONFIG_DIR/karabiner.json"
 
 if [[ ! -d "$BACKUP_DIR" ]]; then
