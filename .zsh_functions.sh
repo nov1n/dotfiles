@@ -80,18 +80,23 @@ y() {
 
 cd() {
   z "$@"
-  # Unless we're in an ssh session update window title by sending an OSC 7 command
-  if [[ -z "$SSH_CLIENT" && $? ]]; then
-    wezterm set-working-directory "${PWD}"
+  # Ghostty's shell-integration (cursor,sudo,title) emits OSC 7 automatically.
+  # Inside tmux, also rename the current window to the basename of PWD.
+  if [[ -n "$TMUX" ]]; then
+    tmux rename-window "$(basename "$PWD")"
   fi
 }
 
 ssh() {
   local host="$1"
-  local title="ssh:$host"
-  wezterm set-working-directory "$title"
-  command ssh "$@"
-  cd . # Trigger OSC 7 from function above to update window title
+  if [[ -n "$TMUX" ]]; then
+    tmux rename-window "ssh:$host"
+    command ssh "$@"
+    tmux rename-window "$(basename "$PWD")"
+  else
+    printf '\e]0;ssh:%s\a' "$host"
+    command ssh "$@"
+  fi
 }
 
 dsh() {
