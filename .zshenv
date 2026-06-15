@@ -78,3 +78,7 @@ export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 
 # Default aws profile
 export AWS_PROFILE="picnic-artifacts"
+
+# Machine-local environment. Sourced here (not .zshrc) so it's also
+# available to non-interactive login shells like tmux's `zsh -lc 'exec claude'`.
+[ -r "$HOME/.zsh_local.sh" ] && source "$HOME/.zsh_local.sh"
