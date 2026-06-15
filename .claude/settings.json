@@ -46,7 +46,10 @@
       "Bash(kubectl rollout *)",
       "Bash(kubectl scale *)"
     ],
-    "ask": ["Bash(mv *)", "Bash(sed *)"]
+    "ask": [
+      "Bash(mv *)",
+      "Bash(sed *)"
+    ]
   },
   "model": "claude-opus-4-8",
   "enabledPlugins": {
@@ -69,5 +72,6 @@
       },
       "autoUpdate": true
     }
-  }
+  },
+  "theme": "auto"
 }

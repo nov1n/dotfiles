@@ -20,3 +20,10 @@ node_modules
 
 .beads
 .gitattributes
+
+# Karabiner writes throwaway restore-points and cached assets into its config
+# dir, which is symlinked into the repo; track karabiner.json, ignore the rest
+.config/karabiner/automatic_backups/
+.config/karabiner/assets/
+
+**/.claude/settings.local.json
