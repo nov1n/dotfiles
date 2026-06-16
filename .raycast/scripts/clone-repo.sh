@@ -24,8 +24,3 @@ TARGET_PATH="$TARGET_DIR/$REPO_NAME"
 if [ ! -d "$TARGET_PATH" ]; then
   git clone "git@github.com:${REPO_PATH}.git" "$TARGET_PATH"
 fi
-
-echo -e "nvim" | wezterm cli send-text --no-paste --pane-id "$(wezterm cli spawn --cwd "$TARGET_PATH")"
-open -a Wezterm
-
-echo "Opening '$TARGET_PATH'..."
