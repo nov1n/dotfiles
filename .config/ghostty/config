@@ -4,11 +4,19 @@
 
 shell-integration-features = cursor,sudo,title
 
-# Auto-attach to (or create) a tmux session named "main" on launch.
-# Route through a login zsh so .zprofile runs first — otherwise tmux inherits
-# a bare PATH (no /opt/homebrew/bin) and plugin scripts using `env bash` fall
-# back to macOS's bash 3.2, breaking tokyo-night-tmux and friends.
-command = /opt/homebrew/bin/zsh -lc 'exec tmux new-session -A -s main'
+mouse-hide-while-typing = true
+resize-overlay = never
+confirm-close-surface = false
+# Don't restore window state. Required for the quick terminal: Ghostty only sets
+# GHOSTTY_QUICK_TERMINAL on a freshly created surface (surfaceTree empty), so a
+# restored surface would never get the var. Trade-off: regular windows also
+# won't be restored (tmux handles persistence anyway).
+window-save-state = never
+
+# No `command` override on purpose: overriding it drops GHOSTTY_QUICK_TERMINAL,
+# which Ghostty only sets on its default shell launch. The tmux hand-off (quick
+# terminal -> "quick", regular windows -> most recent session other than
+# "quick") lives at the top of ~/.zshrc instead, where that env var is set.
 
 # Send Option as Alt so tmux/nvim receive M-h/j/k/l etc. instead of macOS
 # compose characters (˙∆˚¬). Required for smart-splits.nvim + tmux pane nav.
@@ -24,6 +32,17 @@ theme = tokyonight
 # Font configuration
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 18
+
+# Window
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs
+title = " "
+window-padding-balance = true
+macos-icon = glass
+macos-icon = custom-style
+macos-icon-frame = aluminum
+macos-icon-ghost-color = #ffffff
+macos-icon-screen-color = #000000
 
 # ╭─────────────────────────────────────────────────────────╮
 # │                         Keymap                          │
@@ -65,20 +84,15 @@ keybind = super+digit_7=unbind
 keybind = super+digit_8=unbind
 keybind = super+digit_9=unbind
 
-
-# Font size
-keybind = super+minus=decrease_font_size:1
-keybind = super+equal=increase_font_size:1
-keybind = super+0=reset_font_size
-
 # Map control backspace to Control-w
 keybind = ctrl+backspace=text:\x17
 
 # Shift+Enter sends ESC+CR (for Claude Code multi-line input)
 keybind = shift+enter=text:\x1b\r
 
-# Scrolling
-keybind = shift+up=scroll_page_fractional:-0.1
-keybind = shift+down=scroll_page_fractional:0.1
-keybind = page_up=scroll_page_fractional:-0.5
-keybind = page_down=scroll_page_fractional:0.5
+# Quick terminal
+keybind = global:super+ctrl+alt+shift+t=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-size = 60%,2841px
+quick-terminal-animation-duration = 0
+

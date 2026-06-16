@@ -1,3 +1,21 @@
+# In Ghostty (and not already inside tmux), hand off to tmux before any other
+# shell setup: the quick terminal gets the "quick" session, regular windows get
+# the most recently used session other than "quick" (so the quick terminal can't
+# hijack which session normal windows reopen into). Done here rather than via
+# Ghostty's `command` so GHOSTTY_QUICK_TERMINAL is set.
+if [[ "$TERM_PROGRAM" == "ghostty" && -z "$TMUX" ]]; then
+  if [[ "$GHOSTTY_QUICK_TERMINAL" == "1" ]]; then
+    exec tmux new-session -A -s quick
+  fi
+  target=$(tmux list-sessions -F '#{session_last_attached} #{session_name}' 2>/dev/null \
+    | grep -vw quick | sort -rn | head -n1 | cut -d' ' -f2-)
+  if [[ -n "$target" ]]; then
+    exec tmux attach -t "$target"
+  else
+    exec tmux attach
+  fi
+fi
+
 # Install plugins
 if [ ! -d "$HOME/.antidote" ]; then
   git clone --depth=1 https://github.com/mattmc3/antidote.git ~/.antidote
