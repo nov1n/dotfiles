@@ -33,21 +33,23 @@ bind(hyper, "t", function() appman.switchToAndFromApp("com.mitchellh.ghostty") e
 bind(hyper, "i", function() appman.switchToAndFromApp("com.apple.siri.launcher") end)
 bind(hyper, "u", function()
   appman.switchToAndFromApp("co.podzim.boltai-mobile")
-  -- HACK: Focus the text area so we can start typing immideately.
-  local frontmostApp = hs.application.frontmostApplication()
-  local isBoltFrontmost = frontmostApp and frontmostApp:bundleID() == "co.podzim.boltai-mobile"
-  if isBoltFrontmost then
-    local focusedElement = hs.uielement.focusedElement()
-    local textAreaHasFocus = focusedElement and focusedElement:role() == "AXTextArea"
-    if not textAreaHasFocus then hs.eventtap.keyStrokes("\t") end
-  end
+  -- HACK: Focus the composer so we can start typing immideately.
+  -- Invoke BoltAI 2's "Focus Composer" menu item directly (works in empty and
+  -- full chats, unlike tab navigation). We trigger the menu item rather than its
+  -- cmd+/ shortcut to avoid the Homerow conflict on that combo. Activation is
+  -- async, so defer until the app is actually frontmost (skip if we toggled away).
+  hs.timer.doAfter(0.15, function()
+    local app = hs.application.get("co.podzim.boltai-mobile")
+    if app and app:isFrontmost() then
+      app:selectMenuItem({ "Edit", "Focus Composer" })
+    end
+  end)
 end)
 bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") end)
 
 -- Window management
 hs.window.animationDuration = 0
 bind(hyper, "0", function() winman.centerAllWindows(1.5, 13) end)
-bind(hyper, "9", winman.conferenceCall)
 bind(hyper, "return", winman.toggleFullScreen)
 bind(hyper, "\\", winman.splitScreenTwoWindows)
 bind(hyper, "-", winman.toggleMinimizeAllWindows)
