@@ -173,44 +173,4 @@ function M.toggleMinimizeAllWindows()
   end
 end
 
--- Centers wezterm at the top for meeting notes.
-function M.conferenceCall()
-  local wezterm = hs.application.get("WezTerm")
-
-  if not wezterm then
-    hs.alert.show("WezTerm not found")
-    return
-  end
-
-  local win = wezterm:mainWindow()
-  if not win then
-    hs.alert.show("WezTerm window not found")
-    return
-  end
-
-  local screen = win:screen()
-  local screenFrame = screen:frame()
-
-  -- Apply 1.5% vertical padding (matching centerAllWindows keybind)
-  local verticalPadding = math.floor(screenFrame.h * 1.5 / 100)
-
-  -- Set dimensions
-  local width = 1000
-  local height = 200
-
-  -- Calculate centered x position at top of screen with padding
-  local x = screenFrame.x + (screenFrame.w - width) / 2
-  local y = screenFrame.y + verticalPadding
-
-  -- Set the window frame
-  win:setFrame({
-    x = x,
-    y = y,
-    w = width,
-    h = height,
-  })
-
-  hs.alert.show("WezTerm positioned: 900x200 at top center")
-end
-
 return M
