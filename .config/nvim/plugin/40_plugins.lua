@@ -294,11 +294,6 @@ later(function()
   require("lazydev").setup({})
 end)
 
--- Git integration
-later(function()
-  add({ "https://github.com/kdheepak/lazygit.nvim" })
-end)
-
 later(function()
   add({ "https://github.com/trevorhauter/gitportal.nvim" })
 end)
