@@ -5,6 +5,8 @@
 shell-integration-features = cursor,sudo,title
 
 mouse-hide-while-typing = true
+# Default multiplier is 3 (~15 lines/tick); 1 slows it to ~5.
+mouse-scroll-multiplier = 1
 resize-overlay = never
 confirm-close-surface = false
 # Don't restore window state. Required for the quick terminal: Ghostty only sets
