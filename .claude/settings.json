@@ -62,7 +62,8 @@
     "atlassian@claude-plugins-official": true,
     "datadog@picnic-plugins": true,
     "teamcity@picnic-plugins": true,
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "statusline@picnic-plugins": true
   },
   "extraKnownMarketplaces": {
     "picnic-plugins": {
