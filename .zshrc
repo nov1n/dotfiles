@@ -106,7 +106,6 @@ function zvm_after_init() {
 }
 
 # Load tools
-eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 
 # Load autocmpletions
@@ -148,3 +147,6 @@ fi
 # Required for Picnic's Python setup
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+
+# zoxide must init last so its precmd/chpwd hooks aren't clobbered by other tools.
+eval "$(zoxide init zsh)"
