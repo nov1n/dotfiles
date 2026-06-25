@@ -90,6 +90,10 @@ keybind = ctrl+backspace=text:\x17
 # Shift+Enter sends ESC+CR (for Claude Code multi-line input)
 keybind = shift+enter=text:\x1b\r
 
+# Cmd+K triggers sesh (tmux session picker): sends prefix (C-a) + s.
+# Overrides Ghostty's default clear-scrollback on cmd+k.
+keybind = super+k=text:\x01s
+
 # Quick terminal
 keybind = global:super+ctrl+alt+shift+t=toggle_quick_terminal
 quick-terminal-position = top
