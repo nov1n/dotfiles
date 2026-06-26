@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Read",
+      "Read(**)",
       "Bash(cat *)",
       "Bash(cd *)",
       "Bash(chmod *)",
@@ -25,7 +25,8 @@
       "Bash(sort *)",
       "Bash(tail *)",
       "Bash(wc *)",
-      "Bash(which *)"
+      "Bash(which *)",
+      "WebFetch(*)"
     ],
     "deny": [
       "Bash(git push)",
@@ -51,7 +52,35 @@
       "Bash(sed *)"
     ]
   },
-  "model": "claude-opus-4-8",
+  "model": "opus[1m]",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/carosi/.claude/hooks/claude-notify.sh 'Finished'",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/carosi/.claude/hooks/claude-notify.sh 'Needs your input'",
+            "async": true
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/carosi/.claude/plugins/cache/picnic-plugins/statusline/0.0.3/hooks/statusline.sh"
+  },
   "enabledPlugins": {
     "picnic-select-profile@picnic-plugins": true,
     "atlassian@picnic-plugins": true,
@@ -74,5 +103,7 @@
       "autoUpdate": true
     }
   },
+  "effortLevel": "medium",
+  "advisorModel": "opus",
   "theme": "auto"
 }
