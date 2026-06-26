@@ -149,4 +149,5 @@ export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 
 # zoxide must init last so its precmd/chpwd hooks aren't clobbered by other tools.
+export _ZO_DOCTOR=0
 eval "$(zoxide init zsh)"
