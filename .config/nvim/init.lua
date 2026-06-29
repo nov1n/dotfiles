@@ -296,3 +296,28 @@ local ensure_center_layout = function(ev)
 end
 
 vim.api.nvim_create_autocmd("User", { pattern = "MiniFilesWindowUpdate", callback = ensure_center_layout })
+
+-- Update all plugins, open the update log in a new tab, and commit the lockfile
+Config.update_plugins = function()
+  vim.pack.update(nil, { force = true })
+  local log_path = vim.fn.stdpath("log") .. "/nvim-pack.log"
+  vim.cmd.tabedit(log_path)
+  vim.cmd("edit!")
+  vim.cmd("normal! G")
+  vim.bo.bufhidden = "wipe"
+  local lockfile = vim.uv.fs_realpath(vim.fn.stdpath("config") .. "/nvim-pack-lock.json")
+  if not lockfile then return end
+  local dir = vim.fn.fnamemodify(lockfile, ":h")
+  vim.system({ "git", "rev-parse", "--show-toplevel" }, { cwd = dir, text = true }, function(r)
+    if r.code ~= 0 then return end
+    local root = vim.trim(r.stdout)
+    vim.system({ "git", "add", lockfile }, { cwd = root }, function(ar)
+      if ar.code ~= 0 then return end
+      vim.system({ "git", "commit", "-m", "Update nvim-pack-lock.json" }, { cwd = root }, function(cr)
+        vim.schedule(function()
+          if cr.code == 0 then vim.notify("Committed nvim-pack-lock.json") end
+        end)
+      end)
+    end)
+  end)
+end
