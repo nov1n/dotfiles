@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 
-# Script to upload a file via SCP and copy the URL to the clipboard
+# Script to upload a file via SCP and copy the URL to the clipboard.
+# Pass --private (or -p) to upload into the password-protected /private area.
 
 REMOTE_HOST="homelab"
-REMOTE_PATH="/home/carosi/static"
+REMOTE_BASE="/home/carosi/static"
 DOMAIN="static.carosi.nl"
+SSH_PORT="${SSH_PORT:-22}" # Override with the SSH_PORT env var if needed
+
+# Parse optional --private / -p flag (must come before the filename).
+URL_PREFIX=""
+REMOTE_SUBDIR=""
+if [ "$1" = "--private" ] || [ "$1" = "-p" ]; then
+  REMOTE_SUBDIR="/private"
+  URL_PREFIX="private/"
+  shift
+fi
+
 LOCAL_FILE="$1"
-SSH_PORT="${5:-22}" # Use default of 22 if not specified
+REMOTE_PATH="${REMOTE_BASE}${REMOTE_SUBDIR}"
 
 upload_file() {
   # Check if the local file exists
@@ -18,14 +30,15 @@ upload_file() {
   # Extract the filename from the local path
   FILENAME=$(basename "$LOCAL_FILE")
 
-  # Construct the SCP command
-  SCP_COMMAND="scp -P $SSH_PORT \"$LOCAL_FILE\" \"$REMOTE_HOST:$REMOTE_PATH\""
+  # Ensure the remote directory exists (the /private subdir may not yet).
+  if ! ssh -p "$SSH_PORT" "$REMOTE_HOST" "mkdir -p \"$REMOTE_PATH\""; then
+    echo "Error: could not create remote directory $REMOTE_PATH"
+    return 1
+  fi
 
   # Upload the file
   echo "Uploading file..."
-  eval "$SCP_COMMAND" # Use eval to execute the command (important for variables)
-
-  if [ $? -ne 0 ]; then
+  if ! scp -P "$SSH_PORT" "$LOCAL_FILE" "$REMOTE_HOST:$REMOTE_PATH/"; then
     echo "Error: SCP failed. Check your connection, credentials, and paths."
     return 1
   fi
@@ -34,17 +47,15 @@ upload_file() {
   ENCODED_FILENAME=$(printf %s "$FILENAME" | jq -sRr @uri)
 
   # Construct the URL
-  URL="https://${DOMAIN}/${ENCODED_FILENAME}" # HTTPS by default
+  URL="https://${DOMAIN}/${URL_PREFIX}${ENCODED_FILENAME}"
 
   # Copy the URL to the clipboard
   echo "Copying URL to clipboard..."
-  echo "$URL" | cb # Requires 'clipcopy' or similar (see below)
-
-  if [ $? -ne 0 ]; then
+  if echo "$URL" | cb; then
+    echo "URL copied to clipboard: $URL"
+  else
     echo "Warning: Could not copy to clipboard."
     echo "URL: $URL"
-  else
-    echo "URL copied to clipboard: $URL"
   fi
 
   return 0
@@ -52,14 +63,12 @@ upload_file() {
 
 # --- Main Script ---
 
-# Check for the correct number of arguments
-if [ $# -lt 1 ]; then
-  echo "Usage: $0 <local_file>"
+if [ -z "$LOCAL_FILE" ]; then
+  echo "Usage: $0 [--private|-p] <local_file>"
   echo "Example: $0 my_image.jpg"
+  echo "         $0 --private secret.pdf"
   exit 1
 fi
 
-# Call the upload function
-upload_file "$LOCAL_FILE" "$REMOTE_HOST" "$REMOTE_PATH" "$DOMAIN" "$SSH_PORT"
-
+upload_file
 exit $? # Exit with the return code of the upload_file function
