@@ -18,8 +18,25 @@ function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
     end
   end
 
-  -- If no external monitor, maximize to 100% (no padding)
-  if not hasExternalMonitor then
+  -- Check if the only external monitor is small (≤1920px wide — maximize on it too)
+  local isSmallExternalMonitor = false
+  if hasExternalMonitor then
+    isSmallExternalMonitor = true
+    for _, screen in ipairs(screens) do
+      local name = screen:name()
+      local isBuiltIn = name:find("^Built%-in") ~= nil
+      if not isBuiltIn then
+        local frame = screen:frame()
+        if frame.w > 2560 then
+          isSmallExternalMonitor = false
+          break
+        end
+      end
+    end
+  end
+
+  -- If no external monitor or on small external monitor, maximize to 100% (no padding)
+  if not hasExternalMonitor or isSmallExternalMonitor then
     verticalPaddingPercent = 0
     horizontalPaddingPercent = 0
   else
@@ -55,13 +72,9 @@ function M.centerAllWindows(verticalPaddingPercent, horizontalPaddingPercent)
     end
   end
 
-  local paddingMsg = hasExternalMonitor
-      and string.format(
-        "with %.1f%% vertical, %.1f%% horizontal padding",
-        verticalPaddingPercent,
-        horizontalPaddingPercent
-      )
-    or "maximized to 100% (no external monitor)"
+  local paddingMsg = (not hasExternalMonitor and "maximized to 100% (no external monitor)")
+    or (isSmallExternalMonitor and "maximized to 100% (small external monitor)")
+    or string.format("with %.1f%% vertical, %.1f%% horizontal padding", verticalPaddingPercent, horizontalPaddingPercent)
 
   hs.alert.show(string.format("Resized %d windows %s", count, paddingMsg))
 end
