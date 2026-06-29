@@ -270,7 +270,7 @@ nmap_leader('xS', '<Cmd>lua Config.insert_section()<CR>',           'Section ins
 nmap_leader('xt', '<Cmd>lua MiniTrailspace.trim()<CR>',             'Trim trailspace')
 nmap_leader('xm', '<Cmd>lua Config.show_messages_in_scratch()<CR>', 'Show messages history')
 nmap_leader("xn", '<Cmd>lua MiniNotify.show_history()<CR>',         'Show notifications history')
-nmap_leader('xu', '<Cmd>lua vim.pack.update()<CR>',                 'Update plugins')
+nmap_leader('xu', Config.update_plugins,                             'Update plugins')
 
 -- Clear search on escape
 vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
