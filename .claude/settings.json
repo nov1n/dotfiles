@@ -47,10 +47,7 @@
       "Bash(kubectl rollout *)",
       "Bash(kubectl scale *)"
     ],
-    "ask": [
-      "Bash(mv *)",
-      "Bash(sed *)"
-    ]
+    "ask": ["Bash(mv *)", "Bash(sed *)"]
   },
   "model": "opus[1m]",
   "hooks": {
@@ -59,18 +56,41 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/carosi/.claude/hooks/claude-notify.sh 'Finished'",
-            "async": true
+            "command": "/Users/carosi/.local/bin/squawk hook"
           }
         ]
       }
     ],
     "Notification": [
       {
+        "matcher": "idle_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/carosi/.claude/hooks/claude-notify.sh 'Needs your input'",
+            "command": "/Users/carosi/.local/bin/squawk hook",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/carosi/.local/bin/squawk hook"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/carosi/.local/bin/squawk hook",
             "async": true
           }
         ]
@@ -105,5 +125,7 @@
   },
   "effortLevel": "medium",
   "advisorModel": "opus",
-  "theme": "auto"
+  "fastMode": true,
+  "theme": "auto",
+  "switchModelsOnFlag": true
 }
