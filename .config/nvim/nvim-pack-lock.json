@@ -33,7 +33,7 @@
       "src": "git@github.com:OXY2DEV/markview.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "50bf3871b539896bd0650b882f6e6b467cc1c1eb",
+      "rev": "47059d71b42d74b0a1e9f61c1d99d301039c3b5b",
       "src": "git@github.com:williamboman/mason-lspconfig.nvim"
     },
     "mason-tool-installer.nvim": {
@@ -45,7 +45,7 @@
       "src": "git@github.com:mason-org/mason.nvim"
     },
     "mini.nvim": {
-      "rev": "c248713d3530710f67ec804cfbdfcd5b02b19dee",
+      "rev": "1599a473aa6f5290a5d740b1144846e6f0c3963d",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-lint": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "smart-splits.nvim": {
-      "rev": "2aad9808f289f5d65cfa77840a04b8590e5e34e9",
+      "rev": "0e5bc00d2a32e6c782cd279cb96ab6c7ae49cd94",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
     "tokyonight.nvim": {
