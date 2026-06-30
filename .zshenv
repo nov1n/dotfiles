@@ -1,9 +1,3 @@
-# Homebrew — load in .zshenv so PATH is set for every zsh invocation
-# (login, interactive, scripts, `zsh -c`). Needed for the Ghostty→tmux
-# command chain, which runs `zsh -lc` (login, non-interactive) and would
-# otherwise skip .zshrc.
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 export ZSH_COMPDUMP=$HOME/.zsh/cache/.zcompdump-$HOST
 # See https://www.johnhawthorn.com/2012/09/vi-escape-delays/
 export KEYTIMEOUT=1
