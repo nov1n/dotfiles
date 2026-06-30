@@ -65,6 +65,18 @@ function extract() {
   fi
 }
 
+upgrade() {
+  topgrade \
+    && brew cleanup --prune=all \
+    && brew doctor \
+    && brew bundle dump -f --file="$DOTFILES_HOME/script/Brewfile" \
+    && git -C "$DOTFILES_HOME" add script/Brewfile \
+    && git -C "$DOTFILES_HOME" diff --cached --quiet \
+    || git -C "$DOTFILES_HOME" commit -m "Update Brewfile" \
+    && docker system prune -f
+  alerter --title "Upgrade" --message "Done"
+}
+
 cdtemp() {
   cd "$(mktemp -d)" || exit
 }
