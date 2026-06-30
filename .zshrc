@@ -1,3 +1,6 @@
+# Homebrew
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # In Ghostty (and not already inside tmux), hand off to tmux before any other
 # shell setup: the quick terminal gets the "quick" session, regular windows get
 # the most recently used session other than "quick" (so the quick terminal can't
