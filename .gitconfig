@@ -137,7 +137,7 @@
 
 [push]
   # https://git-scm.com/docs/git-config#git-config-pushdefault
-  default = simple
+	default = current
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
 
@@ -192,3 +192,5 @@
 	gpgsign = true
 [gpg "ssh"]
 	allowedSignersFile = /Users/carosi/.ssh/allowed_signers
+[pull]
+	rebase = true
