@@ -62,6 +62,8 @@ brew "cdebug"
 brew "cdrtools"
 # Cut, copy, and paste anything, anywhere, all from the terminal
 brew "clipboard"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
 # Validate the structure of your container images
 brew "container-structure-test"
 # GNU multiple precision arithmetic library
