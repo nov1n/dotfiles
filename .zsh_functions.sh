@@ -74,7 +74,7 @@ upgrade() {
     && git -C "$DOTFILES_HOME" diff --cached --quiet \
     || git -C "$DOTFILES_HOME" commit -m "Update Brewfile" \
     && docker system prune -f
-  alerter --title "Upgrade" --message "Done"
+  alerter --title "Upgrade" --message "Done";
 }
 
 cdtemp() {
