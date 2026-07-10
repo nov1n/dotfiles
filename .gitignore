@@ -25,3 +25,5 @@ node_modules
 # dir, which is symlinked into the repo; track karabiner.json, ignore the rest
 .config/karabiner/automatic_backups/
 .config/karabiner/assets/
+
+**/.claude/settings.local.json
