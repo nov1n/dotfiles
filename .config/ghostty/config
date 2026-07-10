@@ -59,6 +59,14 @@ keybind = super+ctrl+arrow_up=unbind
 keybind = super+ctrl+arrow_down=unbind
 keybind = super+ctrl+arrow_left=unbind
 keybind = super+ctrl+arrow_right=unbind
+keybind = super+arrow_up=unbind
+keybind = super+arrow_down=unbind
+keybind = super+arrow_left=unbind
+keybind = super+arrow_right=unbind
+keybind = super+alt+arrow_up=unbind
+keybind = super+alt+arrow_down=unbind
+keybind = super+alt+arrow_left=unbind
+keybind = super+alt+arrow_right=unbind
 keybind = super+d=unbind
 keybind = super+shift+d=unbind
 
@@ -66,6 +74,7 @@ keybind = super+shift+d=unbind
 keybind = super+n=unbind
 
 # Tabs
+keybind = super+shift+minus=unbind
 keybind = super+t=unbind
 keybind = super+w=unbind
 keybind = super+alt+w=unbind
@@ -87,9 +96,69 @@ keybind = ctrl+backspace=text:\x17
 # Shift+Enter sends ESC+CR (for Claude Code multi-line input)
 keybind = shift+enter=text:\x1b\r
 
-# Cmd+K triggers sesh (tmux session picker): sends prefix (C-a) + s.
-# Overrides Ghostty's default clear-scrollback on cmd+k.
-keybind = super+k=text:\x01s
+# ── MACOS MODE START ────────────────────────────────────────────────────────
+# Cmd/Ctrl bindings that mirror macOS native app conventions inside tmux.
+# All key presses are translated here in Ghostty; tmux and nvim need no changes.
+
+# Disable manual Ctrl+A prefix — use the Cmd+* bindings below instead.
+keybind = ctrl+a=ignore
+
+# Session picker (was Cmd+K).
+keybind = super+p=text:\x01s
+# Toggle last session.
+keybind = super+`=text:\x01L
+keybind = super+g=text:\x01g
+keybind = super+shift+d=text:\x01d
+keybind = super+r=reload_config
+keybind = super+shift+r=text:\x01r
+
+# Window (tab) management.
+keybind = super+t=text:\x01c
+keybind = super+w=text:\x01x
+keybind = super+[=text:\x01p
+keybind = super+]=text:\x01n
+keybind = super+shift+[=text:\x01<
+keybind = super+shift+]=text:\x01>
+keybind = ctrl+tab=text:\x01n
+keybind = ctrl+shift+tab=text:\x01p
+keybind = super+one=text:\x011
+keybind = super+two=text:\x012
+keybind = super+three=text:\x013
+keybind = super+four=text:\x014
+keybind = super+five=text:\x015
+keybind = super+six=text:\x016
+keybind = super+seven=text:\x017
+keybind = super+eight=text:\x018
+keybind = super+nine=text:\x019
+
+# Enter tmux copy mode (vim mode).
+keybind = super+f=text:\x01[
+
+# Swap pane in direction.
+keybind = super+alt+arrow_left=text:\x01\x1b[D
+keybind = super+alt+arrow_right=text:\x01\x1b[C
+keybind = super+alt+arrow_up=text:\x01\x1b[A
+keybind = super+alt+arrow_down=text:\x01\x1b[B
+
+# Pane splits and zoom.
+keybind = super+shift+\=text:\x01|
+keybind = super+shift+minus=text:\x01-
+keybind = super+z=text:\x01z
+keybind = super+u=text:\x01u
+
+# Pane navigation — same ESC+hjkl sequences as Option+hjkl (smart-splits.nvim).
+keybind = super+h=text:\x1bh
+keybind = super+j=text:\x1bj
+keybind = super+k=text:\x1bk
+keybind = super+l=text:\x1bl
+
+# Pane resize — same ESC+HJKL sequences as Option+HJKL (smart-splits.nvim).
+keybind = super+shift+h=text:\x1bH
+keybind = super+shift+j=text:\x1bJ
+keybind = super+shift+k=text:\x1bK
+keybind = super+shift+l=text:\x1bL
+
+# ── MACOS MODE END ──────────────────────────────────────────────────────────
 
 # Quick terminal
 keybind = global:super+ctrl+alt+shift+t=toggle_quick_terminal
