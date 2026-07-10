@@ -4,6 +4,22 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Shift+Mute to F17 (mic mute via Hammerspoon)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "consumer_key_code": "mute",
+                                    "modifiers": { "mandatory": ["shift"] }
+                                },
+                                "to": [
+                                    { "key_code": "page_down", "modifiers": ["control", "option", "command"] },
+                                    { "key_code": "page_up" }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Ctrl+Backspace to delete a word",
                         "manipulators": [
                             {
