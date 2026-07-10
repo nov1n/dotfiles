@@ -253,8 +253,11 @@ local function send_selection_to_claude()
     end
   end
 
-  vim.fn.system({ 'tmux', 'load-buffer', '-' }, locator .. fenced)
-  vim.fn.system({ 'tmux', 'paste-buffer', '-d', '-p', '-t', target })
+  -- paste-buffer writes raw bytes to the pty; \r in that stream submits.
+  -- send-keys -l sends key events, where \27\13 (ESC+CR) is the same signal
+  -- Claude uses for multi-line newlines (consistent with the trailing send below).
+  local content = (locator .. fenced):gsub('\n', '\27\13')
+  vim.fn.system({ 'tmux', 'send-keys', '-t', target, '-l', content })
   -- ESC+CR is Claude's multi-line newline trigger (raw \n is ignored); two of them
   -- leave a blank line below the pasted block to type a comment on.
   vim.fn.system({ 'tmux', 'send-keys', '-t', target, '-l', '\27\13\27\13' })
