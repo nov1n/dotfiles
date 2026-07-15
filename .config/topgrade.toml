@@ -45,7 +45,7 @@ assume_yes = true
 # no_retry = true
 
 # Run inside tmux (default: false)
-run_in_tmux = true
+# run_in_tmux = true
 
 # Changes the way topgrade interacts with
 # the tmux session, creating the session
