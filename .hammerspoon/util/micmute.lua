@@ -25,8 +25,13 @@ end
 local micMuteIcon = nil
 
 local function updateMenuBar()
-  if not menubar then return end
-  menubar:setIcon(muted and micMuteIcon or nil)
+  if muted then
+    if not menubar then menubar = hs.menubar.new() end
+    if menubar then menubar:setIcon(micMuteIcon) end
+  elseif menubar then
+    menubar:delete()
+    menubar = nil
+  end
 end
 
 function M.toggle()
@@ -39,8 +44,6 @@ function M.start()
   micMuteIcon = hs.image.imageFromPath(os.getenv("HOME") .. "/dotfiles/.hammerspoon/util/mute.png")
   if micMuteIcon then micMuteIcon:size({ w = 18, h = 18 }, true) end
   muted = readState()
-  menubar = hs.menubar.new()
-  if menubar then menubar:setIcon(nil) end
   updateMenuBar()
   hs.hotkey.bind({}, "pageup", M.toggle)
 end

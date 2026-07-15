@@ -28,29 +28,24 @@ local M = {}
 
 function M:updateVPNMenubar()
   logger.d("Updating VPN menubar...")
-  if not self.menubar then
-    logger.e("Menubar is not initialized.")
-    return
-  end
 
   getVPNStatusAsync(function(isConnected)
-    local menuItems = {}
-
     if isConnected then
+      if not self.menubar then self.menubar = hs.menubar.new() end
       self.menubar:setIcon("/Users/carosi/dotfiles/.hammerspoon/util/shield.png")
+      self.menubar:setMenu({})
       logger.d("VPN icon set to connected.")
-    else
-      self.menubar:setIcon(nil)
-      logger.d("VPN icon set to nil.")
+    elseif self.menubar then
+      self.menubar:delete()
+      self.menubar = nil
+      logger.d("VPN menubar item removed.")
     end
-
-    self.menubar:setMenu(menuItems)
   end)
 end
 
 function M:start()
   logger.i("VPN monitor started with interval: " .. vpnCheckInterval .. " seconds.")
-  if not self.menubar then self.menubar = hs.menubar.new() end
+  self:updateVPNMenubar()
   self.timer = hs.timer.doEvery(vpnCheckInterval, function() self:updateVPNMenubar() end)
 end
 
