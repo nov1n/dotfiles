@@ -66,6 +66,21 @@ function extract() {
 }
 
 upgrade() {
+  local vpn_started_by_us=0
+  echo "Checking VPN connectivity..."
+  if ! vpn status >/dev/null 2>&1; then
+    echo "Not connected, connecting to VPN..."
+    vpn connect >/dev/null 2>&1 || {
+      echo "Failed to connect to VPN."
+      return 1
+    }
+    vpn_started_by_us=1
+    trap 'vpn disconnect >/dev/null 2>&1' EXIT
+    echo "VPN connected."
+  else
+    echo "VPN already connected."
+  fi
+
   topgrade \
     && brew cleanup --prune=all \
     && brew doctor \
@@ -74,7 +89,14 @@ upgrade() {
     && git -C "$DOTFILES_HOME" diff --cached --quiet \
     || git -C "$DOTFILES_HOME" commit -m "Update Brewfile" \
     && docker system prune -f
-  alerter --title "Upgrade" --message "Done";
+  alerter --title "Upgrade" --message "Done" &
+
+  if (( vpn_started_by_us )); then
+    echo "Disconnecting VPN..."
+    vpn disconnect >/dev/null 2>&1
+    trap - EXIT
+    echo "VPN disconnected."
+  fi
 }
 
 cdtemp() {
