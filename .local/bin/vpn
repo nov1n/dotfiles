@@ -11,10 +11,11 @@ function get_vpn_status() {
 }
 
 function flush_dns_cache() {
-  echo "Flushing DNS cache..."
-  sudo dscacheutil -flushcache
-  sudo killall -HUP mDNSResponder
-  echo "DNS cache flushed."
+  echo "Skipping DNS cache flush."
+  # echo "Flushing DNS cache..."
+  # sudo dscacheutil -flushcache
+  # sudo killall -HUP mDNSResponder
+  # echo "DNS cache flushed."
 }
 
 function disconnect_vpn() {
