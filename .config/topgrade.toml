@@ -206,7 +206,7 @@ assume_yes = true
 # pull_predefined = false
 
 # Arguments to pass Git when pulling Repositories
-# arguments = "--rebase --autostash"
+arguments = "--rebase --autostash"
 
 
 [windows]
