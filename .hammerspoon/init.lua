@@ -11,7 +11,6 @@ local sleepWatcher = require("util.sleepwatcher")
 local vpnMonitor = require("util.vpnmonitor")
 local appman = require("util.appman")
 local winman = require("util.winman")
-local micmute = require("util.micmute")
 
 -- Config
 local hyper = { "cmd", "ctrl", "alt" }
@@ -85,9 +84,6 @@ hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.",
 caff:start(true)
 caff:setState(true)
 sleepWatcher:start()
-
--- Mic mute (started before VPN so it appears to the right of it)
-micmute.start()
 
 -- VPN Monitor
 vpnMonitor:start()
