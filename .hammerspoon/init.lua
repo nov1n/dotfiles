@@ -40,16 +40,14 @@ bind(hyper, "u", function()
   -- async, so defer until the app is actually frontmost (skip if we toggled away).
   hs.timer.doAfter(0.15, function()
     local app = hs.application.get("co.podzim.boltai-mobile")
-    if app and app:isFrontmost() then
-      app:selectMenuItem({ "Edit", "Focus Composer" })
-    end
+    if app and app:isFrontmost() then app:selectMenuItem({ "Edit", "Focus Composer" }) end
   end)
 end)
 bind(hyper, "w", function() appman.switchToAndFromApp("net.whatsapp.WhatsApp") end)
 
 -- Window management
 hs.window.animationDuration = 0
-bind(hyper, "0", function() winman.centerAllWindows(1.5, 13) end)
+bind(hyper, "0", function() winman.centerAllWindows(0, 10) end)
 bind(hyper, "return", winman.toggleFullScreen)
 bind(hyper, "\\", winman.splitScreenTwoWindows)
 bind(hyper, "-", winman.toggleMinimizeAllWindows)
