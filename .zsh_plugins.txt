@@ -13,3 +13,6 @@ jeffreytse/zsh-vi-mode
 # Fish-like features
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
+
+# Desktop notification when a long-running command finishes
+MichaelAquilina/zsh-auto-notify

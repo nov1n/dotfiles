@@ -23,6 +23,10 @@ export MANPAGER="nvim -c 'Man!'";
 # Ripgrep
 export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
 
+# zsh-auto-notify: send a desktop notification when a command takes longer
+# than this many seconds to finish (must be set before antidote loads it).
+export AUTO_NOTIFY_THRESHOLD=30
+
 # Fzf
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

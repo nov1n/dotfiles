@@ -91,7 +91,7 @@ upgrade() {
     && docker system prune -f
   alerter --title "Upgrade" --message "Done" &
 
-  if (( vpn_started_by_us )); then
+  if ((vpn_started_by_us)); then
     echo "Disconnecting VPN..."
     vpn disconnect >/dev/null 2>&1
     trap - EXIT
@@ -230,6 +230,41 @@ notify() {
   local statuscode=$?
   printf "\e]9;%s\e\\" "Command '$command_text' finished with status code: $statuscode"
   afplay /System/Library/Sounds/Glass.aiff
+}
+
+# Override zsh-auto-notify's macOS notifier (defined by the antidote plugin)
+# to use `alerter` (same tool squawk uses) with --app-icon so the notification
+# carries Ghostty's icon instead of the generic Script Editor icon that plain
+# `osascript display notification` shows. --sender (impersonation) silently
+# drops the notification on modern macOS regardless of Ghostty's notification
+# permission, so use --app-icon (just attaches an image, no impersonation).
+# Clicking the notification body jumps back to the tmux pane the command ran
+# in and activates Ghostty, same pattern as squawk's jump_to_pane.
+_auto_notify_message() {
+  local command="$1" elapsed="$2" exit_code="$3"
+
+  if [[ "$exit_code" -eq 130 ]] && [[ "${AUTO_NOTIFY_CANCEL_ON_SIGINT}" -eq 1 ]]; then
+    return
+  fi
+
+  local title body pane
+  title="$(_auto_notify_format "${AUTO_NOTIFY_TITLE:-\"%command\" Completed}" "$command" "$elapsed" "$exit_code")"
+  body="$(_auto_notify_format "${AUTO_NOTIFY_BODY:-Total time: %elapsed seconds}" "$command" "$elapsed" "$exit_code")"
+  [[ -n "$TMUX" ]] && pane="$(tmux display-message -p '#{pane_id}' 2>/dev/null)"
+
+  {
+    local result kind
+    result="$(alerter --title "$title" --message "$body" \
+      --app-icon /Applications/Ghostty.app/Contents/Resources/Ghostty.icns \
+      --actions "Jump" --timeout 30 --json 2>/dev/null)"
+    kind="$(jq -r '.activationType // ""' <<<"$result" 2>/dev/null)"
+    # The only action is "Jump", so any action/body click navigates, same as
+    # squawk's notify().
+    if [[ "$kind" == "actionClicked" || "$kind" == "contentsClicked" ]]; then
+      [[ -n "$pane" ]] && tmux switch-client -t "$pane" 2>/dev/null
+      osascript -e 'tell application id "com.mitchellh.ghostty" to activate' >/dev/null 2>&1
+    fi
+  } &|
 }
 
 my_zvm_vi_yank() {
