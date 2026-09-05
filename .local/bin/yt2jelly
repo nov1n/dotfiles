@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# Download YouTube video(s) locally via ytdl-sub, organized as a Jellyfin TV
+# show under each video's channel name, then sync the finished result to the
+# homelab NAS. Downloading locally (rather than through `docker --context
+# homelab`, which tunnels everything over SSH for the run's whole duration)
+# avoids long-running downloads getting killed by SSH connection drops, and
+# gives each video its own working directory so concurrent downloads don't
+# collide on ytdl-sub's single-instance-per-working-directory lock.
+set -euo pipefail
+
+SSH_HOST="homelab"
+CONFIG_DIR="$HOME/dotfiles/.config/ytdl-sub"
+REMOTE_TV_SHOW_DIR="/mnt/nfs/media/commercial/youtube"
+
+usage() {
+  local prog
+  prog="$(basename "$0")"
+  echo "Usage: $prog <youtube-url>" >&2
+  echo "       $prog < urls.txt" >&2
+  echo "       echo <youtube-url> | $prog" >&2
+  exit 1
+}
+
+# Downloads a channel image to $2 on the remote host, unless it's already there.
+fetch_channel_image_if_missing() {
+  local src_url="$1" remote_path="$2"
+  [[ -n "$src_url" && "$src_url" != "null" ]] || return 0
+  if ssh "$SSH_HOST" "test -f '$remote_path'"; then
+    return 0
+  fi
+  echo "Fetching $(basename "$remote_path")"
+  curl -sL "$src_url" | ssh "$SSH_HOST" "cat > '$remote_path'"
+}
+
+download_video() {
+  local url="$1"
+
+  # URLs with a playlist/mix attached (e.g. YouTube's auto-generated "radio"
+  # mixes, list=RD...) make yt-dlp try to resolve the whole playlist instead
+  # of just this video, which can hang for a very long time (mixes are
+  # algorithmically generated and effectively open-ended). Resolve to a
+  # single clean video URL up front so no playlist ever gets pulled in,
+  # here or later when it's handed to ytdl-sub.
+  local video_id
+  video_id="$(yt-dlp --no-playlist --skip-download --print '%(id)s' "$url")"
+  [[ -n "$video_id" ]] || {
+    echo "Could not resolve a video id for $url, skipping" >&2
+    return 1
+  }
+  url="https://www.youtube.com/watch?v=${video_id}"
+
+  local channel channel_url
+  channel="$(yt-dlp --no-playlist --skip-download --print '%(channel,uploader)s' "$url")"
+  channel_url="$(yt-dlp --no-playlist --skip-download --print '%(channel_url,uploader_url)s' "$url")"
+  [[ -n "$channel" && -n "$channel_url" ]] || {
+    echo "Could not determine channel for $url, skipping" >&2
+    return 1
+  }
+
+  local workdir
+  workdir="$(mktemp -d "${TMPDIR:-/tmp}/yt2jelly.XXXXXX")"
+  # shellcheck disable=SC2064 # intentionally expand $workdir now, not at trap time
+  trap "rm -rf '$workdir'" RETURN
+
+  # ytdl-sub's single-instance lock lives relative to /config, not /tv_shows,
+  # so concurrent runs sharing the same config mount collide even with
+  # separate output directories. Give each run its own config copy too.
+  mkdir -p "${workdir}/config"
+  cp "${CONFIG_DIR}/config.yaml" "${workdir}/config/config.yaml"
+  mkdir -p "${workdir}/tv_shows"
+
+  local remote_show_dir="${REMOTE_TV_SHOW_DIR}/${channel}"
+
+  echo "Channel: $channel"
+  echo "Downloading locally into: $workdir"
+
+  docker run --rm \
+    --user 1000:1000 \
+    -e TZ=Europe/Amsterdam \
+    -v "${workdir}/config:/config" \
+    -v "${workdir}/tv_shows:/tv_shows" \
+    --entrypoint ytdl-sub \
+    ghcr.io/jmbannon/ytdl-sub:latest \
+    --config /config/config.yaml \
+    dl --preset "TV Show" \
+    --overrides.tv_show_name "$channel" \
+    --overrides.url "$url"
+
+  echo "Syncing to ${SSH_HOST}:${remote_show_dir}"
+  ssh "$SSH_HOST" "mkdir -p '${remote_show_dir}'"
+  rsync -az "${workdir}/tv_shows/${channel}/" "${SSH_HOST}:${remote_show_dir}/"
+
+  # Give Jellyfin a channel poster/fanart if it doesn't have one yet.
+  local channel_meta poster_url fanart_url
+  channel_meta="$(yt-dlp --flat-playlist --playlist-items 0 -J "$channel_url")"
+  poster_url="$(jq -r '.thumbnails[]? | select(.id=="avatar_uncropped") | .url' <<<"$channel_meta")"
+  fanart_url="$(jq -r '.thumbnails[]? | select(.id=="banner_uncropped") | .url' <<<"$channel_meta")"
+
+  fetch_channel_image_if_missing "$poster_url" "${remote_show_dir}/poster.jpg"
+  fetch_channel_image_if_missing "$fanart_url" "${remote_show_dir}/fanart.jpg"
+}
+
+if [[ $# -eq 1 ]]; then
+  download_video "$1"
+elif [[ $# -eq 0 && ! -t 0 ]]; then
+  status=0
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -n "$line" ]] || continue
+    download_video "$line" || status=1
+  done
+  exit "$status"
+else
+  usage
+fi

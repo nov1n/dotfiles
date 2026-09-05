@@ -1,0 +1,21 @@
+configuration:
+  working_directory: ".ytdl-sub-working-directory"
+
+presets:
+  TV Show:
+    preset:
+      - "Jellyfin TV Show by Date"
+      - "Max 1080p"
+    overrides:
+      tv_show_directory: "/tv_shows"
+    # Prefer H.264 video over VP9/AV1: Streamyfin on Apple TV can't direct
+    # play AV1 (mpv's dav1d software decode hangs tvOS's vo_avfoundation
+    # output), so YouTube's AV1/VP9 "best" formats force a server transcode.
+    # Falls back to the overall best <=1080p only if no H.264 stream exists.
+    format: "bestvideo[vcodec^=avc1][height<=1080]+bestaudio/best[height<=1080]"
+    ytdl_options:
+      merge_output_format: "mp4"
+      extractor_args:
+        youtube:
+          player_client:
+            - "web_embedded"
