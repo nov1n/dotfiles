@@ -77,7 +77,6 @@ end
 nmap_leader('<leader>', '<Cmd>Pick files<CR>',      'Files')
 nmap_leader('/',        '<Cmd>Pick grep_live<CR>',  'Grep live')
 nmap_leader(',',        '<Cmd>Pick buffers<CR>',    'Buffers')
-nmap_leader('R',        '<Cmd>restart<CR>',         'Restart Neovim')
 nmap_leader('*', function()
   local word = vim.fn.expand('<cword>')
   vim.schedule(function()
