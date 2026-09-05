@@ -25,7 +25,6 @@ alias tree="lsd -l --tree --depth=3"
 alias lg="lazygit"
 alias tw="taskwarrior-tui"
 alias fd='fd --hidden'
-alias '?'='noglob ?'
 
 # Nudges
 alias nslookup="dig"
