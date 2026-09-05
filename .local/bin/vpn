@@ -3,6 +3,18 @@
 export PATH="/opt/homebrew/bin:$PATH"
 
 function get_vpn_status() {
+  local secureclient_bin
+  for secureclient_bin in /opt/cisco/secureclient/bin/vpn /opt/cisco/anyconnect/bin/vpn; do
+    if [[ -x "$secureclient_bin" ]]; then
+      if "$secureclient_bin" -s state 2>/dev/null | grep -Eiq "state: Connected|>> state: Connected"; then
+        return 0 # Connected
+      else
+        return 1 # Disconnected
+      fi
+    fi
+  done
+
+  # Fall back to picnic-cli if the Cisco client isn't found where expected.
   if picnic vpn 2>/dev/null | grep -Eiq "state: Connected|>> state: Connected"; then
     return 0 # Connected
   else
