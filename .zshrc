@@ -15,7 +15,7 @@ if [[ "$TERM_PROGRAM" == "ghostty" && -z "$TMUX" ]]; then
   if [[ -n "$target" ]]; then
     exec tmux attach -t "$target"
   else
-    exec tmux attach
+    exec tmux new-session
   fi
 fi
 
