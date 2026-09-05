@@ -390,6 +390,7 @@ if vim.fn.has("mac") == 1 then
         },
       },
       daily_notes = {
+        template = "daily-note-template.md",
         folder = "Journal",
         default_tags = { "journal" },
       },
