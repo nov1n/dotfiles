@@ -8,6 +8,28 @@ presets:
       - "Max 1080p"
     overrides:
       tv_show_directory: "/tv_shows"
+      # "Jellyfin TV Show by Date" groups episodes into a season per
+      # upload year (Season 2006, Season 2007, ...). Force everything into
+      # a single season so the hierarchy is just channel -> video, while
+      # keeping the episode number date-based (and thus unique/sortable)
+      # since it now has to be unique across all years, not just one.
+      season_number: "1"
+      season_number_padded: "01"
+      episode_number: >-
+        {
+          %int(
+            %concat(upload_year, upload_month_padded, upload_day_padded, upload_date_index_padded)
+          )
+        }
+      episode_number_padded: "{ %concat(upload_year, upload_month_padded, upload_day_padded, upload_date_index_padded) }"
+      # Passed in by yt2jelly as the YouTube channel's own "About" text.
+      # Without a plot in tvshow.nfo, Jellyfin's online metadata providers
+      # (TheTVDB/TMDB) fill it in from an unrelated show with the same name.
+      tv_show_description: >-
+        { %throw("Must specify tv_show_description") }
+    output_directory_nfo_tags:
+      tags:
+        plot: "{tv_show_description}"
     # Prefer H.264 video over VP9/AV1: Streamyfin on Apple TV can't direct
     # play AV1 (mpv's dav1d software decode hangs tvOS's vo_avfoundation
     # output), so YouTube's AV1/VP9 "best" formats force a server transcode.

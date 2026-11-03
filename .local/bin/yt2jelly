@@ -8,9 +8,22 @@
 # collide on ytdl-sub's single-instance-per-working-directory lock.
 set -euo pipefail
 
-SSH_HOST="homelab"
 CONFIG_DIR="$HOME/dotfiles/.config/ytdl-sub"
 REMOTE_TV_SHOW_DIR="/mnt/nfs/media/commercial/youtube"
+
+# Prefer the direct LAN connection (fast) over the Cloudflare tunnel (slow,
+# routes through Cloudflare's edge even when we're on the same network as
+# the NAS) whenever the LAN host is actually reachable.
+pick_ssh_host() {
+  if ssh -o ConnectTimeout=2 -o BatchMode=yes homelab-local true 2>/dev/null; then
+    echo "homelab-local"
+  else
+    echo "homelab"
+  fi
+}
+
+SSH_HOST="$(pick_ssh_host)"
+echo "Using SSH host: $SSH_HOST"
 
 usage() {
   local prog
@@ -57,6 +70,19 @@ download_video() {
     return 1
   }
 
+  # Fetch the channel's own "About" description so it ends up in tvshow.nfo.
+  # Without this, tvshow.nfo has no <plot>, and Jellyfin's online metadata
+  # providers (TheTVDB/TMDB) will happily fill it in from an unrelated show
+  # that happens to share the channel's name.
+  local channel_meta description poster_url fanart_url
+  channel_meta="$(yt-dlp --flat-playlist --playlist-items 0 -J "$channel_url")"
+  description="$(jq -r '.description // ""' <<<"$channel_meta")"
+  # Curly braces would otherwise be parsed as ytdl-sub template syntax.
+  description="${description//\{/(}"
+  description="${description//\}/)}"
+  poster_url="$(jq -r '.thumbnails[]? | select(.id=="avatar_uncropped") | .url' <<<"$channel_meta")"
+  fanart_url="$(jq -r '.thumbnails[]? | select(.id=="banner_uncropped") | .url' <<<"$channel_meta")"
+
   local workdir
   workdir="$(mktemp -d "${TMPDIR:-/tmp}/yt2jelly.XXXXXX")"
   # shellcheck disable=SC2064 # intentionally expand $workdir now, not at trap time
@@ -84,17 +110,16 @@ download_video() {
     --config /config/config.yaml \
     dl --preset "TV Show" \
     --overrides.tv_show_name "$channel" \
+    --overrides.tv_show_description "$description" \
     --overrides.url "$url"
 
   echo "Syncing to ${SSH_HOST}:${remote_show_dir}"
   ssh "$SSH_HOST" "mkdir -p '${remote_show_dir}'"
-  rsync -az "${workdir}/tv_shows/${channel}/" "${SSH_HOST}:${remote_show_dir}/"
-
-  # Give Jellyfin a channel poster/fanart if it doesn't have one yet.
-  local channel_meta poster_url fanart_url
-  channel_meta="$(yt-dlp --flat-playlist --playlist-items 0 -J "$channel_url")"
-  poster_url="$(jq -r '.thumbnails[]? | select(.id=="avatar_uncropped") | .url' <<<"$channel_meta")"
-  fanart_url="$(jq -r '.thumbnails[]? | select(.id=="banner_uncropped") | .url' <<<"$channel_meta")"
+  # The remote path is embedded in a shell command that ssh runs on the
+  # far end, so it needs its own quoting (spaces in channel names would
+  # otherwise get word-split there) on top of whatever local quoting bash
+  # already did.
+  rsync -az --progress -h "${workdir}/tv_shows/${channel}/" "${SSH_HOST}:'${remote_show_dir}/'"
 
   fetch_channel_image_if_missing "$poster_url" "${remote_show_dir}/poster.jpg"
   fetch_channel_image_if_missing "$fanart_url" "${remote_show_dir}/fanart.jpg"
