@@ -73,8 +73,6 @@ export PATH="$HOME/go/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
 
-# Default aws profile
-export AWS_PROFILE="picnic-artifacts"
 
 # Machine-local environment. Sourced here (not .zshrc) so it's also
 # available to non-interactive login shells like tmux's `zsh -lc 'exec claude'`.

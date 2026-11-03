@@ -10,7 +10,6 @@ tap "knqyf263/pet", trusted: true
 tap "lindell/multi-gitter", trusted: true
 tap "mvp/uhubctl", "https://github.com/mvp/uhubctl", trusted: true
 tap "nikitabobko/tap", trusted: true
-tap "picnicsupermarket/picnic-cli", trusted: true
 tap "rockymadden/rockymadden", trusted: true
 tap "sapd/headsetcontrol", trusted: true
 tap "vjeantet/tap"
@@ -362,8 +361,6 @@ brew "hashicorp/tap/vault"
 brew "jetbrains/utils/teamcity"
 # Simple command-line snippet manager
 brew "knqyf263/pet/pet"
-# Picnic's CLI
-brew "picnicsupermarket/picnic-cli/picnic-cli"
 brew "rockymadden/rockymadden/slack-cli"
 # Sidetone support for various headsets
 brew "sapd/headsetcontrol/headsetcontrol", args: ["HEAD"]
