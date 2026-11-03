@@ -300,7 +300,12 @@ end)
 
 -- Window management
 later(function()
+  add({ "https://github.com/smart-splits-nvim/backend-tmux" })
   add({ "https://github.com/mrjones2014/smart-splits.nvim" })
+
+  require("smart-splits").setup({
+    mux = { backend = "smart-splits-backend-tmux" },
+  })
 end)
 
 later(function()
