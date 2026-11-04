@@ -72,12 +72,6 @@ restore_local_secrets() {
   done
   chmod 600 "$LOCAL_SECRETS"
   echo "Found $LOCAL_SECRETS."
-
-  # Nice to have, not required for bootstrapping.
-  local f
-  for f in "$HOME/.npmrc" "$HOME/.m2/settings.xml"; do
-    [ -f "$f" ] || warn "Not restored yet (optional): $f"
-  done
 }
 
 # True if every `mas` app in the Brewfile is already installed.

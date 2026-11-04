@@ -3,10 +3,6 @@
 bootstrap.sh already paused for `~/.ssh`, `~/.zsh_local.sh` and App Store
 sign-in. Everything below is optional for bootstrapping and left to do by hand.
 
-## Restore secrets (not in the repo)
-- `~/.npmrc`
-- `~/.m2/settings.xml`
-
 ## Import app settings
 - Raycast: sign in to restore Cloud Sync settings, if any. Then Settings → Extensions →
   Script Commands → Add Directory → `~/.raycast/scripts`.
