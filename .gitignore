@@ -26,8 +26,5 @@ node_modules
 .config/karabiner/automatic_backups/
 .config/karabiner/assets/
 
-.config/ytdl-sub/.cache/
-.config/ytdl-sub/.ytdl-sub-lock
-
 **/.claude/settings.local.json
 

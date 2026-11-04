@@ -119,9 +119,12 @@ install_packages() {
 
 link_dotfiles() {
   log "Symlinking dotfiles with stow"
-  # Tools write their own files into these dirs. Create them first so stow links
-  # the individual files instead of folding the whole dir into the repo.
-  mkdir -p "$HOME/.cargo" "$HOME/.local/bin" "$HOME/.claude"
+  # Stow links a dir that doesn't exist yet as one symlink into the repo, so
+  # files tools write there would land in the repo. Create these first so stow
+  # links the individual files instead. karabiner is left out on purpose: it
+  # replaces karabiner.json on save, which would break a per-file link.
+  mkdir -p "$HOME/.config" "$HOME/.local/bin" "$HOME/.cargo" "$HOME/.claude" \
+    "$HOME/.config/ytdl-sub" "$HOME/Library/Application Support/lazygit"
   cd "$DOTFILES"
   stow -R -v .
 }
