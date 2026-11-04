@@ -4,6 +4,7 @@ tap "dlvhdr/formulae"
 tap "felixkratz/formulae"
 tap "raine/workmux"
 tap "vjeantet/tap"
+tap "dashlane/tap"
 
 # --- Shell & terminal -------------------------------------------------------
 brew "zsh"
@@ -19,6 +20,7 @@ brew "topgrade"
 brew "workmux"
 brew "clipboard"
 brew "mas"
+brew "vjeantet/tap/alerter"
 brew "trash"
 cask "ghostty"
 
@@ -74,6 +76,7 @@ brew "fnm"
 
 # --- Containers & k8s -------------------------------------------------------
 brew "docker"
+cask "orbstack"
 brew "docker-credential-helper"
 brew "lazydocker"
 brew "k9s"
@@ -126,7 +129,6 @@ cask "boltai"
 cask "font-0xproto-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "font-monaspace"
-cask "font-monaspace-nerd-font"
 cask "font-monaspice-nerd-font"
 cask "font-noto-sans-symbols-2"
 cask "font-symbols-only-nerd-font"
@@ -134,9 +136,9 @@ cask "font-victor-mono-nerd-font"
 
 # --- Mac App Store (requires being signed in) -------------------------------
 mas "Kindle", id: 302584613
-mas "Keynote", id: 409183694
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
+mas "Keynote", id: 361285480
+mas "Numbers", id: 361304891
+mas "Pages", id: 361309726
 mas "GarageBand", id: 682658836
 mas "reMarkable", id: 1276493162
 mas "Paprika Recipe Manager 3", id: 1303222628
