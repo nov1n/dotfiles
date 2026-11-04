@@ -118,7 +118,11 @@ source <(docker completion zsh)
 [[ -s "/Users/carosi/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/carosi/.sdkman/bin/sdkman-init.sh"
 
 # Bob (Neovim version manager)
-export PATH="/Users/carosi/.local/share/bob/nvim-bin:$PATH"
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH="$HOME/Library/Application Support/bob/nvim-bin:$PATH"
+else
+  export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+fi
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
