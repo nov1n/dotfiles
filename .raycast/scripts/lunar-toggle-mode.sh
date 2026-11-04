@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🌕
 
-LUNAR="/usr/local/bin/lunar"
+LUNAR="/Applications/Lunar.app/Contents/MacOS/Lunar"
 
 current_mode=
 new_mode=
@@ -27,4 +27,4 @@ case "$current_mode" in
     ;;
 esac
 echo "Setting mode to $new_mode"
-"$LUNAR" mode $new_mode
+"$LUNAR" @ mode "$new_mode"

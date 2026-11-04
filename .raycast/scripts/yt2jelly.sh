@@ -19,6 +19,7 @@ if [[ -z "$url" ]]; then
   exit 1
 fi
 
+mkdir -p "$SESSION_DIR"
 tmux has-session -t "$SESSION" 2>/dev/null || tmux new-session -d -s "$SESSION" -c "$SESSION_DIR"
 
 log_dir="$HOME/.local/log"

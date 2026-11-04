@@ -10,11 +10,9 @@
 # Optional parameters:
 # @raycast.icon 👨🏼‍💻
 # @raycast.argument1 { "type": "text", "placeholder": "Current Tab URL", "percentEncoded": false, "optional": true }
-# @raycast.argument2 { "type": "text", "placeholder": "<personal|picnic>", "percentEncoded": false, "optional": true }
 
 REPO_URL="${1:-$(osascript "$HOME/.local/bin/get_url_from_focused_browser.scpt")}"
-DOMAIN="${2:-personal}"
-TARGET_DIR="$HOME/Projects/$DOMAIN"
+TARGET_DIR="$HOME/Projects/personal"
 
 # Extract the full repository path (e.g., "foo/bar") and the repository name (e.g., "bar")
 REPO_PATH=$(echo "$REPO_URL" | sed -E 's|^https?://github\.com/([^/]+/[^/#]+).*|\1|')

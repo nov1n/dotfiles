@@ -8,7 +8,7 @@
 # Optional parameters:
 # @raycast.icon 🌓
 
-LUNAR="/usr/local/bin/lunar"
+LUNAR="/Applications/Lunar.app/Contents/MacOS/Lunar"
 
 zsh -ci 'hass-cli service call switch.toggle --arguments entity_id=switch.kvm_fingerbot'
-"$LUNAR" set input 144
+"$LUNAR" @ set input 144
