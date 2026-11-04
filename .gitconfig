@@ -169,9 +169,6 @@
 [url "git://gist.github.com/"]
   insteadOf = "gist:"
 
-[url "git@github.com:PicnicSupermarket/"]
-    insteadOf = picnic://
-
 [merge]
   conflictstyle = diff3
 

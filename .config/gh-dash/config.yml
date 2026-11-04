@@ -1,25 +1,19 @@
 # yaml-language-server: $schema=https://gh-dash.dev/schema.json
 prSections:
   - title: Mine
-    filters: org:PicnicSupermarket repo:* is:open author:@me
+    filters: is:open author:@me
     layout:
       author:
         hidden: true
   - title: Review
-    filters: org:PicnicSupermarket is:open repo:* review-requested:@me
+    filters: is:open review-requested:@me
     layout:
       repo:
         width: 6
-  - title: Delivery
-    filters: "\
-      org:PicnicSupermarket is:open -is:draft \
-      author:nov1n author:Sirivasv author:Badbond \
-      author:LucaHennart author:tr3mor author:serdarkkts \
-      author:nitin-picnic"
   - title: Commented
-    filters: org:PicnicSupermarket repo:* commenter:@me
+    filters: commenter:@me
   - title: Mentioned
-    filters: org:PicnicSupermarket repo:* mentions:@me state:open
+    filters: mentions:@me state:open
 
 pager:
   diff: diffnav
@@ -40,7 +34,6 @@ defaults:
   prsLimit: 20
   issuesLimit: 20
 repoPaths:
-  PicnicSupermarket/*: ~/Projects/picnic/*
   nov1n/*: ~/Projects/personal/*
 
 keybindings:

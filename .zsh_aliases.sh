@@ -64,7 +64,6 @@ alias fast="mvnd -T1C -Dstyle.color=always clean install -DskipTests -Dverificat
 alias verify="mvnd -T 1.0C -Dstyle.color=always clean install -DskipTests"
 alias slow="mvnd -T 1.0C clean install"
 alias mvn="mvnd -Dstyle.color=always"
-alias depgraph='mvn com.github.ferstl:depgraph-maven-plugin:aggregate -DcreateImage=true -Dincludes="tech.picnic.finance" && open target/dependency-graph.png'
 alias sortpom='mvn com.github.ekryd.sortpom:sortpom-maven-plugin:sort -Dsort.sortDependencies=groupId,artifactId -Dsort.predefinedSortOrder="custom_1" -Dsort.keepBlankLines -Dsort.createBackupFile=false -Dsort.nrOfIndentSpace=4 -Dsort.expandEmptyElements=false'
 
 # Others

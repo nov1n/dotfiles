@@ -8,7 +8,6 @@ local habitDeck = hs.loadSpoon("HabitDeck")
 
 -- Local modules
 local sleepWatcher = require("util.sleepwatcher")
-local vpnMonitor = require("util.vpnmonitor")
 local appman = require("util.appman")
 local winman = require("util.winman")
 
@@ -82,9 +81,6 @@ hs.notify.new({ title = "Hammerspoon", informativeText = "Hammerspoon started.",
 caff:start(true)
 caff:setState(true)
 sleepWatcher:start()
-
--- VPN Monitor
-vpnMonitor:start()
 
 -- HabitDeck
 local credentials_file = io.open(os.getenv("HOME") .. "/.beaverhabits", "r")

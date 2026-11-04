@@ -69,10 +69,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 
-# From https://picnic.atlassian.net/wiki/spaces/DEVPLA/pages/4395466765/Poetry+Getting+started+with+Python+at+Picnic#6.-Install-picnic-poetry-plugin
-export LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
-
 
 # Machine-local environment. Sourced here (not .zshrc) so it's also
 # available to non-interactive login shells like tmux's `zsh -lc 'exec claude'`.
