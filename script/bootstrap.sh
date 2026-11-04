@@ -138,6 +138,26 @@ install_shell_plugins() {
     || git clone --depth=1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
 }
 
+install_tmux_plugins() {
+  log "tpm (tmux plugin manager) and plugins"
+  local tpm="$HOME/.tmux/plugins/tpm"
+  [ -d "$tpm" ] || git clone --depth=1 https://github.com/tmux-plugins/tpm "$tpm"
+
+  # tpm's installer reads @plugin options from a running server. Use a private
+  # socket dir so we never touch (or kill) the user's own tmux sessions.
+  local sock_dir status=0
+  sock_dir="$(mktemp -d)"
+  export TMUX_TMPDIR="$sock_dir" TMUX=''
+  tmux new-session -d -s bootstrap
+  # .tmux.conf starts tpm with `run -b`; run it in the foreground so its
+  # environment is set before installing.
+  tmux run-shell "$tpm/tpm" && "$tpm/bin/install_plugins" || status=$?
+  tmux kill-server || true
+  rm -rf "$sock_dir"
+  unset TMUX_TMPDIR TMUX
+  [ "$status" -eq 0 ] || warn "tmux plugin install failed; press prefix+I inside tmux to retry."
+}
+
 install_toolchains() {
   log "Neovim (via bob) and Node (via fnm)"
   command -v bob >/dev/null && bob install stable && bob use stable || true
@@ -165,6 +185,7 @@ main() {
   link_dotfiles
   init_submodules
   install_shell_plugins
+  install_tmux_plugins
   install_toolchains
   set_login_shell
   apply_macos_defaults
