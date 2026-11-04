@@ -128,7 +128,11 @@ link_dotfiles() {
 
 init_submodules() {
   log "Submodules"
-  git -C "$DOTFILES" submodule update --init --recursive
+  # Only Hammerspoon spoons live in submodules, so don't abort the bootstrap.
+  # The usual failure is a pinned commit that was never pushed upstream.
+  git -C "$DOTFILES" submodule update --init --recursive \
+    || warn "Submodule update failed; Hammerspoon spoons may be missing." \
+      "Check that each pinned commit is pushed: git -C $DOTFILES submodule status"
 }
 
 install_shell_plugins() {
