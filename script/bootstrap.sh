@@ -10,6 +10,96 @@ DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 SCRIPT_DIR="$DOTFILES/script"
 
 log() { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
+warn() { printf '\033[1;33m%s\033[0m\n' "$*"; }
+die() { printf '\033[1;31m%s\033[0m\n' "$*" >&2; exit 1; }
+
+# Print instructions and block until the user presses Enter (or aborts).
+wait_for_user() {
+  [ -t 0 ] || die "This step needs manual action; re-run bootstrap.sh in an interactive terminal."
+  printf '%s\n' "$@"
+  read -r -p "Press Enter when done (Ctrl-C to abort)... " _
+}
+
+# Secrets that can't live in the repo. Must be restored from a backup by hand
+# before anything else runs: .gitconfig rewrites https://github.com/ to SSH and
+# signs commits with the SSH key, so almost every git step depends on it.
+SSH_KEY="$HOME/.ssh/id_ed25519"
+LOCAL_SECRETS="$HOME/.zsh_local.sh"
+
+restore_ssh_key() {
+  log "SSH key for GitHub"
+  until [ -f "$SSH_KEY" ] && [ -f "$SSH_KEY.pub" ]; do
+    wait_for_user \
+      "Missing $SSH_KEY (and/or .pub). Copy your ~/.ssh files from the backup, e.g.:" \
+      "  cp -R /Volumes/<backup>/.ssh/. ~/.ssh/"
+  done
+
+  chmod 700 "$HOME/.ssh"
+  find "$HOME/.ssh" -maxdepth 1 -type f ! -name '*.pub' ! -name known_hosts ! -name config \
+    -exec chmod 600 {} +
+  find "$HOME/.ssh" -maxdepth 1 -type f -name '*.pub' -exec chmod 644 {} +
+
+  if ! ssh-keygen -F github.com >/dev/null 2>&1; then
+    ssh-keyscan -t ed25519 github.com >>"$HOME/.ssh/known_hosts" 2>/dev/null
+  fi
+
+  # Store the passphrase in the Keychain so later git steps don't prompt.
+  ssh-add --apple-use-keychain "$SSH_KEY" 2>/dev/null || true
+
+  until github_ssh_ok; do
+    wait_for_user \
+      "GitHub rejected $SSH_KEY. Make sure it's the right key and added at" \
+      "https://github.com/settings/keys, then try again."
+  done
+  echo "GitHub SSH access OK."
+}
+
+# `ssh -T` exits 1 even on success, so check the greeting instead. Capture the
+# output first: piping ssh straight into grep fails under `set -o pipefail`.
+github_ssh_ok() {
+  local out
+  out="$(ssh -T git@github.com 2>&1 || true)"
+  grep -q "successfully authenticated" <<<"$out"
+}
+
+restore_local_secrets() {
+  log "Local secrets ($LOCAL_SECRETS)"
+  until [ -f "$LOCAL_SECRETS" ]; do
+    wait_for_user \
+      "Missing $LOCAL_SECRETS (machine-local env vars/tokens, sourced by .zshenv)." \
+      "Copy it from the backup, e.g.:" \
+      "  cp /Volumes/<backup>/.zsh_local.sh ~/"
+  done
+  chmod 600 "$LOCAL_SECRETS"
+  echo "Found $LOCAL_SECRETS."
+
+  # Nice to have, not required for bootstrapping.
+  local f
+  for f in "$HOME/.npmrc" "$HOME/.m2/settings.xml"; do
+    [ -f "$f" ] || warn "Not restored yet (optional): $f"
+  done
+}
+
+# True if every `mas` app in the Brewfile is already installed.
+mas_apps_installed() {
+  command -v mas >/dev/null || return 1
+  local installed id
+  installed="$(mas list 2>/dev/null | awk '{print $1}')"
+  while read -r id; do
+    grep -qx "$id" <<<"$installed" || return 1
+  done < <(grep -Eo '^mas .*id: *[0-9]+' "$SCRIPT_DIR/Brewfile" | grep -Eo '[0-9]+$')
+}
+
+sign_in_app_store() {
+  log "App Store sign-in"
+  if mas_apps_installed; then
+    echo "All App Store apps already installed."
+    return
+  fi
+  # mas can no longer detect the signed-in account, so ask instead.
+  open -a "App Store"
+  wait_for_user "Sign in to the App Store (needed to install the mas apps in the Brewfile)."
+}
 
 install_homebrew() {
   log "Homebrew"
@@ -21,9 +111,12 @@ install_homebrew() {
 
 install_packages() {
   log "Brewfile (formulae, casks, App Store apps)"
-  if ! mas account >/dev/null 2>&1; then
-    echo "Not signed in to the App Store: mas apps will fail. Sign in and re-run."
-  fi
+  # Homebrew refuses to load formulae from third-party taps until trusted.
+  local tap
+  while read -r tap; do
+    brew tap "$tap"
+    brew trust --quiet --tap "$tap"
+  done < <(sed -nE 's/^tap "([^"]+)".*/\1/p' "$SCRIPT_DIR/Brewfile")
   brew bundle --file="$SCRIPT_DIR/Brewfile"
 }
 
@@ -34,9 +127,8 @@ link_dotfiles() {
 }
 
 init_submodules() {
-  log "Submodules (need your SSH key for GitHub)"
-  git -C "$DOTFILES" submodule update --init --recursive \
-    || echo "Submodules failed: restore ~/.ssh and run 'git submodule update --init'"
+  log "Submodules"
+  git -C "$DOTFILES" submodule update --init --recursive
 }
 
 install_shell_plugins() {
@@ -64,6 +156,9 @@ apply_macos_defaults() {
 }
 
 main() {
+  restore_ssh_key
+  restore_local_secrets
+  sign_in_app_store
   install_homebrew
   install_packages
   link_dotfiles
@@ -72,7 +167,13 @@ main() {
   install_toolchains
   set_login_shell
   apply_macos_defaults
-  log "Done. Remaining manual steps: $SCRIPT_DIR/MANUAL.md"
+  print_manual_steps
+}
+
+print_manual_steps() {
+  log "Bootstrap done. These steps still need manual intervention ($SCRIPT_DIR/MANUAL.md):"
+  echo
+  cat "$SCRIPT_DIR/MANUAL.md"
 }
 
 main "$@"
