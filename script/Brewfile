@@ -52,6 +52,7 @@ brew "dashlane/tap/dashlane-cli"
 
 # --- Editor & LSPs / formatters / linters (nvim config) ---------------------
 brew "bob"                      # neovim version manager: `bob install stable`
+brew "tree-sitter-cli"          # nvim-treesitter builds parsers with `tree-sitter build`
 brew "lua-language-server"
 brew "stylua"
 brew "bash-language-server"
