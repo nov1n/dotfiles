@@ -67,6 +67,7 @@ function extract() {
 
 upgrade() {
   topgrade \
+    && brew bundle dump --force --file="$HOME/dotfiles/script/Brewfile" \
     && brew cleanup --prune=all \
     && brew doctor \
     && docker system prune -f

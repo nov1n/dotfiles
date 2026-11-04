@@ -1,133 +1,170 @@
-# Lean Brewfile. Install with: brew bundle --file=script/Brewfile
-
-tap "dlvhdr/formulae"
-tap "felixkratz/formulae"
-tap "raine/workmux"
-tap "vjeantet/tap"
-tap "dashlane/tap"
-
-# --- Shell & terminal -------------------------------------------------------
-brew "zsh"
-brew "bash"
-brew "starship"
+tap "dashlane/tap", trusted: true
+tap "dlvhdr/formulae", trusted: true
+tap "felixkratz/formulae", trusted: true
+tap "raine/workmux", trusted: true
+tap "vjeantet/tap", trusted: true
+# Improved shell history for zsh, bash, fish and nushell
 brew "atuin"
-brew "zoxide"
-brew "fzf"
-brew "tmux"
-brew "sesh"
-brew "stow"
-brew "topgrade"
-brew "workmux"
-brew "clipboard"
-brew "mas"
-brew "vjeantet/tap/alerter"
-brew "trash"
-cask "ghostty"
-
-# --- CLI essentials ---------------------------------------------------------
-brew "git"
-brew "git-lfs"
-brew "gh"
-brew "lazygit"
-brew "diffnav"
-brew "curl"
-brew "wget"
-brew "ripgrep"
-brew "fd"
-brew "bat"
-brew "lsd"
-brew "jq"
-brew "yq"
-brew "bottom"
-brew "htop"
-brew "watch"
-brew "rename"
-brew "pstree"
-brew "dockutil"                 # macos-defaults.sh: pinned Dock items
-brew "just"
-brew "hyperfine"
-brew "tlrc"
-brew "xmlstarlet"
-brew "homeassistant-cli"
-brew "dashlane/tap/dashlane-cli"
-
-# --- Editor & LSPs / formatters / linters (nvim config) ---------------------
-brew "bob"                      # neovim version manager: `bob install stable`
-brew "tree-sitter-cli"          # nvim-treesitter builds parsers with `tree-sitter build`
-brew "lua-language-server"
-brew "stylua"
+# Bourne-Again SHell, a UNIX command interpreter
+brew "bash"
+# Language Server for Bash
 brew "bash-language-server"
-brew "shellcheck"
-brew "shfmt"
-brew "typescript-language-server"
-brew "yaml-language-server"
-brew "taplo"
-brew "prettier"
-brew "markdownlint-cli"
-brew "yamllint"
-brew "ruff"
-brew "ty"
-brew "rust-analyzer"
-
-# --- Languages & toolchains -------------------------------------------------
-brew "go"
-brew "rust"
-brew "uv"
-brew "pyenv"
-brew "fnm"
-
-# --- Containers & k8s -------------------------------------------------------
+# Clone of cat(1) with syntax highlighting and Git integration
+brew "bat"
+# Version manager for neovim
+brew "bob"
+# Yet another cross-platform graphical process/system monitor
+brew "bottom"
+# Cut, copy, and paste anything, anywhere, all from the terminal
+brew "clipboard"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# Git diff pager based on delta but with a file tree
+brew "diffnav"
+# Pack, ship and run any application as a lightweight container
 brew "docker"
-cask "orbstack"
+# Platform keystore credential helper for Docker
 brew "docker-credential-helper"
-brew "lazydocker"
-brew "k9s"
-
-# --- Media ------------------------------------------------------------------
+# Tool for managing dock items
+brew "dockutil"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
+# Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
-brew "yt-dlp"
+# Fast and simple Node.js version manager
+brew "fnm"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# GitHub command-line tool
+brew "gh"
+# Distributed revision control system
+brew "git"
+# Git extension for versioning large files
+brew "git-lfs"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# Command-line utility for Home Assistant
+brew "homeassistant-cli"
+# Improved top (interactive process viewer)
+brew "htop"
+# Command-line benchmarking tool
+brew "hyperfine"
+# Tools and libraries to manipulate images in select formats
 brew "imagemagick"
-
-# --- Apps -------------------------------------------------------------------
-cask "claude"
-cask "claude-code"
-cask "firefox"
-cask "firefox@developer-edition"
-cask "google-chrome"
-cask "raycast"
-cask "hammerspoon"
-cask "karabiner-elements"
-cask "jordanbaird-ice"
-cask "betterdisplay"
-cask "lunar"
-cask "stats"
-cask "soundsource"
-cask "choosy"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Handy way to save and run project-specific commands
+brew "just"
+# Kubernetes CLI To Manage Your Clusters In Style!
+brew "k9s"
+# Lazier way to manage everything docker
+brew "lazydocker"
+# Simple terminal UI for git commands
+brew "lazygit"
+# Clone of ls with colorful output, file type icons, and more
+brew "lsd"
+# Language Server for the Lua language
+brew "lua-language-server"
+# CLI for Node.js style checker and lint tool for Markdown files
+brew "markdownlint-cli"
+# Mac App Store command-line interface
+brew "mas"
+# Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
+brew "prettier"
+# Show ps output as a tree
+brew "pstree"
+# Python version management
+brew "pyenv"
+# Perl-powered file rename script with many helpful built-ins
+brew "rename"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# Extremely fast Python linter, written in Rust
+brew "ruff"
+# Safe, concurrent, practical language
+brew "rust"
+# Experimental Rust compiler front-end for IDEs
+brew "rust-analyzer"
+# Smart session manager for the terminal
+brew "sesh"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
+# Autoformat shell script source code
+brew "shfmt"
+# Cross-shell prompt for astronauts
+brew "starship"
+# Organize software neatly under a single directory tree (e.g. /usr/local)
+brew "stow"
+# Opinionated Lua code formatter
+brew "stylua"
+# TOML toolkit written in Rust
+brew "taplo"
+# Official tldr client written in Rust
+brew "tlrc"
+# Terminal multiplexer
+brew "tmux"
+# Upgrade all the things
+brew "topgrade"
+# CLI tool that moves files or folder to the trash
+brew "trash"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Extremely fast Python type checker, written in Rust
+brew "ty"
+# Language Server Protocol implementation for TypeScript wrapping tsserver
+brew "typescript-language-server"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Internet file retriever
+brew "wget"
+# Git worktrees + tmux windows for zero-friction parallel dev
+brew "workmux"
+# XML command-line utilities
+brew "xmlstarlet"
+# Language Server for Yaml Files
+brew "yaml-language-server"
+# Linter for YAML files
+brew "yamllint"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
+brew "yq"
+# Feature-rich command-line audio/video downloader
+brew "yt-dlp"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
+# UNIX shell (command interpreter)
+brew "zsh"
+# Command-line interface for Dashlane
+brew "dashlane/tap/dashlane-cli", trusted: true
+# macOS notification CLI — send native notifications and capture user interactions
+brew "vjeantet/tap/alerter", trusted: true
+# Application uninstaller
 cask "appcleaner"
-cask "the-unarchiver"
-cask "cleanshot"
-cask "soulver"
-cask "launchcontrol"
-cask "time-out"
-cask "obsidian"
-cask "slack"
-cask "discord"
-cask "whatsapp"
-cask "spotify"
-cask "protonvpn"
-cask "proton-mail"
+# 3D model slicing software for 3D printers, maintained by Bambu Lab
 cask "bambu-studio"
-cask "raspberry-pi-imager"
-cask "home-assistant"
-cask "homerow"
-cask "daisydisk"
-cask "pixelsnap"
-cask "superduper"
-cask "macwhisper"
-cask "macmediakeyforwarder"
+# Display management tool
+cask "betterdisplay"
+# AI chat client
 cask "boltai"
-
-# --- Fonts ------------------------------------------------------------------
+# Open links in any browser
+cask "choosy"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# Screen capturing tool
+cask "cleanshot"
+# Disk space visualiser
+cask "daisydisk"
+# Voice and text chat software
+cask "discord"
+# Web browser
+cask "firefox"
+# Web browser
+cask "firefox@developer-edition"
 cask "font-0xproto-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "font-monaspace"
@@ -135,13 +172,65 @@ cask "font-monaspice-nerd-font"
 cask "font-noto-sans-symbols-2"
 cask "font-symbols-only-nerd-font"
 cask "font-victor-mono-nerd-font"
-
-# --- Mac App Store (requires being signed in) -------------------------------
-mas "Kindle", id: 302584613
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Web browser
+cask "google-chrome"
+# Desktop automation application
+cask "hammerspoon"
+# Utility to hide menu bar items
+cask "hiddenbar"
+# Companion app for Home Assistant home automation software
+cask "home-assistant"
+# Keyboard shortcuts for every button on your screen
+cask "homerow"
+# Keyboard customiser
+cask "karabiner-elements"
+# Create, manage and debug system and user services
+cask "launchcontrol"
+# Adaptive brightness for external displays
+cask "lunar"
+# Media key forwarder for Apple Music and Spotify
+cask "macmediakeyforwarder"
+# Speech recognition tool
+cask "macwhisper"
+# Knowledge base that works on top of a local folder of plain text Markdown files
+cask "obsidian"
+# Replacement for Docker Desktop
+cask "orbstack"
+# Screen measuring tool
+cask "pixelsnap"
+# Client for Proton Mail and Proton Calendar
+cask "proton-mail"
+# VPN client focusing on security
+cask "protonvpn"
+# Imaging utility to install operating systems to a microSD card
+cask "raspberry-pi-imager"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Team communication and collaboration software
+cask "slack"
+# Notepad with a built-in calculator
+cask "soulver"
+# Sound and audio controller
+cask "soundsource"
+# Music streaming service
+cask "spotify"
+# System monitor for the menu bar
+cask "stats"
+# Backup, recovery and cloning software
+cask "superduper"
+# Unpacks archive files
+cask "the-unarchiver"
+# Customizable timing of breaks
+cask "time-out"
+# Native desktop client for WhatsApp
+cask "whatsapp"
+mas "24 Hour Wallpaper", id: 1226087575
+mas "GarageBand", id: 682658836
 mas "Keynote", id: 361285480
+mas "Kindle", id: 302584613
 mas "Numbers", id: 361304891
 mas "Pages", id: 361309726
-mas "GarageBand", id: 682658836
-mas "reMarkable", id: 1276493162
 mas "Paprika Recipe Manager 3", id: 1303222628
-mas "24 Hour Wallpaper", id: 1226087575
+mas "reMarkable", id: 1276493162
