@@ -43,6 +43,7 @@ brew "htop"
 brew "watch"
 brew "rename"
 brew "pstree"
+brew "dockutil"                 # macos-defaults.sh: pinned Dock items
 brew "just"
 brew "hyperfine"
 brew "tlrc"

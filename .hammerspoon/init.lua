@@ -50,15 +50,7 @@ bind(hyper, "0", function() winman.centerAllWindows(0, 10) end)
 bind(hyper, "return", winman.toggleFullScreen)
 bind(hyper, "\\", winman.splitScreenTwoWindows)
 bind(hyper, "-", winman.toggleMinimizeAllWindows)
--- bind(hyper, "n", showNotificationCenter) -- This is bound in "System Preferences"
-bind(meh, "n", function()
-  local screen = hs.screen.mainScreen()
-  local frame = screen:fullFrame()
-  -- Notification banners appear in the top-right corner, ~160px from right, ~80px from top
-  local x = frame.x + frame.w - 160
-  local y = frame.y + 90
-  hs.eventtap.leftClick({ x = x, y = y })
-end)
+-- hyper+n (Notification Center) is a macOS shortcut, set in script/macos-defaults.sh
 
 -- Console hotkeys
 bind(hyper, "`", hs.reload)
