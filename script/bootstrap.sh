@@ -116,6 +116,9 @@ install_packages() {
 
 link_dotfiles() {
   log "Symlinking dotfiles with stow"
+  # Tools write their own files into these dirs. Create them first so stow links
+  # the individual files instead of folding the whole dir into the repo.
+  mkdir -p "$HOME/.cargo" "$HOME/.local/bin"
   cd "$DOTFILES"
   stow -R -v .
 }

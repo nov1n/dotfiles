@@ -117,9 +117,6 @@ source <(docker completion zsh)
 # SDKMAN!
 [[ -s "/Users/carosi/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/carosi/.sdkman/bin/sdkman-init.sh"
 
-# Cargo
-. "$HOME/.cargo/env"
-
 # Bob (Neovim version manager)
 export PATH="/Users/carosi/.local/share/bob/nvim-bin:$PATH"
 
