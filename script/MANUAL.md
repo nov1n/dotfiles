@@ -9,6 +9,9 @@ sign-in. Everything below is optional for bootstrapping and left to do by hand.
 - OrbStack: open the app once to finish setup (needed by `yt2jelly`).
 - Atuin: `atuin login` (username, password and key from the backup), then `atuin sync`.
 
+## Clone repos
+- Clone your notes to `~/Notes`.
+
 ## Apps without a cask
 - Audient iD: https://audient.com/products/audio-interfaces/ (driver + mixer app)
 
