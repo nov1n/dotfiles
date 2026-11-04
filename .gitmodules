@@ -4,3 +4,6 @@
 [submodule ".hammerspoon/spoon-submodules/OfficialSpoons"]
 	path = .hammerspoon/spoon-submodules/OfficialSpoons
 	url = git@github.com:Hammerspoon/Spoons.git
+[submodule ".claude/skills/prompt-master"]
+	path = .claude/skills/prompt-master
+	url = git@github.com:nidhinjs/prompt-master.git
