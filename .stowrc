@@ -1,2 +1,3 @@
 --dir=~/dotfiles
 --ignore=.DS_Store|^script$
+--ignore=^Makefile$|^\.github$|^\.gitmodules$|^\.gitattributes$|^\.stowrc$
