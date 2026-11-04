@@ -1,0 +1,132 @@
+{
+  "permissions": {
+    "defaultMode": "auto",
+    "allow": [
+      "Read(**)",
+      "Bash(cat *)",
+      "Bash(cd *)",
+      "Bash(chmod *)",
+      "Bash(cut *)",
+      "Bash(du *)",
+      "Bash(find *)",
+      "Bash(git add *)",
+      "Bash(git checkout *)",
+      "Bash(git branch *)",
+      "Bash(git clone *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git status *)",
+      "Bash(grep *)",
+      "Bash(head *)",
+      "Bash(helmfile template *)",
+      "Bash(kubectl config get-contexts *)",
+      "Bash(kubectl config current-context)",
+      "Bash(kubectl describe *)",
+      "Bash(kubectl get *)",
+      "Bash(kubectl logs *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(ps *)",
+      "Bash(pwd)",
+      "Bash(rg *)",
+      "Bash(shfmt *)",
+      "Bash(sort *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(which *)",
+      "Bash(awk *)",
+      "Bash(bash -n *)",
+      "Bash(mktemp)",
+      "Bash(mktemp *)",
+      "Bash(tldr *)",
+      "WebFetch(*)",
+      "Bash(defaults read *)",
+      "Bash(ffprobe *)",
+      "Bash(gh *)",
+      "Bash(tmux *)",
+      "Bash(sleep *)",
+      "Bash(cat /tmp/*)",
+      "Read(/tmp/**)",
+      "Bash(wait)",
+      "Bash(wait *)"
+    ],
+    "deny": [
+      "Bash(helmfile apply)",
+      "Bash(helmfile apply *)",
+      "Bash(helmfile delete)",
+      "Bash(helmfile delete *)",
+      "Bash(helmfile destroy)",
+      "Bash(helmfile destroy *)",
+      "Bash(kubectl apply *)",
+      "Bash(kubectl create *)",
+      "Bash(kubectl delete *)",
+      "Bash(kubectl drain *)",
+      "Bash(kubectl edit *)",
+      "Bash(kubectl patch *)",
+      "Bash(kubectl replace *)",
+      "Bash(kubectl rollout *)",
+      "Bash(kubectl scale *)"
+    ],
+    "ask": [
+      "Bash(git push)",
+      "Bash(git push *)"
+    ]
+  },
+  "model": "opus[1m]",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status waiting"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status working"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status done"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "workmux set-window-status working"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "medium",
+  "advisorModel": "opus",
+  "fastMode": true,
+  "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
+  "switchModelsOnFlag": true
+}

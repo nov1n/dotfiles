@@ -7,3 +7,6 @@
 [submodule ".claude/skills/prompt-master"]
 	path = .claude/skills/prompt-master
 	url = git@github.com:nidhinjs/prompt-master.git
+[submodule ".claude/skills/excalidraw-diagram"]
+	path = .claude/skills/excalidraw-diagram
+	url = git@github.com:coleam00/excalidraw-diagram-skill.git
